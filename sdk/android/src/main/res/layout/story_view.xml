@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.visilabs.story.VisilabsRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/vrv_story"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
