@@ -5,7 +5,11 @@
   "author": "Related Digital",
   "license": "MIT",
   "description": "react-native-related-digital",
-  "homepage": "https://www.npmjs.com/package/react-native-related-digital",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/relateddigital/react-native-related-digital"
+  },
+  "homepage": "https://github.com/relateddigital/react-native-related-digital#readme",
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "dependencies": {
