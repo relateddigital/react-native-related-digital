@@ -61,23 +61,14 @@ multiDexEnabled true
 ```
 
 * If you are going to do Huawei integration, add the following lines to the file.
-
 ```xml
-
 <service
-
-android:name="euromsg.com.euromobileandroid.service.EuroHuaweiMessagingService"
-
-android:exported="false">
-
-<intent-filter>
-
-<action  android:name="com.huawei.push.action.MESSAGING_EVENT"  />
-
-</intent-filter>
-
+    android:name="euromsg.com.euromobileandroid.service.EuroHuaweiMessagingService"
+    android:exported="false">
+    <intent-filter>
+      <action  android:name="com.huawei.push.action.MESSAGING_EVENT"  />
+    </intent-filter>
 </service>
-
 ```
 
 * Add below code to your `AndroidManifest.xml` file's `application` section to enable geofence capability.
