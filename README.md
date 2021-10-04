@@ -71,6 +71,9 @@ multiDexEnabled true
 </service>
 ```
 
+* In order to send push to Huawei devices, you need to follow the steps in the link from the Huawei Developer panel.
+https://developer.huawei.com/consumer/en/doc/HMS-Plugin-Guides-V1/config-agc-0000001050178043-V1
+
 * Add below code to your `AndroidManifest.xml` file's `application` section to enable geofence capability.
 ```xml
 <service
