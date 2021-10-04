@@ -9,6 +9,6 @@ typedef void (^RNCRemoteNotificationCallback)(UIBackgroundFetchResult result);
 + (void)didReceiveRemoteNotification:(NSDictionary *)notification;
 + (void)didReceiveRemoteNotification:(NSDictionary *)notification fetchCompletionHandler:(RNCRemoteNotificationCallback)completionHandler;
 + (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
-+ (void)initVisilabs:(NSString *)organizationId profileId:(NSString *)profileId dataSource:(NSString *)dataSource inAppNotificationsEnabled:(BOOL)inAppNotificationsEnabled requestTimeoutSeconds:(int)requestTimeoutSeconds geofenceEnabled:(BOOL)geofenceEnabled maxGeofenceCount:(int)maxGeofenceCount;
++ (void)initVisilabs:(NSString *)organizationId profileId:(NSString *)profileId dataSource:(NSString *)dataSource inAppNotificationsEnabled:(BOOL)inAppNotificationsEnabled requestTimeoutSeconds:(int)requestTimeoutSeconds geofenceEnabled:(BOOL)geofenceEnabled maxGeofenceCount:(int)maxGeofenceCount isIDFAEnabled:(BOOL)isIDFAEnabled;
 
 @end

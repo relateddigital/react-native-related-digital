@@ -1,4 +1,4 @@
-package com.pushsdk;
+package com.relateddigital.pushsdk;
 
 import com.facebook.react.ReactActivity;
 

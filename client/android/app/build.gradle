@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.pushsdk"
+        applicationId "com.relateddigital.pushsdk"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -151,6 +151,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('app/keystorernclienthuawei.jks')
+            storePassword 'qwe123'
+            keyAlias 'key0'
+            keyPassword 'qwe123'
+        }
     }
     buildTypes {
         debug {
@@ -160,7 +166,7 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
             signingConfig signingConfigs.debug
-            minifyEnabled enableProguardInReleaseBuilds
+            minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }

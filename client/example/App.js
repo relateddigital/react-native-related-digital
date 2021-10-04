@@ -4,7 +4,7 @@ import {
   StyleSheet,
   ScrollView,
   Button,
-  View,
+  Text,
   ActivityIndicator,
   Platform
 } from 'react-native';
@@ -13,8 +13,9 @@ import { addEventListener, removeEventListener, requestPermissions, EuroMessageA
 
 const App = () => {
   const [loading, setLoading] = useState(false)
+  const [token, setToken] = useState(null)
 
-  const appAlias = Platform.OS === 'android' ? 'pragma-demo' : 'pragma-demo-ios'
+  const appAlias = Platform.OS === 'android' ? 'rnsdk-client-huawei' : 'pragma-demo-ios'
 
   const siteId = "356467332F6533766975593D";
   const organizationId = "676D325830564761676D453D";
@@ -25,7 +26,7 @@ const App = () => {
 
   useEffect(() => {
     logToConsole(true)
-
+    
     addExtra()
     addListeners()
 
@@ -34,11 +35,10 @@ const App = () => {
 
   const addListeners = () => {
     console.log('adding listeners...')
-
     addEventListener('register', async (token) => {
       console.log('token is ', token)
-      const subscribeResult = await euroMessageApi.subscribe(token)
-      console.log('subscribeResult', subscribeResult)
+      setToken(token)
+      addExtra().then((res) => euroMessageApi.subscribe(token));
 
       visilabsApi.register(token, (result) => {
         console.log('visilabsApi result', result)
@@ -53,13 +53,14 @@ const App = () => {
   }
 
   const addExtra = async () => {
-    await euroMessageApi.setUserProperty('extra', 1)
+    await euroMessageApi.setUserProperty('extra', 2)
 
     await euroMessageApi.setUserProperty('ConsentTime', '2021-06-05 10:00:00')
     await euroMessageApi.setUserProperty('RecipientType', "BIREYSEL")
     await euroMessageApi.setUserProperty('ConsentSource', "HS_MOBIL")
 
-    await euroMessageApi.setUserProperty('Email', "hkaya@pragmasoft.com.tr")
+    await euroMessageApi.setUserProperty('Email', "baris.arslan@euromsg.com")
+    await euroMessageApi.setUserProperty('keyid', "baris.arslan@euromsg.com")
   }
 
   const setBadgeNumber = () => {
@@ -157,6 +158,7 @@ const App = () => {
               }}
               style={{ flex: 1 }}
             />
+            <Text>Token:{token}</Text>
             <Button
               title='REQUEST PERMISSONS'
               onPress={() => {
@@ -219,6 +221,7 @@ const App = () => {
                 trackInstalledApps()
               }}
             />
+    
           </ScrollView>
       }
     </SafeAreaView>
