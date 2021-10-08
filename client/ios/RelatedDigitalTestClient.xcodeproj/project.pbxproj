@@ -488,7 +488,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = UKL8KJL9A6;
+						DevelopmentTeam = 5M383PCDJZ;
 						LastSwiftMigration = 1220;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -502,13 +502,13 @@
 					};
 					4A2FEDCE251B4F4A002DD672 = {
 						CreatedOnToolsVersion = 11.7;
-						DevelopmentTeam = UKL8KJL9A6;
+						DevelopmentTeam = 5M383PCDJZ;
 						LastSwiftMigration = 1170;
 						ProvisioningStyle = Automatic;
 					};
 					4A567CBA24E53D5500E29711 = {
 						CreatedOnToolsVersion = 11.5;
-						DevelopmentTeam = UKL8KJL9A6;
+						DevelopmentTeam = 5M383PCDJZ;
 						LastSwiftMigration = 1220;
 						ProvisioningStyle = Automatic;
 					};
@@ -1165,7 +1165,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = RelatedDigitalTestClient/RelatedDigitalTestClient.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UKL8KJL9A6;
+				DEVELOPMENT_TEAM = 5M383PCDJZ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1223,7 +1223,7 @@
 					"-lc++",
 				);
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushsdk;
+				PRODUCT_BUNDLE_IDENTIFIER = com.relateddigital.pushsdk;
 				PRODUCT_NAME = RelatedDigitalTestClient;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1241,7 +1241,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = RelatedDigitalTestClient/RelatedDigitalTestClient.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UKL8KJL9A6;
+				DEVELOPMENT_TEAM = 5M383PCDJZ;
 				FRAMEWORK_SEARCH_PATHS = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1256,7 +1256,7 @@
 					"-lc++",
 				);
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushsdk;
+				PRODUCT_BUNDLE_IDENTIFIER = com.relateddigital.pushsdk;
 				PRODUCT_NAME = RelatedDigitalTestClient;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
@@ -1431,7 +1431,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = UKL8KJL9A6;
+				DEVELOPMENT_TEAM = 5M383PCDJZ;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = RelatedDigitalNotificationContent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1439,7 +1439,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushsdk.RelatedDigitalNotificationContent;
+				PRODUCT_BUNDLE_IDENTIFIER = com.relateddigital.pushsdk.RelatedDigitalNotificationContent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1463,14 +1463,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = UKL8KJL9A6;
+				DEVELOPMENT_TEAM = 5M383PCDJZ;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = RelatedDigitalNotificationContent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_FAST_MATH = YES;
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushsdk.RelatedDigitalNotificationContent;
+				PRODUCT_BUNDLE_IDENTIFIER = com.relateddigital.pushsdk.RelatedDigitalNotificationContent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1493,7 +1493,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = UKL8KJL9A6;
+				DEVELOPMENT_TEAM = 5M383PCDJZ;
 				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = RelatedDigitalNotificationService/Info.plist;
@@ -1528,7 +1528,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushsdk.RelatedDigitalNotificationService;
+				PRODUCT_BUNDLE_IDENTIFIER = com.relateddigital.pushsdk.RelatedDigitalNotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "RelatedDigitalNotificationService/RelatedDigitalNotificationService-Bridging-Header.h";
@@ -1553,7 +1553,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = UKL8KJL9A6;
+				DEVELOPMENT_TEAM = 5M383PCDJZ;
 				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = RelatedDigitalNotificationService/Info.plist;
@@ -1561,7 +1561,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_FAST_MATH = YES;
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushsdk.RelatedDigitalNotificationService;
+				PRODUCT_BUNDLE_IDENTIFIER = com.relateddigital.pushsdk.RelatedDigitalNotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "RelatedDigitalNotificationService/RelatedDigitalNotificationService-Bridging-Header.h";

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import android.content.Context;
+import android.text.TextUtils;
 
 import com.facebook.common.activitylistener.ActivityListener;
 import com.facebook.react.bridge.ActivityEventListener;
@@ -20,10 +22,15 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
+import com.huawei.agconnect.AGConnectOptionsBuilder;
+import com.huawei.hms.aaid.HmsInstanceId;
+import com.huawei.hms.common.ApiException;
 import com.visilabs.Visilabs;
 import com.visilabs.VisilabsResponse;
 import com.visilabs.api.VisilabsCallback;
@@ -71,6 +78,14 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void requestPermissions(final Promise promise) {
+        if (checkPlayService()) {
+            firebaseTokenOperations(promise);
+        } else {
+            huaweiTokenOperations(promise);
+        }
+    }
+
+    private void firebaseTokenOperations(final Promise promise){
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -88,6 +103,93 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
                         promise.resolve(true);
                     }
                 });
+    }
+
+    private void huaweiTokenOperations(final Promise promise){
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    String appId = new AGConnectOptionsBuilder().build(reactContext).getString("client/app_id");
+                    final String token = HmsInstanceId.getInstance(reactContext).getToken(appId, "HCM");
+
+                    if(TextUtils.isEmpty(token) || token == null) {
+                        Log.e("Huawei Token : ", "Empty token!!!");
+                        promise.resolve(false);
+                        return;
+                    }
+
+                    WritableMap params = Arguments.createMap();
+                    params.putString("deviceToken", token);
+                    utilities.sendEvent("remoteNotificationsRegistered", params);
+
+                    promise.resolve(true);
+
+                    Log.i("Huawei Token", "" + token);
+
+                } catch (ApiException e) {
+                    Log.e("Huawei Token", "Getting the token failed! " + e);
+                }
+            }
+        }.start();
+    }
+
+    @ReactMethod
+    private boolean checkPlayService() {
+        boolean result = true;
+
+        int isGoogleEnabled = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(reactContext);
+
+        switch (isGoogleEnabled) {
+            case ConnectionResult.API_UNAVAILABLE:
+                Log.e("RDPushModuleJava", "Google API Unavailable");
+                result = false;
+                //API is not available
+                break;
+
+            case ConnectionResult.NETWORK_ERROR:
+                Log.e("RDPushModuleJava", "Google Network Error");
+                result = false;
+
+                //Network error while connection
+                break;
+
+            case ConnectionResult.RESTRICTED_PROFILE:
+                Log.e("RDPushModuleJava", "Google Restricted");
+                result = false;
+
+                //Profile is restricted by google so can not be used for play services
+                break;
+
+            case ConnectionResult.SERVICE_MISSING:
+                //service is missing
+                result = false;
+
+                Log.e("RDPushModuleJava", "Google Service is missing");
+
+                break;
+
+            case ConnectionResult.SIGN_IN_REQUIRED:
+                //service available but user not signed in
+                Log.e("RDPushModuleJava", "Google Sign in req");
+                result = false;
+
+                break;
+            case ConnectionResult.SERVICE_INVALID:
+                Log.e("RDPushModuleJava", "Google Services invalid");
+                result = false;
+
+                //  The version of the Google Play services installed on this device is not authentic
+                break;
+            case ConnectionResult.SUCCESS:
+                result = true;
+
+                Log.i("RDPushModuleJava", "Google Service is enable");
+
+                break;
+        }
+
+        return result;
     }
 
     private void checkIntent(Activity activity) {

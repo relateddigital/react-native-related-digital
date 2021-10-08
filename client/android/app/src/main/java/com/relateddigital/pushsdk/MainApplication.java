@@ -1,4 +1,4 @@
-package com.pushsdk;
+package com.relateddigital.pushsdk;
 
 import android.app.Application;
 import android.content.Context;
@@ -54,8 +54,8 @@ public class MainApplication extends Application implements ReactApplication {
   }
 
   private void initEuroMessage() {
-      String appAlias = "pragma-demo";
-      String huaweiAppAlias = "pragma-demo";
+      String appAlias = "androidappalias";
+      String huaweiAppAlias = "rnsdk-client-huawei";
       String organizationId = "676D325830564761676D453D";
       String siteId = "356467332F6533766975593D";
       String datasource = "visistore";
@@ -72,7 +72,7 @@ public class MainApplication extends Application implements ReactApplication {
       EuroMobileManager euroMobileManager = EuroMobileManager.init(appAlias, huaweiAppAlias, this);
 
       // optional
-      euroMobileManager.setPushIntent("com.pushsdk.MainActivity", this);
+      euroMobileManager.setPushIntent("com.relateddigital.pushsdk.MainActivity", this);
       euroMobileManager.setNotificationTransparentSmallIcon(R.drawable.ic_launcher, this);
       euroMobileManager.setNotificationTransparentSmallIconDarkMode(R.drawable.ic_launcher, this);
       euroMobileManager.useNotificationLargeIcon(true);
@@ -97,7 +97,7 @@ public class MainApplication extends Application implements ReactApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.pushsdk.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("com.relateddigital.pushsdk.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);

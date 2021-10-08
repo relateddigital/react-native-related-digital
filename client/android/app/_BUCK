@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.pushsdk",
+    package = "com.relateddigital.pushsdk",
 )
 
 android_resource(
     name = "res",
-    package = "com.pushsdk",
+    package = "com.relateddigital.pushsdk",
     res = "src/main/res",
 )
 

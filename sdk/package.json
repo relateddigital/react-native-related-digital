@@ -1,11 +1,15 @@
 {
   "name": "react-native-related-digital",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "private": false,
   "author": "Related Digital",
   "license": "MIT",
   "description": "react-native-related-digital",
-  "homepage": "https://bitbucket.org/AhmetKiziltan/related-push-sdk/sdk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/relateddigital/react-native-related-digital"
+  },
+  "homepage": "https://github.com/relateddigital/react-native-related-digital#readme",
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "dependencies": {

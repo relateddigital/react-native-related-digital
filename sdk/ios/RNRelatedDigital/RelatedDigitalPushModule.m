@@ -130,9 +130,9 @@ RCT_EXPORT_MODULE()
   [self sendEventWithName:@"remoteNotificationRegistrationError" body:errorDetails];
 }
 
-+ (void)initVisilabs:(NSString *)organizationId profileId:(NSString *)profileId dataSource:(NSString *)dataSource inAppNotificationsEnabled:(BOOL)inAppNotificationsEnabled requestTimeoutSeconds:(int)requestTimeoutSeconds geofenceEnabled:(BOOL)geofenceEnabled maxGeofenceCount:(int)maxGeofenceCount
++ (void)initVisilabs:(NSString *)organizationId profileId:(NSString *)profileId dataSource:(NSString *)dataSource inAppNotificationsEnabled:(BOOL)inAppNotificationsEnabled requestTimeoutSeconds:(int)requestTimeoutSeconds geofenceEnabled:(BOOL)geofenceEnabled maxGeofenceCount:(int)maxGeofenceCount isIDFAEnabled:(BOOL)isIDFAEnabled
 {
-	[RelatedDigitalBridge initVisilabsWithOrganizationId:organizationId profileId:profileId dataSource:dataSource inAppNotificationsEnabled:inAppNotificationsEnabled requestTimeoutInSeconds:requestTimeoutSeconds geofenceEnabled:geofenceEnabled maxGeofenceCount:maxGeofenceCount];
+	[RelatedDigitalBridge initVisilabsWithOrganizationId:organizationId profileId:profileId dataSource:dataSource inAppNotificationsEnabled:inAppNotificationsEnabled requestTimeoutInSeconds:requestTimeoutSeconds geofenceEnabled:geofenceEnabled maxGeofenceCount:maxGeofenceCount isIDFAEnabled:isIDFAEnabled];
 }
 
 RCT_REMAP_METHOD(setApplicationIconBadgeNumber, withNumber:(NSInteger)number)
