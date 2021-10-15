@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native'
 
-type ListenerTypes = 'notification' | 'register' | 'registrationError';
+type ListenerTypes = 'notification' | 'register' | 'registrationError' | 'carouselItemClicked';
 
 enum RecommendationAttribute {
     PRODUCTNAME = 'PRODUCTNAME',

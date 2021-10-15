@@ -145,6 +145,12 @@ Also, add one of the below sections to your `AndroidManifest.xml`
 <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" 
 tools:ignore="QueryAllPackagesPermission" />
 ```
+* Add below listener to be able to handle carousel push notification's item click.
+```javascript
+  addEventListener('carouselItemClicked', async (carouselItemInfo) => {
+    console.log('carouselItemInfo is ', carouselItemInfo)
+  }, euroMessageApi)
+```
 
 ### IOS
 * Enable **Push Notifications** and **Background Modes->Remote Notifications** capabilities.
@@ -434,6 +440,10 @@ const App = () => {
     addEventListener('registrationError', async (registrationError) => {
       console.log('registrationError is ', registrationError)
     }, euroMessageApi)
+
+    addEventListener('carouselItemClicked', async (carouselItemInfo) => {
+      console.log('carouselItemInfo is ', carouselItemInfo)
+    }, euroMessageApi)
   }
 
   const addExtra = async () => {
@@ -516,6 +526,7 @@ const App = () => {
   const removeListeners = () => {
     removeEventListener('register')
     removeEventListener('registrationError')
+    removeEventListener('carouselItemClicked')
   }
 
   return (

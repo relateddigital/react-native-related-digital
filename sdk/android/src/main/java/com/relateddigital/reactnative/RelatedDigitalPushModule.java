@@ -97,6 +97,24 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     public void onNewIntentLocal(Intent intent) {
+        if(intent != null) {
+            Bundle bundle = intent.getExtras();
+            if(bundle != null) {
+                Message message = (Message) intent.getExtras().getSerializable("message");
+
+                if(message == null) {
+                    // Carousel push notification : an item was clicked
+
+                    String itemClickedUrl = bundle.getString("CarouselItemClickedUrl");
+                    WritableMap params = Arguments.createMap();
+                    params.putString("carouselItemClickedUrl", itemClickedUrl);
+
+                    utilities.sendEvent("carouselItemClicked", params);
+                    return;
+                }
+            }
+        }
+
         Bundle bundle = utilities.getBundleFromIntent(intent);
         if (bundle != null) {
             bundle.putBoolean("foreground", false);
