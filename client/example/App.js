@@ -50,6 +50,10 @@ const App = () => {
     addEventListener('registrationError', async (registrationError) => {
       console.log('registrationError is ', registrationError)
     }, euroMessageApi)
+
+    addEventListener('carouselItemClicked', async (carouselItemInfo) => {
+      console.log('carouselItemInfo is ', carouselItemInfo)
+    }, euroMessageApi)
   }
 
   const addExtra = async () => {
@@ -139,6 +143,7 @@ const App = () => {
   const removeListeners = () => {
     removeEventListener('register')
     removeEventListener('registrationError')
+    removeEventListener('carouselItemClicked')
   }
 
   return (

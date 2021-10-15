@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/hkaya/GIT/related-push-sdk/sdk/ios/RNRelatedDigital.xcodeproj">
+      location = "self:/Users/hkaya/GIT/react-native-related-digital/sdk/ios/RNRelatedDigital.xcodeproj">
    </FileRef>
 </Workspace>

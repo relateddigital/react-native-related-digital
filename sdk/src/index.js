@@ -5,6 +5,7 @@ import {
     DEVICE_NOTIF_EVENT,
     NOTIF_REGISTER_EVENT,
     NOTIF_REGISTRATION_ERROR_EVENT,
+    CAROUSEL_ITEM_CLICKED_EVENT,
     checkNotificationNative
 } from './native'
 import { EuroMessageApi, VisilabsApi, RecommendationAttribute, RecommendationFilterType } from './api'
@@ -71,6 +72,16 @@ const addEventListener = (type, handler, readHandler, euroMessageApi, visilabsAp
             NOTIF_REGISTRATION_ERROR_EVENT,
             (errorInfo) => {
                 handler(errorInfo);
+            },
+        );
+
+        _notifHandlers.set(type, listener);
+    }
+    else if (type === 'carouselItemClicked') {
+        const listener = RelatedDigitalPushNotificationEmitter.addListener(
+            CAROUSEL_ITEM_CLICKED_EVENT,
+            (notifData) => {
+                handler(notifData);
             },
         );
 

@@ -70,6 +70,14 @@
                 <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name="com.pushsdk.CarouselItemClickReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="CarouselItemClickIntentFilter" />
+            </intent-filter>
+        </receiver>
     </application>
     <queries>
         <package android:name="com.example.app1" />

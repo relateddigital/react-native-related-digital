@@ -6,6 +6,7 @@ const RelatedDigitalPushNotificationEmitter = new NativeEventEmitter(RelatedDigi
 const DEVICE_NOTIF_EVENT = 'remoteNotificationReceived';
 const NOTIF_REGISTER_EVENT = 'remoteNotificationsRegistered';
 const NOTIF_REGISTRATION_ERROR_EVENT = 'remoteNotificationRegistrationError';
+const CAROUSEL_ITEM_CLICKED_EVENT = 'carouselItemClicked'; // android only
 
 const getDeviceParameters = RelatedDigitalPushModule.getDeviceParameters
 const customEventNative = RelatedDigitalPushModule.customEvent
@@ -24,6 +25,7 @@ export {
     DEVICE_NOTIF_EVENT,
     NOTIF_REGISTER_EVENT,
     NOTIF_REGISTRATION_ERROR_EVENT,
+    CAROUSEL_ITEM_CLICKED_EVENT,
 
     getDeviceParameters,
     customEventNative,
