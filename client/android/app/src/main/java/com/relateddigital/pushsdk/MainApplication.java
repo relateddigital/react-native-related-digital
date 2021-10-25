@@ -54,7 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
   }
 
   private void initEuroMessage() {
-      String appAlias = "androidappalias";
+      String appAlias = "RnPushSdk";
       String huaweiAppAlias = "rnsdk-client-huawei";
       String organizationId = "676D325830564761676D453D";
       String siteId = "356467332F6533766975593D";

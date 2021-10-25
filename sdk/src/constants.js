@@ -5,3 +5,5 @@ export const visilabsRealTimeUrl = "http://rt.visilabs.net"
 
 export const subscriptionStorageKey = 'euromsgsub'
 export const subscriptionStorageExtraKey = 'euromsgsubextra'
+
+export const expireSubscribeCheckDateStorageKey = 'expiresubscribecheckdate'
