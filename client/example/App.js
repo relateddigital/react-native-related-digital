@@ -15,7 +15,7 @@ const App = () => {
   const [loading, setLoading] = useState(false)
   const [token, setToken] = useState(null)
 
-  const appAlias = Platform.OS === 'android' ? 'rnsdk-client-huawei' : 'pragma-demo-ios'
+  const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'RnPushSdkIOS'
 
   const siteId = "356467332F6533766975593D";
   const organizationId = "676D325830564761676D453D";

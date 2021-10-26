@@ -10,6 +10,7 @@ import {
 } from './native'
 import { EuroMessageApi, VisilabsApi, RecommendationAttribute, RecommendationFilterType } from './api'
 import RDStoryView from './RDStoryView'
+import { getLogToConsole } from './utils';
 
 const _notifHandlers = new Map();
 let _log = true;
@@ -78,14 +79,19 @@ const addEventListener = (type, handler, readHandler, euroMessageApi, visilabsAp
         _notifHandlers.set(type, listener);
     }
     else if (type === 'carouselItemClicked') {
-        const listener = RelatedDigitalPushNotificationEmitter.addListener(
-            CAROUSEL_ITEM_CLICKED_EVENT,
-            (notifData) => {
-                handler(notifData);
-            },
-        );
-
-        _notifHandlers.set(type, listener);
+        if (Platform.OS === 'android') {
+            const listener = RelatedDigitalPushNotificationEmitter.addListener(
+                CAROUSEL_ITEM_CLICKED_EVENT,
+                (notifData) => {
+                    handler(notifData);
+                },
+            );
+            _notifHandlers.set(type, listener);
+        } else {
+            if (getLogToConsole()) {
+                console.log(`Related Digital - Listener not supported on iOS (carouselItemClicked)`)
+            }
+        }
     }
 }
 

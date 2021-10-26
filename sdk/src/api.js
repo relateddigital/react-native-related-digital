@@ -4,7 +4,7 @@ import querystring from 'querystring'
 
 import { getDeviceParameters, customEventNative, getRecommendationsNative, getFavoriteAttributeActionsNative, sendTheListOfAppsInstalledNative } from './native'
 import { isEmptyOrSpaces, setCookieID, fetchAsync, fetchWithCallback, getLogToConsole, timeout } from './utils'
-import { euroMessageRetentionUrl, euroMessageSubscriptionUrl, visilabsRealTimeUrl, visilabsSegmentUrl, subscriptionStorageKey, subscriptionStorageExtraKey } from './constants'
+import { euroMessageRetentionUrl, euroMessageSubscriptionUrl, visilabsRealTimeUrl, visilabsSegmentUrl, subscriptionStorageKey, subscriptionStorageExtraKey, expireSubscribeCheckDateStorageKey } from './constants'
 
 class EuroMessageApi {
     constructor(appAlias) {
@@ -13,10 +13,12 @@ class EuroMessageApi {
         this.euroMessageRetentionUrl = euroMessageRetentionUrl
         this.subscriptionKey = subscriptionStorageKey
         this.subscriptionExtraKey = subscriptionStorageExtraKey
+        this.expireSubscribeCheckDateKey = expireSubscribeCheckDateStorageKey
     }
 
     async subscribe(token) {
-        let parametersDevice = null
+        let parametersDevice = null, hasExpireSubs = true
+        const diffDays = 259200000 // 3 days
 
         try {
             parametersDevice = await getDeviceParameters()
@@ -55,9 +57,16 @@ class EuroMessageApi {
 
         const existingItem = await AsyncStorage.getItem(this.subscriptionKey)
         const currentItemStr = JSON.stringify(parametersSubscription)
+        
+        const expireSubscribeCheckDate = await AsyncStorage.getItem(this.expireSubscribeCheckDateKey)
 
-        if(existingItem !== currentItemStr) {
+        if (expireSubscribeCheckDate && (parseInt(expireSubscribeCheckDate) >= new Date().getTime())){
+            hasExpireSubs = false
+        }
+        
+        if(existingItem !== currentItemStr || hasExpireSubs) {
             AsyncStorage.setItem(this.subscriptionKey, currentItemStr)
+            AsyncStorage.setItem(this.expireSubscribeCheckDateKey, (new Date().getTime()+diffDays).toString())
             const result = await fetchAsync(this.euroMessageSubscriptionUrl, 'POST', parametersSubscription)
             let lastResult
 
@@ -93,6 +102,10 @@ class EuroMessageApi {
 
             if(lastResult) {
                 return lastResult
+            }
+        }else{
+            if(getLogToConsole()) {
+                console.log(`Related Digital - Subscribe request cannot be sent before 3 days if there is no change. Next send timestamp: ${expireSubscribeCheckDate}`)
             }
         }
 
