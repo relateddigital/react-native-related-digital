@@ -394,6 +394,11 @@ To use provisional push feature on iOS, call `requestPermissions` method with pa
 const isProvisional = true
 requestPermissions(isProvisional)
 ```
+### Request and Send IDFA (iOS Only)
+You can call the `requestIDFA` function whenever you want to show `App Tracking Transparency` prompt to request IDFA and send the value to Visilabs servers. If you are going to use this function, you should set the `isIDFAEnabled` parameter to `false` in the initial parameters.
+```javascript
+requestIDFA()
+```
 ### Spin to win & Scratch to win
 To use these features, call `customEvent` method with the page name you created on RMC dashboard.
 ```javascript
@@ -424,7 +429,7 @@ import {
   Platform
 } from 'react-native';
 
-import { addEventListener, removeEventListener, requestPermissions, EuroMessageApi, VisilabsApi, setApplicationIconBadgeNumber, logToConsole, RDStoryView } from 'react-native-related-digital'
+import { addEventListener, removeEventListener, requestPermissions, requestIDFA, EuroMessageApi, VisilabsApi, setApplicationIconBadgeNumber, logToConsole, RDStoryView } from 'react-native-related-digital'
 
 const App = () => {
   const [loading, setLoading] = useState(false)
@@ -575,6 +580,12 @@ const App = () => {
                 const isProvisional = false
                 requestPermissions(isProvisional)
               }} 
+            />
+            <Button
+              title='REQUEST IDFA'
+              onPress={() => {
+                requestIDFA()
+              }}
             />
             <Button 
               title='SET BADGE NUMBER TO 3 (IOS)'
