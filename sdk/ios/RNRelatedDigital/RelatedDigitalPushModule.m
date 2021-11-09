@@ -246,4 +246,8 @@ RCT_REMAP_METHOD(getFavoriteAttributeActions,
 	}];
 }
 
+RCT_REMAP_METHOD(requestIDFA,requestIDFANative){
+    [RelatedDigitalBridge requestIDFANative];
+}
+
 @end

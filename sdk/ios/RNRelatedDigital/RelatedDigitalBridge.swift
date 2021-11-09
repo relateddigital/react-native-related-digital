@@ -110,6 +110,10 @@ import Euromsg
 			Euromsg.askForNotificationPermission(register: true)
 		}
 	}
+
+	@objc public static func requestIDFANative() {
+		Visilabs.callAPI().requestIDFA() 
+	}
 }
 
 @objc public protocol RelatedDigitalStoryURLDelegate: VisilabsStoryURLDelegate {
