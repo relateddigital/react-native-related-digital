@@ -119,6 +119,17 @@ const requestPermissions = async (isProvisional = false) => {
     }
 }
 
+const requestIDFA = async () => {
+    if(Platform.OS === 'ios') {
+        return await RelatedDigitalPushModule.requestIDFA()
+    }
+    else {
+        if(_log) {
+            console.log('Related Digital - Unsupported platform for method: requesIDFA')
+        }
+    }
+}
+
 const setApplicationIconBadgeNumber = (badgeNumber) => {
     if(Platform.OS === 'ios') {
         RelatedDigitalPushModule.setApplicationIconBadgeNumber(badgeNumber)
@@ -138,6 +149,7 @@ export {
     addEventListener,
     removeEventListener,
     requestPermissions,
+    requestIDFA,
     setApplicationIconBadgeNumber,
     logToConsole,
     EuroMessageApi,

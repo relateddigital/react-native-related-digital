@@ -55,6 +55,7 @@ export class VisilabsApi {
     sendTheListOfAppsInstalled(): Promise<void>;
 };
 export function requestPermissions(isProvisional: Boolean = false): Promise<boolean>;
+export function requestIDFA(): void;
 export function setApplicationIconBadgeNumber(badgeNumber: number): void;
 export function logToConsole(value: boolean): void;
 
