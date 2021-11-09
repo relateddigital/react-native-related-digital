@@ -9,7 +9,7 @@ import {
   Platform
 } from 'react-native';
 
-import { addEventListener, removeEventListener, requestPermissions, EuroMessageApi, VisilabsApi, setApplicationIconBadgeNumber, logToConsole, RDStoryView, RecommendationAttribute, RecommendationFilterType } from 'react-native-related-digital'
+import { addEventListener, removeEventListener, requestPermissions, requestIDFA, EuroMessageApi, VisilabsApi, setApplicationIconBadgeNumber, logToConsole, RDStoryView, RecommendationAttribute, RecommendationFilterType } from 'react-native-related-digital'
 
 const App = () => {
   const [loading, setLoading] = useState(false)
@@ -169,6 +169,12 @@ const App = () => {
               onPress={() => {
                 const isProvisional = false
                 requestPermissions(isProvisional)
+              }}
+            />
+            <Button
+              title='REQUEST IDFA'
+              onPress={() => {
+                requestIDFA()
               }}
             />
             <Button
