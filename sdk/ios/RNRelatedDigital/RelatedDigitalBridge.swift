@@ -3,10 +3,10 @@ import UIKit
 import Euromsg
 
 @objc public class RelatedDigitalBridge: NSObject {
-	@objc public static func initVisilabs(organizationId: String, profileId: String, dataSource: String, inAppNotificationsEnabled: Bool, requestTimeoutInSeconds: Int, geofenceEnabled: Bool, maxGeofenceCount: Int, isIDFAEnabled: Bool) -> Void {
+	@objc public static func initVisilabs(organizationId: String, profileId: String, dataSource: String, inAppNotificationsEnabled: Bool, requestTimeoutInSeconds: Int, geofenceEnabled: Bool, maxGeofenceCount: Int, isIDFAEnabled: Bool, loggingEnabled: Bool) -> Void {
 		Visilabs.createAPI(organizationId: organizationId, profileId: profileId
 		, dataSource: dataSource, inAppNotificationsEnabled: inAppNotificationsEnabled, channel: "IOS"
-		, requestTimeoutInSeconds: requestTimeoutInSeconds, geofenceEnabled: geofenceEnabled, maxGeofenceCount: maxGeofenceCount, isIDFAEnabled: isIDFAEnabled)
+		, requestTimeoutInSeconds: requestTimeoutInSeconds, geofenceEnabled: geofenceEnabled, maxGeofenceCount: maxGeofenceCount, isIDFAEnabled: isIDFAEnabled, loggingEnabled: loggingEnabled)
 	}
 	
 	@objc public static func customEvent(pageName: String, properties: [String : String]) -> Void {

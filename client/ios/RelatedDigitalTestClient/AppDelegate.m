@@ -54,7 +54,7 @@ static void InitializeFlipper(UIApplication *application) {
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
     
-  [RelatedDigitalPushModule initVisilabs:@"676D325830564761676D453D" profileId:@"356467332F6533766975593D" dataSource:@"visistore" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true maxGeofenceCount:20 isIDFAEnabled:false];
+  [RelatedDigitalPushModule initVisilabs:@"676D325830564761676D453D" profileId:@"356467332F6533766975593D" dataSource:@"visistore" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true maxGeofenceCount:20 isIDFAEnabled:false loggingEnabled:true];
     
   return YES;
 }
