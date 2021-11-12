@@ -221,12 +221,12 @@ RCT_REMAP_METHOD(getRecommendations,
 	}];
 }
 
-RCT_REMAP_METHOD(getPushMessages,
-								 resolver:(RCTPromiseResolveBlock)resolve
-								 rejecter:(RCTPromiseRejectBlock)reject) {
-	[RelatedDigitalBridge completion:^(NSString *response) {
-		resolve(response);
-	}];
+
+RCT_EXPORT_METHOD(getPushMessages:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    [RelatedDigitalBridge getPushMessagesWithCompletion:^(NSString *response) {
+        resolve(response);
+    }];
 }
 
 RCT_REMAP_METHOD(checkNotification,

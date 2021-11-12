@@ -58,6 +58,12 @@ import Euromsg
 			}
 		}
 	}
+    
+    @objc public static func didReceive(alias: String, bestAttemptContent: UNMutableNotificationContent?,
+                     withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+        Euromsg.configure(appAlias:alias)
+        Euromsg.didReceive(bestAttemptContent, withContentHandler: contentHandler)
+    }
 	
 	@objc public static func getStoryView(actionId: String?) -> VisilabsStoryHomeView {
 		if(actionId != nil && actionId != "") {
@@ -128,6 +134,8 @@ import Euromsg
 	@objc public static func requestIDFANative() {
 		Visilabs.callAPI().requestIDFA() 
 	}
+    
+    
 }
 
 @objc public protocol RelatedDigitalStoryURLDelegate: VisilabsStoryURLDelegate {
