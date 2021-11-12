@@ -80,6 +80,14 @@ const App = () => {
     })
   }
 
+
+  const halfScreenInapp = () => {
+    visilabsApi.customEvent('baris_halfscreen', {
+      // 'OM.inapptype': 'halfscreen',
+    })
+  }
+  
+
   const getRecommendations = async () => {
     try {
       const zoneId = '6'
@@ -138,6 +146,12 @@ const App = () => {
       'OM.pn': 'Nectarine Blossom & Honey Body & Hand Lotion',
       'OM.ppr': '39'
     })
+  }
+
+
+  const getPushMessages = async () => {
+    const messages = await euroMessageApi.getPushMessages()
+    console.log('messages', messages)
   }
 
   const removeListeners = () => {
@@ -230,6 +244,22 @@ const App = () => {
               title='TRACK INSTALLED APPS'
               onPress={() => {
                 trackInstalledApps()
+              }}
+            />
+
+
+
+            <Button
+              title='HALF SCREEN INAPP'
+              onPress={() => {
+                halfScreenInapp()
+              }}
+            />
+
+            <Button
+              title='GET PUSH MESSAGES'
+              onPress={() => {
+                getPushMessages()
               }}
             />
     
