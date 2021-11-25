@@ -213,10 +213,11 @@ RCT_REMAP_METHOD(customEvent,
 RCT_REMAP_METHOD(getRecommendations,
 								 getRecommendationsWithZoneId:(NSString *)zoneId
 										productCode:(NSString *)productCode
+                    properties:(NSDictionary *)properties
 										filters:(NSArray<NSDictionary *> *)filters
 								 resolver:(RCTPromiseResolveBlock)resolve
 								 rejecter:(RCTPromiseRejectBlock)reject) {
-	[RelatedDigitalBridge getRecommendationsWithZoneId:zoneId productCode:productCode filters: filters completion:^(NSString *response) {
+	[RelatedDigitalBridge getRecommendationsWithZoneId:zoneId productCode:productCode properties:properties filters: filters  completion:^(NSString *response) {
 		resolve(response);
 	}];
 }

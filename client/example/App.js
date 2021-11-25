@@ -82,8 +82,12 @@ const App = () => {
 
   const getRecommendations = async () => {
     try {
-      const zoneId = '6'
+      const zoneId = '55'
       const productCode = ''
+
+      const properties =  {
+        "OM.cat":"65" // Category code
+      }
 
       // optional
       const filters = [{
@@ -92,7 +96,7 @@ const App = () => {
         value: 'laptop'
       }]
   
-      const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, filters)
+      const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties, filters)
       console.log('recommendations', recommendations)
     }
     catch (e) {
@@ -121,10 +125,8 @@ const App = () => {
   }
 
   const showSpinToWin = () => {
-    visilabsApi.customEvent('*pragma_spintowin*', {
-      'OM.pv': '77',
-      'OM.pn': 'Nectarine Blossom & Honey Body & Hand Lotion',
-      'OM.ppr': '39'
+    visilabsApi.customEvent('home', {
+      'OM.inapptype':'spinToWin'
     })
   }
 
@@ -133,10 +135,11 @@ const App = () => {
   }
 
   const showScratchToWin = () => {
-    visilabsApi.customEvent('*pragma_scratch*', {
-      'OM.pv': '77',
-      'OM.pn': 'Nectarine Blossom & Honey Body & Hand Lotion',
-      'OM.ppr': '39'
+    visilabsApi.customEvent('home', {
+      // 'OM.pv': '77',
+      // 'OM.pn': 'Nectarine Blossom & Honey Body & Hand Lotion',
+      // 'OM.ppr': '39',
+      'OM.inapptype':'scratchToWin'
     })
   }
 
