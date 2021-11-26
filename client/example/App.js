@@ -140,6 +140,12 @@ const App = () => {
     })
   }
 
+  const halfScreenInapp = () => {
+    visilabsApi.customEvent('home', {
+      'OM.inapptype': 'halfscreen',
+    })
+  }
+
   const removeListeners = () => {
     removeEventListener('register')
     removeEventListener('registrationError')
@@ -224,6 +230,13 @@ const App = () => {
               title='TRACK INSTALLED APPS'
               onPress={() => {
                 trackInstalledApps()
+              }}
+            />
+
+            <Button
+              title='HALF SCREEN INAPP'
+              onPress={() => {
+                halfScreenInapp()
               }}
             />
     
