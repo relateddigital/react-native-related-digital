@@ -57,6 +57,7 @@ export class VisilabsApi {
 export function requestPermissions(isProvisional: Boolean = false): Promise<boolean>;
 export function setApplicationIconBadgeNumber(badgeNumber: number): void;
 export function logToConsole(value: boolean): void;
+export function requestIDFA(): void;
 
 export interface RDStoryViewProps {
     onItemClicked?: Function;

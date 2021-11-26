@@ -9,7 +9,7 @@ import {
   Platform
 } from 'react-native';
 
-import { addEventListener, removeEventListener, requestPermissions, EuroMessageApi, VisilabsApi, setApplicationIconBadgeNumber, logToConsole, RDStoryView, RecommendationAttribute, RecommendationFilterType } from 'react-native-related-digital'
+import { addEventListener, removeEventListener, requestPermissions, requestIDFA, EuroMessageApi, VisilabsApi, setApplicationIconBadgeNumber, logToConsole, RDStoryView, RecommendationAttribute, RecommendationFilterType } from 'react-native-related-digital'
 
 const App = () => {
   const [loading, setLoading] = useState(false)
@@ -86,7 +86,14 @@ const App = () => {
       const productCode = ''
 
       const properties =  {
-        "OM.cat":"65" // Category code
+        "OM.cat":"2",
+        // "OM.cat":{"asd":"qwe"},// Category code
+        "asdf":undefined,
+        "qwer":null,
+        "qwe":"qwe",
+        "sdfgsd":123,
+        "asdffv":true,
+        "ff":false,
       }
 
       // optional
@@ -96,7 +103,7 @@ const App = () => {
         value: 'laptop'
       }]
   
-      const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties, filters)
+      const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties)
       console.log('recommendations', recommendations)
     }
     catch (e) {
@@ -178,6 +185,12 @@ const App = () => {
               onPress={() => {
                 const isProvisional = false
                 requestPermissions(isProvisional)
+              }}
+            />
+            <Button
+              title='REQUEST IDFA'
+              onPress={() => {
+                requestIDFA()
               }}
             />
             <Button
