@@ -164,6 +164,7 @@ class VisilabsApi {
     }
 
     async getRecommendations(zoneId = '', productCode = '', properties = {}, filters = []) {
+        Object.entries(properties).forEach(([key, value]) => (value === null || value === undefined || typeof value === "object") ? delete properties[key] : properties[key] = properties[key].toString());
         const result = await getRecommendationsNative(zoneId, productCode, properties, filters)
         return Promise.resolve(JSON.parse(result))
     }
