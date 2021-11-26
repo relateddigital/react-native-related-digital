@@ -13,7 +13,7 @@ import Euromsg
 		Visilabs.callAPI().customEvent(pageName, properties: properties)
 	}
 	
-	@objc public static func getRecommendations(zoneId: String, productCode: String, filters: [NSDictionary] = [], completion: @escaping ((_ response: String?) -> Void)) -> Void {
+	@objc public static func getRecommendations(zoneId: String, productCode: String, properties: [String : String], filters: [NSDictionary] = [], completion: @escaping ((_ response: String?) -> Void)) -> Void {
 		let jsonEncoder = JSONEncoder()
 		var filtersToSend: [VisilabsRecommendationFilter] = [];
 		if(filters.count > 0) {
@@ -25,7 +25,7 @@ import Euromsg
 			}
 		}
 				
-		Visilabs.callAPI().recommend(zoneID: zoneId, productCode: productCode, filters: filtersToSend){ response in
+		Visilabs.callAPI().recommend(zoneID: zoneId, productCode: productCode, filters: filtersToSend, properties: properties){ response in
 			
 			var recommendations: [RelatedDigitalRecommendationProduct] = []
 			

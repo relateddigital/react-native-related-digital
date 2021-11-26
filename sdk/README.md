@@ -376,7 +376,7 @@ platform :ios, '10.0'
 ```
 6. Execute `pod install` then run.
 ### Recommendations
-To view recommendations, use `visilabsApi.getRecommendations(zoneId, productCode, filters)` method.
+To view recommendations, use `visilabsApi.getRecommendations(zoneId, productCode, properties, filters)` method.
 ### Story
 To add story view to your app, import `RDStoryView` and use as below:
 ```jsx
@@ -489,6 +489,10 @@ const App = () => {
       const zoneId = '6'
       const productCode = ''
 
+      const properties =  {
+        "OM.cat":"65" // Category code
+      }
+
       // optional
       const filters = [{
         attribute: RecommendationAttribute.PRODUCTNAME,
@@ -496,7 +500,7 @@ const App = () => {
         value: 'laptop'
       }]
 
-      const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, filters)
+      const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties, filters)
       console.log('recommendations', recommendations)
     }
     catch (e) {

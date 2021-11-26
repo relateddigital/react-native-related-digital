@@ -163,8 +163,8 @@ class VisilabsApi {
         customEventNative(name, properties)
     }
 
-    async getRecommendations(zoneId = '', productCode = '', filters = []) {
-        const result = await getRecommendationsNative(zoneId, productCode, filters)
+    async getRecommendations(zoneId = '', productCode = '', properties = {}, filters = []) {
+        const result = await getRecommendationsNative(zoneId, productCode, properties, filters)
         return Promise.resolve(JSON.parse(result))
     }
 

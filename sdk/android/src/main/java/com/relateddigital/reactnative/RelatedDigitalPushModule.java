@@ -320,10 +320,22 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getRecommendations(String zoneId, String productCode, ReadableArray filters, final Promise promise) {
+    public void getRecommendations(String zoneId, String productCode, ReadableMap properties, ReadableArray filters, final Promise promise) {
         try {
             List<VisilabsTargetFilter> filtersToSend = new ArrayList<VisilabsTargetFilter>();
-            HashMap<String,String> properties = new HashMap<String, String>();
+
+            HashMap<String, String> propertiesToSend = new HashMap<>();
+            HashMap<String, Object> paramsMap = properties.toHashMap();
+
+            for (Map.Entry<String, Object> entry : paramsMap.entrySet()) {
+                if(entry.getValue() instanceof String){
+                    propertiesToSend.put(entry.getKey(), (String) entry.getValue());
+                }
+                else {
+                    propertiesToSend.put(entry.getKey(), entry.getValue().toString());
+                }
+            }
+
 
             if(filters != null && filters.size() > 0) {
                 ArrayList array = filters.toArrayList();
@@ -335,7 +347,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
                 }
             }
 
-            VisilabsTargetRequest visilabsTargetRequest =  Visilabs.CallAPI().buildTargetRequest(zoneId, productCode, properties, filtersToSend);
+            VisilabsTargetRequest visilabsTargetRequest =  Visilabs.CallAPI().buildTargetRequest(zoneId, productCode, propertiesToSend, filtersToSend);
             visilabsTargetRequest.executeAsync(new VisilabsCallback() {
 
                 @Override
