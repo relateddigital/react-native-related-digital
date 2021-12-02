@@ -50,6 +50,7 @@ import java.util.Set;
 import euromsg.com.euromobileandroid.EuroMobileManager;
 import euromsg.com.euromobileandroid.model.Element;
 import euromsg.com.euromobileandroid.model.Message;
+import euromsg.com.euromobileandroid.callback.PushMessageInterface;
 
 public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     private static ReactApplicationContext reactContext;
@@ -417,6 +418,41 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
             promise.resolve(true);
         }
         catch (Exception ex) {
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
+    public void sendLocationPermission(Promise promise) {
+        try {
+            Visilabs.CallAPI().sendLocationPermission();
+            promise.resolve(true);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
+    public void getPushMessages(final Promise promise){
+        try{
+            PushMessageInterface pushMessageInterface = new PushMessageInterface() {
+                @Override
+                public void success(List<Message> pushMessages) {
+                    Gson gson = new Gson();
+                    promise.resolve(gson.toJson(pushMessages));
+                }
+
+                @Override
+                public void fail(String errorMessage) {
+                    promise.resolve(errorMessage);
+                }
+            };
+            EuroMobileManager.getInstance().getPushMessages(getCurrentActivity(), pushMessageInterface);
+        }
+        catch(Exception ex){
             ex.printStackTrace();
             promise.resolve(false);
         }

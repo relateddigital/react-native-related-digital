@@ -130,6 +130,8 @@
 		72FA38C9FE08A16D22B6D1D2 /* Pods-RelatedDigitalTestClient-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RelatedDigitalTestClient-tvOS.release.xcconfig"; path = "Target Support Files/Pods-RelatedDigitalTestClient-tvOS/Pods-RelatedDigitalTestClient-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		7CCDBA394A08EC6166140BA6 /* Pods-RelatedDigitalTestClient-RelatedDigitalTestClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RelatedDigitalTestClient-RelatedDigitalTestClientTests.debug.xcconfig"; path = "Target Support Files/Pods-RelatedDigitalTestClient-RelatedDigitalTestClientTests/Pods-RelatedDigitalTestClient-RelatedDigitalTestClientTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7E48DCE62EC4445EAEBBB98A /* PushSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PushSDKTests.xctest; sourceTree = "<group>"; };
+		8B0C10D427564B6D0095CF09 /* RelatedDigitalNotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelatedDigitalNotificationService.entitlements; sourceTree = "<group>"; };
+		8B0C10D527564B7E0095CF09 /* RelatedDigitalNotificationContent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelatedDigitalNotificationContent.entitlements; sourceTree = "<group>"; };
 		93450623D0035744E388BB65 /* libPods-RelatedDigitalTestClient-RelatedDigitalTestClientTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RelatedDigitalTestClient-RelatedDigitalTestClientTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C4C544C2FE73EC9152E495D /* libPods-RelatedDigitalTestClient-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RelatedDigitalTestClient-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9547B16785D468AA0F70737 /* PushSDK-tvOS.app */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "PushSDK-tvOS.app"; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 		4A2FEDD4251B4F4A002DD672 /* RelatedDigitalNotificationContent */ = {
 			isa = PBXGroup;
 			children = (
+				8B0C10D527564B7E0095CF09 /* RelatedDigitalNotificationContent.entitlements */,
 				4A2FEDDA251B4F4A002DD672 /* Info.plist */,
 				4A2FEDE1251B4FF0002DD672 /* EMNotificationViewController.swift */,
 			);
@@ -276,6 +279,7 @@
 		4A567CBC24E53D5500E29711 /* RelatedDigitalNotificationService */ = {
 			isa = PBXGroup;
 			children = (
+				8B0C10D427564B6D0095CF09 /* RelatedDigitalNotificationService.entitlements */,
 				4A567CBD24E53D5500E29711 /* NotificationService.h */,
 				4A567CBE24E53D5500E29711 /* NotificationService.m */,
 				4A567CC024E53D5500E29711 /* Info.plist */,
@@ -1429,6 +1433,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = RelatedDigitalNotificationContent/RelatedDigitalNotificationContent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 5M383PCDJZ;
@@ -1460,6 +1465,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = RelatedDigitalNotificationContent/RelatedDigitalNotificationContent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1491,6 +1497,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = RelatedDigitalNotificationService/RelatedDigitalNotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 5M383PCDJZ;
@@ -1550,6 +1557,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = RelatedDigitalNotificationService/RelatedDigitalNotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

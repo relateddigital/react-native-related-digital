@@ -2,7 +2,7 @@ import { Platform } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import querystring from 'querystring'
 
-import { getDeviceParameters, customEventNative, getRecommendationsNative, getFavoriteAttributeActionsNative, sendTheListOfAppsInstalledNative } from './native'
+import { getDeviceParameters, customEventNative, getRecommendationsNative, getFavoriteAttributeActionsNative, sendTheListOfAppsInstalledNative, sendLocationPermissionNative, getPushMessagesNative } from './native'
 import { isEmptyOrSpaces, setCookieID, fetchAsync, fetchWithCallback, getLogToConsole, timeout } from './utils'
 import { euroMessageRetentionUrl, euroMessageSubscriptionUrl, visilabsRealTimeUrl, visilabsSegmentUrl, subscriptionStorageKey, subscriptionStorageExtraKey, expireSubscribeCheckDateStorageKey } from './constants'
 
@@ -137,6 +137,11 @@ class EuroMessageApi {
 
         await AsyncStorage.setItem(this.subscriptionExtraKey, JSON.stringify(extra))
     }
+    
+    async getPushMessages() {
+        const result = await getPushMessagesNative()
+        return Promise.resolve(result.substr(0,5) != "There" ? JSON.parse(result) : result)
+    }
 }
 
 class VisilabsApi {
@@ -183,6 +188,10 @@ class VisilabsApi {
                 console.log(`Related Digital - Method not supported on iOS`)
             }
         }
+    }
+
+    async sendLocationPermission() {
+        await sendLocationPermissionNative()
     }
 
     _submit(parameters, callback) {

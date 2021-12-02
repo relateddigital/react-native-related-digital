@@ -57,7 +57,7 @@ const App = () => {
   }
 
   const addExtra = async () => {
-    await euroMessageApi.setUserProperty('extra', 2)
+    await euroMessageApi.setUserProperty('extra', 1)
 
     await euroMessageApi.setUserProperty('ConsentTime', '2021-06-05 10:00:00')
     await euroMessageApi.setUserProperty('RecipientType', "BIREYSEL")
@@ -76,7 +76,8 @@ const App = () => {
     visilabsApi.customEvent('*pragmahome*', {
       'OM.pv': '77',
       'OM.pn': 'Nectarine Blossom & Honey Body & Hand Lotion',
-      'OM.ppr': '39'
+      'OM.ppr': '39',
+      'OM.exvisitorid':"baris.arslan@euromsg.com"
     })
   }
 
@@ -141,6 +142,10 @@ const App = () => {
     await visilabsApi.sendTheListOfAppsInstalled()
   }
 
+  const sendLocationPermissionEvent = async () => {
+    await visilabsApi.sendLocationPermission()
+  }
+
   const showScratchToWin = () => {
     visilabsApi.customEvent('home', {
       // 'OM.pv': '77',
@@ -154,6 +159,11 @@ const App = () => {
     visilabsApi.customEvent('home', {
       'OM.inapptype': 'halfscreen',
     })
+  }
+
+  const getPushMessages = async () => {
+    const messages = await euroMessageApi.getPushMessages()
+    console.log('messages', messages)
   }
 
   const removeListeners = () => {
@@ -250,9 +260,23 @@ const App = () => {
             />
 
             <Button
+              title='SEND LOCATION PERMISSION'
+              onPress={() => {
+                sendLocationPermissionEvent()
+              }}
+            />
+
+            <Button
               title='HALF SCREEN INAPP'
               onPress={() => {
                 halfScreenInapp()
+              }}
+            />
+            
+            <Button
+              title='GET PUSH MESSAGES'
+              onPress={() => {
+                getPushMessages()
               }}
             />
     

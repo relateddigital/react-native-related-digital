@@ -14,13 +14,13 @@
     self.contentHandler = contentHandler;
     self.bestAttemptContent = [request.content mutableCopy];
     
-  [RelatedDigitalNotificationService didReceiveNotificationRequest:self.bestAttemptContent withContentHandler:self.contentHandler];
+  [RelatedDigitalNotificationService didReceiveNotificationRequest:@"RnPushSdkIOS" withBestAttemptContent:self.bestAttemptContent withContentHandler:self.contentHandler];
 }
 
 - (void)serviceExtensionTimeWillExpire {
     // Called just before the extension will be terminated by the system.
     // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
-    [RelatedDigitalNotificationService didReceiveNotificationRequest:self.bestAttemptContent withContentHandler:self.contentHandler];
+  [RelatedDigitalNotificationService didReceiveNotificationRequest:@"RnPushSdkIOS" withBestAttemptContent:self.bestAttemptContent withContentHandler:self.contentHandler];
 }
 
 @end

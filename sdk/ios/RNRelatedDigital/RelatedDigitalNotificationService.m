@@ -1,9 +1,11 @@
 #import "RelatedDigitalNotificationService.h"
 #import <UserNotifications/UserNotifications.h>
 
+#import "react_native_related_digital-Swift.h"
+
 @implementation RelatedDigitalNotificationService
 
-+ (void)didReceiveNotificationRequest:(UNMutableNotificationContent *)bestAttemptContent withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
++ (void)didReceiveNotificationRequest:(NSString *)appAlias withBestAttemptContent:(UNMutableNotificationContent *)bestAttemptContent withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
   
   NSDictionary *userInfo = bestAttemptContent.userInfo;
   if (userInfo == nil) {
@@ -11,6 +13,9 @@
     return;
   }
   
+    [RelatedDigitalBridge didReceiveWithAlias:appAlias bestAttemptContent:bestAttemptContent withContentHandler:contentHandler];
+        return;
+    
   NSString *mediaUrl = userInfo[@"mediaUrl"];
   NSString *mediaType = userInfo[@"pushType"];
   

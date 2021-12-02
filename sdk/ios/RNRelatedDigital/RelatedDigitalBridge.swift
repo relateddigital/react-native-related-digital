@@ -3,10 +3,11 @@ import UIKit
 import Euromsg
 
 @objc public class RelatedDigitalBridge: NSObject {
-	@objc public static func initVisilabs(organizationId: String, profileId: String, dataSource: String, inAppNotificationsEnabled: Bool, requestTimeoutInSeconds: Int, geofenceEnabled: Bool, maxGeofenceCount: Int, isIDFAEnabled: Bool, loggingEnabled: Bool) -> Void {
+    @objc public static func initRelatedDigital(organizationId: String, profileId: String, dataSource: String, appAlias: String, inAppNotificationsEnabled: Bool, requestTimeoutInSeconds: Int, geofenceEnabled: Bool, maxGeofenceCount: Int, isIDFAEnabled: Bool, loggingEnabled: Bool) -> Void {
 		Visilabs.createAPI(organizationId: organizationId, profileId: profileId
 		, dataSource: dataSource, inAppNotificationsEnabled: inAppNotificationsEnabled, channel: "IOS"
 		, requestTimeoutInSeconds: requestTimeoutInSeconds, geofenceEnabled: geofenceEnabled, maxGeofenceCount: maxGeofenceCount, isIDFAEnabled: isIDFAEnabled, loggingEnabled: loggingEnabled)
+        Euromsg.configure(appAlias:appAlias)
 	}
 	
 	@objc public static func customEvent(pageName: String, properties: [String : String]) -> Void {
@@ -44,7 +45,27 @@ import Euromsg
 			}
 		}
 	}
-	
+
+	@objc public static func getPushMessages(completion: @escaping ((_ response: String?) -> Void)) -> Void {
+		let jsonEncoder = JSONEncoder()
+		Euromsg.getPushMessages(){ response in
+			do {
+				let jsonData = try jsonEncoder.encode(response)
+				let json = String(data: jsonData, encoding: String.Encoding.utf8)
+				completion(json)
+			}
+			catch {
+				completion(nil)
+			}
+		}
+	}
+    
+    @objc public static func didReceive(alias: String, bestAttemptContent: UNMutableNotificationContent?,
+                         withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+            Euromsg.configure(appAlias:alias)
+            Euromsg.didReceive(bestAttemptContent, withContentHandler: contentHandler)
+        }
+
 	@objc public static func getStoryView(actionId: String?) -> VisilabsStoryHomeView {
 		if(actionId != nil && actionId != "") {
 			return Visilabs.callAPI().getStoryView(actionId: Int(actionId!))
@@ -113,6 +134,10 @@ import Euromsg
 
 	@objc public static func requestIDFANative() {
 		Visilabs.callAPI().requestIDFA() 
+	}
+
+	@objc public static func sendLocationPermissionNative() {
+		Visilabs.callAPI().sendLocationPermission()
 	}
 }
 

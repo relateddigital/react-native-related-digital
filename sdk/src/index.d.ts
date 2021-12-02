@@ -41,6 +41,7 @@ export class EuroMessageApi {
     subscribe(token: string): Promise<any>;
     reportRead(pushId: string): Promise<any>;
     setUserProperty(key: string, value: object): Promise<void>;
+    getPushMessages(): Promise<any>;
 };
 export class VisilabsApi {
     constructor(
@@ -53,6 +54,7 @@ export class VisilabsApi {
     getRecommendations(zoneId: string, productCode: string, properties:object, filters: Array<Object> = []): Promise<any>;
     getFavoriteAttributeActions(actionId: string): Promise<any>;
     sendTheListOfAppsInstalled(): Promise<void>;
+    sendLocationPermission(): Promise<void>;
 };
 export function requestPermissions(isProvisional: Boolean = false): Promise<boolean>;
 export function setApplicationIconBadgeNumber(badgeNumber: number): void;

@@ -15,6 +15,8 @@ const getStoriesNative = RelatedDigitalPushModule.getStories
 const checkNotificationNative = RelatedDigitalPushModule.checkNotification
 const getFavoriteAttributeActionsNative = RelatedDigitalPushModule.getFavoriteAttributeActions
 const sendTheListOfAppsInstalledNative = RelatedDigitalPushModule.sendTheListOfAppsInstalled
+const sendLocationPermissionNative = RelatedDigitalPushModule.sendLocationPermission
+const getPushMessagesNative = RelatedDigitalPushModule.getPushMessages
 
 const RDStoryViewNative = requireNativeComponent('StoryView')
 
@@ -34,5 +36,7 @@ export {
     getStoriesNative,
     checkNotificationNative,
     getFavoriteAttributeActionsNative,
-    sendTheListOfAppsInstalledNative
+    sendTheListOfAppsInstalledNative,
+    sendLocationPermissionNative,
+    getPushMessagesNative
 }

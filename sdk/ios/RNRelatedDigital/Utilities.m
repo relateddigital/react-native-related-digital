@@ -14,8 +14,7 @@
 }
 
 + (NSString *)getSdkVersion {
-  NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
-  return version;
+  return @"2.4.1";
 }
 
 + (NSString *)getDeviceName {
