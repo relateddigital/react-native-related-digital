@@ -230,17 +230,18 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 ```
 * Modify `AppDelegate.m` file's `didFinishLaunchingWithOptions` method and add the following just before return statement. Modify inAppNotificationsEnabled and geofenceEnabled parameters as you want.
 ```objective-c
-[RelatedDigitalPushModule initVisilabs:@"organization_id" profileId:@"profile_id" dataSource:@"datasource" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true maxGeofenceCount:20 isIDFAEnabled:true];
+[RelatedDigitalPushModule initRelatedDigital:@"organization_id" profileId:@"profile_id" dataSource:@"datasource" appAlias:@"app_alias" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
 
 ```
 * Add `Empty.swift` file to your project as the sdk contains Swift code and xcode requires at least one empty swift file in each target.
-* Add `NSUserTrackingUsageDescription` to your `Info.plist` file to be able to use AdvertisingTrackingID on iOS 14 and later. If you don't want to use it, set `isIDFAEnabled` to `false` among the `initVisilabs` parameters.
+* Add `NSUserTrackingUsageDescription` to your `Info.plist` file to be able to use AdvertisingTrackingID on iOS 14 and later. If you don't want to use it, set `isIDFAEnabled` to `false` among the `initRelatedDigital` parameters.
 * If you have any issues while building the app due to `_swift_getFunctionReplacement` or any swift related errors, try editing your project's (not target) `Library Search Paths` and remove `$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)` line.
 * If you are going to use in app notifications feature, add below lines to your project target's `Build Phases`->`Copy Bundle Resources` section. Select `Create folder references` when prompted.
 `Pods/VisilabsIOS/VisilabsIOS/Classes/TargetingAction/InAppNotification/Views/VisilabsMiniNotificationViewController.xib`
 `Pods/VisilabsIOS/VisilabsIOS/Classes/TargetingAction/InAppNotification/Views/VisilabsFullNotificationViewController.xib`
 * To enable rich notification capabilites like showing image or video;
 1. Add `Notification Service Extension` target to your project and name it `RelatedDigitalNotificationService`. Change this service's target iOS version to 10.0. Then change newly added `NotificationService.m` file contents with the following:
+(Don't forget to enter your app name instead of `APP_ALIAS`)
 ```objective-c
 #import "NotificationService.h"
 #import "RelatedDigitalNotificationService.h"
@@ -258,13 +259,13 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
     self.contentHandler = contentHandler;
     self.bestAttemptContent = [request.content mutableCopy];
     
-  [RelatedDigitalNotificationService didReceiveNotificationRequest:self.bestAttemptContent withContentHandler:self.contentHandler];
+  [RelatedDigitalNotificationService didReceiveNotificationRequest:@"APP_ALIAS" withBestAttemptContent:self.bestAttemptContent withContentHandler:self.contentHandler];
 }
 
 - (void)serviceExtensionTimeWillExpire {
     // Called just before the extension will be terminated by the system.
     // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
-    [RelatedDigitalNotificationService didReceiveNotificationRequest:self.bestAttemptContent withContentHandler:self.contentHandler];
+  [RelatedDigitalNotificationService didReceiveNotificationRequest:@"APP_ALIAS" withBestAttemptContent:self.bestAttemptContent withContentHandler:self.contentHandler];
 }
 
 @end
@@ -375,6 +376,32 @@ end
 platform :ios, '10.0'
 ```
 6. Execute `pod install` then run.
+
+### App Groups
+
+Enable `App Groups` Capability for your targets. App Groups allow your app to execute code when a notification is recieved, even if your app is not active. This is required for Related Digital's analytics features and to store and access notification payloads of the last 30 days.
+
+- In your Main App Target go to `Signing & Capabilities > All`. 
+- Click `+ Capability` if you do not have App Groups in your app yet.
+- Select App Groups.
+- Under App Groups click the `+` button.
+- Set the `App Groups` container to be `group.BUNDLE_ID.relateddigital` where `BUNDLE_ID` is the same as set in `Bundle Identifier`.
+- Press OK.
+- In the NotificationServiceExtension Target
+- Go to `Signing & Capabilities > All`
+- Click `+ Capability` if you do not have App Groups in your app yet.
+- Select App Groups
+- In the NotificationContentExtension Target go to `Signing & Capabilities` > All`.
+- Click `+ Capability`.
+- Select App Groups
+- Under App Groups click the `+` button.
+- Set the `App Groups` container to be `group.BUNDLE_ID.relateddigital` where `BUNDLE_ID` is the same as your Main App Target `Bundle Identifier`. Do Not Include `NotificationServiceExtension` and `NotificationContentExtension`.
+- Press OK
+
+![App Groups](https://raw.githubusercontent.com/relateddigital/euromessage-ios/master/screenshots/appgroups.png)
+
+![App Groups Name](https://raw.githubusercontent.com/relateddigital/euromessage-ios/master/screenshots/appgroups-name.png)
+
 ### Recommendations
 To view recommendations, use `visilabsApi.getRecommendations(zoneId, productCode, properties, filters)` method.
 ### Story
@@ -399,6 +426,17 @@ You can call the `requestIDFA` function whenever you want to show `App Tracking 
 ```javascript
 requestIDFA()
 ```
+### Sending Location Status Information
+You can call the `sendLocationPermission` method to to send the location permission status of your users to Visilabs servers and use this information on the panel later.
+```javascript
+await visilabsApi.sendLocationPermission()
+```
+This information is sent with the `OM.locpermit` parameter and can take one of the following 3 values:
+
+* "always" : Location permission is obtained while the application is open and closed.
+* "appopen" : Location permission is only obtained when the app is open.
+* "none" : Location permission is not obtained.
+
 ### Spin to win & Scratch to win
 To use these features, call `customEvent` method with the page name you created on RMC dashboard.
 ```javascript
@@ -415,6 +453,58 @@ visilabsApi.customEvent('*scratchtowin*', {
 })
 ```
 
+### Using Push Notification Messages
+You can access the push notification messages sent in the last 30 days as follows.
+Messages are sorted by date. The most recent message is displayed at the top of the list.
+```json
+// Android response
+[
+    {
+        "altUrl": "",
+        "date": "2021-12-01 17:17:15",
+        "emPushSp": "CF203B70D23C40DF84167C339648CC94|2CCE03D672E4492EB6C85CDBD8AB9D5E|D61E3546732A454C9F304F92942B6BEB|485350|1|0|true|false|0|0|05b89538-3840-4726-a950-e2045a74bc2e",
+        "mediaUrl": "https://live.relateddigital.com/a02/img/ios-logo.png",
+        "message": "text message",
+        "params": {
+            "altUrl": "",
+            "badgeCount": "0",
+            "emPushSp": "CF203B70D23C40DF84167C339648CC94|2CCE03D672E4492EB6C85CDBD8AB9D5E|D61E3546732A454C9F304F92942B6BEB|485350|1|0|true|false|0|0|05b89538-3840-4726-a950-e2045a74bc2e",
+            "mediaUrl": "https://live.relateddigital.com/a02/img/ios-logo.png",
+            "message": "text message",
+            "pushId": "6d827ae9-bcaa-47e1-b2c4-f8ace771f3f5",
+            "pushType": "Image",
+            "sound": "",
+            "title": "text message",
+            "url": ""
+        },
+        "pushId": "6d827ae9-bcaa-47e1-b2c4-f8ace771f3f5",
+        "pushType": "Image",
+        "sound": "",
+        "title": "text message",
+        "url": ""
+    }
+]
+
+// iOS response
+[
+    {
+        "altUrl": "",
+        "pushId": "00763ff4-3ec4-426c-953e-a27a8eee9fed",
+        "aps": {
+            "alert": {
+                "title": "Message Title",
+                "body": "Message body"
+            }
+        },
+        "emPushSp": "CF203B70D23C40DF84167C339648CC94|2CCE03D672E4492EB6C85CDBD8AB9D5E|EFBFBB2E69FD4531B758C7A248446068|486816|2|0|true|false|0|0|73b4512a-2d35-48af-9ede-fe3f0ad9797b",
+        "mediaUrl": "https:\/\/raw.githubusercontent.com\/relateddigital\/euromessage-ios\/master\/screenshots\/appgroups-name.png",
+        "formattedDateString": "2021-12-08 01:34:59",
+        "pushType": "Image",
+        "url": "www.example.com"
+    }
+] 
+```
+
 
 ## Usage
 ```jsx
@@ -429,7 +519,7 @@ import {
   Platform
 } from 'react-native';
 
-import { addEventListener, removeEventListener, requestPermissions, requestIDFA, EuroMessageApi, VisilabsApi, setApplicationIconBadgeNumber, logToConsole, RDStoryView } from 'react-native-related-digital'
+import { addEventListener, removeEventListener, requestPermissions, requestIDFA, EuroMessageApi, VisilabsApi, setApplicationIconBadgeNumber, logToConsole, RDStoryView, RecommendationAttribute, RecommendationFilterType } from 'react-native-related-digital'
 
 const App = () => {
   const [loading, setLoading] = useState(false)
@@ -554,6 +644,15 @@ const App = () => {
     })
   }
 
+  const sendLocationPermissionEvent = async () => {
+    await visilabsApi.sendLocationPermission()
+  }
+
+  const getPushMessages = async () => {
+    const messages = await euroMessageApi.getPushMessages()
+    console.log('messages', messages)
+  }
+
   const removeListeners = () => {
     removeEventListener('register')
     removeEventListener('registrationError')
@@ -643,6 +742,21 @@ const App = () => {
                   trackInstalledApps()
                 }}
               />
+
+              <Button
+                title='SEND LOCATION PERMISSION'
+                onPress={() => {
+                  sendLocationPermissionEvent()
+                }}
+              />
+
+              <Button
+                title='GET PUSH MESSAGES'
+                onPress={() => {
+                  getPushMessages()
+                }}
+              />
+
           </ScrollView>
         }
       </SafeAreaView>
