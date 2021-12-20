@@ -34,6 +34,7 @@
 		6BBE0F0AC38065CE5BD0D9BE /* libPods-RelatedDigitalTestClient-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FC174467408B0684F4DAC62 /* libPods-RelatedDigitalTestClient-tvOS.a */; };
 		78A0FB20BCA658ABF619E620 /* libPods-RelatedDigitalNotificationContent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 258E265CC89CD89E5752F9C9 /* libPods-RelatedDigitalNotificationContent.a */; };
 		80337F3B11F8C4EC604F3E63 /* libPods-RelatedDigitalTestClient-RelatedDigitalTestClientTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93450623D0035744E388BB65 /* libPods-RelatedDigitalTestClient-RelatedDigitalTestClientTests.a */; };
+		8B59C693276CD3840071ECAE /* TheNautigal_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B59C692276CD3840071ECAE /* TheNautigal_Regular.ttf */; };
 		C03690C30FA94BBE9A5C252F /* PushSDK-tvOS.app in Frameworks */ = {isa = PBXBuildFile; fileRef = A9547B16785D468AA0F70737 /* PushSDK-tvOS.app */; };
 		C4433BDD80044DEF899BE7FA /* PushSDK-tvOSTests.xctest in Frameworks */ = {isa = PBXBuildFile; fileRef = 65B2EBE6E8A247DAA8546EE4 /* PushSDK-tvOSTests.xctest */; };
 /* End PBXBuildFile section */
@@ -132,6 +133,7 @@
 		7E48DCE62EC4445EAEBBB98A /* PushSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PushSDKTests.xctest; sourceTree = "<group>"; };
 		8B0C10D427564B6D0095CF09 /* RelatedDigitalNotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelatedDigitalNotificationService.entitlements; sourceTree = "<group>"; };
 		8B0C10D527564B7E0095CF09 /* RelatedDigitalNotificationContent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelatedDigitalNotificationContent.entitlements; sourceTree = "<group>"; };
+		8B59C692276CD3840071ECAE /* TheNautigal_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = TheNautigal_Regular.ttf; path = RelatedDigitalTestClient/TheNautigal_Regular.ttf; sourceTree = "<group>"; };
 		93450623D0035744E388BB65 /* libPods-RelatedDigitalTestClient-RelatedDigitalTestClientTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RelatedDigitalTestClient-RelatedDigitalTestClientTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C4C544C2FE73EC9152E495D /* libPods-RelatedDigitalTestClient-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RelatedDigitalTestClient-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9547B16785D468AA0F70737 /* PushSDK-tvOS.app */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "PushSDK-tvOS.app"; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 		13B07FAE1A68108700A75B9A /* RelatedDigitalTestClient */ = {
 			isa = PBXGroup;
 			children = (
+				8B59C692276CD3840071ECAE /* TheNautigal_Regular.ttf */,
 				4A527D3F24A0A1F8000A6F00 /* RelatedDigitalTestClient.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -554,6 +557,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4ACFF0FC268620800088F958 /* VisilabsMiniNotificationViewController.xib in Resources */,
+				8B59C693276CD3840071ECAE /* TheNautigal_Regular.ttf in Resources */,
 				4ACFF0FD268620800088F958 /* VisilabsFullNotificationViewController.xib in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,

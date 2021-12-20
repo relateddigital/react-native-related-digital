@@ -81,20 +81,27 @@ const App = () => {
     })
   }
 
+  const giftPuanEkleEvent = () => {
+    visilabsApi.customEvent("giftPuanEkleme", {
+      'OM.giftPuanEkleme':'36',
+      'OM.puan': '36',
+      'OM.exvisitorid':"baris.arslan@euromsg.com"
+    })
+  }
+
+  const nps = () => {
+    visilabsApi.customEvent("NPSINAPP", {
+      'OM.exvisitorid':"baris.arslan@euromsg.com"
+    })
+  }
+
   const getRecommendations = async () => {
     try {
       const zoneId = '55'
       const productCode = ''
 
       const properties =  {
-        "OM.cat":"2",
-        // "OM.cat":{"asd":"qwe"},// Category code
-        "asdf":undefined,
-        "qwer":null,
-        "qwe":"qwe",
-        "sdfgsd":123,
-        "asdffv":true,
-        "ff":false,
+        "OM.cat":"92",
       }
 
       // optional
@@ -134,7 +141,7 @@ const App = () => {
 
   const showSpinToWin = () => {
     visilabsApi.customEvent('home', {
-      'OM.inapptype':'spinToWin'
+      'OM.inapptype':'spintowin'
     })
   }
 
@@ -279,6 +286,19 @@ const App = () => {
                 getPushMessages()
               }}
             />
+
+            <Button
+              title='ADD GIFT PUAN'
+              onPress={()=>{
+                giftPuanEkleEvent()
+              }}/>
+
+
+            <Button
+              title='NPS'
+              onPress={()=>{
+                nps()
+              }}/>
     
           </ScrollView>
       }
