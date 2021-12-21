@@ -40,8 +40,9 @@ public class Utilities {
 
     String getSdkVersion() {
         try {
-            PackageInfo pInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-            return String.valueOf(pInfo.versionCode);
+            // PackageInfo pInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+            // return String.valueOf(pInfo.versionCode);
+            return "5.0.8";
         } catch (Exception e) {
             Log.e("ERR", "Version Code Error : " + e.toString());
         }

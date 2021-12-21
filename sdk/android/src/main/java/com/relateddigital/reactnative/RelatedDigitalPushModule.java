@@ -128,7 +128,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
 
                     Log.i("Huawei Token", "" + token);
 
-                } catch (ApiException e) {
+                } catch (Exception e) {
                     Log.e("Huawei Token", "Getting the token failed! " + e);
                 }
             }
