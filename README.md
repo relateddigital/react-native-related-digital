@@ -477,7 +477,13 @@ visilabsApi.customEvent('*scratchtowin*', {
 ```
 
 ### Using Push Notification Messages
-You can access the push notification messages sent in the last 30 days as follows.
+You can access payload list of last 30 days if you have completed iOS `NotificationServiceExtension` and `App Groups` setup. Using `getPushMessages` method you can access these payloads. Android does not require special installation.
+```javascript
+const getPushMessages = async () => {
+    const messages = await euroMessageApi.getPushMessages()
+    console.log('messages', messages)
+}
+```
 Messages are sorted by date. The most recent message is displayed at the top of the list.
 ```json
 // Android response
