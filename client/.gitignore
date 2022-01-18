@@ -60,3 +60,4 @@ buck-out/
 
 # Manually added
 google-services.json
+agconnect-services.json
