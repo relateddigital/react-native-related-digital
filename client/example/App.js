@@ -73,18 +73,19 @@ const App = () => {
   }
 
   const sendCustomEvent = () => {
-    visilabsApi.customEvent('*pragmahome*', {
+    visilabsApi.customEvent('HomePage', {
       'OM.pv': '77',
       'OM.pn': 'Nectarine Blossom & Honey Body & Hand Lotion',
       'OM.ppr': '39',
-      'OM.exvisitorid':"baris.arslan@euromsg.com"
+      'OM.exvisitorid':"baris.arslan@euromsg.com",
+      'OM.uri':'CheckoutViewed',
     })
   }
 
   const giftPuanEkleEvent = () => {
-    visilabsApi.customEvent("giftPuanEkleme", {
-      'OM.giftPuanEkleme':'36',
-      'OM.puan': '36',
+    visilabsApi.customEvent("AddGiftPoint", {
+      'OM.addGiftPoint': "95",
+      'OM.point': "95",
       'OM.exvisitorid':"baris.arslan@euromsg.com"
     })
   }
@@ -168,6 +169,13 @@ const App = () => {
     })
   }
 
+  const productStatNotif = () => {
+    visilabsApi.customEvent('home', {
+      'OM.pv':'50194393030',
+      'OM.inapptype': 'productStatNotifier',
+    })
+  }
+
   const getPushMessages = async () => {
     const messages = await euroMessageApi.getPushMessages()
     console.log('messages', messages)
@@ -190,7 +198,7 @@ const App = () => {
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
             <RDStoryView
-              actionId={'454'} // optional
+              actionId={'459'} // 459 banner, 497 normal optional
               onItemClicked={(data) => {
                 console.log('Story data', data)
               }}
@@ -279,6 +287,13 @@ const App = () => {
                 halfScreenInapp()
               }}
             />
+
+            <Button
+              title='TEST INAPP'
+              onPress={() => {
+                testInapp()
+              }}
+            />
             
             <Button
               title='GET PUSH MESSAGES'
@@ -298,6 +313,12 @@ const App = () => {
               title='NPS'
               onPress={()=>{
                 nps()
+              }}/>
+
+            <Button
+              title='Product Stat Notifier'
+              onPress={()=>{
+                productStatNotif()
               }}/>
     
           </ScrollView>
