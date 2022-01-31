@@ -9,6 +9,7 @@ import {
   Platform
 } from 'react-native';
 
+
 import { addEventListener, removeEventListener, requestPermissions, requestIDFA, EuroMessageApi, VisilabsApi, setApplicationIconBadgeNumber, logToConsole, RDStoryView, RecommendationAttribute, RecommendationFilterType } from 'react-native-related-digital'
 
 const App = () => {
@@ -26,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
     logToConsole(true)
-    
+
     addExtra()
     addListeners()
 
@@ -77,8 +78,8 @@ const App = () => {
       'OM.pv': '77',
       'OM.pn': 'Nectarine Blossom & Honey Body & Hand Lotion',
       'OM.ppr': '39',
-      'OM.exvisitorid':"baris.arslan@euromsg.com",
-      'OM.uri':'CheckoutViewed',
+      'OM.exvisitorid': "baris.arslan@euromsg.com",
+      'OM.uri': 'CheckoutViewed',
     })
   }
 
@@ -86,23 +87,23 @@ const App = () => {
     visilabsApi.customEvent("AddGiftPoint", {
       'OM.addGiftPoint': "95",
       'OM.point': "95",
-      'OM.exvisitorid':"baris.arslan@euromsg.com"
+      'OM.exvisitorid': "baris.arslan@euromsg.com"
     })
   }
 
   const nps = () => {
     visilabsApi.customEvent("NPSINAPP", {
-      'OM.exvisitorid':"baris.arslan@euromsg.com"
+      'OM.exvisitorid': "baris.arslan@euromsg.com"
     })
   }
 
   const getRecommendations = async () => {
     try {
-      const zoneId = '55'
+      const zoneId = '21'
       const productCode = ''
 
-      const properties =  {
-        "OM.cat":"92",
+      const properties = {
+        "OM.cat": "409",
       }
 
       // optional
@@ -111,7 +112,7 @@ const App = () => {
         filterType: RecommendationFilterType.like,
         value: 'laptop'
       }]
-  
+
       const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties)
       console.log('recommendations', recommendations)
     }
@@ -142,7 +143,7 @@ const App = () => {
 
   const showSpinToWin = () => {
     visilabsApi.customEvent('home', {
-      'OM.inapptype':'spintowin'
+      'OM.inapptype': 'spintowin'
     })
   }
 
@@ -159,7 +160,7 @@ const App = () => {
       // 'OM.pv': '77',
       // 'OM.pn': 'Nectarine Blossom & Honey Body & Hand Lotion',
       // 'OM.ppr': '39',
-      'OM.inapptype':'scratchToWin'
+      'OM.inapptype': 'scratchToWin'
     })
   }
 
@@ -171,8 +172,14 @@ const App = () => {
 
   const productStatNotif = () => {
     visilabsApi.customEvent('home', {
-      'OM.pv':'50194393030',
+      'OM.pv': '50194393030',
       'OM.inapptype': 'productStatNotifier',
+    })
+  }
+
+  const deeplinkTestInapp = () => {
+    visilabsApi.customEvent('TamEkranInApp', {
+      'OM.exVisitorId': 'baris.arslan@euromsg.com',
     })
   }
 
@@ -260,7 +267,7 @@ const App = () => {
               }}
             />
 
-          <Button
+            <Button
               title='SCRATCH TO WIN'
               onPress={() => {
                 showScratchToWin()
@@ -287,14 +294,12 @@ const App = () => {
                 halfScreenInapp()
               }}
             />
-
             <Button
-              title='TEST INAPP'
+              title='DEEPLINK TEST INAPP'
               onPress={() => {
-                testInapp()
+                deeplinkTestInapp()
               }}
             />
-            
             <Button
               title='GET PUSH MESSAGES'
               onPress={() => {
@@ -304,23 +309,23 @@ const App = () => {
 
             <Button
               title='ADD GIFT PUAN'
-              onPress={()=>{
+              onPress={() => {
                 giftPuanEkleEvent()
-              }}/>
+              }} />
 
 
             <Button
               title='NPS'
-              onPress={()=>{
+              onPress={() => {
                 nps()
-              }}/>
+              }} />
 
             <Button
               title='Product Stat Notifier'
-              onPress={()=>{
+              onPress={() => {
                 productStatNotif()
-              }}/>
-    
+              }} />
+
           </ScrollView>
       }
     </SafeAreaView>

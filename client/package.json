@@ -16,9 +16,16 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.2",
+    "@react-native-community/masked-view": "^0.1.11",
+    "crossroads": "^0.12.2",
     "react": "16.11.0",
     "react-native": "0.62.2",
-    "react-native-related-digital": "file:../sdk"
+    "react-native-gesture-handler": "1.6.0",
+    "react-native-reanimated": "^1.9.0",
+    "react-native-related-digital": "file:../sdk",
+    "react-native-router-flux": "^4.3.1",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-native-screens": "^3.10.2"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

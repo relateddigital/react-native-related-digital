@@ -6,6 +6,7 @@
 
 #import "RelatedDigitalPushModule.h"
 #import <UserNotifications/UserNotifications.h>
+#import <React/RCTLinkingManager.h>
 
 /*
 #if DEBUG
@@ -71,6 +72,13 @@ static void InitializeFlipper(UIApplication *application) {
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
  [RelatedDigitalPushModule didRegisterUserNotificationSettings:notificationSettings];
+}
+
+- (BOOL)application:(UIApplication *)application
+   openURL:(NSURL *)url
+   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  return [RCTLinkingManager application:application openURL:url options:options];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
