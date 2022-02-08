@@ -52,6 +52,7 @@ export class VisilabsApi {
     register(token: string, callback: Function): void;
     customEvent(name: string, properties: object): void;
     getRecommendations(zoneId: string, productCode: string, properties:object, filters: Array<Object> = []): Promise<any>;
+    trackRecommendationClick(qs: String): void;
     getFavoriteAttributeActions(actionId: string): Promise<any>;
     sendTheListOfAppsInstalled(): Promise<void>;
     sendLocationPermission(): Promise<void>;

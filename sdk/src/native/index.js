@@ -11,6 +11,7 @@ const CAROUSEL_ITEM_CLICKED_EVENT = 'carouselItemClicked'; // android only
 const getDeviceParameters = RelatedDigitalPushModule.getDeviceParameters
 const customEventNative = RelatedDigitalPushModule.customEvent
 const getRecommendationsNative = RelatedDigitalPushModule.getRecommendations
+const trackRecommendationClickNative = RelatedDigitalPushModule.trackRecommendationClick
 const getStoriesNative = RelatedDigitalPushModule.getStories
 const checkNotificationNative = RelatedDigitalPushModule.checkNotification
 const getFavoriteAttributeActionsNative = RelatedDigitalPushModule.getFavoriteAttributeActions
@@ -32,6 +33,7 @@ export {
     getDeviceParameters,
     customEventNative,
     getRecommendationsNative,
+    trackRecommendationClickNative,
     RDStoryViewNative,
     getStoriesNative,
     checkNotificationNative,

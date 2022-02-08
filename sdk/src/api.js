@@ -2,7 +2,7 @@ import { Platform } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import querystring from 'querystring'
 
-import { getDeviceParameters, customEventNative, getRecommendationsNative, getFavoriteAttributeActionsNative, sendTheListOfAppsInstalledNative, sendLocationPermissionNative, getPushMessagesNative } from './native'
+import { getDeviceParameters, customEventNative, getRecommendationsNative, getFavoriteAttributeActionsNative, sendTheListOfAppsInstalledNative, sendLocationPermissionNative, getPushMessagesNative, trackRecommendationClickNative } from './native'
 import { isEmptyOrSpaces, setCookieID, fetchAsync, fetchWithCallback, getLogToConsole, timeout } from './utils'
 import { euroMessageRetentionUrl, euroMessageSubscriptionUrl, visilabsRealTimeUrl, visilabsSegmentUrl, subscriptionStorageKey, subscriptionStorageExtraKey, expireSubscribeCheckDateStorageKey } from './constants'
 
@@ -172,6 +172,10 @@ class VisilabsApi {
         Object.entries(properties).forEach(([key, value]) => (value === null || value === undefined || typeof value === "object") ? delete properties[key] : properties[key] = properties[key].toString());
         const result = await getRecommendationsNative(zoneId, productCode, properties, filters)
         return Promise.resolve(JSON.parse(result))
+    }
+
+    async trackRecommendationClick(qs = ''){
+        await trackRecommendationClickNative(qs)
     }
 
     async getFavoriteAttributeActions(actionId = null) {

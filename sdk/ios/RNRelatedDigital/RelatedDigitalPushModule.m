@@ -222,6 +222,11 @@ RCT_REMAP_METHOD(getRecommendations,
 	}];
 }
 
+RCT_REMAP_METHOD(trackRecommendationClick,
+								 trackRecommendationClickWithQs:(NSString *)qs) {
+	[RelatedDigitalBridge trackRecommendationClickWithQs:qs];
+}
+
 // RCT_REMAP_METHOD(getPushMessages,
 // 								 resolver:(RCTPromiseResolveBlock)resolve
 // 								 rejecter:(RCTPromiseRejectBlock)reject) {

@@ -11,10 +11,12 @@ import {
 
 
 import { addEventListener, removeEventListener, requestPermissions, requestIDFA, EuroMessageApi, VisilabsApi, setApplicationIconBadgeNumber, logToConsole, RDStoryView, RecommendationAttribute, RecommendationFilterType } from 'react-native-related-digital'
+import Widget from '../components/Widget';
 
 const App = () => {
   const [loading, setLoading] = useState(false)
   const [token, setToken] = useState(null)
+  const [widget, setWidget] = useState(null)
 
   const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'RnPushSdkIOS'
 
@@ -99,11 +101,11 @@ const App = () => {
 
   const getRecommendations = async () => {
     try {
-      const zoneId = '21'
+      const zoneId = '1'
       const productCode = ''
 
       const properties = {
-        "OM.cat": "409",
+        // "OM.cat": "409",
       }
 
       // optional
@@ -114,11 +116,16 @@ const App = () => {
       }]
 
       const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties)
-      console.log('recommendations', recommendations)
+      setWidget(recommendations)
+      
     }
     catch (e) {
       console.log('recommendations error', e)
     }
+  }
+  
+  const trackRecommendationClick = (qs) => {
+    visilabsApi.trackRecommendationClick(qs)
   }
 
   const showMailSubscriptionForm = () => {
@@ -211,6 +218,7 @@ const App = () => {
               }}
               style={{ flex: 1 }}
             />
+            {widget && <Widget widgetData={widget} trackRecommendationClick={trackRecommendationClick}/>}
             <Text>Token:{token}</Text>
             <Button
               title='REQUEST PERMISSONS'
@@ -245,6 +253,12 @@ const App = () => {
                 await getRecommendations()
               }}
             />
+
+            <Button
+              title='Track Recommendation Click'
+              onPress={() => {
+                trackRecommendationClick("OM.zn=You Viewed-w60&OM.zpc=1147091")
+              }} />
 
             <Button
               title='SHOW MAIL FORM'

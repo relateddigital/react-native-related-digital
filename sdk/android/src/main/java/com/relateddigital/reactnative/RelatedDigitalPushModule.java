@@ -370,6 +370,11 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void trackRecommendationClick(String qs){
+        Visilabs.CallAPI().trackRecommendationClick(qs);
+    }
+
+    @ReactMethod
     public void checkNotification(Promise promise) {
         checkIntent(getCurrentActivity());
         promise.resolve(true);
