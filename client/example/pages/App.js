@@ -99,6 +99,12 @@ const App = () => {
     })
   }
 
+  const mailSubsForm = () => {
+    visilabsApi.customEvent("home", {
+      'OM.inapptype': "mailsubsform"
+    })
+  }
+
   const getRecommendations = async () => {
     try {
       const zoneId = '1'
@@ -218,7 +224,7 @@ const App = () => {
               }}
               style={{ flex: 1 }}
             />
-            {widget && <Widget widgetData={widget} trackRecommendationClick={trackRecommendationClick}/>}
+            {widget && <Widget widgetData={widget} trackRecommendationClick={trackRecommendationClick} />}
             <Text>Token:{token}</Text>
             <Button
               title='REQUEST PERMISSONS'
@@ -288,6 +294,12 @@ const App = () => {
               }}
             />
 
+            <Button
+              title='MAIL SUBS FORM'
+              onPress={() => {
+                mailSubsForm()
+              }}
+            />
             <Button
               title='TRACK INSTALLED APPS'
               onPress={() => {
