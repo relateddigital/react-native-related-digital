@@ -183,6 +183,13 @@ const App = () => {
     })
   }
 
+  const inAppCarousel = () => {
+    visilabsApi.customEvent('home', {
+      'OM.inapptype': 'inappcarousel',
+    })
+  }
+
+
   const productStatNotif = () => {
     visilabsApi.customEvent('home', {
       'OM.pv': '50194393030',
@@ -284,6 +291,13 @@ const App = () => {
               title='SPIN TO WIN'
               onPress={() => {
                 showSpinToWin()
+              }}
+            />
+
+            <Button
+              title='IN APP CAROUSEL'
+              onPress={() => {
+                inAppCarousel()
               }}
             />
 
