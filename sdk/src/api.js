@@ -138,6 +138,19 @@ class EuroMessageApi {
         await AsyncStorage.setItem(this.subscriptionExtraKey, JSON.stringify(extra))
     }
     
+    async setUserProperties(properties) {
+        if(properties === null) {
+            return
+        }
+
+        let extra = await AsyncStorage.getItem(this.subscriptionExtraKey)
+        extra = extra ? JSON.parse(extra) : {}
+        extra = {...extra, ...properties};
+        await AsyncStorage.setItem(this.subscriptionExtraKey, JSON.stringify(extra))
+        
+        return Promise.resolve(null)
+    }
+    
     async getPushMessages() {
         const result = await getPushMessagesNative()
         return Promise.resolve(result.substr(0,5) != "There" ? JSON.parse(result) : result)

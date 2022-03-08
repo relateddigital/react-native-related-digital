@@ -41,6 +41,7 @@ export class EuroMessageApi {
     subscribe(token: string): Promise<any>;
     reportRead(pushId: string): Promise<any>;
     setUserProperty(key: string, value: object): Promise<void>;
+    setUserProperties(properties: object): Promise<void>;
     getPushMessages(): Promise<any>;
 };
 export class VisilabsApi {
