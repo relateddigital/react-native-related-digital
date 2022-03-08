@@ -636,7 +636,29 @@ const App = () => {
   }
 
   const addExtra = async () => {
-    await euroMessageApi.setUserProperty('extra', 1)
+    // IYS parameters
+    // await euroMessageApi.setUserProperty('ConsentTime', '2021-06-05 10:00:00')
+    // await euroMessageApi.setUserProperty('RecipientType', 'BIREYSEL')
+    // await euroMessageApi.setUserProperty('ConsentSource', 'HS_MOBIL')
+
+    // Single
+    // await euroMessageApi.setUserProperty('Email', EMAIL)
+    // await euroMessageApi.setUserProperty('keyid', KEYID)
+    // await euroMessageApi.setUserProperty('PushPermit', 'Y')
+
+    // Or Object
+    let userData = {
+      "KeyId":KEYID,
+      "Email":EMAIL,
+      "PushPermit":"Y" // Y=active, N=passive
+    }
+    return euroMessageApi.setUserProperties(userData)
+  }
+
+  const login = async () => {
+    addExtra().then(() =>
+      euroMessageApi.subscribe(token)
+    );
   }
 
   const setBadgeNumber = () => {
@@ -760,6 +782,12 @@ const App = () => {
               title='REQUEST IDFA'
               onPress={() => {
                 requestIDFA()
+              }}
+            />
+            <Button
+              title='LOGIN/SIGNUP'
+              onPress={() => {
+                login()
               }}
             />
             <Button 
