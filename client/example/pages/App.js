@@ -10,7 +10,18 @@ import {
 } from 'react-native';
 
 
-import { addEventListener, removeEventListener, requestPermissions, requestIDFA, EuroMessageApi, VisilabsApi, setApplicationIconBadgeNumber, logToConsole, RDStoryView, RecommendationAttribute, RecommendationFilterType } from 'react-native-related-digital'
+import { 
+  addEventListener, 
+  removeEventListener, 
+  requestPermissions, 
+  requestIDFA, 
+  EuroMessageApi, 
+  VisilabsApi, 
+  setApplicationIconBadgeNumber, 
+  logToConsole, 
+  RDStoryView, 
+  RecommendationAttribute, 
+  RecommendationFilterType } from 'react-native-related-digital'
 import Widget from '../components/Widget';
 
 const App = () => {
@@ -30,7 +41,6 @@ const App = () => {
   useEffect(() => {
     logToConsole(true)
 
-    addExtra()
     addListeners()
 
     return () => removeListeners()
@@ -41,7 +51,8 @@ const App = () => {
     addEventListener('register', async (token) => {
       console.log('token is ', token)
       setToken(token)
-      addExtra().then((res) => euroMessageApi.subscribe(token));
+
+      euroMessageApi.subscribe(token)
 
       visilabsApi.register(token, (result) => {
         console.log('visilabsApi result', result)
@@ -60,14 +71,30 @@ const App = () => {
   }
 
   const addExtra = async () => {
-    await euroMessageApi.setUserProperty('extra', 1)
+    // await euroMessageApi.setUserProperty('ConsentTime', '2021-06-05 10:00:00')
+    // await euroMessageApi.setUserProperty('RecipientType', "BIREYSEL")
+    // await euroMessageApi.setUserProperty('ConsentSource', "HS_MOBIL")
 
-    await euroMessageApi.setUserProperty('ConsentTime', '2021-06-05 10:00:00')
-    await euroMessageApi.setUserProperty('RecipientType', "BIREYSEL")
-    await euroMessageApi.setUserProperty('ConsentSource', "HS_MOBIL")
+    // await euroMessageApi.setUserProperty('Email', "examplemail@euromsg.com")
+    // await euroMessageApi.setUserProperty('keyid', "123456")
 
-    await euroMessageApi.setUserProperty('Email', "baris.arslan@euromsg.com")
-    await euroMessageApi.setUserProperty('keyid', "baris.arslan@euromsg.com")
+    // OR
+
+    let userData = {
+      "Keyid": "123456",
+      "Email": "examplemail@euromsg.com",
+      "ConsentTime": "2022-06-05 10:00:00",
+      "RecipientType": "BIREYSEL",
+      "ConsentSource": "HS_MOBIL",
+    }
+
+    return euroMessageApi.setUserProperties(userData)
+  }
+
+  const login = async () => {
+    addExtra().then(() =>
+      euroMessageApi.subscribe(token)
+    );
   }
 
   const setBadgeNumber = () => {
@@ -85,14 +112,6 @@ const App = () => {
     })
   }
 
-  const giftPuanEkleEvent = () => {
-    visilabsApi.customEvent("AddGiftPoint", {
-      'OM.addGiftPoint': "95",
-      'OM.point': "95",
-      'OM.exvisitorid': "baris.arslan@euromsg.com"
-    })
-  }
-
   const nps = () => {
     visilabsApi.customEvent("NPSINAPP", {
       'OM.exvisitorid': "baris.arslan@euromsg.com"
@@ -107,8 +126,8 @@ const App = () => {
 
   const getRecommendations = async () => {
     try {
-      const zoneId = '1'
-      const productCode = ''
+      const zoneId = '2'
+      const productCode = '206717'
 
       const properties = {
         // "OM.cat": "409",
@@ -123,23 +142,15 @@ const App = () => {
 
       const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties)
       setWidget(recommendations)
-      
+
     }
     catch (e) {
       console.log('recommendations error', e)
     }
   }
-  
+
   const trackRecommendationClick = (qs) => {
     visilabsApi.trackRecommendationClick(qs)
-  }
-
-  const showMailSubscriptionForm = () => {
-    visilabsApi.customEvent('*pragmamail*', {
-      'OM.pv': '77',
-      'OM.pn': 'Product',
-      'OM.ppr': '39'
-    })
   }
 
   const getFavoriteAttributeActions = async () => {
@@ -170,9 +181,6 @@ const App = () => {
 
   const showScratchToWin = () => {
     visilabsApi.customEvent('home', {
-      // 'OM.pv': '77',
-      // 'OM.pn': 'Nectarine Blossom & Honey Body & Hand Lotion',
-      // 'OM.ppr': '39',
       'OM.inapptype': 'scratchToWin'
     })
   }
@@ -194,12 +202,6 @@ const App = () => {
     visilabsApi.customEvent('home', {
       'OM.pv': '50194393030',
       'OM.inapptype': 'productStatNotifier',
-    })
-  }
-
-  const deeplinkTestInapp = () => {
-    visilabsApi.customEvent('TamEkranInApp', {
-      'OM.exVisitorId': 'baris.arslan@euromsg.com',
     })
   }
 
@@ -247,6 +249,13 @@ const App = () => {
               }}
             />
             <Button
+              title='LOGIN'
+              onPress={() => {
+                login()
+              }}
+            />
+
+            <Button
               title='SET BADGE NUMBER TO 3 (IOS)'
               onPress={() => {
                 setBadgeNumber()
@@ -272,13 +281,6 @@ const App = () => {
               onPress={() => {
                 trackRecommendationClick("OM.zn=You Viewed-w60&OM.zpc=1147091")
               }} />
-
-            <Button
-              title='SHOW MAIL FORM'
-              onPress={() => {
-                showMailSubscriptionForm()
-              }}
-            />
 
             <Button
               title='GET FAVORITE ATTRIBUTE ACTIONS'
@@ -334,25 +336,13 @@ const App = () => {
                 halfScreenInapp()
               }}
             />
-            <Button
-              title='DEEPLINK TEST INAPP'
-              onPress={() => {
-                deeplinkTestInapp()
-              }}
-            />
+
             <Button
               title='GET PUSH MESSAGES'
               onPress={() => {
                 getPushMessages()
               }}
             />
-
-            <Button
-              title='ADD GIFT PUAN'
-              onPress={() => {
-                giftPuanEkleEvent()
-              }} />
-
 
             <Button
               title='NPS'

@@ -56,6 +56,7 @@ static void InitializeFlipper(UIApplication *application) {
   center.delegate = self;
     
   [RelatedDigitalPushModule initRelatedDigital:@"676D325830564761676D453D" profileId:@"356467332F6533766975593D" dataSource:@"visistore" appAlias:@"RnPushSdkIOS" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true maxGeofenceCount:20 isIDFAEnabled:false loggingEnabled:true];
+  // [RelatedDigitalPushModule initRelatedDigital:@"756C4B6F586377456C36413D" profileId:@"566E55786D4A4F45666D593D" dataSource:@"wcollect" appAlias:@"RnPushSdkIOS" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true maxGeofenceCount:20 isIDFAEnabled:false loggingEnabled:true];
     
   return YES;
 }
