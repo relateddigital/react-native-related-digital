@@ -1,4 +1,4 @@
-import { Text, View, Linking, AppState, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, Linking, AppState, TouchableOpacity } from 'react-native';
 import React, { Component } from 'react';
 import crossroads from 'crossroads';
 import { Actions, Router, Scene, Stack, Drawer, Reducer } from 'react-native-router-flux';
@@ -73,8 +73,8 @@ export default class Root extends Component {
                     <Scene
                         key="App"
                         component={App}
-                        renderRightButton={<TouchableOpacity onPress={() => Actions.Orders()}><Text>Orders</Text></TouchableOpacity>}
-                        renderLeftButton={<TouchableOpacity onPress={() => Actions.Profile()}><Text>Profile</Text></TouchableOpacity>}
+                        renderRightButton={<TouchableOpacity style={styles.button} onPress={() => Actions.Orders()}><Text>Orders</Text></TouchableOpacity>}
+                        renderLeftButton={<TouchableOpacity style={styles.button} onPress={() => Actions.Profile()}><Text>Profile</Text></TouchableOpacity>}
                         initial
                     />
                     <Scene
@@ -92,3 +92,7 @@ export default class Root extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    button:{paddingVertical:15}
+})
