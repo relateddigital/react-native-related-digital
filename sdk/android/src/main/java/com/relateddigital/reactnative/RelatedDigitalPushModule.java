@@ -429,6 +429,18 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void requestLocationPermission(Promise promise) {
+        try {
+            Visilabs.CallAPI().requestLocationPermission(getCurrentActivity());
+            promise.resolve(true);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
     public void sendLocationPermission(Promise promise) {
         try {
             Visilabs.CallAPI().sendLocationPermission();
@@ -437,6 +449,16 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
         catch (Exception ex) {
             ex.printStackTrace();
             promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
+    public void setGeofencingIntervalInMinute(int interval) {
+        try {
+            Visilabs.CallAPI().setGeofencingIntervalInMinute(interval);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

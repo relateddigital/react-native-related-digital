@@ -130,9 +130,9 @@ RCT_EXPORT_MODULE()
   [self sendEventWithName:@"remoteNotificationRegistrationError" body:errorDetails];
 }
 
-+ (void)initRelatedDigital:(NSString *)organizationId profileId:(NSString *)profileId dataSource:(NSString *)dataSource appAlias:(NSString *)appAlias inAppNotificationsEnabled:(BOOL)inAppNotificationsEnabled requestTimeoutSeconds:(int)requestTimeoutSeconds geofenceEnabled:(BOOL)geofenceEnabled maxGeofenceCount:(int)maxGeofenceCount isIDFAEnabled:(BOOL)isIDFAEnabled loggingEnabled:(BOOL)loggingEnabled
++ (void)initRelatedDigital:(NSString *)organizationId profileId:(NSString *)profileId dataSource:(NSString *)dataSource appAlias:(NSString *)appAlias inAppNotificationsEnabled:(BOOL)inAppNotificationsEnabled requestTimeoutSeconds:(int)requestTimeoutSeconds geofenceEnabled:(BOOL)geofenceEnabled askLocationPermmissionAtStart:(BOOL)askLocationPermmissionAtStart maxGeofenceCount:(int)maxGeofenceCount isIDFAEnabled:(BOOL)isIDFAEnabled loggingEnabled:(BOOL)loggingEnabled
 {
-    [RelatedDigitalBridge initRelatedDigitalWithOrganizationId:organizationId profileId:profileId dataSource:dataSource appAlias:appAlias inAppNotificationsEnabled:inAppNotificationsEnabled requestTimeoutInSeconds:requestTimeoutSeconds geofenceEnabled:geofenceEnabled maxGeofenceCount:maxGeofenceCount isIDFAEnabled:isIDFAEnabled loggingEnabled:loggingEnabled];
+    [RelatedDigitalBridge initRelatedDigitalWithOrganizationId:organizationId profileId:profileId dataSource:dataSource appAlias:appAlias inAppNotificationsEnabled:inAppNotificationsEnabled requestTimeoutInSeconds:requestTimeoutSeconds geofenceEnabled:geofenceEnabled askLocationPermmissionAtStart:askLocationPermmissionAtStart maxGeofenceCount:maxGeofenceCount isIDFAEnabled:isIDFAEnabled loggingEnabled:loggingEnabled];
 }
 
 RCT_REMAP_METHOD(setApplicationIconBadgeNumber, withNumber:(NSInteger)number)
@@ -268,6 +268,10 @@ RCT_REMAP_METHOD(getFavoriteAttributeActions,
 
 RCT_REMAP_METHOD(requestIDFA,requestIDFANative){
     [RelatedDigitalBridge requestIDFANative];
+}
+
+RCT_REMAP_METHOD(requestLocationPermission,requestLocationPermissionNative){
+    [RelatedDigitalBridge requestLocationPermissionNative];
 }
 
 RCT_REMAP_METHOD(sendLocationPermission,sendLocationPermissionNative) {

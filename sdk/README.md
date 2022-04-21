@@ -229,8 +229,9 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 }
 ```
 * Modify `AppDelegate.m` file's `didFinishLaunchingWithOptions` method and add the following just before return statement. Modify inAppNotificationsEnabled and geofenceEnabled parameters as you want.
+If you don't want the location permission to be taken on startup, set the `askLocationPermmissionAtStart` parameter to false. Then you can request permission at any time with the `requestLocationPermission()` function.
 ```objective-c
-[RelatedDigitalPushModule initRelatedDigital:@"organization_id" profileId:@"profile_id" dataSource:@"datasource" appAlias:@"app_alias" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
+[RelatedDigitalPushModule initRelatedDigital:@"organization_id" profileId:@"profile_id" dataSource:@"datasource" appAlias:@"app_alias" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true askLocationPermmissionAtStart:true maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
 
 ```
 * Add `Empty.swift` file to your project as the sdk contains Swift code and xcode requires at least one empty swift file in each target.
@@ -492,6 +493,16 @@ You can call the `requestIDFA` function whenever you want to show `App Tracking 
 ```javascript
 requestIDFA()
 ```
+### Request Location Permission
+If you have set the (iOS only)`askLocationPermmissionAtStart` parameter in `initRelatedDigital` to false in the `AppDelegate.m` file, you can request location permission wherever you want with this function.
+```javascript
+requestLocationPermission()
+```
+### Geofencing Interval (Android Only)
+(Android only) You can change the geofence location update interval with the `setGeofencingIntervalInMinute` function.
+```javascript
+setGeofencingIntervalInMinute(15)
+```
 ### Sending Location Status Information
 You can call the `sendLocationPermission` method to to send the location permission status of your users to Visilabs servers and use this information on the panel later.
 ```javascript
@@ -591,7 +602,7 @@ import {
   Platform
 } from 'react-native';
 
-import { addEventListener, removeEventListener, requestPermissions, requestIDFA, EuroMessageApi, VisilabsApi, setApplicationIconBadgeNumber, logToConsole, RDStoryView, RecommendationAttribute, RecommendationFilterType } from 'react-native-related-digital'
+import { addEventListener, removeEventListener, requestPermissions, requestIDFA, EuroMessageApi, VisilabsApi, setApplicationIconBadgeNumber, logToConsole, RDStoryView, RecommendationAttribute, RecommendationFilterType, requestLocationPermission, setGeofencingIntervalInMinute } from 'react-native-related-digital'
 
 const App = () => {
   const [loading, setLoading] = useState(false)
@@ -782,6 +793,12 @@ const App = () => {
               title='REQUEST IDFA'
               onPress={() => {
                 requestIDFA()
+              }}
+            />
+            <Button
+              title='REQUEST LOCATION PERMISSION'
+              onPress={() => {
+                requestLocationPermission()
               }}
             />
             <Button

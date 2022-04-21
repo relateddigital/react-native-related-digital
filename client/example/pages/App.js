@@ -14,10 +14,12 @@ import {
   addEventListener, 
   removeEventListener, 
   requestPermissions, 
+  requestLocationPermission,
   requestIDFA, 
   EuroMessageApi, 
   VisilabsApi, 
   setApplicationIconBadgeNumber, 
+  setGeofencingIntervalInMinute,
   logToConsole, 
   RDStoryView, 
   RecommendationAttribute, 
@@ -40,6 +42,7 @@ const App = () => {
 
   useEffect(() => {
     logToConsole(true)
+    setGeofencingIntervalInMinute(30)
 
     addListeners()
 
@@ -246,6 +249,12 @@ const App = () => {
               title='REQUEST IDFA'
               onPress={() => {
                 requestIDFA()
+              }}
+            />
+            <Button
+              title='REQUEST LOCATION PERMISSION'
+              onPress={() => {
+                requestLocationPermission()
               }}
             />
             <Button

@@ -3,10 +3,10 @@ import UIKit
 import Euromsg
 
 @objc public class RelatedDigitalBridge: NSObject {
-    @objc public static func initRelatedDigital(organizationId: String, profileId: String, dataSource: String, appAlias: String, inAppNotificationsEnabled: Bool, requestTimeoutInSeconds: Int, geofenceEnabled: Bool, maxGeofenceCount: Int, isIDFAEnabled: Bool, loggingEnabled: Bool) -> Void {
+    @objc public static func initRelatedDigital(organizationId: String, profileId: String, dataSource: String, appAlias: String, inAppNotificationsEnabled: Bool, requestTimeoutInSeconds: Int, geofenceEnabled: Bool, askLocationPermmissionAtStart: Bool,maxGeofenceCount: Int, isIDFAEnabled: Bool, loggingEnabled: Bool) -> Void {
 		Visilabs.createAPI(organizationId: organizationId, profileId: profileId
 		, dataSource: dataSource, inAppNotificationsEnabled: inAppNotificationsEnabled, channel: "IOS"
-		, requestTimeoutInSeconds: requestTimeoutInSeconds, geofenceEnabled: geofenceEnabled, maxGeofenceCount: maxGeofenceCount, isIDFAEnabled: isIDFAEnabled, loggingEnabled: loggingEnabled)
+		, requestTimeoutInSeconds: requestTimeoutInSeconds, geofenceEnabled: geofenceEnabled, askLocationPermmissionAtStart: askLocationPermmissionAtStart, maxGeofenceCount: maxGeofenceCount, isIDFAEnabled: isIDFAEnabled, loggingEnabled: loggingEnabled)
         Euromsg.configure(appAlias:appAlias)
 	}
 	
@@ -137,6 +137,11 @@ import Euromsg
 
 	@objc public static func requestIDFANative() {
 		Visilabs.callAPI().requestIDFA() 
+	}
+
+
+	@objc public static func requestLocationPermissionNative() {
+		Visilabs.callAPI().requestLocationPermissions()
 	}
 
 	@objc public static func sendLocationPermissionNative() {

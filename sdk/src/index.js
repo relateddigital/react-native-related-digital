@@ -125,10 +125,26 @@ const requestIDFA = async () => {
     }
     else {
         if(_log) {
-            console.log('Related Digital - Unsupported platform for method: requesIDFA')
+            console.log('Related Digital - Unsupported method for Android platform: requesIDFA')
         }
     }
 }
+
+const requestLocationPermission = async () => {
+    return await RelatedDigitalPushModule.requestLocationPermission()
+}
+
+const setGeofencingIntervalInMinute = (interval) => {
+    if(Platform.OS === 'android') {
+        RelatedDigitalPushModule.setGeofencingIntervalInMinute(interval)
+    }
+    else {
+        if(_log) {
+            console.log('Related Digital - Unsupported method for iOS platform: setGeofencingIntervalInMinute')
+        }
+    }
+}
+
 
 const setApplicationIconBadgeNumber = (badgeNumber) => {
     if(Platform.OS === 'ios') {
@@ -136,7 +152,7 @@ const setApplicationIconBadgeNumber = (badgeNumber) => {
     }
     else {
         if(_log) {
-            console.log('Related Digital - Unsupported platform for method: setApplicationIconBadgeNumber')
+            console.log('Related Digital - Unsupported method for Android platform: setApplicationIconBadgeNumber')
         }
     }
 }
@@ -150,6 +166,8 @@ export {
     removeEventListener,
     requestPermissions,
     requestIDFA,
+    requestLocationPermission,
+    setGeofencingIntervalInMinute,
     setApplicationIconBadgeNumber,
     logToConsole,
     EuroMessageApi,
