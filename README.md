@@ -144,6 +144,7 @@ private void initEuroMessage() {
     euroMobileManager.setNotificationLargeIconDarkMode(R.drawable.ic_launcher, this);
     euroMobileManager.setNotificationColor("#d1dbbd");
     euroMobileManager.setChannelName("Channel", this);
+    euroMobileManager.setNotificationPriority(RDNotificationPriority.NORMAL, this); // Set to HIGH for push notifications to appear as temporary banners
 }
 ```
 * If you want to track installed apps, call below method.

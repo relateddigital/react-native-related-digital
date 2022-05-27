@@ -8,10 +8,10 @@ export default class WidgetItem extends Component {
                 key={this.props.k}
                 style={styles.container}
                 onPress={() => this.props.trackRecommendationClick(this.props.product.qs)}>
-                    <Image source={{uri:this.props.img}} style={styles.image}/>
+                    <Image source={{uri:this.props.product.attr3}} style={styles.image}/>
                     <View style={styles.info}>
                         <Text style={styles.name}>{this.props.product.title.substr(0,12)+"..."}</Text>
-                        <Text style={styles.price}>${this.props.product.dprice}</Text>
+                        <Text style={styles.price}>{this.props.product.dprice} TL</Text>
                     </View>
             </TouchableOpacity>
         );
@@ -23,12 +23,13 @@ const styles = StyleSheet.create({
         width: 100,
         height: "100%",
         marginHorizontal: 5,
+        backgroundColor:'gray'
     },
     image: {
         height: 100,
         width: 100,
         backgroundColor: 'pink',
-        borderRadius:10
+        // borderRadius:10
     },
     name:{
         backgroundColor:'rgba(0,0,0,.5)',

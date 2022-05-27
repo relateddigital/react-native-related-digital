@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import euromsg.com.euromobileandroid.EuroMobileManager;
+import euromsg.com.euromobileandroid.enums.RDNotificationPriority;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -80,6 +81,7 @@ public class MainApplication extends Application implements ReactApplication {
       euroMobileManager.setNotificationLargeIconDarkMode(R.drawable.ic_launcher, this);
       euroMobileManager.setNotificationColor("#d1dbbd");
       euroMobileManager.setChannelName("Channel", this);
+      euroMobileManager.setNotificationPriority(RDNotificationPriority.NORMAL, this);
   }
 
   /**

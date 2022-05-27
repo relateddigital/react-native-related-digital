@@ -10,20 +10,21 @@ import {
 } from 'react-native';
 
 
-import { 
-  addEventListener, 
-  removeEventListener, 
-  requestPermissions, 
+import {
+  addEventListener,
+  removeEventListener,
+  requestPermissions,
   requestLocationPermission,
-  requestIDFA, 
-  EuroMessageApi, 
-  VisilabsApi, 
-  setApplicationIconBadgeNumber, 
+  requestIDFA,
+  EuroMessageApi,
+  VisilabsApi,
+  setApplicationIconBadgeNumber,
   setGeofencingIntervalInMinute,
-  logToConsole, 
-  RDStoryView, 
-  RecommendationAttribute, 
-  RecommendationFilterType } from 'react-native-related-digital'
+  logToConsole,
+  RDStoryView,
+  RecommendationAttribute,
+  RecommendationFilterType
+} from 'react-native-related-digital'
 import Widget from '../components/Widget';
 
 const App = () => {
@@ -84,8 +85,8 @@ const App = () => {
     // OR
 
     let userData = {
-      "Keyid": "123456",
-      "Email": "examplemail@euromsg.com",
+      "Keyid": "baris.arslan@euromsg.com",
+      "Email": "baris.arslan@euromsg.com",
       "ConsentTime": "2022-06-05 10:00:00",
       "RecipientType": "BIREYSEL",
       "ConsentSource": "HS_MOBIL",
@@ -194,6 +195,12 @@ const App = () => {
     })
   }
 
+  const baris_drawerpopup = () => {
+    visilabsApi.customEvent('baaris_drawerpopup', {
+      'OM.inapptype': 'drawer',
+    })
+  }
+
   const inAppCarousel = () => {
     visilabsApi.customEvent('home', {
       'OM.inapptype': 'inappcarousel',
@@ -230,7 +237,7 @@ const App = () => {
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
             <RDStoryView
-              actionId={'459'} // 459 banner, 497 normal optional
+              // actionId={'459'} // 459 banner, 497 normal optional
               onItemClicked={(data) => {
                 console.log('Story data', data)
               }}
@@ -261,6 +268,13 @@ const App = () => {
               title='LOGIN'
               onPress={() => {
                 login()
+              }}
+            />
+
+            <Button
+              title='KULAKÇIK'
+              onPress={() => {
+                baris_drawerpopup()
               }}
             />
 

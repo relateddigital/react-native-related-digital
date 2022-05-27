@@ -94,5 +94,5 @@ export default class Root extends Component {
 }
 
 const styles = StyleSheet.create({
-    button:{paddingVertical:15}
+    button:{paddingVertical:15,marginHorizontal:15}
 })
