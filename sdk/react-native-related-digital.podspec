@@ -12,11 +12,11 @@ Pod::Spec.new do |s|
   s.homepage      = package['homepage']
   s.platforms     = { :ios => "10.0" }
   s.swift_version = '5.0'
-  s.source        = { :git => "https://bitbucket.org/AhmetKiziltan/related-push-sdk.git" }
-  s.source_files  = "ios/RNRelatedDigital/**/*"
+  s.source        = { :git => "https://github.com/relateddigital/react-native-related-digital.git" }
+  s.source_files  = "ios/RNRelatedDigital/**/*.{swift,h,m,xib}"
 
   s.dependency 'React'
-  s.dependency 'VisilabsIOS', '3.6.5'
+  s.dependency 'VisilabsIOS', '3.6.6'
   s.dependency 'Euromsg', '2.6.0'
 	
 end
