@@ -130,8 +130,8 @@ const App = () => {
 
   const getRecommendations = async () => {
     try {
-      const zoneId = '2'
-      const productCode = '206717'
+      const zoneId = '1'
+      const productCode = ''
 
       const properties = {
         // "OM.cat": "409",
