@@ -48,5 +48,5 @@ dependencies {
   implementation 'com.google.firebase:firebase-messaging:22.0.0'
 
   api "com.github.relateddigital:euromessage-android:5.1.8"
-  api "com.github.relateddigital:visilabs-android:5.9.9"
+  api "com.github.relateddigital:visilabs-android:6.0.0"
 }
