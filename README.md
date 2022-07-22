@@ -37,7 +37,7 @@ maven {url 'http://developer.huawei.com/repo/'}
 * Add below lines to your `android/build.gradle` file's dependencies section.
 ```gradle
 classpath 'com.google.gms:google-services:4.3.3'
-classpath 'com.huawei.agconnect:agcp:1.4.1.300'
+classpath 'com.huawei.agconnect:agcp:1.6.5.300'
 ```
 * Change your `minSdkVersion` to 19.
 * Add below lines to your `android/app/build.gradle` file's bottom.
