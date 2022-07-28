@@ -18,6 +18,7 @@ const getFavoriteAttributeActionsNative = RelatedDigitalPushModule.getFavoriteAt
 const sendTheListOfAppsInstalledNative = RelatedDigitalPushModule.sendTheListOfAppsInstalled
 const sendLocationPermissionNative = RelatedDigitalPushModule.sendLocationPermission
 const getPushMessagesNative = RelatedDigitalPushModule.getPushMessages
+const getUserNative = RelatedDigitalPushModule.getUser
 
 const RDStoryViewNative = requireNativeComponent('StoryView')
 
@@ -40,5 +41,6 @@ export {
     getFavoriteAttributeActionsNative,
     sendTheListOfAppsInstalledNative,
     sendLocationPermissionNative,
-    getPushMessagesNative
+    getPushMessagesNative,
+    getUserNative
 }

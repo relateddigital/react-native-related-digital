@@ -111,14 +111,14 @@ const App = () => {
       'OM.pv': '77',
       'OM.pn': 'Nectarine Blossom & Honey Body & Hand Lotion',
       'OM.ppr': '39',
-      'OM.exvisitorid': "baris.arslan@euromsg.com",
+      'OM.exVisitorID': "baris.arslan@euromsg.com",
       'OM.uri': 'CheckoutViewed',
     })
   }
 
   const nps = () => {
     visilabsApi.customEvent("NPSINAPP", {
-      'OM.exvisitorid': "baris.arslan@euromsg.com"
+      'OM.exVisitorID': "baris.arslan@euromsg.com"
     })
   }
 
@@ -218,6 +218,11 @@ const App = () => {
   const getPushMessages = async () => {
     const messages = await euroMessageApi.getPushMessages()
     console.log('messages', messages)
+  }
+
+  const getUser = async () => {
+    const user = await visilabsApi.getUser()
+    console.log('USER DATA', user)
   }
 
   const removeListeners = () => {
@@ -364,6 +369,13 @@ const App = () => {
               title='GET PUSH MESSAGES'
               onPress={() => {
                 getPushMessages()
+              }}
+            />
+
+            <Button
+              title='GET USER DATA'
+              onPress={() => {
+                getUser()
               }}
             />
 

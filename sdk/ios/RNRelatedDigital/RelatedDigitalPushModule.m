@@ -266,6 +266,13 @@ RCT_REMAP_METHOD(getFavoriteAttributeActions,
 	}];
 }
 
+RCT_EXPORT_METHOD(getUser:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    [RelatedDigitalBridge getUserWithCompletion:^(NSString *response) {
+        resolve(response);
+    }];
+}
+
 RCT_REMAP_METHOD(requestIDFA,requestIDFANative){
     [RelatedDigitalBridge requestIDFANative];
 }

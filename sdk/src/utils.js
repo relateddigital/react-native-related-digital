@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native'
 
 let _log = true;
 
@@ -88,4 +89,21 @@ export const timeout = (ms, promise) => {
                 reject(reason)
             })
     })
+}
+
+export const checkIosParameters = async (obj) => {
+    if (Platform.OS == "ios") {
+        if (!obj["apiver"])
+            obj["apiver"] = "IOS"
+
+        if (!obj["channel"])
+            obj["channel"] = "IOS"
+
+        if (!obj["vchannel"])
+            obj["vchannel"] = "IOS"
+
+        if (!obj["mappl"])
+            obj["mappl"] = "true"
+    }
+    return Promise.resolve(obj)
 }

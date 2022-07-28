@@ -591,6 +591,39 @@ Messages are sorted by date. The most recent message is displayed at the top of 
 ```
 
 
+### Get User Data
+You can use `getUser` method to access user data.
+```javascript
+const getUser = async () => {
+    const user = await visilabsApi.getUser()
+    console.log('USER DATA', user)
+}
+```
+Response
+```json
+{
+    "apiver": "IOS", // or Android
+    "appId": "RnPushSdk",
+    "appVersion": "1.0", 
+    "channel": "IOS", // or Android
+    "cookieId": "c78afb86-2b8d-4527-9ad6-9fb477d6ed3d",
+    "exVisitorId": "user123",
+    "mappl": "true",
+    "nrv": 0,
+    "pviv": 0,
+    "sdkVersion": "6.0.0",
+    "tokenId": "798938d14d011626eafefd0585c350a8f5008c7cc182415badd483d8e5c29b25",
+    "tvc": 0,
+    "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+    "vchannel": "IOS", // or Android
+    "visitorData": "{\"data\":{}}",
+    "lvt": "2022-07-28 02:58:13",
+    "identifierForAdvertising": "FF7E2107-897C-4BA2-8BF4-9E854EA5C783", // Only IOS
+    "lastEventTime": "2022-07-28 03:14:58", // Only IOS
+}
+```
+
+
 ## Usage
 ```jsx
 import React, { useState, useEffect } from 'react';
@@ -760,6 +793,11 @@ const App = () => {
     console.log('messages', messages)
   }
 
+  const getUser = async () => {
+    const user = await visilabsApi.getUser()
+    console.log('USER DATA', user)
+  }
+
   const removeListeners = () => {
     removeEventListener('register')
     removeEventListener('registrationError')
@@ -873,6 +911,13 @@ const App = () => {
                 title='GET PUSH MESSAGES'
                 onPress={() => {
                   getPushMessages()
+                }}
+              />
+
+              <Button
+                title='GET USER DATA'
+                onPress={() => {
+                  getUser()
                 }}
               />
 

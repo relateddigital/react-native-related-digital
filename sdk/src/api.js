@@ -2,9 +2,37 @@ import { Platform } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import querystring from 'querystring'
 
-import { getDeviceParameters, customEventNative, getRecommendationsNative, getFavoriteAttributeActionsNative, sendTheListOfAppsInstalledNative, sendLocationPermissionNative, getPushMessagesNative, trackRecommendationClickNative } from './native'
-import { isEmptyOrSpaces, setCookieID, fetchAsync, fetchWithCallback, getLogToConsole, timeout } from './utils'
-import { euroMessageRetentionUrl, euroMessageSubscriptionUrl, visilabsRealTimeUrl, visilabsSegmentUrl, subscriptionStorageKey, subscriptionStorageExtraKey, expireSubscribeCheckDateStorageKey } from './constants'
+import { 
+    getDeviceParameters, 
+    customEventNative, 
+    getRecommendationsNative, 
+    getFavoriteAttributeActionsNative, 
+    sendTheListOfAppsInstalledNative, 
+    sendLocationPermissionNative, 
+    getPushMessagesNative, 
+    trackRecommendationClickNative, 
+    getUserNative
+} from './native'
+
+import { 
+    isEmptyOrSpaces, 
+    setCookieID, 
+    fetchAsync, 
+    fetchWithCallback, 
+    getLogToConsole, 
+    timeout, 
+    checkIosParameters
+} from './utils'
+
+import { 
+    euroMessageRetentionUrl, 
+    euroMessageSubscriptionUrl, 
+    visilabsRealTimeUrl, 
+    visilabsSegmentUrl, 
+    subscriptionStorageKey, 
+    subscriptionStorageExtraKey, 
+    expireSubscribeCheckDateStorageKey 
+} from './constants'
 
 class EuroMessageApi {
     constructor(appAlias) {
@@ -194,6 +222,13 @@ class VisilabsApi {
     async getFavoriteAttributeActions(actionId = null) {
         const result = await getFavoriteAttributeActionsNative(actionId)
         return Promise.resolve(JSON.parse(result))
+    }
+
+    async getUser(){
+        let result = await getUserNative()
+        result = JSON.parse(result)
+        result = await checkIosParameters(result)
+        return Promise.resolve(result)
     }
 
     async sendTheListOfAppsInstalled() {

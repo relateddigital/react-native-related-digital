@@ -57,6 +57,7 @@ export class VisilabsApi {
     getFavoriteAttributeActions(actionId: string): Promise<any>;
     sendTheListOfAppsInstalled(): Promise<void>;
     sendLocationPermission(): Promise<void>;
+    getUser(): Promise<void>;
 };
 export function requestPermissions(isProvisional: Boolean = false): Promise<boolean>;
 export function requestIDFA(): void;

@@ -91,6 +91,20 @@ import Euromsg
 			}
 		}
 	}
+
+	@objc public static func getUser(completion: @escaping ((_ response: String?) -> Void)) {
+		let jsonEncoder = JSONEncoder()
+		let response = Visilabs.callAPI().getUser()
+		do {
+			let jsonData = try jsonEncoder.encode(response)
+			let json = String(data: jsonData, encoding: String.Encoding.utf8)
+			completion(json) 
+		}
+		catch {
+			completion(nil)
+		}
+		
+	}
 	
 	static func handleFavAttrResponse( response: VisilabsFavoriteAttributeActionResponse, completion: @escaping ((_ response: String?) -> Void)) {
 		let jsonObj: NSMutableDictionary = NSMutableDictionary()
