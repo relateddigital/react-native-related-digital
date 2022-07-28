@@ -603,23 +603,16 @@ Response
 ```json
 {
     "apiver": "IOS", // or Android
-    "appId": "RnPushSdk",
-    "appVersion": "1.0", 
-    "channel": "IOS", // or Android
-    "cookieId": "c78afb86-2b8d-4527-9ad6-9fb477d6ed3d",
-    "exVisitorId": "user123",
+    "appId": "YOUR APP ALIAS",
+    "appVersion": "1.0",
+    "channel": "IOS",  // or Android
+    "cookieId": "12291431-A38A-43FF-A125-5B9A5C73F7EC",
+    "exVisitorId": "USER ID",
     "mappl": "true",
-    "nrv": 0,
-    "pviv": 0,
-    "sdkVersion": "6.0.0",
-    "tokenId": "798938d14d011626eafefd0585c350a8f5008c7cc182415badd483d8e5c29b25",
-    "tvc": 0,
+    "sdkVersion": "3.7.1",
+    "tokenId": "798938d14d011626eafefd5585c350a8f5008c7cc182415badd483d8e5c29b25",
     "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
-    "vchannel": "IOS", // or Android
-    "visitorData": "{\"data\":{}}",
-    "lvt": "2022-07-28 02:58:13",
-    "identifierForAdvertising": "FF7E2107-897C-4BA2-8BF4-9E854EA5C783", // Only IOS
-    "lastEventTime": "2022-07-28 03:14:58", // Only IOS
+    "vchannel": "IOS" // or Android
 }
 ```
 

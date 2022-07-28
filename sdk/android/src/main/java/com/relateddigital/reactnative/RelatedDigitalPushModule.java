@@ -489,28 +489,18 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     public void getUser(final Promise promise){
         try{
             HashMap<String, String> parameters = new HashMap<String, String>();
-            parameters.put("tokenId", Visilabs.CallAPI().getSysTokenID());
-            parameters.put("appVersion", Visilabs.CallAPI().getAppVersion());
-            parameters.put("cookieId", Visilabs.CallAPI().getCookieID());
-            parameters.put("sdkVersion", Visilabs.CallAPI().getSdkVersion());
-            parameters.put("tvc", String.valueOf(Visilabs.CallAPI().getOMTvc()));
-            parameters.put("nrv", String.valueOf(Visilabs.CallAPI().getOMNrv()));
-            parameters.put("pviv", String.valueOf(Visilabs.CallAPI().getOMPviv()));
-            parameters.put("lvt", Visilabs.CallAPI().getOMLvt());
-            parameters.put("exVisitorId", Visilabs.CallAPI().getExVisitorID());
+
             parameters.put("appId", Visilabs.CallAPI().getSysAppID());
-            parameters.put("userAgent", Visilabs.CallAPI().getUserAgent());
-            parameters.put("visitorData", "{\"data\":{}}");
-
-            // parameters.put("identifierForAdvertising", "");
-            // parameters.put("lastEventTime", "");
-
-            // Ekstra
+            parameters.put("tokenId", Visilabs.CallAPI().getSysTokenID());
+            parameters.put("cookieId", Visilabs.CallAPI().getCookieID());
+            parameters.put("exVisitorId", Visilabs.CallAPI().getExVisitorID());
+            parameters.put("appVersion", Visilabs.CallAPI().getAppVersion());
+            parameters.put("sdkVersion", Visilabs.CallAPI().getSdkVersion());
             parameters.put("channel", Visilabs.CallAPI().getChannelName());
             parameters.put("vchannel", Visilabs.CallAPI().getChannelName());
-            parameters.put("mappl", "true");
             parameters.put("apiver", "Android");
-
+            parameters.put("userAgent", Visilabs.CallAPI().getUserAgent());
+            parameters.put("mappl", "true");
 
             Gson gson = new Gson();
             promise.resolve(gson.toJson(parameters));

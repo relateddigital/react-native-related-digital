@@ -91,14 +91,28 @@ import Euromsg
 			}
 		}
 	}
-
+    
 	@objc public static func getUser(completion: @escaping ((_ response: String?) -> Void)) {
-		let jsonEncoder = JSONEncoder()
-		let response = Visilabs.callAPI().getUser()
+        let user = Visilabs.callAPI().getUser()
+        let profile = Visilabs.callAPI().getProfile()
+        let jsonObj: NSMutableDictionary = NSMutableDictionary()
+            
+        jsonObj.setValue(user.appId, forKey: "appId")
+        jsonObj.setValue(user.tokenId, forKey: "tokenId")
+        jsonObj.setValue(user.cookieId, forKey: "cookieId")
+        jsonObj.setValue(user.exVisitorId, forKey: "exVisitorId")
+        jsonObj.setValue(user.appVersion, forKey: "appVersion")
+        jsonObj.setValue(user.sdkVersion, forKey: "sdkVersion")
+        jsonObj.setValue(user.userAgent, forKey: "userAgent")
+        jsonObj.setValue(profile.apiver, forKey: "apiver")
+        jsonObj.setValue(profile.channel, forKey: "channel")
+        jsonObj.setValue(profile.channel, forKey:"vchannel" )
+        jsonObj.setValue("true", forKey:"mappl")
+        
 		do {
-			let jsonData = try jsonEncoder.encode(response)
-			let json = String(data: jsonData, encoding: String.Encoding.utf8)
-			completion(json) 
+            let jsonData = try JSONSerialization.data(withJSONObject: jsonObj, options: JSONSerialization.WritingOptions()) as NSData
+            let json = NSString(data: jsonData as Data, encoding: String.Encoding.utf8.rawValue)! as String
+            completion(json)
 		}
 		catch {
 			completion(nil)

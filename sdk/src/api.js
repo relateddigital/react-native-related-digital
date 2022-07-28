@@ -20,8 +20,7 @@ import {
     fetchAsync, 
     fetchWithCallback, 
     getLogToConsole, 
-    timeout, 
-    checkIosParameters
+    timeout
 } from './utils'
 
 import { 
@@ -225,10 +224,8 @@ class VisilabsApi {
     }
 
     async getUser(){
-        let result = await getUserNative()
-        result = JSON.parse(result)
-        result = await checkIosParameters(result)
-        return Promise.resolve(result)
+        const result = await getUserNative()
+        return Promise.resolve(JSON.parse(result))
     }
 
     async sendTheListOfAppsInstalled() {
