@@ -20,12 +20,12 @@ buildscript {
 apply plugin: 'com.android.library'
 
 android {
-  compileSdkVersion safeExtGet('compileSdkVersion', 28)
+  compileSdkVersion safeExtGet('compileSdkVersion', 32)
   buildToolsVersion safeExtGet('buildToolsVersion', '28.0.3')
 
   defaultConfig {
     minSdkVersion safeExtGet('minSdkVersion', 16)
-    targetSdkVersion safeExtGet('targetSdkVersion', 28)
+    targetSdkVersion safeExtGet('targetSdkVersion', 32)
   }
 
   flavorDimensions "react-native-related-digital"
@@ -48,5 +48,5 @@ dependencies {
   implementation 'com.google.firebase:firebase-messaging:22.0.0'
 
   api "com.github.relateddigital:euromessage-android:5.1.9"
-  api "com.github.relateddigital:visilabs-android:6.0.0"
+  api "com.github.relateddigital:visilabs-android:6.0.2"
 }

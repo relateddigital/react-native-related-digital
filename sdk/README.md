@@ -474,6 +474,19 @@ visilabsApi.trackRecommendationClick(qs)
 More information [Rmc Docs](https://relateddigital.atlassian.net/wiki/spaces/RMCKBT/pages/1746403404/React+Native+-+Recommendations)
 
 ### Story
+Follow the step below to add a countdown to your stories.
+
+**iOS**
+
+Add below lines to your project target's `Build Phases`->`Copy Bundle Resources` section. Select `Create folder references` when prompted.
+  * `Pods/VisilabsIOS/Sources/TargetingAction/Story/Views/timerView/timerView.xib`
+
+**Android**
+
+No special installation required
+
+**Usage**
+
 To add story view to your app, import `RDStoryView` and use as below:
 ```jsx
 <RDStoryView

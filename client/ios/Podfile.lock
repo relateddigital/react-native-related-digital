@@ -1,7 +1,7 @@
 PODS:
   - boost-for-react-native (1.63.0)
   - DoubleConversion (1.1.6)
-  - Euromsg (2.6.0)
+  - Euromsg (2.6.1)
   - FBLazyVector (0.62.2)
   - FBReactNativeSpec (0.62.2):
     - Folly (= 2018.10.22.00)
@@ -184,9 +184,9 @@ PODS:
     - React-jsi (= 0.62.2)
   - React-jsinspector (0.62.2)
   - react-native-related-digital (0.3.0):
-    - Euromsg (= 2.6.0)
+    - Euromsg (= 2.6.1)
     - React
-    - VisilabsIOS (= 3.7.1)
+    - VisilabsIOS (= 3.7.2)
   - react-native-safe-area-context (3.3.2):
     - React-Core
   - React-RCTActionSheet (0.62.2):
@@ -259,7 +259,7 @@ PODS:
   - RNScreens (3.10.2):
     - React-Core
     - React-RCTImage
-  - VisilabsIOS (3.7.1)
+  - VisilabsIOS (3.7.2)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -375,7 +375,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
-  Euromsg: 08abcc3ec24c8e3b8644ee610f0e345fc4313e66
+  Euromsg: 2414b3b652a9b01da5f9a13380be9f01eb8b354b
   FBLazyVector: 4aab18c93cd9546e4bfed752b4084585eca8b245
   FBReactNativeSpec: 5465d51ccfeecb7faa12f9ae0024f2044ce4044e
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
@@ -389,7 +389,7 @@ SPEC CHECKSUMS:
   React-jsi: b6dc94a6a12ff98e8877287a0b7620d365201161
   React-jsiexecutor: 1540d1c01bb493ae3124ed83351b1b6a155db7da
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
-  react-native-related-digital: e2e90bc6a4299e012be55ea82742e01651c025ab
+  react-native-related-digital: 17ab87670a237a64c8056d53057f61b4a988bb21
   react-native-safe-area-context: 5cf05f49df9d17261e40e518481f2e334c6cd4b5
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0
@@ -406,7 +406,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNReanimated: b5ccb50650ba06f6e749c7c329a1bc3ae0c88b43
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
-  VisilabsIOS: f47e09114654202fe27bb6ab8d140967620f91ea
+  VisilabsIOS: de5dd70d9f83b853547eff2b5dadfee2d12f7fe7
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
 
 PODFILE CHECKSUM: 9704c642c371fe1fb308ab944576298d2dc3d33f
