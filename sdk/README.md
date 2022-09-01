@@ -32,14 +32,19 @@ $ pod install
 * Create a Firebase project and register your app. Download google-services.json file and place it in `android/app` folder.
 * Add below line to your `android/build.gradle` file's both repositories sections. If you are going to do Huawei integration, add the `agconnect-services.json` file to the same location.
 ```gradle
-maven {url 'http://developer.huawei.com/repo/'}
+mavenCentral()
+maven {
+    url 'http://developer.huawei.com/repo/'
+    allowInsecureProtocol = true
+}
 ```
 * Add below lines to your `android/build.gradle` file's dependencies section.
 ```gradle
-classpath 'com.google.gms:google-services:4.3.3'
+classpath 'com.google.gms:google-services:4.3.10'
 classpath 'com.huawei.agconnect:agcp:1.6.5.300'
 ```
-* Change your `minSdkVersion` to 19.
+* Change your `minSdkVersion` to 21.
+* Change your `compileSdkVersion` and `targetSdkVersion` to 32.
 * Add below lines to your `android/app/build.gradle` file's bottom.
 ```gradle
 apply plugin: 'com.google.gms.google-services'
