@@ -20,29 +20,12 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>rnrd</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>rnrd</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>localhost</key>
@@ -52,21 +35,10 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We need access to your location for better user experience.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need access to your location for better user experience.</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>We need user tracking permission.</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>TheNautigal_Regular.ttf</string>
-	</array>
+	<string></string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>fetch</string>
-		<string>location</string>
-		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -83,5 +55,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>NSUserTrackingUsageDescription</string>
 </dict>
 </plist>

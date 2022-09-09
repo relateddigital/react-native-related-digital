@@ -2,7 +2,7 @@
 //  NotificationService.h
 //  RelatedDigitalNotificationService
 //
-//  Created by Halil Kaya on 13.08.2020.
+//  Created by Baris Arslan on 8.09.2022.
 //
 
 #import <UserNotifications/UserNotifications.h>

@@ -14,11 +14,19 @@
 ## Installation
 * Install prerequisites.
 ```
-$ yarn add @react-native-async-storage/async-storage
+npm i @react-native-async-storage/async-storage
+```
+or
+```
+yarn add @react-native-async-storage/async-storage
 ```
 * Install package.
 ```
-$ yarn add react-native-related-digital
+npm i react-native-related-digital
+```
+or
+```
+yarn add react-native-related-digital
 ```
 * Install pods (IOS only).
 ```

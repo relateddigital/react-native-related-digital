@@ -1,3 +1,10 @@
+//
+//  EMNotificationViewController.swift
+//  RelatedDigitalNotificationContent
+//
+//  Created by Baris Arslan on 8.09.2022.
+//
+
 import UIKit
 import UserNotifications
 import UserNotificationsUI
