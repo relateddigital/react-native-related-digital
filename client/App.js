@@ -25,6 +25,7 @@ import {
   RecommendationAttribute,
   RecommendationFilterType
 } from 'react-native-related-digital'
+import Widget from './components/Widget';
 
 const App = () => {
   const [loading, setLoading] = useState(false)
@@ -129,7 +130,7 @@ const App = () => {
 
   const getRecommendations = async () => {
     try {
-      const zoneId = '1'
+      const zoneId = '5'
       const productCode = ''
 
       const properties = {
@@ -138,12 +139,12 @@ const App = () => {
 
       // optional
       const filters = [{
-        attribute: RecommendationAttribute.PRODUCTNAME,
-        filterType: RecommendationFilterType.like,
-        value: 'laptop'
+        attribute: RecommendationAttribute.PRODUCTCODE,
+        filterType: RecommendationFilterType.equals,
+        value: '78979,21312,45345'
       }]
 
-      const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties)
+      const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties, filters)
       setWidget(recommendations)
 
     }
@@ -247,6 +248,7 @@ const App = () => {
               }}
               style={{ flex: 1 }}
             />
+            {widget && <Widget widgetData={widget} trackRecommendationClick={trackRecommendationClick} />}
             <Text>Token:{token}</Text>
             <Button
               title='REQUEST PERMISSONS'

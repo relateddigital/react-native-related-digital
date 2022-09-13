@@ -288,6 +288,7 @@ class VisilabsApi {
 }
 
 const RecommendationAttribute = {
+    PRODUCTCODE: 'PRODUCTCODE',
     PRODUCTNAME: 'PRODUCTNAME',
     COLOR: "COLOR",
     AGEGROUP: "AGEGROUP",

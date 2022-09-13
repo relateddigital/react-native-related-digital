@@ -747,9 +747,9 @@ const App = () => {
 
       // optional
       const filters = [{
-        attribute: RecommendationAttribute.PRODUCTNAME,
-        filterType: RecommendationFilterType.like,
-        value: 'laptop'
+        attribute: RecommendationAttribute.PRODUCTCODE,
+        filterType: RecommendationFilterType.equals,
+        value: '78979,21312,45345'
       }]
 
       const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties, filters)

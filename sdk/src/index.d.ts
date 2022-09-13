@@ -4,6 +4,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 type ListenerTypes = 'notification' | 'register' | 'registrationError' | 'carouselItemClicked';
 
 enum RecommendationAttribute {
+    PRODUCTCODE = 'PRODUCTCODE',
     PRODUCTNAME = 'PRODUCTNAME',
     COLOR = "COLOR",
     AGEGROUP = "AGEGROUP",
