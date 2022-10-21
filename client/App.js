@@ -74,7 +74,7 @@ const App = () => {
     }, euroMessageApi)
   }
 
-  const addExtra = async () => {
+  const login = async () => {
     // await euroMessageApi.setUserProperty('ConsentTime', '2021-06-05 10:00:00')
     // await euroMessageApi.setUserProperty('RecipientType', "BIREYSEL")
     // await euroMessageApi.setUserProperty('ConsentSource', "HS_MOBIL")
@@ -85,22 +85,33 @@ const App = () => {
     // OR
 
     let userData = {
+      "Keyid": "baris.arslan123@euromsg.com",
+      "Email": "baris.arslan123@euromsg.com",
+      "ConsentTime": "2022-06-05 10:00:00",
+      "RecipientType": "BIREYSEL",
+      "ConsentSource": "HS_MOBIL",
+      "PushPermit": "Y"
+    }
+
+    euroMessageApi.setUserProperties(userData).then(()=>{
+      euroMessageApi.subscribe(token)
+    })
+  }
+
+  const logout = async () => {
+    let userData = {
       "Keyid": "baris.arslan@euromsg.com",
       "Email": "baris.arslan@euromsg.com",
       "ConsentTime": "2022-06-05 10:00:00",
       "RecipientType": "BIREYSEL",
       "ConsentSource": "HS_MOBIL",
+      "PushPermit": "N"
     }
 
-    return euroMessageApi.setUserProperties(userData)
-  }
-
-  const login = async () => {
-    addExtra().then(() =>
+    euroMessageApi.setUserProperties(userData).then(()=>{
       euroMessageApi.subscribe(token)
-    );
+    })
   }
-
   const setBadgeNumber = () => {
     const number = 3
     setApplicationIconBadgeNumber(number)
@@ -273,6 +284,13 @@ const App = () => {
               title='LOGIN'
               onPress={() => {
                 login()
+              }}
+            />
+
+            <Button
+              title='LOGOUT'
+              onPress={() => {
+                logout()
               }}
             />
 
