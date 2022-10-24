@@ -20,17 +20,12 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url 'http://developer.huawei.com/repo/'
-            allowInsecureProtocol = true
-        }
     }
     dependencies {
         classpath("com.android.tools.build:gradle:7.1.1")
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("de.undercouch:gradle-download-task:5.0.1")
         classpath 'com.google.gms:google-services:4.3.10'
-        classpath 'com.huawei.agconnect:agcp:1.6.5.300'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -56,9 +51,5 @@ allprojects {
         google()
         maven { url 'https://www.jitpack.io' }
         mavenCentral()
-        maven {
-            url 'http://developer.huawei.com/repo/'
-            allowInsecureProtocol = true
-        }
     }
 }

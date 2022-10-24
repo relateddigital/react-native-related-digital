@@ -28,9 +28,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
-import com.huawei.agconnect.AGConnectOptionsBuilder;
-import com.huawei.hms.aaid.HmsInstanceId;
-import com.huawei.hms.common.ApiException;
 import com.visilabs.Visilabs;
 import com.visilabs.VisilabsResponse;
 import com.visilabs.api.VisilabsCallback;
@@ -82,7 +79,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
         if (checkPlayService()) {
             firebaseTokenOperations(promise);
         } else {
-            huaweiTokenOperations(promise);
+            
         }
     }
 
@@ -104,35 +101,6 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
                         promise.resolve(true);
                     }
                 });
-    }
-
-    private void huaweiTokenOperations(final Promise promise){
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    String appId = new AGConnectOptionsBuilder().build(reactContext).getString("client/app_id");
-                    final String token = HmsInstanceId.getInstance(reactContext).getToken(appId, "HCM");
-
-                    if(TextUtils.isEmpty(token) || token == null) {
-                        Log.e("Huawei Token : ", "Empty token!!!");
-                        promise.resolve(false);
-                        return;
-                    }
-
-                    WritableMap params = Arguments.createMap();
-                    params.putString("deviceToken", token);
-                    utilities.sendEvent("remoteNotificationsRegistered", params);
-
-                    promise.resolve(true);
-
-                    Log.i("Huawei Token", "" + token);
-
-                } catch (Exception e) {
-                    Log.e("Huawei Token", "Getting the token failed! " + e);
-                }
-            }
-        }.start();
     }
 
     @ReactMethod
