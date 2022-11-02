@@ -105,7 +105,7 @@ const App = () => {
       "ConsentTime": "2022-06-05 10:00:00",
       "RecipientType": "BIREYSEL",
       "ConsentSource": "HS_MOBIL",
-      "PushPermit": "N"
+      "PushPermit": "Y"
     }
 
     euroMessageApi.setUserProperties(userData).then(()=>{
