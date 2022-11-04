@@ -133,6 +133,10 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    packagingOptions {
+        pickFirst '**/*.so'
+    }
+
     defaultConfig {
         applicationId "com.relateddigitaltestclient"
         minSdkVersion rootProject.ext.minSdkVersion
