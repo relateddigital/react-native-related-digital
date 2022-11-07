@@ -1,4 +1,4 @@
-import { Text, View, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native'
+import { Text, View, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity, TextInput, ClipboardStatic } from 'react-native'
 import React, { Component } from 'react'
 import { width } from './constants/Constants'
 import {
@@ -17,6 +17,7 @@ import {
   RecommendationFilterType
 } from 'react-native-related-digital'
 import CustomButton from './components/CustomButton'
+import Widget from './components/Widget'
 
 
 const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'RnPushSdkIOS'
@@ -34,6 +35,10 @@ export default class Home extends Component {
 
     this.state = {
       token: null,
+      inapps: false,
+      story: false,
+      widget: null,
+      others: false,
       userData: {
         "Keyid": "baris.arslan@euromsg.com",
         "Email": "baris.arslan@euromsg.com",
@@ -42,61 +47,110 @@ export default class Home extends Component {
         "ConsentSource": "HS_MOBIL",
         "PushPermit": "Y"
       },
-
     }
 
     this.inAppTypes = [
-      'drawer',
-      'inappcarousel',
-      'product_stat_notifier',
-      'half_screen_image',
-      'spintowin',
-      'nps-feedback',
-      'nps-image-text-button-image',
-      'nps-image-text-button',
-      'scratch_to_win',
-      'subscription_email',
-      'alert_actionsheet',
-      'alert_native',
-      'nps',
-      'nps_with_numbers',
-      'smile_rating',
-      'image_text_button',
-      'image_button',
-      'full_image',
-      'full',
-      'mini'
+      {
+        'type': 'Pop-up',
+        'values': [
+          {
+            'key': 'full_image',
+            'name': 'Full Image'
+          },
+          {
+            'key': 'full',
+            'name': 'Full Screen'
+          },
+          {
+            'key': 'mini',
+            'name': 'Mini'
+          },
+          {
+            'key': 'image_text_button',
+            'name': 'Image Text Button'
+          },
+          {
+            'key': 'image_button',
+            'name': 'Image Button'
+          },
+          {
+            'key': 'half_screen_image',
+            'name': 'Half Screen Image'
+          },
+          {
+            'key': 'inappcarousel',
+            'name': 'In App Carousel'
+          },
+          {
+            'key': 'drawer',
+            'name': 'Drawer'
+          },
+        ],
+      },
+      {
+        'type': 'NPS',
+        'values': [
+          {
+            'key': 'nps-feedback',
+            'name': 'NPS (Feedback)'
+          },
+          {
+            'key': 'nps',
+            'name': 'NPS'
+          },
+          {
+            'key': 'nps_with_numbers',
+            'name': 'NPS (NUMBERS)'
+          },
+          {
+            'key': 'nps-image-text-button-image',
+            'name': 'NPS (IMG-TXT-BTN-IMG)'
+          },
+          {
+            'key': 'nps-image-text-button',
+            'name': 'NPS (IMG-TXT-BTN)'
+          },
+          {
+            'key': 'smile_rating',
+            'name': 'Smile Rating'
+          },
+        ],
+      },
+      {
+        'type': 'Gamifications',
+        'values': [
+          {
+            'key': 'spintowin',
+            'name': 'Spin to Win'
+          },
+          {
+            'key': 'scratch_to_win',
+            'name': 'Scratch To Win'
+          },
+        ],
+      },
+      {
+        'type': 'Others',
+        'values': [
+          {
+            'key': 'subscription_email',
+            'name': 'Subscription Email Form'
+          },
+          {
+            'key': 'product_stat_notifier',
+            'name': 'Product Stat Notifier'
+          },
+          {
+            'key': 'alert_actionsheet',
+            'name': 'Action Sheet Alert'
+          },
+          {
+            'key': 'alert_native',
+            'name': 'Native Alert'
+          },
+        ],
+      },
     ]
-    // this.inAppTypes = {
-    //   "InApps":{
-    //     'full_image': 'Full Image',
-    //     'full': 'Full Screen',
-    //     'mini': 'Mini',
-    //     'image_text_button': 'Image Text Button',
-    //     'image_button': 'Image Button',
-    //     'half_screen_image': 'Half Screen Image',
-    //     'inappcarousel':'In App Carousel',
-    //     'drawer':'Drawer',
-    //   },
-    //   "NPS":{
-    //     'nps-feedback': 'NPS (Feedback)',
-    //     'nps': 'NPS',
-    //     'nps_with_numbers': 'NPS (NUMBERS)',
-    //     'nps-image-text-button-image': 'NPS (IMG-TXT-BTN-IMG)',
-    //     'nps-image-text-button': 'NPS (IMG-TXT-BTN)',
-    //     'smile_rating': 'Smile Rating',
-    //   },
-    //   "Gamifications":{
-    //     'spintowin': 'Spin to Win',
-    //     'scratch_to_win': 'Scratch To Win',
-    //   },
-    //   "Others":{
-    //     'subscription_email': 'Subscription Email Form',
-    //     'product_stat_notifier': 'Product Stat Notifier',
-    //     'alert_actionsheet': 'Action Sheet Alert',
-    //     'alert_native': 'Native Alert',
-    //   },
-    // }
 
   }
 
@@ -156,46 +210,368 @@ export default class Home extends Component {
     this.setState({ userData })
   }
 
-  sendCustomEvent = (pageName, data) => {
-    let parameters = { 'OM.inapptype': data };
-    if (data == 'product_stat_notifier') {
+  sendCustomEvent = (type) => {
+    console.log("type", type);
+    let parameters = { 'OM.inapptype': type };
+    if (type == 'product_stat_notifier') {
       parameters['OM.pv'] = 'CV7933-837-837';
     }
-    relatedDigitalPlugin.customEvent("InAppTest", parameters)
-    relatedDigitalPlugin.customEvent(pageName, data)
+    visilabsApi.customEvent("InAppTest", parameters)
+  }
+
+  getRecommendations = async () => {
+    try {
+      const zoneId = '5'
+      const productCode = ''
+
+      const properties = {
+        // "OM.cat": "409",
+      }
+
+      // optional
+      const filters = [{
+        attribute: RecommendationAttribute.PRODUCTCODE,
+        filterType: RecommendationFilterType.equals,
+        value: '78979,21312,45345'
+      }]
+
+      // const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties, filters)
+      const recommendations = {
+        "recommendations": [
+          {
+            "attr1": "420494",
+            "attr10": "",
+            "attr2": "",
+            "attr3": "",
+            "attr4": "",
+            "attr5": "",
+            "attr6": "",
+            "attr7": "",
+            "attr8": "",
+            "attr9": "",
+            "brand": "Related Digital",
+            "code": "1159092",
+            "comment": 0,
+            "cur": "TRY",
+            "dcur": "TRY",
+            "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
+            "discount": 0,
+            "dprice": 5.25,
+            "freeshipping": false,
+            "img": "https://picsum.photos/200/300",
+            "price": 5.25,
+            "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
+            "rating": 0,
+            "samedayshipping": false,
+            "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
+          }, {
+            "attr1": "420494",
+            "attr10": "",
+            "attr2": "",
+            "attr3": "",
+            "attr4": "",
+            "attr5": "",
+            "attr6": "",
+            "attr7": "",
+            "attr8": "",
+            "attr9": "",
+            "brand": "Related Digital",
+            "code": "1159092",
+            "comment": 0,
+            "cur": "TRY",
+            "dcur": "TRY",
+            "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
+            "discount": 0,
+            "dprice": 5.25,
+            "freeshipping": false,
+            "img": "https://picsum.photos/200/300",
+            "price": 5.25,
+            "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
+            "rating": 0,
+            "samedayshipping": false,
+            "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
+          }, {
+            "attr1": "420494",
+            "attr10": "",
+            "attr2": "",
+            "attr3": "",
+            "attr4": "",
+            "attr5": "",
+            "attr6": "",
+            "attr7": "",
+            "attr8": "",
+            "attr9": "",
+            "brand": "Related Digital",
+            "code": "1159092",
+            "comment": 0,
+            "cur": "TRY",
+            "dcur": "TRY",
+            "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
+            "discount": 0,
+            "dprice": 5.25,
+            "freeshipping": false,
+            "img": "https://picsum.photos/200/300",
+            "price": 5.25,
+            "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
+            "rating": 0,
+            "samedayshipping": false,
+            "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
+          }, {
+            "attr1": "420494",
+            "attr10": "",
+            "attr2": "",
+            "attr3": "",
+            "attr4": "",
+            "attr5": "",
+            "attr6": "",
+            "attr7": "",
+            "attr8": "",
+            "attr9": "",
+            "brand": "Related Digital",
+            "code": "1159092",
+            "comment": 0,
+            "cur": "TRY",
+            "dcur": "TRY",
+            "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
+            "discount": 0,
+            "dprice": 5.25,
+            "freeshipping": false,
+            "img": "https://picsum.photos/200/300",
+            "price": 5.25,
+            "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
+            "rating": 0,
+            "samedayshipping": false,
+            "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
+          }, {
+            "attr1": "420494",
+            "attr10": "",
+            "attr2": "",
+            "attr3": "",
+            "attr4": "",
+            "attr5": "",
+            "attr6": "",
+            "attr7": "",
+            "attr8": "",
+            "attr9": "",
+            "brand": "Related Digital",
+            "code": "1159092",
+            "comment": 0,
+            "cur": "TRY",
+            "dcur": "TRY",
+            "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
+            "discount": 0,
+            "dprice": 5.25,
+            "freeshipping": false,
+            "img": "https://picsum.photos/200/300",
+            "price": 5.25,
+            "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
+            "rating": 0,
+            "samedayshipping": false,
+            "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
+          }, {
+            "attr1": "420494",
+            "attr10": "",
+            "attr2": "",
+            "attr3": "",
+            "attr4": "",
+            "attr5": "",
+            "attr6": "",
+            "attr7": "",
+            "attr8": "",
+            "attr9": "",
+            "brand": "Related Digital",
+            "code": "1159092",
+            "comment": 0,
+            "cur": "TRY",
+            "dcur": "TRY",
+            "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
+            "discount": 0,
+            "dprice": 5.25,
+            "freeshipping": false,
+            "img": "https://picsum.photos/200/300",
+            "price": 5.25,
+            "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
+            "rating": 0,
+            "samedayshipping": false,
+            "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
+          }, {
+            "attr1": "420494",
+            "attr10": "",
+            "attr2": "",
+            "attr3": "",
+            "attr4": "",
+            "attr5": "",
+            "attr6": "",
+            "attr7": "",
+            "attr8": "",
+            "attr9": "",
+            "brand": "Related Digital",
+            "code": "1159092",
+            "comment": 0,
+            "cur": "TRY",
+            "dcur": "TRY",
+            "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
+            "discount": 0,
+            "dprice": 5.25,
+            "freeshipping": false,
+            "img": "https://picsum.photos/200/300",
+            "price": 5.25,
+            "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
+            "rating": 0,
+            "samedayshipping": false,
+            "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
+          }, {
+            "attr1": "420494",
+            "attr10": "",
+            "attr2": "",
+            "attr3": "",
+            "attr4": "",
+            "attr5": "",
+            "attr6": "",
+            "attr7": "",
+            "attr8": "",
+            "attr9": "",
+            "brand": "Related Digital",
+            "code": "1159092",
+            "comment": 0,
+            "cur": "TRY",
+            "dcur": "TRY",
+            "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
+            "discount": 0,
+            "dprice": 5.25,
+            "freeshipping": false,
+            "img": "https://picsum.photos/200/300",
+            "price": 5.25,
+            "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
+            "rating": 0,
+            "samedayshipping": false,
+            "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
+          }, {
+            "attr1": "420494",
+            "attr10": "",
+            "attr2": "",
+            "attr3": "",
+            "attr4": "",
+            "attr5": "",
+            "attr6": "",
+            "attr7": "",
+            "attr8": "",
+            "attr9": "",
+            "brand": "Related Digital",
+            "code": "1159092",
+            "comment": 0,
+            "cur": "TRY",
+            "dcur": "TRY",
+            "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
+            "discount": 0,
+            "dprice": 5.25,
+            "freeshipping": false,
+            "img": "https://picsum.photos/200/300",
+            "price": 5.25,
+            "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
+            "rating": 0,
+            "samedayshipping": false,
+            "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
+          }, {
+            "attr1": "420494",
+            "attr10": "",
+            "attr2": "",
+            "attr3": "",
+            "attr4": "",
+            "attr5": "",
+            "attr6": "",
+            "attr7": "",
+            "attr8": "",
+            "attr9": "",
+            "brand": "Related Digital",
+            "code": "1159092",
+            "comment": 0,
+            "cur": "TRY",
+            "dcur": "TRY",
+            "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
+            "discount": 0,
+            "dprice": 5.25,
+            "freeshipping": false,
+            "img": "https://picsum.photos/200/300",
+            "price": 5.25,
+            "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
+            "rating": 0,
+            "samedayshipping": false,
+            "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
+          },
+        ],
+        "title": "Display You Viewed"
+      };
+      this.setState({ widget: recommendations })
+
+    }
+    catch (e) {
+      console.log('recommendations error', e)
+    }
+  }
+
+  trackRecommendationClick = (qs) => {
+    visilabsApi.trackRecommendationClick(qs)
+  }
+
+
+  toggleStory = () => {
+    this.setState({
+      story: !this.state.story
+    })
+  }
+
+  toggleInapps = () => {
+    this.setState({
+      inapps: !this.state.inapps
+    })
+  }
+
+  toggleOthers = () => {
+    this.setState({
+      others: !this.state.others
+    })
   }
 
   // UI
-  renderInApps = () => (
+  renderInApptitles = () => (
     this.inAppTypes.map((item, i) => {
       return (
-        // <TouchableOpacity
-        //   key={i}
-        //   style={[this.styles.inAppBox]}
-        //   onPress={() => {
-        //     let parameters = { 'OM.inapptype': item };
-        //     if (item == 'product_stat_notifier') {
-        //       parameters['OM.pv'] = 'CV7933-837-837';
-        //     }
-        //     relatedDigitalPlugin.customEvent("InAppTest", parameters)
-        //   }}>
-        //   <Text style={this.styles.buttonTitle}>{item}</Text>
-        // </TouchableOpacity>
+        <View>
+          {this.title(item.type, 18)}
+          <View style={this.styles.inAppContainer}>
+            {this.renderInApps(item.values)}
+          </View>
+        </View>
 
-        <CustomButton style={{ width: (item.length > 15 ? width*.5 : width * .26) }} childStyle={{fontSize:15,padding:5}} title={item} action={this.sendCustomEvent} />
       );
     })
   );
 
-  loginLogoutButton = (type) => {
+  renderInApps = (data) => (
+    data.map((item, i) => {
+      return (
+        <CustomButton key={i} style={{ width: width * .4 }} childStyle={{ fontSize: 15, padding: 5 }} data={item} action={this.sendCustomEvent} />
+      );
+    })
+  );
+
+  inappToggleButton = () => {
     return (
-      <CustomButton style={{ width: "45%" }} title={type == "login" ? "Login" : "Logout"} action={type == "login" ? this.login : this.logout} />
+      <CustomButton mini style={{ width: "50%" }} data={{ name: (!this.state.inapps ? "Show In Apps" : "Hide In Apps") }} action={this.toggleInapps} />
     )
   }
 
-  title = (title) => {
+
+  loginLogoutButton = (type) => {
     return (
-      <Text style={this.styles.title}>{title}</Text>
+      <CustomButton style={{ width: "45%" }} data={type == "login" ? { name: "Login" } : { name: "Logout" }} action={type == "login" ? this.login : this.logout} />
+    )
+  }
+
+  title = (title, fontSize) => {
+    return (
+      <Text style={[this.styles.title, fontSize && { fontSize }]}>{title}</Text>
     )
   }
 
@@ -208,6 +584,65 @@ export default class Home extends Component {
         onChangeText={(v) => { this.changeEmail(v) }}
         editable
       />
+    )
+  }
+
+  renderOthers = () => {
+    return (
+      <View>
+        <View style={this.styles.titleContainer}>
+          {this.title("Get User", 15)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('User Data', await visilabsApi.getUser()) }} />
+        </View>
+
+        <View style={this.styles.titleContainer}>
+          {this.title("Get Push Messages", 15)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('Push Messages', await euroMessageApi.getPushMessages()) }} />
+        </View>
+
+        {/* <View style={this.styles.titleContainer}>
+          {this.title("Product Stat Notifier", 15)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { visilabsApi.customEvent('home', { 'OM.pv': '50194393030', 'OM.inapptype': 'productStatNotifier' }) }} />
+        </View> */}
+
+        <View style={this.styles.titleContainer}>
+          {this.title("Get Fav. Attr. Actions", 15)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('Favorite Attribute Actions', await visilabsApi.getFavoriteAttributeActions('474')) }} />
+        </View>
+
+        <View style={this.styles.titleContainer}>
+          {this.title("List Of Installed Apps", 15)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Send" }} action={async () => { await visilabsApi.sendTheListOfAppsInstalled() }} />
+        </View>
+
+        <View style={this.styles.titleContainer}>
+          {this.title("Set Badge Number (3)", 15)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Set" }} action={async () => { setApplicationIconBadgeNumber(3) }} />
+        </View>
+
+        <View style={this.styles.titleContainer}>
+          {this.title("Send Location Permission Event", 15)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Send" }} action={async () => { await visilabsApi.sendLocationPermission() }} />
+        </View>
+      </View>
+    )
+  }
+
+  getRecoButton = () => {
+    return (
+      <CustomButton mini style={{ width: "50%" }} data={{ name: "Get Recommendation" }} action={this.getRecommendations} />
+    )
+  }
+
+  storyToggleButton = () => {
+    return (
+      <CustomButton mini style={{ width: "50%" }} data={{ name: (!this.state.story ? "Show Story" : "Hide Story") }} action={this.toggleStory} />
+    )
+  }
+
+  othersToggleButton = () => {
+    return (
+      <CustomButton mini style={{ width: "50%" }} data={{ name: (!this.state.others ? "Show Others" : "Hide Others") }} action={this.toggleOthers} />
     )
   }
 
@@ -271,28 +706,80 @@ export default class Home extends Component {
       textAlign: 'center',
       fontSize: 18
     },
-
+    tokenContainer: {
+      width: "95%",
+      backgroundColor: 'rgba(0,0,0,.25)',
+      // borderWidth:1,
+      borderRadius:5,
+      padding:15,
+      justifyContent:'center',
+      alignItems:'center'
+    },
+    token: {
+      // backgroundColor:'red',
+      width: "95%",
+    },
+    main: {
+      width: "95%",
+      alignSelf: 'center',
+      // backgroundColor:'green',
+    },
+    titleContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between'
+    }
   });
 
   render() {
     return (
-      <SafeAreaView
-        style={[
-          this.styles.container,
-        ]}>
+      <SafeAreaView style={[this.styles.container]}>
         <ScrollView>
-          {this.title("Push Notifications")}
+          {this.title("Push Notifications", 25)}
           <View style={[this.styles.section]}>
             {this.input()}
             <View style={{ flexDirection: 'row' }}>
               {this.loginLogoutButton("logout")}
               {this.loginLogoutButton("login")}
             </View>
+            {this.state.token && <View style={this.styles.tokenContainer}>
+              <Text style={this.styles.token}>{'Token: ' + this.state.token}</Text>
+              <CustomButton mini style={{ width: "90%" }} data={{ name: "Copy Token" }} action={async ()=>{await ClipboardStatic.setString(this.state.token)}} />
+            </View>}
           </View>
-          {this.title("In App Pop-up")}
-          <View style={[this.styles.section, this.styles.inAppContainer]}>
-            {this.renderInApps()}
+          <View style={this.styles.titleContainer}>
+            {this.title("Story", 25)}
+            {this.storyToggleButton()}
           </View>
+          {this.state.story && <View style={[this.styles.main]}>
+            <RDStoryView
+              // actionId={'459'} // 459 banner, 497 normal optional
+              onItemClicked={(data) => {
+                console.log('Story data', data)
+              }}
+            />
+          </View>}
+          <View style={this.styles.titleContainer}>
+            {this.title("In App", 25)}
+            {this.inappToggleButton()}
+          </View>
+          {this.state.inapps && <View style={[this.styles.section, this.styles.inAppContainer]}>
+            {this.renderInApptitles()}
+          </View>}
+          <View style={this.styles.titleContainer}>
+            {this.title("Widget", 25)}
+            {this.getRecoButton()}
+          </View>
+          <View style={[this.styles.main]}>
+            {this.state.widget && <Widget widgetData={this.state.widget} trackRecommendationClick={this.trackRecommendationClick} />}
+          </View>
+          <View style={this.styles.titleContainer}>
+            {this.title("Others", 25)}
+            {this.othersToggleButton()}
+          </View>
+          {this.state.others && <View style={[this.styles.inAppContainer]}>
+            {this.renderOthers()}
+          </View>}
         </ScrollView>
       </SafeAreaView>
     )

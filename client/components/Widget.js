@@ -6,7 +6,7 @@ export default class Widget extends Component {
     renderWidgetItems = () => (
         this.props.widgetData.recommendations.map((product, i) => {
             return (
-                <WidgetItem k={i} product={product} trackRecommendationClick={this.props.trackRecommendationClick} />
+                <WidgetItem key={i} product={product} trackRecommendationClick={this.props.trackRecommendationClick} />
             )
         })
     );

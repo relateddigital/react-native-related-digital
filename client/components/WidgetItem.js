@@ -5,7 +5,7 @@ export default class WidgetItem extends Component {
     render() {
         return (
             <TouchableOpacity
-                key={this.props.k}
+                key={this.props.key}
                 style={styles.container}
                 onPress={() => this.props.trackRecommendationClick(this.props.product.qs)}>
                     <Image source={{uri:this.props.product.img}} style={styles.image}/>
