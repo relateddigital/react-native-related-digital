@@ -533,6 +533,12 @@ export default class Home extends Component {
     })
   }
 
+  requestIDFA = async () => {
+    requestIDFA().then((idfa)=>{
+      console.log("IDFA",idfa);
+    })
+  }
+
   // UI
   renderInApptitles = () => (
     this.inAppTypes.map((item, i) => {
@@ -543,7 +549,6 @@ export default class Home extends Component {
             {this.renderInApps(item.values)}
           </View>
         </View>
-
       );
     })
   );
@@ -600,10 +605,10 @@ export default class Home extends Component {
           <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('Push Messages', await euroMessageApi.getPushMessages()) }} />
         </View>
 
-        {/* <View style={this.styles.titleContainer}>
-          {this.title("Product Stat Notifier", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { visilabsApi.customEvent('home', { 'OM.pv': '50194393030', 'OM.inapptype': 'productStatNotifier' }) }} />
-        </View> */}
+        <View style={this.styles.titleContainer}>
+          {this.title("Request IDFA (iOS)", 15)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('IDFA', this.requestIDFA()) }} />
+        </View>
 
         <View style={this.styles.titleContainer}>
           {this.title("Get Fav. Attr. Actions", 15)}

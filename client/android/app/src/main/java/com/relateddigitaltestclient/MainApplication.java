@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.visilabs.Visilabs;
 import euromsg.com.euromobileandroid.EuroMobileManager;
+import euromsg.com.euromobileandroid.enums.RDNotificationPriority;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -81,13 +82,15 @@ public class MainApplication extends Application implements ReactApplication {
 
       // optional
       euroMobileManager.setPushIntent("com.relateddigital.pushsdk.MainActivity", this);
-      euroMobileManager.setNotificationTransparentSmallIcon(R.drawable.ic_launcher, this);
-      euroMobileManager.setNotificationTransparentSmallIconDarkMode(R.drawable.ic_launcher, this);
+      euroMobileManager.setNotificationTransparentSmallIcon(R.drawable.ic_txt_foreground, this);
+      euroMobileManager.setNotificationTransparentSmallIconDarkMode(R.drawable.ic_txt_foreground, this);
       euroMobileManager.useNotificationLargeIcon(true);
-      euroMobileManager.setNotificationLargeIcon(R.drawable.ic_launcher, this);
-      euroMobileManager.setNotificationLargeIconDarkMode(R.drawable.ic_launcher, this);
+      euroMobileManager.setNotificationLargeIcon(R.drawable.ic_txt_foreground, this);
+      euroMobileManager.setNotificationLargeIconDarkMode(R.drawable.ic_txt_foreground, this);
       euroMobileManager.setNotificationColor("#d1dbbd");
       euroMobileManager.setChannelName("Channel", this);
+      euroMobileManager.setNotificationPriority(RDNotificationPriority.HIGH, this); // Set to HIGH for push notifications to appear as temporary banners
+
   }
 
   /**
