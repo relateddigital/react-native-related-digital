@@ -1,7 +1,7 @@
 {
   "name": "react-native-related-digital",
-  "version": "0.1.0",
-  "description": "test",
+  "version": "2.0.0",
+  "description": "React Native Related Digital SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
@@ -39,7 +39,11 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "push",
+    "apns",
+    "fmc",
+    "related-digital"
   ],
   "repository": "https://github.com/relateddigital/react-native-related-digital",
   "author": "Related Digital <https://www.relateddigital.com> <developer@relateddigital.com> (https://github.com/relateddigital/react-native-related-digital)",

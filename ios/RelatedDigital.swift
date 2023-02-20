@@ -1,3 +1,7 @@
+import Foundation
+import UIKit
+import RelatedDigitalIOS
+
 @objc(RelatedDigital)
 class RelatedDigital: NSObject {
 

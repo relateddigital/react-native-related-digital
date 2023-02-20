@@ -1,6 +1,12 @@
-# react-native-related-digital
+<p align="center">
+  <img src="https://github.com/relateddigital/relateddigital-android/blob/master/app/relateddigital.png"/>
+</p>
 
-React Native Related Digital SDK
+# React Native Related Digital SDK
+
+A React Native module for Related Digital's iOS and Android SDK.
+
+
 
 ## Installation
 
