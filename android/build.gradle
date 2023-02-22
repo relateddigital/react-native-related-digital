@@ -5,6 +5,8 @@ buildscript {
   repositories {
     google()
     mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://developer.huawei.com/repo/' }
   }
 
   dependencies {
@@ -61,6 +63,8 @@ android {
 repositories {
   mavenCentral()
   google()
+  maven { url 'https://jitpack.io' }
+  maven { url 'https://developer.huawei.com/repo/' }
 }
 
 def kotlin_version = getExtOrDefault("kotlinVersion")
@@ -71,6 +75,7 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation 'com.github.relateddigital:relateddigital-android:1.0.8'
 }
 
 if (isNewArchitectureEnabled()) {

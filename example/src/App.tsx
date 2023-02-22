@@ -1,18 +1,18 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-related-digital';
+import RelatedDigital from 'react-native-related-digital';
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
 
   React.useEffect(() => {
-    multiply(3, 47).then(setResult);
+    RelatedDigital.multiply(3, 47).then(setResult);
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>Resultss: {result}</Text>
     </View>
   );
 }
