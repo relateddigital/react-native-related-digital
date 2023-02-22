@@ -1,32 +1,13 @@
 import * as React from 'react';
 
-import { StyleSheet, Text, View, Button } from 'react-native';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import RelatedDigital from 'react-native-related-digital';
+import { StyleSheet, Text, View } from 'react-native';
 
-export default function PushScreen() {
-  const navigation = useNavigation();
-  useFocusEffect(
-    React.useCallback(() => {
-      console.log('PushScreen');
-    }, [])
-  );
+//import RelatedDigital from 'react-native-related-digital';
+
+function PushScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>-:Push Notification:-</Text>
-      <Button
-        title={'custom event'}
-        onPress={() => {
-          RelatedDigital.customEvent('ProductView', { key: 'value' });
-        }}
-      />
-      <Button
-        title={'go home'}
-        onPress={() => {
-          navigation.goBack();
-        }}
-      />
-      <Text> On goBack</Text>
+      <Text>Home!</Text>
     </View>
   );
 }
@@ -48,3 +29,4 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
+export default PushScreen;
