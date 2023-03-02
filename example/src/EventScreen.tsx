@@ -1,13 +1,25 @@
 import * as React from 'react';
 
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
-//import RelatedDigital from 'react-native-related-digital';
+import RelatedDigital from 'react-native-related-digital';
 
 function EventScreen() {
+  const [result, setResult] = React.useState(0.0);
+
   return (
     <View style={styles.container}>
       <Text>Home!</Text>
+      <Button
+        title={'Multiply'}
+        onPress={() => {
+          RelatedDigital.multiply(5.0, 23.0).then((res) => {
+            console.log(res);
+            setResult(res);
+          });
+        }}
+      />
+      <Text>{result}</Text>
     </View>
   );
 }

@@ -1,4 +1,4 @@
-package com.relateddigital
+package com.react-native-related-digital
 
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule
@@ -15,3 +15,4 @@ class RelatedDigitalPackage : ReactPackage {
     return emptyList()
   }
 }
+
