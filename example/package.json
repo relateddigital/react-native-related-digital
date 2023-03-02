@@ -9,21 +9,19 @@
     "pods": "pod-install --quiet"
   },
   "dependencies": {
-    "react": "18.2.0",
-    "react-native": "0.71.3",
-    "react-native-gesture-handler": "^2.9.0",
-    "react-native-reanimated": "^2.14.4",
-    "react-native-safe-area-context": "^4.5.0",
+    "react": "17.0.1",
+    "react-native": "0.64.0",
     "react-native-screens": "^3.20.0",
-    "@react-navigation/native": "^6.1.4",
-    "@react-navigation/stack": "^6.3.14",
-    "@react-navigation/bottom-tabs": "^6.5.5"
+    "react-native-safe-area-context": "^4.5.0",
+    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/bottom-tabs": "^6.5.7",
+    "@react-navigation/stack": "^6.3.16"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.12",
+    "@babel/core": "^7.21.0",
     "@babel/preset-env": "^7.20.2",
-    "@babel/runtime": "^7.20.13",
+    "@babel/runtime": "7.21.0",
     "babel-plugin-module-resolver": "^5.0.0",
-    "metro-react-native-babel-preset": "0.73.8"
+    "metro-react-native-babel-preset": "^0.64.0"
   }
 }

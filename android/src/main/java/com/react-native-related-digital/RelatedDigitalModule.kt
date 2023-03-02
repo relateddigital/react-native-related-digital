@@ -1,4 +1,4 @@
-package react-native-related-digital
+package com.react-native-related-digital
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
