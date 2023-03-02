@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
 
-  s.dependency "React"
+  s.dependency "React-Core"
   s.dependency "RelatedDigitalIOS", "4.0.13"
 
   # Don't install the dependencies when we run `pod install` in the old architecture.
