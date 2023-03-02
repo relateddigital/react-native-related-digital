@@ -28,7 +28,6 @@ def isNewArchitectureEnabled() {
 
 
 
-
 if (isNewArchitectureEnabled()) {
   apply plugin: "com.facebook.react"
 }
