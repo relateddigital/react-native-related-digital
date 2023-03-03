@@ -189,7 +189,7 @@ class RelatedDigitalModule(reactContext: ReactApplicationContext) :
         override fun fail(errorMessage: String?) {
           val message = errorMessage ?: ""
           Log.e("ERROR", message)
-          promise.reject(Exception(message = message))
+          promise.reject(Exception(message))
         }
       }
     )
@@ -210,14 +210,14 @@ class RelatedDigitalModule(reactContext: ReactApplicationContext) :
           override fun fail(errorMessage: String) {
             val message = errorMessage ?: ""
             Log.e("ERROR", message)
-            promise.reject(Exception(message = message))
+            promise.reject(Exception(message))
           }
         }
       )
     } else {
       val message = "currentActivity is null"
       Log.e("ERROR", message)
-      promise.reject(Exception(message = message))
+      promise.reject(Exception(message))
     }
   }
 
