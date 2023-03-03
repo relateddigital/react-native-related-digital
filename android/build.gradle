@@ -22,11 +22,8 @@ buildscript {
 }
 
 def isNewArchitectureEnabled() {
-  println 'A message which is logged at QUIET level'
   return rootProject.hasProperty("newArchEnabled") && rootProject.getProperty("newArchEnabled") == "true"
 }
-
-
 
 if (isNewArchitectureEnabled()) {
   apply plugin: "com.facebook.react"

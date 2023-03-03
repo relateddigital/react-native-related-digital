@@ -1,11 +1,15 @@
 package com.reactnative_relateddigital
 
-import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReactContextBaseJavaModule
-import com.facebook.react.bridge.ReactMethod
-import com.facebook.react.bridge.Promise
-
+import android.util.Log
+import com.facebook.react.bridge.*
+import com.google.gson.Gson
+import com.reactnative_relateddigital.MapUtil.stringStringMap
 import com.relateddigital.relateddigital_google.RelatedDigital
+import com.relateddigital.relateddigital_google.model.EmailPermit
+import com.relateddigital.relateddigital_google.model.GsmPermit
+import com.relateddigital.relateddigital_google.model.Message
+import com.relateddigital.relateddigital_google.push.EuromessageCallback
+import com.relateddigital.relateddigital_google.push.PushMessageInterface
 
 class RelatedDigitalModule(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
@@ -18,12 +22,273 @@ class RelatedDigitalModule(reactContext: ReactApplicationContext) :
     promise.resolve(a * b)
   }
 
+  @ReactMethod
+  fun initialize(
+    organizationId: String,
+    profileId: String,
+    dataSource: String,
+    askLocationPermissionAtStart: Boolean
+  ) {
+    RelatedDigital.init(reactApplicationContext, organizationId, profileId, dataSource)
+  }
+
+  @ReactMethod
+  fun setIsInAppNotificationEnabled(isInAppNotificationEnabled: Boolean) {
+    RelatedDigital.setIsInAppNotificationEnabled(
+      reactApplicationContext,
+      isInAppNotificationEnabled
+    )
+  }
+
+  @ReactMethod
+  fun setIsGeofenceEnabled(isGeofenceEnabled: Boolean) {
+    RelatedDigital.setIsGeofenceEnabled(reactApplicationContext, isGeofenceEnabled)
+  }
+
+  @ReactMethod
+  fun setAdvertisingIdentifier(advertisingIdentifier: String) {
+    RelatedDigital.setAdvertisingIdentifier(reactApplicationContext, advertisingIdentifier)
+  }
+
+  @ReactMethod
+  fun signUp(exVisitorId: String, properties: ReadableMap) {
+    RelatedDigital.signUp(
+      reactApplicationContext,
+      exVisitorId,
+      stringStringMap(properties),
+      currentActivity
+    )
+  }
+
+  @ReactMethod
+  fun login(exVisitorId: String, properties: ReadableMap) {
+    RelatedDigital.login(
+      reactApplicationContext,
+      exVisitorId,
+      stringStringMap(properties),
+      currentActivity
+    )
+  }
+
+  @ReactMethod
+  fun logout() {
+    RelatedDigital.logout(reactApplicationContext)
+    RelatedDigital.sync(reactApplicationContext)
+  }
+
+  @ReactMethod
+  fun customEvent(pageName: String, parameters: ReadableMap) {
+    RelatedDigital.customEvent(
+      reactApplicationContext,
+      pageName,
+      stringStringMap(parameters),
+      currentActivity
+    )
+  }
+
+  @ReactMethod
+  fun setIsPushNotificationEnabled(
+    isPushNotificationEnabled: Boolean,
+    appAlias: String,
+    deliveredBadge: Boolean
+  ) {
+    RelatedDigital.setGoogleAppAlias(reactApplicationContext, appAlias)
+    val token = RelatedDigital.getToken(reactApplicationContext)
+    RelatedDigital.setIsPushNotificationEnabled(
+      reactApplicationContext,
+      isPushNotificationEnabled,
+      appAlias,
+      token
+    )
+    RelatedDigital.sync(reactApplicationContext)
+  }
+
+  @ReactMethod
+  fun setEmail(email: String, permission: Boolean) {
+    RelatedDigital.setEmail(reactApplicationContext, email)
+    val emailPermit = if (permission) EmailPermit.ACTIVE else EmailPermit.PASSIVE
+    RelatedDigital.setEmailPermit(reactApplicationContext, emailPermit)
+    RelatedDigital.sync(reactApplicationContext)
+  }
+
+  @ReactMethod
+  fun sendCampaignParameters(parameters: ReadableMap) {
+    RelatedDigital.sendCampaignParameters(reactApplicationContext, stringStringMap(parameters))
+  }
+
+  @ReactMethod
+  fun setTwitterId(twitterId: String) {
+    RelatedDigital.setTwitterId(reactApplicationContext, twitterId)
+    RelatedDigital.sync(reactApplicationContext)
+  }
+
+  @ReactMethod
+  fun gg() {
+    RelatedDigital.logout(reactApplicationContext)
+  }
+
+  @ReactMethod
+  fun hh() {
+    RelatedDigital.logout(reactApplicationContext)
+  }
+
+  @ReactMethod
+  fun sdf() {
+    RelatedDigital.logout(reactApplicationContext)
+  }
+
+  @ReactMethod
+  fun setFacebookId(facebookId: String) {
+    RelatedDigital.setFacebookId(reactApplicationContext, facebookId)
+    RelatedDigital.sync(reactApplicationContext)
+  }
+
+  @ReactMethod
+  fun setRelatedDigitalUserId(relatedDigitalUserId: String) {
+    RelatedDigital.setRelatedDigitalUserId(reactApplicationContext, relatedDigitalUserId)
+    RelatedDigital.sync(reactApplicationContext)
+  }
+
+  @ReactMethod
+  fun setNotificationLoginId(notificationLoginId: String) {
+    RelatedDigital.setNotificationLoginID(notificationLoginId, reactApplicationContext)
+    RelatedDigital.sync(reactApplicationContext)
+  }
+
+  @ReactMethod
+  fun setPhoneNumber(msisdn: String, permission: Boolean) {
+    val gsmPermit = if (permission) GsmPermit.ACTIVE else GsmPermit.PASSIVE
+    RelatedDigital.setPhoneNumber(reactApplicationContext, msisdn)
+    RelatedDigital.setGsmPermit(reactApplicationContext, gsmPermit)
+    RelatedDigital.sync(reactApplicationContext)
+  }
+
+  @ReactMethod
+  fun setUserProperty(key: String, value: String) {
+    RelatedDigital.setUserProperty(reactApplicationContext, key, value)
+    RelatedDigital.sync(reactApplicationContext)
+  }
+
+  @ReactMethod
+  fun removeUserProperty(key: String) {
+    RelatedDigital.removeUserProperty(reactApplicationContext, key)
+    RelatedDigital.sync(reactApplicationContext)
+  }
+
+  fun registerEmail(email: String, permission: Boolean, isCommercial: Boolean, promise: Promise) {
+    RelatedDigital.registerEmail(
+      reactApplicationContext,
+      email,
+      if (permission) EmailPermit.ACTIVE else EmailPermit.PASSIVE,
+      isCommercial,
+      object : EuromessageCallback {
+        override fun success() {
+          promise.resolve(true)
+        }
+
+        override fun fail(errorMessage: String?) {
+          val message = errorMessage ?: ""
+          Log.e("ERROR", message)
+          promise.reject(Exception(message = message))
+        }
+      }
+    )
+  }
+
+  fun getPushMessages(promise: Promise) {
+    if (currentActivity != null) {
+      RelatedDigital.getPushMessages(
+        currentActivity!!,
+        object : PushMessageInterface {
+          override fun success(pushMessages: List<Message>) {
+            val map: HashMap<String, List<Message>> = HashMap()
+            map["pushMessages"] = pushMessages
+            val gson = Gson()
+            promise.resolve(gson.toJson(map))
+          }
+
+          override fun fail(errorMessage: String) {
+            val message = errorMessage ?: ""
+            Log.e("ERROR", message)
+            promise.reject(Exception(message = message))
+          }
+        }
+      )
+    } else {
+      val message = "currentActivity is null"
+      Log.e("ERROR", message)
+      promise.reject(Exception(message = message))
+    }
+  }
+
+  /*
+    fun getPushMessagesWithID(result: MethodChannel.Result) {
+      RelatedDigital
+        .getPushMessagesWithID(mActivity, object : PushMessageInterface {
+          override fun success(pushMessages: List<Message>) {
+            val map: HashMap<String, List<Message>> = HashMap()
+            map["pushMessages"] = pushMessages
+            val gson = Gson()
+            result.success(gson.toJson(map))
+          }
+
+          override fun fail(errorMessage: String) {
+            result.error("ERROR", errorMessage, null)
+          }
+        })
+    }
+
+    fun sendLocationPermission() {
+      try {
+        RelatedDigital.sendLocationPermission(mContext)
+      } catch (ex: Exception) {
+        ex.printStackTrace()
+      }
+    }
+
+    fun getFavoriteAttributeActions(actionId: String?, result: MethodChannel.Result) {
+      try {
+        RelatedDigital.getFavorites(mContext, actionId)
+
+
+        val visilabsActionRequest: VisilabsActionRequest
+        visilabsActionRequest = if (actionId != null && !actionId.isEmpty()) {
+          Visilabs.CallAPI().requestActionId(actionId)
+        } else {
+          Visilabs.CallAPI().requestActionId(VisilabsConstant.FavoriteAttributeAction)
+        }
+        visilabsActionRequest.executeAsyncAction(object : VisilabsCallback() {
+          @Override
+          fun success(response: VisilabsResponse) {
+            val gson = Gson()
+            val favsResponse: FavsResponse =
+              gson.fromJson(response.getRawResponse(), FavsResponse::class.java)
+            if (favsResponse.getFavoriteAttributeAction().size() > 0) {
+              val favs: Favorites =
+                favsResponse.getFavoriteAttributeAction().get(0).getActiondata()
+                  .getFavorites()
+              result.success(gson.toJson(favs))
+            } else {
+              result.success(null)
+            }
+          }
+
+          @Override
+          fun fail(response: VisilabsResponse?) {
+            result.success(null)
+          }
+        })
+      } catch (e: Exception) {
+        result.error("ERROR", e.getMessage(), null)
+      }
+    }
+
+  */
+
   companion object {
     const val NAME = "RelatedDigital"
   }
-
 }
-
 
 /*
 FLUTTER

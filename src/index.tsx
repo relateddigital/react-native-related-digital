@@ -29,6 +29,8 @@ type RelatedDigitalType = {
   setPhoneNumber(msisdn: string, permission: boolean): void;
   setUserProperty(key: string, value: string): void;
   removeUserProperty(key: string): void;
+  registerEmail(): Promise<boolean>;
+  getPushMessages(): Promise<any>; // TODO
 };
 
 const { RelatedDigital } = NativeModules;
