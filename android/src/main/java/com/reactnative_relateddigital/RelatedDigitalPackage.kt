@@ -1,4 +1,4 @@
-package com.react-native-related-digital
+package com.reactnative_relateddigital
 
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule

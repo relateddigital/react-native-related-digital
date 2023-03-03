@@ -1,4 +1,4 @@
-package com.react-native-related-digital
+package com.reactnative_relateddigital
 
 class RelatedDigitalManager {
 

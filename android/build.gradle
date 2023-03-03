@@ -15,7 +15,7 @@ buildscript {
   dependencies {
 
     classpath "com.android.tools.build:gradle:7.3.1"
-    classpath("de.undercouch:gradle-download-task:5.0.1")
+    //classpath("de.undercouch:gradle-download-task:5.0.1")
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
   }
@@ -47,7 +47,6 @@ android {
     minSdkVersion getExtOrIntegerDefault("minSdkVersion")
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
     buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
-    multiDexEnabled true
   }
   buildTypes {
     release {
@@ -80,10 +79,9 @@ repositories {
 def kotlin_version = getExtOrDefault("kotlinVersion")
 
 dependencies {
-  implementation("com.facebook.react:react-native:+")
-  implementation "com.facebook.react:react-android:0.71.3"
+  api "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  api 'com.github.relateddigital:relateddigital-google:1.0.8'
+  api "com.github.relateddigital:relateddigital-google:1.0.8"
 }
 
 

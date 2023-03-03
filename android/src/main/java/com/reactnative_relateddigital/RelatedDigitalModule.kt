@@ -1,4 +1,4 @@
-package com.react-native-related-digital
+package com.reactnative_relateddigital
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -243,5 +243,3 @@ class RelatedDigitalPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     }
 }
  */
-
-*/
