@@ -57,12 +57,12 @@ module.exports = {
   resolver: {
     extraNodeModules: new Proxy(
       {},
-      { get: (_, name) => path.resolve('/Users/egemen/Documents/RELATEDDIGITAL/react-native-related-digital/client', 'node_modules', name) }
+      { get: (_, name) => path.resolve('/Users/barisarslan/Desktop/react_native/sdk/react-native-related-digital/client', 'node_modules', name) }
     )
   },
 
   // quick workaround for another issue with symlinks
-  watchFolders: ['/Users/egemen/Documents/RELATEDDIGITAL/react-native-related-digital/client', '/Users/egemen/Documents/RELATEDDIGITAL/react-native-related-digital/sdk'],
+  watchFolders: ['/Users/barisarslan/Desktop/react_native/sdk/react-native-related-digital/client', '/Users/barisarslan/Desktop/react_native/sdk/react-native-related-digital/sdk'],
 
   // transformer: {
   //   getTransformOptions: async () => ({

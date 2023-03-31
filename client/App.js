@@ -32,7 +32,7 @@ const App = () => {
   const [token, setToken] = useState(null)
   const [widget, setWidget] = useState(null)
 
-  const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'RnPushSdkIOS'
+  const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapp'
 
   const siteId = "356467332F6533766975593D";
   const organizationId = "676D325830564761676D453D";

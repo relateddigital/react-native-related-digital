@@ -64,7 +64,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
   
-  [RelatedDigitalPushModule initRelatedDigital:@"676D325830564761676D453D" profileId:@"356467332F6533766975593D" dataSource:@"visistore" appAlias:@"RnPushSdkIOS" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true askLocationPermmissionAtStart:true maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
+  [RelatedDigitalPushModule initRelatedDigital:@"676D325830564761676D453D" profileId:@"356467332F6533766975593D" dataSource:@"visistore" appAlias:@"rniostestapp" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true askLocationPermmissionAtStart:true maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
 
   
   return YES;

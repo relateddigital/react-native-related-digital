@@ -20,7 +20,7 @@ import CustomButton from './components/CustomButton'
 import Widget from './components/Widget'
 
 
-const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'RnPushSdkIOS'
+const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapp'
 
 const siteId = "356467332F6533766975593D";
 const organizationId = "676D325830564761676D453D";
@@ -42,7 +42,7 @@ export default class Home extends Component {
       userData: {
         "Keyid": "baris.arslan@euromsg.com",
         "Email": "baris.arslan@euromsg.com",
-        "ConsentTime": "2022-11-11 10:00:00",
+        "ConsentTime": "2022-11-12 10:00:00",
         "RecipientType": "BIREYSEL",
         "ConsentSource": "HS_MOBIL",
         "PushPermit": "Y"
