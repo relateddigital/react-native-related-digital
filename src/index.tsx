@@ -29,7 +29,7 @@ type RelatedDigitalType = {
   setPhoneNumber(msisdn: string, permission: boolean): void;
   setUserProperty(key: string, value: string): void;
   removeUserProperty(key: string): void;
-  registerEmail(): Promise<boolean>;
+  registerEmail(email: String, permission: Boolean, isCommercial: Boolean): Promise<boolean>;
   getPushMessages(): Promise<any>; // TODO
 };
 

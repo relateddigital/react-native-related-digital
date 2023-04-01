@@ -11,6 +11,10 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.67.4)
   - fmt (6.2.1)
   - glog (0.3.5)
+  - lottie-ios (3.4.4)
+  - lottie-react-native (5.1.5):
+    - lottie-ios (~> 3.4.0)
+    - React-Core
   - RCT-Folly (2021.06.28.00-v2):
     - boost
     - DoubleConversion
@@ -284,6 +288,8 @@ PODS:
     - React-logger (= 0.67.4)
     - React-perflogger (= 0.67.4)
   - RelatedDigitalIOS (4.0.13)
+  - RNCAsyncStorage (1.18.1):
+    - React-Core
   - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
@@ -295,6 +301,7 @@ DEPENDENCIES:
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -323,12 +330,14 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
     - fmt
+    - lottie-ios
     - RelatedDigitalIOS
 
 EXTERNAL SOURCES:
@@ -342,6 +351,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/React/FBReactNativeSpec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  lottie-react-native:
+    :path: "../node_modules/lottie-react-native"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -394,6 +405,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   Yoga:
@@ -406,6 +419,8 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: 0f4e1f4cfeace095694436e7c7fcc5bf4b03a0ff
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 85ecdd10ee8d8ec362ef519a6a45ff9aa27b2e85
+  lottie-ios: 8f97d3271e155c2d688875c29cd3c74908aef5f8
+  lottie-react-native: 3e722c63015fdb9c27638b0a77969fc412067c18
   RCT-Folly: 803a9cfd78114b2ec0f140cfa6fa2a6bafb2d685
   RCTRequired: 0aa6c1c27e1d65920df35ceea5341a5fe76bdb79
   RCTTypeSafety: d76a59d00632891e11ed7522dba3fd1a995e573a
@@ -433,6 +448,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: a9d3c82ddf7ffdad9fbe6a81c6d6f8c06385464d
   ReactCommon: 07d0c460b9ba9af3eaf1b8f5abe7daaad28c9c4e
   RelatedDigitalIOS: c3eecc054b9cfc199aaff161dd8d0564b6f6435d
+  RNCAsyncStorage: b90b71f45b8b97be43bc4284e71a6af48ac9f547
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   Yoga: d6b6a80659aa3e91aaba01d0012e7edcbedcbecd
 
