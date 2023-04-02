@@ -5,21 +5,18 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import RelatedDigital from 'react-native-related-digital';
 
 function EventScreen() {
-  const [result, setResult] = React.useState(0.0);
+  const [result, setResult] = React.useState("");
 
   return (
     <View style={styles.container}>
       <Text>Home!</Text>
       <Button
-        title={'Multiply'}
+        title={'Custom Event'}
         onPress={() => {
-          RelatedDigital.multiply(5.0, 23.0).then((res) => {
-            console.log(res);
-            setResult(res);
-          });
+          RelatedDigital.customEvent("test_event", { "test": "test" });
         }}
       />
-      <Text>{result}</Text>
+      <Text>Cust: {result}</Text>
     </View>
   );
 }

@@ -1258,7 +1258,7 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@evilmartians/lefthook@^0.7.6":
+"@evilmartians/lefthook@^1.3.8":
   version "1.3.8"
   resolved "https://registry.npmjs.org/@evilmartians/lefthook/-/lefthook-1.3.8.tgz"
   integrity sha512-uQp7YKOmDQpH00+BsxDHOBuJI+QnBp3pZ4vBKIjt13epdcc3heQ8DDikc3byjUx3nZ7EBaQAzzXpyY1Rx08eow==

@@ -14,7 +14,7 @@ buildscript {
 
   dependencies {
 
-    classpath "com.android.tools.build:gradle:7.3.1"
+    classpath "com.android.tools.build:gradle:7.2.2"
     //classpath("de.undercouch:gradle-download-task:5.0.1")
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
@@ -78,7 +78,7 @@ def kotlin_version = getExtOrDefault("kotlinVersion")
 dependencies {
   api "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  api "com.github.relateddigital:relateddigital-google:1.0.8"
+  api "com.github.relateddigital:relateddigital-android:1.0.9"
 }
 
 

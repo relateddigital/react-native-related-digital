@@ -1,13 +1,25 @@
 import * as React from 'react';
 
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
-//import RelatedDigital from 'react-native-related-digital';
+import RelatedDigital from 'react-native-related-digital';
 
 function PushScreen() {
+  const [result, setResult] = React.useState("");
+
   return (
     <View style={styles.container}>
-      <Text>Home!</Text>
+      <Text>PushScreen!</Text>
+      <Button
+        title={'Read Token'}
+        onPress={() => {
+          RelatedDigital.getToken().then((res) => {
+            console.log(res);
+            setResult(res);
+          });
+        }}
+      />
+      <Text>Token: {result}</Text>
     </View>
   );
 }

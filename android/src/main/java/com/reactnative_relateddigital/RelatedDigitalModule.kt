@@ -1,25 +1,22 @@
 package com.reactnative_relateddigital
 
+import android.content.IntentFilter
 import android.util.Log
 import com.facebook.react.bridge.*
 import com.google.gson.Gson
 import com.reactnative_relateddigital.MapUtil.stringStringMap
-import com.relateddigital.relateddigital_google.RelatedDigital
-import com.relateddigital.relateddigital_google.model.EmailPermit
-import com.relateddigital.relateddigital_google.model.GsmPermit
-import com.relateddigital.relateddigital_google.model.Message
-import com.relateddigital.relateddigital_google.push.EuromessageCallback
-import com.relateddigital.relateddigital_google.push.PushMessageInterface
+import com.relateddigital.relateddigital_android.RelatedDigital
+import com.relateddigital.relateddigital_android.constants.Constants
+import com.relateddigital.relateddigital_android.model.EmailPermit
+import com.relateddigital.relateddigital_android.model.GsmPermit
+import com.relateddigital.relateddigital_android.model.Message
+import com.relateddigital.relateddigital_android.push.EuromessageCallback
+import com.relateddigital.relateddigital_android.push.PushMessageInterface
 
 class RelatedDigitalModule(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
   override fun getName(): String {
     return "RelatedDigital"
-  }
-
-  @ReactMethod
-  fun multiply(a: Double, b: Double, promise: Promise) {
-    promise.resolve(a * b)
   }
 
   @ReactMethod
@@ -90,15 +87,18 @@ class RelatedDigitalModule(reactContext: ReactApplicationContext) :
   fun setIsPushNotificationEnabled(
     isPushNotificationEnabled: Boolean,
     appAlias: String,
+    huaweiAppAlias: String,
     deliveredBadge: Boolean
   ) {
     RelatedDigital.setGoogleAppAlias(reactApplicationContext, appAlias)
+    RelatedDigital.setHuaweiAppAlias(reactApplicationContext, huaweiAppAlias)
     val token = RelatedDigital.getToken(reactApplicationContext)
     RelatedDigital.setIsPushNotificationEnabled(
       reactApplicationContext,
       isPushNotificationEnabled,
       appAlias,
-      token
+      huaweiAppAlias,
+      token,
     )
     RelatedDigital.sync(reactApplicationContext)
   }
@@ -181,12 +181,11 @@ class RelatedDigitalModule(reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun getPushMessages(promise: Promise) {
-
     currentActivity?.let {
       RelatedDigital.getPushMessages(it, object : PushMessageInterface {
-        override fun success(messages: List<Message>) {
+        override fun success(pushMessages: List<Message>) {
           val gson = Gson()
-          val json = gson.toJson(messages)
+          val json = gson.toJson(pushMessages)
           promise.resolve(json)
         }
 
@@ -197,11 +196,26 @@ class RelatedDigitalModule(reactContext: ReactApplicationContext) :
     } ?: run {
       promise.reject(Exception("Activity is null"))
     }
-
   }
 
+  @ReactMethod
+  fun getToken(promise: Promise) {
+    val token = RelatedDigital.getToken(reactApplicationContext)
+    promise.resolve(token)
+  }
+
+  @ReactMethod
+  fun registerNotificationListeners() {
+    Log.d(LOG_TAG, "registerNotificationListeners")
+    val filter = IntentFilter()
+    filter.addAction(Constants.PUSH_REGISTER_EVENT)
+    filter.addAction(Constants.PUSH_RECEIVE_EVENT)
+    val notifReceiver = RelatedDigitalNotificationReceiver(reactApplicationContext)
+    reactApplicationContext.currentActivity?.registerReceiver(notifReceiver, filter)
+  }
 
   companion object {
     const val NAME = "RelatedDigital"
+    private const val LOG_TAG: String = "RelatedDigitalModule"
   }
 }

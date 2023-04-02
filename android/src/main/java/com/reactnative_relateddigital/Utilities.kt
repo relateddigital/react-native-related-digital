@@ -1,6 +1,8 @@
 package com.reactnative_relateddigital
 
+import android.util.Log
 import com.facebook.react.bridge.*
+import com.facebook.react.modules.core.DeviceEventManagerModule.RCTDeviceEventEmitter
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -12,8 +14,7 @@ object ArrayUtil {
   fun toJSONArray(readableArray: ReadableArray?): JSONArray {
     val jsonArray = JSONArray()
     for (i in 0 until readableArray!!.size()) {
-      val type = readableArray.getType(i)
-      when (type) {
+      when (readableArray.getType(i)) {
         ReadableType.Null -> jsonArray.put(i, null)
         ReadableType.Boolean -> jsonArray.put(i, readableArray.getBoolean(i))
         ReadableType.Number -> jsonArray.put(i, readableArray.getDouble(i))
@@ -44,8 +45,7 @@ object ArrayUtil {
   fun toArray(readableArray: ReadableArray?): Array<Any?> {
     val array = arrayOfNulls<Any>(readableArray!!.size())
     for (i in 0 until readableArray.size()) {
-      val type = readableArray.getType(i)
-      when (type) {
+      when (readableArray.getType(i)) {
         ReadableType.Null -> array[i] = null
         ReadableType.Boolean -> array[i] = readableArray.getBoolean(i)
         ReadableType.Number -> array[i] = readableArray.getDouble(i)
@@ -81,8 +81,7 @@ object MapUtil {
     val iterator = readableMap!!.keySetIterator()
     while (iterator.hasNextKey()) {
       val key = iterator.nextKey()
-      val type = readableMap.getType(key)
-      when (type) {
+      when (readableMap.getType(key)) {
         ReadableType.Null -> jsonObject.put(key, null)
         ReadableType.Boolean -> jsonObject.put(key, readableMap.getBoolean(key))
         ReadableType.Number -> jsonObject.put(key, readableMap.getDouble(key))
@@ -118,8 +117,7 @@ object MapUtil {
     val iterator = readableMap!!.keySetIterator()
     while (iterator.hasNextKey()) {
       val key = iterator.nextKey()
-      val type = readableMap.getType(key)
-      when (type) {
+      when (readableMap.getType(key)) {
         ReadableType.Null -> map[key] = null
         ReadableType.Boolean -> map[key] = readableMap.getBoolean(key)
         ReadableType.Number -> map[key] = readableMap.getDouble(key)
@@ -132,7 +130,7 @@ object MapUtil {
   }
 
   @Throws(JSONException::class)
-  fun convertJsonToMap(jsonObject: JSONObject): WritableMap? {
+  fun convertJsonToMap(jsonObject: JSONObject): WritableMap {
     val map: WritableMap = WritableNativeMap()
     val iterator = jsonObject.keys()
     while (iterator.hasNext()) {
@@ -164,21 +162,28 @@ object MapUtil {
   fun convertJsonToArray(jsonArray: JSONArray): WritableArray {
     val array: WritableArray = WritableNativeArray()
     for (i in 0 until jsonArray.length()) {
-      val value = jsonArray[i]
-      if (value is JSONObject) {
-        array.pushMap(convertJsonToMap(value))
-      } else if (value is JSONArray) {
-        array.pushArray(convertJsonToArray(value))
-      } else if (value is Boolean) {
-        array.pushBoolean(value)
-      } else if (value is Int) {
-        array.pushInt(value)
-      } else if (value is Double) {
-        array.pushDouble(value)
-      } else if (value is String) {
-        array.pushString(value)
-      } else {
-        array.pushString(value.toString())
+      when (val value = jsonArray[i]) {
+          is JSONObject -> {
+            array.pushMap(convertJsonToMap(value))
+          }
+        is JSONArray -> {
+          array.pushArray(convertJsonToArray(value))
+        }
+        is Boolean -> {
+          array.pushBoolean(value)
+        }
+        is Int -> {
+          array.pushInt(value)
+        }
+        is Double -> {
+          array.pushDouble(value)
+        }
+        is String -> {
+          array.pushString(value)
+        }
+        else -> {
+          array.pushString(value.toString())
+        }
       }
     }
     return array
@@ -204,7 +209,7 @@ object MapUtil {
   }
 
   @Throws(JSONException::class)
-  fun convertArrayToJson(readableArray: ReadableArray?): JSONArray? {
+  fun convertArrayToJson(readableArray: ReadableArray?): JSONArray {
     val array = JSONArray()
     for (i in 0 until readableArray!!.size()) {
       when (readableArray.getType(i)) {
@@ -218,4 +223,20 @@ object MapUtil {
     }
     return array
   }
+}
+
+
+object PushUtils {
+
+  private const val LOG_TAG = "PushUtils"
+
+  fun sendEvent(eventName: String, data: WritableMap, context: ReactApplicationContext) {
+    if (context.hasActiveReactInstance()) {
+      Log.d(LOG_TAG, "sending event.")
+      context
+        .getJSModule(RCTDeviceEventEmitter::class.java)
+        .emit(eventName, data)
+    }
+  }
+
 }

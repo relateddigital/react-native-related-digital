@@ -1,13 +1,12 @@
 import { NativeModules } from 'react-native';
 
 type RelatedDigitalType = {
-  multiply(a: number, b: number): Promise<number>;
   initialize(
     organizationId: string,
     profileId: string,
     dataSource: string,
     askLocationPermissionAtStart: boolean
-  ): void; //TODO: BU KALKABİLİR BELKİ
+  ): void;
   setIsInAppNotificationEnabled(isInAppNotificationEnabled: boolean): void;
   setIsGeofenceEnabled(isGeofenceEnabled: boolean): void;
   setAdvertisingIdentifier(advertisingIdentifier: string): void;
@@ -18,6 +17,7 @@ type RelatedDigitalType = {
   setIsPushNotificationEnabled(
     isPushNotificationEnabled: boolean,
     appAlias: string,
+    huaweiAppAlias: string,
     deliveredBadge: boolean
   ): void;
   setEmail(email: string, permission: boolean): void;
@@ -30,9 +30,13 @@ type RelatedDigitalType = {
   setUserProperty(key: string, value: string): void;
   removeUserProperty(key: string): void;
   registerEmail(email: String, permission: Boolean, isCommercial: Boolean): Promise<boolean>;
-  getPushMessages(): Promise<any>; // TODO
+  getPushMessages(): Promise<any>;
+  getToken(): Promise<string>;
+  registerNotificationListeners(): void;
 };
 
 const { RelatedDigital } = NativeModules;
+
+RelatedDigital?.registerNotificationListeners();
 
 export default RelatedDigital as RelatedDigitalType;
