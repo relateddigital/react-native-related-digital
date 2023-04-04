@@ -12,15 +12,28 @@ import RelatedDigital from 'react-native-related-digital';
 function EventScreen() {
   const [exVisitorId, setExVisitorId] = React.useState('');
   const [properties, setProperties] = React.useState('');
+  const [pageName, setPageName] = React.useState('');
+  const [parameters, setParameters] = React.useState('');
+
+  const handleCustomEvent = () => {
+    let parsedParameters = {};
+    try {
+      parsedParameters = JSON.parse(parameters);
+    } catch (error) {
+      console.error('Error parsing JSON:', error);
+      console.log('Parameters must be a valid JSON object.');
+      return;
+    }
+    RelatedDigital.customEvent(pageName, parsedParameters);
+    console.log('Custom event sent.');
+  };
 
   const handleSignUp = () => {
-    const parsedProperties = JSON.parse(properties);
-    RelatedDigital.signUp(exVisitorId, parsedProperties);
+    RelatedDigital.signUp(exVisitorId, {});
   };
 
   const handleLogin = () => {
-    const parsedProperties = JSON.parse(properties);
-    RelatedDigital.login(exVisitorId, parsedProperties);
+    RelatedDigital.login(exVisitorId, {});
   };
 
   const handleLogout = () => {
@@ -29,7 +42,7 @@ function EventScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.heading}>Events</Text>
+      <Text style={styles.heading}>Authentication</Text>
       <TextInput
         style={styles.input}
         onChangeText={setExVisitorId}
@@ -47,6 +60,23 @@ function EventScreen() {
         <Button title="Login" onPress={handleLogin} />
         <Button title="Logout" onPress={handleLogout} />
       </View>
+      <Text style={styles.heading}>Custom Events</Text>
+      <Text>Page Name:</Text>
+      <TextInput
+        style={styles.input}
+        value={pageName}
+        onChangeText={setPageName}
+        placeholder="Enter page name"
+      />
+      <Text>Parameters (JSON):</Text>
+      <TextInput
+        style={[styles.input, { height: 100 }]}
+        value={parameters}
+        onChangeText={setParameters}
+        placeholder="Enter parameters as a JSON object"
+        multiline
+      />
+      <Button title="Send Custom Event" onPress={handleCustomEvent} />
     </ScrollView>
   );
 }
