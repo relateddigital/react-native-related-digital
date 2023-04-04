@@ -1,40 +1,81 @@
 import * as React from 'react';
-
-import { StyleSheet, Text, View, Button } from 'react-native';
-
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TextInput,
+  ScrollView,
+} from 'react-native';
 import RelatedDigital from 'react-native-related-digital';
 
 function EventScreen() {
-  const [result, setResult] = React.useState("");
+  const [exVisitorId, setExVisitorId] = React.useState('');
+  const [properties, setProperties] = React.useState('');
+
+  const handleSignUp = () => {
+    const parsedProperties = JSON.parse(properties);
+    RelatedDigital.signUp(exVisitorId, parsedProperties);
+  };
+
+  const handleLogin = () => {
+    const parsedProperties = JSON.parse(properties);
+    RelatedDigital.login(exVisitorId, parsedProperties);
+  };
+
+  const handleLogout = () => {
+    RelatedDigital.logout();
+  };
 
   return (
-    <View style={styles.container}>
-      <Text>Home!</Text>
-      <Button
-        title={'Custom Event'}
-        onPress={() => {
-          RelatedDigital.customEvent("test_event", { "test": "test" });
-        }}
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.heading}>Events</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={setExVisitorId}
+        value={exVisitorId}
+        placeholder="exVisitorId"
       />
-      <Text>Cust: {result}</Text>
-    </View>
+      <TextInput
+        style={styles.input}
+        onChangeText={setProperties}
+        value={properties}
+        placeholder='{"key": "value"}'
+      />
+      <View style={styles.buttonContainer}>
+        <Button title="Sign Up" onPress={handleSignUp} />
+        <Button title="Login" onPress={handleLogin} />
+        <Button title="Logout" onPress={handleLogout} />
+      </View>
+    </ScrollView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'space-evenly',
+    flexGrow: 1,
+    justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
-  },
   heading: {
     fontWeight: 'bold',
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    width: '100%',
+    marginBottom: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '100%',
     marginTop: 20,
   },
 });

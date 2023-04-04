@@ -38,7 +38,7 @@ import com.android.build.OutputFile
 //   The name of the generated asset file containing your JS bundle
 // bundleAssetName = "MyApplication.android.bundle"
 //
-//   The entry file for bundle generation. Default is 'index.android.js' or 'index.js'
+//   The entry file for bundle generation. Default is 'index.android.js' or 'index.tsx'
 // entryFile = file("../js/MyApplication.android.js")
 //
 //   A list of extra flags to pass to the 'bundle' commands.
@@ -62,7 +62,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
   enableHermes: false,  // clean and rebuild if changing
-  entryFile   : "index.js",
+  entryFile   : "index.tsx",
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"

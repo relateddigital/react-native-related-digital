@@ -6,6 +6,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import EventScreen from './EventScreen';
 import PushScreen from './PushScreen';
 
+
+
+
 const Tab = createBottomTabNavigator();
 
 function App() {
