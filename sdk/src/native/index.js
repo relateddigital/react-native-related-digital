@@ -10,6 +10,7 @@ const CAROUSEL_ITEM_CLICKED_EVENT = 'carouselItemClicked'; // android only
 
 const getDeviceParameters = RelatedDigitalPushModule.getDeviceParameters
 const customEventNative = RelatedDigitalPushModule.customEvent
+const logoutNative = RelatedDigitalPushModule.logout
 const getRecommendationsNative = RelatedDigitalPushModule.getRecommendations
 const trackRecommendationClickNative = RelatedDigitalPushModule.trackRecommendationClick
 const getStoriesNative = RelatedDigitalPushModule.getStories
@@ -19,6 +20,8 @@ const sendTheListOfAppsInstalledNative = RelatedDigitalPushModule.sendTheListOfA
 const sendLocationPermissionNative = RelatedDigitalPushModule.sendLocationPermission
 const getPushMessagesNative = RelatedDigitalPushModule.getPushMessages
 const getUserNative = RelatedDigitalPushModule.getUser
+const getSubscriptionNative = RelatedDigitalPushModule.getSubscription
+const setUserPropertyNative = RelatedDigitalPushModule.setUserProperty
 
 const RDStoryViewNative = requireNativeComponent('StoryView')
 
@@ -33,6 +36,7 @@ export {
 
     getDeviceParameters,
     customEventNative,
+    logoutNative,
     getRecommendationsNative,
     trackRecommendationClickNative,
     RDStoryViewNative,
@@ -42,5 +46,7 @@ export {
     sendTheListOfAppsInstalledNative,
     sendLocationPermissionNative,
     getPushMessagesNative,
-    getUserNative
+    getUserNative,
+    getSubscriptionNative,
+    setUserPropertyNative
 }

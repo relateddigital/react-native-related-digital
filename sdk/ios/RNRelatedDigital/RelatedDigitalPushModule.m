@@ -135,6 +135,18 @@ RCT_EXPORT_MODULE()
     [RelatedDigitalBridge initRelatedDigitalWithOrganizationId:organizationId profileId:profileId dataSource:dataSource appAlias:appAlias inAppNotificationsEnabled:inAppNotificationsEnabled requestTimeoutInSeconds:requestTimeoutSeconds geofenceEnabled:geofenceEnabled askLocationPermmissionAtStart:askLocationPermmissionAtStart maxGeofenceCount:maxGeofenceCount isIDFAEnabled:isIDFAEnabled loggingEnabled:loggingEnabled];
 }
 
++ (void)setUserProperty:(NSString *)key value:(NSString *)value{
+   if(key != nil){
+       [RelatedDigitalBridge setUserPropertyWithKey:key value:value];
+   }
+}
+
+RCT_REMAP_METHOD(setUserProperty,
+                 setUserPropertyWithKey:(NSString *)key
+                 value:(NSString *)value) {
+    [RelatedDigitalBridge setUserPropertyWithKey:key value:(NSString *)value];
+}
+
 RCT_REMAP_METHOD(setApplicationIconBadgeNumber, withNumber:(NSInteger)number)
 {
   RCTSharedApplication().applicationIconBadgeNumber = number;
@@ -210,6 +222,10 @@ RCT_REMAP_METHOD(customEvent,
 	[RelatedDigitalBridge customEventWithPageName:pageName properties:properties];
 }
 
+RCT_REMAP_METHOD(logout,logoutNative){
+    [RelatedDigitalBridge logoutNative];
+}
+
 RCT_REMAP_METHOD(getRecommendations,
 								 getRecommendationsWithZoneId:(NSString *)zoneId
 										productCode:(NSString *)productCode
@@ -272,6 +288,18 @@ RCT_EXPORT_METHOD(getUser:(RCTPromiseResolveBlock)resolve
         resolve(response);
     }];
 }
+
+RCT_EXPORT_METHOD(getSubscription:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    [RelatedDigitalBridge getSubscriptionWithCompletion:^(NSString *response) {
+        resolve(response);
+    }];
+}
+
+// RCT_REMAP_METHOD(getSubscription,getSubscriptionNative){
+//     [RelatedDigitalBridge getSubscriptionNative];
+// }
+
 
 RCT_REMAP_METHOD(requestIDFA,requestIDFANative){
     [RelatedDigitalBridge requestIDFANative];

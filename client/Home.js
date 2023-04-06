@@ -9,6 +9,7 @@ import {
   requestIDFA,
   EuroMessageApi,
   VisilabsApi,
+  logout,
   setApplicationIconBadgeNumber,
   setGeofencingIntervalInMinute,
   logToConsole,
@@ -191,6 +192,7 @@ export default class Home extends Component {
 
     euroMessageApi.setUserProperties(userData).then(() => {
       euroMessageApi.subscribe(this.state.token)
+      visilabsApi.customEvent("Login",{'OM.exVisitorID':this.state.userData.Keyid,'OM.b_login':'1'})
       console.log("Success login");
     })
   }
@@ -567,7 +569,6 @@ export default class Home extends Component {
     )
   }
 
-
   loginLogoutButton = (type) => {
     return (
       <CustomButton style={{ width: "45%" }} data={type == "login" ? { name: "Login" } : { name: "Logout" }} action={type == "login" ? this.login : this.logout} />
@@ -596,8 +597,13 @@ export default class Home extends Component {
     return (
       <View>
         <View style={this.styles.titleContainer}>
+          {this.title("Logout", 15)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Logout" }} action={async () => { logout(); console.log("Logout"); }} />
+        </View>
+
+        <View style={this.styles.titleContainer}>
           {this.title("Get User", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('User Data', await visilabsApi.getUser()) }} />
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('User Data(Visilabs)', await visilabsApi.getUser());console.log('User Data(Euromsg)', await euroMessageApi.getUser()) }} />
         </View>
 
         <View style={this.styles.titleContainer}>

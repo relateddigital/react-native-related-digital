@@ -6,7 +6,8 @@ import {
     NOTIF_REGISTER_EVENT,
     NOTIF_REGISTRATION_ERROR_EVENT,
     CAROUSEL_ITEM_CLICKED_EVENT,
-    checkNotificationNative
+    checkNotificationNative,
+    logoutNative
 } from './native'
 import { EuroMessageApi, VisilabsApi, RecommendationAttribute, RecommendationFilterType } from './api'
 import RDStoryView from './RDStoryView'
@@ -145,7 +146,6 @@ const setGeofencingIntervalInMinute = (interval) => {
     }
 }
 
-
 const setApplicationIconBadgeNumber = (badgeNumber) => {
     if(Platform.OS === 'ios') {
         RelatedDigitalPushModule.setApplicationIconBadgeNumber(badgeNumber)
@@ -161,6 +161,10 @@ const logToConsole = (value) => {
     _log = value
 }
 
+const logout = async () => {
+    await logoutNative()
+}
+
 export {
     addEventListener,
     removeEventListener,
@@ -169,6 +173,7 @@ export {
     requestLocationPermission,
     setGeofencingIntervalInMinute,
     setApplicationIconBadgeNumber,
+    logout,
     logToConsole,
     EuroMessageApi,
     VisilabsApi,

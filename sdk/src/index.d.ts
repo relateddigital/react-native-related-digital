@@ -44,6 +44,7 @@ export class EuroMessageApi {
     setUserProperty(key: string, value: object): Promise<void>;
     setUserProperties(properties: object): Promise<void>;
     getPushMessages(): Promise<any>;
+    getSubscription(): Promise<void>;
 };
 export class VisilabsApi {
     constructor(
@@ -70,6 +71,7 @@ export function requestLocationPermission(): Promise<boolean>;
 export function setGeofencingIntervalInMinute(interval: number): void;
 export function setApplicationIconBadgeNumber(badgeNumber: number): void;
 export function logToConsole(value: boolean): void;
+export function logout(): void;
 
 export interface RDStoryViewProps {
     onItemClicked?: Function;

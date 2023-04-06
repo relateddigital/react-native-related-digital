@@ -9,11 +9,21 @@ import Euromsg
 		, requestTimeoutInSeconds: requestTimeoutInSeconds, geofenceEnabled: geofenceEnabled, askLocationPermmissionAtStart: askLocationPermmissionAtStart, maxGeofenceCount: maxGeofenceCount, isIDFAEnabled: isIDFAEnabled, loggingEnabled: loggingEnabled)
         Euromsg.configure(appAlias:appAlias)
 	}
+    
+    @objc public static func setUserProperty(key: String, value: String) -> Void {
+        Euromsg.setUserProperty(key: key, value: value)
+        Euromsg.sync()
+    }
 	
 	@objc public static func customEvent(pageName: String, properties: [String : String]) -> Void {
 		Visilabs.callAPI().customEvent(pageName, properties: properties)
 	}
-	
+
+	@objc public static func logoutNative() -> Void {
+		Visilabs.callAPI().logout()
+		Euromsg.logout()
+	}
+
 	@objc public static func getRecommendations(zoneId: String, productCode: String, properties: [String : String], filters: [NSDictionary] = [], completion: @escaping ((_ response: String?) -> Void)) -> Void {
 		let jsonEncoder = JSONEncoder()
 		var filtersToSend: [VisilabsRecommendationFilter] = [];
@@ -92,6 +102,7 @@ import Euromsg
 		}
 	}
     
+    
 	@objc public static func getUser(completion: @escaping ((_ response: String?) -> Void)) {
         let user = Visilabs.callAPI().getUser()
         let profile = Visilabs.callAPI().getProfile()
@@ -167,13 +178,64 @@ import Euromsg
 		Visilabs.callAPI().requestIDFA() 
 	}
 
-
 	@objc public static func requestLocationPermissionNative() {
 		Visilabs.callAPI().requestLocationPermissions()
 	}
 
 	@objc public static func sendLocationPermissionNative() {
 		Visilabs.callAPI().sendLocationPermission()
+	}
+    
+    @objc public static func getSubscription(completion: @escaping ((_ response: String?) -> Void)) {
+		do {
+            let jsonObj = subscriptionConvertToJSON(subscribeObject: Euromsg.getSubscription())
+			completion(jsonObj)
+		}
+		catch {
+			completion(nil)
+		}
+    }
+
+	static func subscriptionConvertToJSON(subscribeObject: EMSubscriptionRequest) -> String? {
+		var json: [String: Any] = [
+			"path": subscribeObject.path,
+			"method": subscribeObject.method,
+			"subdomain": subscribeObject.subdomain,
+			"prodBaseUrl": subscribeObject.prodBaseUrl,
+			"extra": subscribeObject.extra ?? [:],
+			"firstTime": subscribeObject.firstTime ?? 0,
+			"osVersion": subscribeObject.osVersion ?? "",
+			"deviceType": subscribeObject.deviceType ?? "",
+			"osName": subscribeObject.osName ?? "",
+			"deviceName": subscribeObject.deviceName ?? "",
+			"local": subscribeObject.local ?? "",
+			"identifierForVendor": subscribeObject.identifierForVendor ?? "",
+			"appKey": subscribeObject.appKey ?? "",
+			"appVersion": subscribeObject.appVersion ?? "",
+			"sdkVersion": subscribeObject.sdkVersion ?? ""
+		]
+    
+		if let token = subscribeObject.token {
+			json["token"] = token
+		}
+		
+		if let advertisingIdentifier = subscribeObject.advertisingIdentifier {
+			json["advertisingIdentifier"] = advertisingIdentifier
+		}
+		
+		if let carrier = subscribeObject.carrier {
+			json["carrier"] = carrier
+		}
+		
+		if let isBadgeCustom = subscribeObject.isBadgeCustom {
+			json["isBadgeCustom"] = isBadgeCustom
+		}
+		
+		guard let jsonData = try? JSONSerialization.data(withJSONObject: json, options: []) else {
+			return nil
+		}
+		
+		return String(data: jsonData, encoding: .utf8)
 	}
 }
 

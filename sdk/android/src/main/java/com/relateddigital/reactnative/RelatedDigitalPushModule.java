@@ -48,6 +48,7 @@ import euromsg.com.euromobileandroid.EuroMobileManager;
 import euromsg.com.euromobileandroid.model.Element;
 import euromsg.com.euromobileandroid.model.Message;
 import euromsg.com.euromobileandroid.callback.PushMessageInterface;
+import euromsg.com.euromobileandroid.utils.SharedPreference;
 
 public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     private static ReactApplicationContext reactContext;
@@ -288,6 +289,17 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
         Visilabs.CallAPI().customEvent(pageName, params, getCurrentActivity());
     }
 
+     @ReactMethod
+    public void logout() {
+        try{
+            Visilabs.CallAPI().logout();
+            EuroMobileManager.getInstance().logout(reactContext);
+        }
+        catch (Exception e) {
+            promise.reject("ERROR", e.getMessage());
+        }
+    }
+
     @ReactMethod
     public void getRecommendations(String zoneId, String productCode, ReadableMap properties, ReadableArray filters, final Promise promise) {
         try {
@@ -472,6 +484,19 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
 
             Gson gson = new Gson();
             promise.resolve(gson.toJson(parameters));
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
+    public void getSubscription(final Promise promise){
+        try{
+            String subsStr = SharedPreference.getString(reactContext, "subscription");
+            Gson gson = new Gson();
+            promise.resolve(subsStr);
         }
         catch(Exception ex){
             ex.printStackTrace();
