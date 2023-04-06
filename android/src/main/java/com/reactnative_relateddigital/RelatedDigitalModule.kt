@@ -1,6 +1,8 @@
 package com.reactnative_relateddigital
 
+import android.content.Intent
 import android.content.IntentFilter
+import android.os.Bundle
 import android.util.Log
 import com.facebook.react.bridge.*
 import com.google.gson.Gson
@@ -12,11 +14,39 @@ import com.relateddigital.relateddigital_android.model.GsmPermit
 import com.relateddigital.relateddigital_android.model.Message
 import com.relateddigital.relateddigital_android.push.EuromessageCallback
 import com.relateddigital.relateddigital_android.push.PushMessageInterface
+import org.json.JSONObject
+import java.util.ArrayList
 
-class RelatedDigitalModule(reactContext: ReactApplicationContext) :
+
+class RelatedDigitalModule internal constructor(private var reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
   override fun getName(): String {
     return "RelatedDigital"
+  }
+
+  private val mActivityEventListener: ActivityEventListener = object : BaseActivityEventListener() {
+    override fun onNewIntent(intent: Intent) {
+      val bundle = intent.extras
+      val intentAction = intent.action
+      if (bundle != null && intentAction != null) {
+        if (intentAction == "Main") {
+          Log.d(LOG_TAG, "opened push notification.")
+          val message: Message? = bundle.getSerializable("message") as Message?
+          if (message != null) {
+            Log.d(LOG_TAG, "opened push notification ${message.pushId}.")
+            PushUtils.sendEvent(
+              "onNotificationOpened",
+              MapUtil.convertJsonToMap(JSONObject(Gson().toJson(message))),
+              reactApplicationContext
+            )
+          }
+        }
+      }
+    }
+  }
+
+  init {
+    reactApplicationContext.addActivityEventListener(mActivityEventListener)
   }
 
   @ReactMethod

@@ -5,6 +5,7 @@ import android.util.Log
 import com.relateddigital.relateddigital_android.RelatedDigital
 import com.facebook.react.ReactInstanceManager
 import com.facebook.react.bridge.ReactContext
+import com.relateddigital.relateddigital_android.model.RDNotificationPriority
 
 
 class RelatedDigitalManager private constructor() {
@@ -31,13 +32,22 @@ class RelatedDigitalManager private constructor() {
   }
 
   fun initRelatedDigital(
+    context: Context,
     organizationId: String,
     profileId: String,
     dataSource: String,
     appAlias: String?,
     huaweiAppAlias: String?,
     enableGeofence: Boolean,
-    context: Context
+    notificationSmallIcon: Int = 0,
+    notificationSmallIconDarkMode: Int = 0,
+    isNotificationLargeIcon: Boolean = false,
+    notificationLargeIcon: Int = 0,
+    notificationLargeIconDarkMode: Int = 0,
+    notificationPushIntent: String = "",
+    notificationChannelName: String = "",
+    notificationColor: String = "",
+    notificationPriority: RDNotificationPriority = RDNotificationPriority.NORMAL
   ) {
 
     RelatedDigital.init(
@@ -55,10 +65,19 @@ class RelatedDigitalManager private constructor() {
     val token = RelatedDigital.getToken(context)
     RelatedDigital.setIsPushNotificationEnabled(
       context,
-      true,
+      true, // TODO: hep true mu olmalı?
       googleAlias,
       huaweiAlias,
       token,
+      notificationSmallIcon,
+      notificationSmallIconDarkMode,
+      isNotificationLargeIcon,
+      notificationLargeIcon,
+      notificationLargeIconDarkMode,
+      notificationPushIntent,
+      notificationChannelName,
+      notificationColor,
+      notificationPriority
     )
     RelatedDigital.sync(context)
 

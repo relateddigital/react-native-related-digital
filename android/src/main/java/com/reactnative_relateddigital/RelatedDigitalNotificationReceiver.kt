@@ -11,7 +11,8 @@ import com.relateddigital.relateddigital_android.constants.Constants
 import com.relateddigital.relateddigital_android.model.Message
 import org.json.JSONObject
 
-class RelatedDigitalNotificationReceiver(reactAppContext: ReactApplicationContext) : BroadcastReceiver() {
+class RelatedDigitalNotificationReceiver(reactAppContext: ReactApplicationContext) :
+  BroadcastReceiver() {
 
   companion object {
     private const val LOG_TAG: String = "RelatedDigitalNotificationReceiver"
@@ -27,33 +28,27 @@ class RelatedDigitalNotificationReceiver(reactAppContext: ReactApplicationContex
       if (intentAction == Constants.PUSH_REGISTER_EVENT) {
         Log.d(LOG_TAG, "registered push notifications.")
         val token = bundle.getString("token")
-        if (token != null){
+        if (token != null) {
           Log.d(LOG_TAG, "token: $token")
           val jsonObject = JSONObject()
           jsonObject.put("token", token)
           PushUtils.sendEvent(
             "onNotificationRegistered",
             convertJsonToMap(JSONObject(Gson().toJson(jsonObject))),
-            reactApplicationContext)
+            reactApplicationContext
+          )
         }
       } else if (intentAction == Constants.PUSH_RECEIVE_EVENT) {
         Log.d(LOG_TAG, "received new push notification.")
         val message: Message? = bundle.getSerializable("message") as Message?
-        if(message != null){
+        if (message != null) {
           Log.d(LOG_TAG, "received new push notification ${message.pushId}.")
-            PushUtils.sendEvent(
+          PushUtils.sendEvent(
             "onNotificationReceived",
-              convertJsonToMap(JSONObject(Gson().toJson(message))),
-              reactApplicationContext)
+            convertJsonToMap(JSONObject(Gson().toJson(message))),
+            reactApplicationContext
+          )
         }
-
-        /*
-        sendEvent(
-          "onNotificationClicked",
-          convertJsonToMap(JSONObject(Gson().toJson(message)))!!,
-          reactApplicationContext
-        )
-        */
       } /*else if (intentAction == Constants.PUSH_OPEN_EVENT) {
         Log.d("rd-react-native", "opened new push notification.")
         val message: Message = intent.getExtras()?.let { Message.createFromIntent(it) }!!
@@ -65,7 +60,6 @@ class RelatedDigitalNotificationReceiver(reactAppContext: ReactApplicationContex
       }
       */
     }
-
 
 
   }
