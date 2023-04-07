@@ -60,6 +60,10 @@ export default class Home extends Component {
             'name': 'Full Image'
           },
           {
+            'key': 'banner_carousel',
+            'name': 'Banner Carousel'
+          },
+          {
             'key': 'full',
             'name': 'Full Screen'
           },
@@ -784,6 +788,14 @@ export default class Home extends Component {
           </View>}
 
           <View style={this.styles.titleContainer}>
+            {this.title("In App", 25)}
+            {this.inappToggleButton()}
+          </View>
+          {this.state.inapps && <View style={[this.styles.section, this.styles.inAppContainer]}>
+            {this.renderInApptitles()}
+          </View>}
+
+          <View style={this.styles.titleContainer}>
             {this.title("Story", 25)}
             {this.storyToggleButton()}
           </View>
@@ -794,14 +806,6 @@ export default class Home extends Component {
                 console.log('Story data', data)
               }}
             />
-          </View>}
-
-          <View style={this.styles.titleContainer}>
-            {this.title("In App", 25)}
-            {this.inappToggleButton()}
-          </View>
-          {this.state.inapps && <View style={[this.styles.section, this.styles.inAppContainer]}>
-            {this.renderInApptitles()}
           </View>}
 
           <View style={this.styles.titleContainer}>
