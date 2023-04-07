@@ -10,6 +10,7 @@ import {
   EuroMessageApi,
   VisilabsApi,
   logout,
+  getUserAllData,
   setApplicationIconBadgeNumber,
   setGeofencingIntervalInMinute,
   logToConsole,
@@ -39,7 +40,7 @@ export default class Home extends Component {
       inapps: false,
       story: false,
       widget: null,
-      others: false,
+      others: true,
       userData: {
         "Keyid": "baris.arslan@euromsg.com",
         "Email": "baris.arslan@euromsg.com",
@@ -192,17 +193,22 @@ export default class Home extends Component {
 
     euroMessageApi.setUserProperties(userData).then(() => {
       euroMessageApi.subscribe(this.state.token)
-      visilabsApi.customEvent("Login",{'OM.exVisitorID':this.state.userData.Keyid,'OM.b_login':'1'})
+      visilabsApi.customEvent("Login", { 'OM.exVisitorID': this.state.userData.Keyid, 'OM.b_login': '1' })
       console.log("Success login");
     })
   }
 
   logout = async () => {
+    logout();
+    console.log("Success logout");
+  }
+
+  PushPermitOff = async () => {
     let userData = { ...this.state.userData, "PushPermit": "N" }
 
     euroMessageApi.setUserProperties(userData).then(() => {
       euroMessageApi.subscribe(this.state.token)
-      console.log("Success logout");
+      console.log("Success Turn off");
     })
   }
 
@@ -218,7 +224,17 @@ export default class Home extends Component {
     if (type == 'product_stat_notifier') {
       parameters['OM.pv'] = 'CV7933-837-837';
     }
-    visilabsApi.customEvent("InAppTest", parameters)
+    visilabsApi.customEvent("InAppTest", parameters);
+  }
+
+  getUser = async () => {
+    const result = await getUserAllData();
+    console.log("ALL Storage Data", result);
+    console.log("Visilabs - Exvisitorid", result.visilabs.exVisitorId);
+    console.log("Euromsg - Keyid", result.euromsg.extra.Keyid);
+    console.log("Euromsg - Email", result.euromsg.extra.Email);
+    console.log("JS Euromsg - Keyid", result.js.euromsgsubextra?.Keyid);
+    console.log("JS Euromsg - Email", result.js.euromsgsubextra?.Email);
   }
 
   getRecommendations = async () => {
@@ -536,8 +552,8 @@ export default class Home extends Component {
   }
 
   requestIDFA = async () => {
-    requestIDFA().then((idfa)=>{
-      console.log("IDFA",idfa);
+    requestIDFA().then((idfa) => {
+      console.log("IDFA", idfa);
     })
   }
 
@@ -597,13 +613,8 @@ export default class Home extends Component {
     return (
       <View>
         <View style={this.styles.titleContainer}>
-          {this.title("Logout", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Logout" }} action={async () => { logout(); console.log("Logout"); }} />
-        </View>
-
-        <View style={this.styles.titleContainer}>
           {this.title("Get User", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('User Data(Visilabs)', await visilabsApi.getUser());console.log('User Data(Euromsg)', await euroMessageApi.getUser()) }} />
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={() => { this.getUser() }} />
         </View>
 
         <View style={this.styles.titleContainer}>
@@ -634,6 +645,11 @@ export default class Home extends Component {
         <View style={this.styles.titleContainer}>
           {this.title("Send Location Permission Event", 15)}
           <CustomButton mini style={{ width: "20%" }} data={{ name: "Send" }} action={async () => { await visilabsApi.sendLocationPermission() }} />
+        </View>
+
+        <View style={this.styles.titleContainer}>
+          {this.title("Turn Off Push Permit", 15)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Turn Off" }} action={async () => { PushPermitOff(); console.log("Push Permit = N"); }} />
         </View>
       </View>
     )
@@ -721,10 +737,10 @@ export default class Home extends Component {
       width: "95%",
       backgroundColor: 'rgba(0,0,0,.25)',
       // borderWidth:1,
-      borderRadius:5,
-      padding:15,
-      justifyContent:'center',
-      alignItems:'center'
+      borderRadius: 5,
+      padding: 15,
+      justifyContent: 'center',
+      alignItems: 'center'
     },
     token: {
       // backgroundColor:'red',
@@ -755,9 +771,18 @@ export default class Home extends Component {
             </View>
             {this.state.token && <View style={this.styles.tokenContainer}>
               <Text style={this.styles.token}>{'Token: ' + this.state.token}</Text>
-              <CustomButton mini style={{ width: "90%" }} data={{ name: "Copy Token" }} action={async ()=>{await ClipboardStatic.setString(this.state.token)}} />
+              <CustomButton mini style={{ width: "90%" }} data={{ name: "Copy Token" }} action={async () => { await ClipboardStatic.setString(this.state.token) }} />
             </View>}
           </View>
+
+          <View style={this.styles.titleContainer}>
+            {this.title("Others", 25)}
+            {this.othersToggleButton()}
+          </View>
+          {this.state.others && <View style={[this.styles.inAppContainer]}>
+            {this.renderOthers()}
+          </View>}
+
           <View style={this.styles.titleContainer}>
             {this.title("Story", 25)}
             {this.storyToggleButton()}
@@ -770,6 +795,7 @@ export default class Home extends Component {
               }}
             />
           </View>}
+
           <View style={this.styles.titleContainer}>
             {this.title("In App", 25)}
             {this.inappToggleButton()}
@@ -777,6 +803,7 @@ export default class Home extends Component {
           {this.state.inapps && <View style={[this.styles.section, this.styles.inAppContainer]}>
             {this.renderInApptitles()}
           </View>}
+
           <View style={this.styles.titleContainer}>
             {this.title("Widget", 25)}
             {this.getRecoButton()}
@@ -784,13 +811,6 @@ export default class Home extends Component {
           <View style={[this.styles.main]}>
             {this.state.widget && <Widget widgetData={this.state.widget} trackRecommendationClick={this.trackRecommendationClick} />}
           </View>
-          <View style={this.styles.titleContainer}>
-            {this.title("Others", 25)}
-            {this.othersToggleButton()}
-          </View>
-          {this.state.others && <View style={[this.styles.inAppContainer]}>
-            {this.renderOthers()}
-          </View>}
         </ScrollView>
       </SafeAreaView>
     )

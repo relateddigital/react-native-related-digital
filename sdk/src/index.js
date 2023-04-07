@@ -7,11 +7,13 @@ import {
     NOTIF_REGISTRATION_ERROR_EVENT,
     CAROUSEL_ITEM_CLICKED_EVENT,
     checkNotificationNative,
-    logoutNative
+    logoutNative,
+    getUserNative,
+    getSubscriptionNative
 } from './native'
 import { EuroMessageApi, VisilabsApi, RecommendationAttribute, RecommendationFilterType } from './api'
 import RDStoryView from './RDStoryView'
-import { getLogToConsole } from './utils';
+import { getAllCookies, getLogToConsole, removeAllCookies } from './utils';
 
 const _notifHandlers = new Map();
 let _log = true;
@@ -163,6 +165,32 @@ const logToConsole = (value) => {
 
 const logout = async () => {
     await logoutNative()
+    removeAllCookies()
+}
+
+const getUserAllData = async () => {
+    try {
+        const vl = await getUserNative()
+        const em = await getSubscriptionNative()
+        let rnRaw = await getAllCookies()
+        let rn = {}
+        rnRaw.forEach(item => {
+            if (item[1]) {
+                try {
+                    item[1] = JSON.parse(item[1])
+                } catch (error) {console.log("Json convert error",error);}
+            }
+            rn[item[0]] = item[1]
+        });
+        const result = {
+            "visilabs":JSON.parse(vl),
+            "euromsg":JSON.parse(em),
+            "js":rn
+        }
+        return Promise.resolve(result)
+    } catch (error) {
+        return Promise.resolve("RNRD->GetUserAllData",error) 
+    }
 }
 
 export {
@@ -175,6 +203,7 @@ export {
     setApplicationIconBadgeNumber,
     logout,
     logToConsole,
+    getUserAllData,
     EuroMessageApi,
     VisilabsApi,
     RDStoryView,

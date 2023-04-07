@@ -1,6 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { expireSubscribeCheckDateStorageKey, subscriptionStorageExtraKey, subscriptionStorageKey } from './constants';
+
 
 let _log = true;
+const keysToBeStored = [subscriptionStorageKey, subscriptionStorageExtraKey, expireSubscribeCheckDateStorageKey]
 
 export const isEmptyOrSpaces = (str) => {
     return (str === undefined || str === null) || str.match(/^ *$/) !== null;
@@ -88,4 +91,25 @@ export const timeout = (ms, promise) => {
                 reject(reason)
             })
     })
+}
+
+export const getAllCookies = async () => {
+    const result = await AsyncStorage.multiGet(keysToBeStored)
+    return Promise.resolve(result)
+}
+
+export const removeAllCookies = () => {
+    keysToBeStored.forEach(key => {
+        removeItemValue(key)
+    });
+}
+
+const removeItemValue = async (key) => {
+    try {
+        await AsyncStorage.removeItem(key);
+        return true;
+    }
+    catch (exception) {
+        return false;
+    }
 }

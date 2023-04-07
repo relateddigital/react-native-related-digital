@@ -256,6 +256,7 @@ class VisilabsApi {
         await sendLocationPermissionNative()
     }
 
+    //// remove
     _submit(parameters, callback) {
         parameters = parameters || {}
         parameters["OM.vchannel"] = Platform.OS

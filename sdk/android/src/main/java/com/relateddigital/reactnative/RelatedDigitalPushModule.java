@@ -296,7 +296,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
             EuroMobileManager.getInstance().logout(reactContext);
         }
         catch (Exception e) {
-            promise.reject("ERROR", e.getMessage());
+            Log.e("RDPushModuleJava", e.getMessage());
         }
     }
 
@@ -443,6 +443,18 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void setUserProperty(String key, String value) {
+        try {
+            if(key != null){
+                EuroMobileManager.getInstance().setUserProperty(key,value,reactContext);
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @ReactMethod
     public void getPushMessages(final Promise promise){
         try{
             PushMessageInterface pushMessageInterface = new PushMessageInterface() {
@@ -495,7 +507,6 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     public void getSubscription(final Promise promise){
         try{
             String subsStr = SharedPreference.getString(reactContext, "subscription");
-            Gson gson = new Gson();
             promise.resolve(subsStr);
         }
         catch(Exception ex){
