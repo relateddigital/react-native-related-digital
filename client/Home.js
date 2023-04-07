@@ -42,7 +42,7 @@ export default class Home extends Component {
       widget: null,
       others: true,
       userData: {
-        "Keyid": "baris.arslan@euromsg.com",
+        "Keyid": "1234-B-5678",
         "Email": "baris.arslan@euromsg.com",
         "ConsentTime": "2022-11-12 10:00:00",
         "RecipientType": "BIREYSEL",
