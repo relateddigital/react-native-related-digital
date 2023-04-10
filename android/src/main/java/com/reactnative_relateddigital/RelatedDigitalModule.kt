@@ -2,7 +2,6 @@ package com.reactnative_relateddigital
 
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Bundle
 import android.util.Log
 import com.facebook.react.bridge.*
 import com.google.gson.Gson
@@ -15,10 +14,9 @@ import com.relateddigital.relateddigital_android.model.Message
 import com.relateddigital.relateddigital_android.push.EuromessageCallback
 import com.relateddigital.relateddigital_android.push.PushMessageInterface
 import org.json.JSONObject
-import java.util.ArrayList
 
 
-class RelatedDigitalModule internal constructor(private var reactContext: ReactApplicationContext) :
+class RelatedDigitalModule internal constructor(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
   override fun getName(): String {
     return "RelatedDigital"
@@ -27,19 +25,16 @@ class RelatedDigitalModule internal constructor(private var reactContext: ReactA
   private val mActivityEventListener: ActivityEventListener = object : BaseActivityEventListener() {
     override fun onNewIntent(intent: Intent) {
       val bundle = intent.extras
-      val intentAction = intent.action
-      if (bundle != null && intentAction != null) {
-        if (intentAction == "Main") {
-          Log.d(LOG_TAG, "opened push notification.")
-          val message: Message? = bundle.getSerializable("message") as Message?
-          if (message != null) {
-            Log.d(LOG_TAG, "opened push notification ${message.pushId}.")
-            PushUtils.sendEvent(
-              "onNotificationOpened",
-              MapUtil.convertJsonToMap(JSONObject(Gson().toJson(message))),
-              reactApplicationContext
-            )
-          }
+      if (bundle != null) {
+        Log.d(LOG_TAG, "opened push notification.")
+        val message: Message? = bundle.getSerializable("message") as Message?
+        if (message != null) {
+          Log.d(LOG_TAG, "opened push notification ${message.pushId}.")
+          PushUtils.sendEvent(
+            PushUtils.ON_NOTIFICATION_OPENED,
+            MapUtil.convertJsonToMap(JSONObject(Gson().toJson(message))),
+            reactApplicationContext
+          )
         }
       }
     }
@@ -83,7 +78,7 @@ class RelatedDigitalModule internal constructor(private var reactContext: ReactA
       reactApplicationContext,
       exVisitorId,
       stringStringMap(properties),
-      currentActivity
+      if (RelatedDigital.getIsInAppNotificationEnabled(reactApplicationContext)) currentActivity else null
     )
   }
 
@@ -93,7 +88,7 @@ class RelatedDigitalModule internal constructor(private var reactContext: ReactA
       reactApplicationContext,
       exVisitorId,
       stringStringMap(properties),
-      currentActivity
+      if (RelatedDigital.getIsInAppNotificationEnabled(reactApplicationContext)) currentActivity else null
     )
   }
 
@@ -109,8 +104,13 @@ class RelatedDigitalModule internal constructor(private var reactContext: ReactA
       reactApplicationContext,
       pageName,
       stringStringMap(parameters),
-      currentActivity
+      if (RelatedDigital.getIsInAppNotificationEnabled(reactApplicationContext)) currentActivity else null
     )
+  }
+
+  @ReactMethod
+  fun askForPushNotificationPermission() {
+    Log.d(LOG_TAG, "askForPushNotificationPermission ios only.")
   }
 
   @ReactMethod

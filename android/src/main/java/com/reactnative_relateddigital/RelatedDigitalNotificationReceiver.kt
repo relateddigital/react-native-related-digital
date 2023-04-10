@@ -33,7 +33,7 @@ class RelatedDigitalNotificationReceiver(reactAppContext: ReactApplicationContex
           val jsonObject = JSONObject()
           jsonObject.put("token", token)
           PushUtils.sendEvent(
-            "onNotificationRegistered",
+            PushUtils.ON_NOTIFICATION_REGISTERED,
             convertJsonToMap(JSONObject(Gson().toJson(jsonObject))),
             reactApplicationContext
           )
@@ -44,23 +44,12 @@ class RelatedDigitalNotificationReceiver(reactAppContext: ReactApplicationContex
         if (message != null) {
           Log.d(LOG_TAG, "received new push notification ${message.pushId}.")
           PushUtils.sendEvent(
-            "onNotificationReceived",
+            PushUtils.ON_NOTIFICATION_RECEIVED,
             convertJsonToMap(JSONObject(Gson().toJson(message))),
             reactApplicationContext
           )
         }
-      } /*else if (intentAction == Constants.PUSH_OPEN_EVENT) {
-        Log.d("rd-react-native", "opened new push notification.")
-        val message: Message = intent.getExtras()?.let { Message.createFromIntent(it) }!!
-        sendEvent(
-          "onNotificationClicked",
-          convertJsonToMap(JSONObject(Gson().toJson(message)))!!,
-          reactApplicationContext
-        )
       }
-      */
     }
-
-
   }
 }

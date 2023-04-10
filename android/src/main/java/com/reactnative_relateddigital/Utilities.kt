@@ -228,6 +228,10 @@ object MapUtil {
 
 object PushUtils {
 
+  const val ON_NOTIFICATION_REGISTERED = "onNotificationRegistered"
+  const val ON_NOTIFICATION_RECEIVED = "onNotificationReceived"
+  const val ON_NOTIFICATION_OPENED = "onNotificationOpened"
+
   private const val LOG_TAG = "PushUtils"
 
   fun sendEvent(eventName: String, data: WritableMap, context: ReactApplicationContext) {

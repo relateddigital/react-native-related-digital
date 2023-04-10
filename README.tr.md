@@ -106,95 +106,10 @@ For support or questions related to the RelatedDigital React Native SDK, please 
 
 
 
-## Örnek Payload Android
-
-### onNotificationReceived
-
-```json
-{
-  "emPushSp": "-",
-  "message": "Text Message",
-  "params": {
-    "emPushSp": "-",
-    "message": "Text Message",
-    "pushId": "cc80d835-be2d-49ec-a742-ab4d721651ed",
-    "pushType": "Text",
-    "silent": "True",
-    "title": "sample string 1"
-  },
-  "pushId": "cc80d835-be2d-49ec-a742-ab4d721651ed",
-  "pushType": "Text",
-  "silent": "True",
-  "sound": "",
-  "title": "sample string 1"
-}
-```
-
-### onNotificationOpened
-
-```json
-{
-  "emPushSp": "-",
-  "message": "Text Message",
-  "params": {
-    "emPushSp": "-",
-    "message": "Text Message",
-    "pushId": "e4180169-0c96-4a6d-88f3-fe78e072dc62",
-    "pushType": "Text",
-    "silent": "False",
-    "title": "sample string 1"
-  },
-  "pushId": "e4180169-0c96-4a6d-88f3-fe78e072dc62",
-  "pushType": "Text",
-  "silent": "False",
-  "sound": "",
-  "title": "sample string 1"
-}
-```
 
 
-### getPushMessages
 
-```json
-[
-  {
-    "date": "2023-04-11 00:28:36",
-    "emPushSp": "-",
-    "message": "Text Message",
-    "params": {
-      "pushId": "4836b750-8639-469a-8b85-f3ae056edbab",
-      "silent": "False",
-      "emPushSp": "-",
-      "title": "re",
-      "message": "Text Message",
-      "pushType": "Text"
-    },
-    "pushId": "4836b750-8639-469a-8b85-f3ae056edbab",
-    "pushType": "Text",
-    "silent": "False",
-    "sound": "",
-    "title": "re"
-  },
-  {
-    "date": "2023-04-11 00:05:13",
-    "emPushSp": "-",
-    "message": "Text Message",
-    "params": {
-      "pushId": "e4180169-0c96-4a6d-88f3-fe78e072dc62",
-      "silent": "False",
-      "emPushSp": "-",
-      "title": "sample string 1",
-      "message": "Text Message",
-      "pushType": "Text"
-    },
-    "pushId": "e4180169-0c96-4a6d-88f3-fe78e072dc62",
-    "pushType": "Text",
-    "silent": "False",
-    "sound": "",
-    "title": "sample string 1"
-  }
-]
-```
+
 
 
 

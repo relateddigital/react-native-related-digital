@@ -17,14 +17,8 @@ function PushScreen() {
   const [isPushNotificationEnabled, setIsPushNotificationEnabled] =
     React.useState(false);
   const [isGeofenceEnabled, setIsGeofenceEnabled] = React.useState(false);
-  //const [email, setEmail] = React.useState('');
-  //const [phone, setPhone] = React.useState('');
-  //const [emailPermission, setEmailPermission] = React.useState(false);
-  //const [phonePermission, setPhonePermission] = React.useState(false);
   const [propertyKey, setPropertyKey] = React.useState('');
   const [propertyValue, setPropertyValue] = React.useState('');
-
-  // ...other state variables for other methods
 
   const handleIsInAppNotificationEnabled = (value: boolean) => {
     setIsInAppNotificationEnabled(value);
@@ -36,7 +30,8 @@ function PushScreen() {
     RelatedDigital.setIsPushNotificationEnabled(
       value,
       'yourAppAlias',
-      'yourHuaweiAppAlias',
+      'relateddigital-android-test',
+      'relateddigital-android-huawei-test',
       true
     );
   };
@@ -58,7 +53,22 @@ function PushScreen() {
 
   const handleGetToken = () => {
     RelatedDigital.getToken().then((token) => {
+      console.log(token);
       Alert.alert('Push Token', token);
+    });
+  };
+
+  const handleAskForPushNotificationPermission = () => {
+    RelatedDigital.askForPushNotificationPermission();
+  };
+
+  const handleSetEmail = () => {
+    RelatedDigital.setEmail('random@gmail.com', true);
+  };
+
+  const handleGetPushMessages = () => {
+    RelatedDigital.getPushMessages().then((pushMessages) => {
+      console.log(pushMessages);
     });
   };
 
@@ -101,9 +111,30 @@ function PushScreen() {
         onChangeText={setPropertyValue}
         placeholder="Enter property value"
       />
-      <Button title="Set User Property" onPress={handleSetUserProperty} />
-      <Button title="Remove User Property" onPress={handleRemoveUserProperty} />
-      <Button title="Get Token" onPress={handleGetToken} />
+      <View style={styles.button}>
+        <Button title="Set User Property" onPress={handleSetUserProperty} />
+      </View>
+      <View style={styles.button}>
+        <Button
+          title="Remove User Property"
+          onPress={handleRemoveUserProperty}
+        />
+      </View>
+      <View style={styles.button}>
+        <Button title="Get Token" onPress={handleGetToken} />
+      </View>
+      <View style={styles.button}>
+        <Button
+          title="Ask for Push Notification Permission"
+          onPress={handleAskForPushNotificationPermission}
+        />
+      </View>
+      <View style={styles.button}>
+        <Button title="Set Email" onPress={handleSetEmail} />
+      </View>
+      <View style={styles.button}>
+        <Button title="Get Push Messages" onPress={handleGetPushMessages} />
+      </View>
     </ScrollView>
   );
 }
@@ -111,30 +142,30 @@ function PushScreen() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
+    padding: 16,
+    backgroundColor: '#fff',
   },
   heading: {
-    fontWeight: 'bold',
     fontSize: 24,
-    marginBottom: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    width: '100%',
-    marginBottom: 10,
+    fontWeight: 'bold',
+    marginBottom: 16,
   },
   switchRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '100%',
-    marginBottom: 15,
+    marginBottom: 16,
+  },
+  input: {
+    height: 40,
+    borderColor: 'black',
+    borderWidth: 1,
+    paddingLeft: 8,
+    paddingRight: 8,
+    marginBottom: 16,
+  },
+  button: {
+    marginBottom: 16,
   },
 });
 

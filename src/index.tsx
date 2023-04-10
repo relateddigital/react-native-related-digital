@@ -1,4 +1,4 @@
-import { NativeModules } from 'react-native';
+import { NativeModules, NativeEventEmitter } from 'react-native';
 
 type RelatedDigitalType = {
   initialize(
@@ -14,6 +14,7 @@ type RelatedDigitalType = {
   login(exVisitorId: string, properties: object): void;
   logout(): void;
   customEvent(pageName: string, parameters: object): void;
+  askForPushNotificationPermission(): void;
   setIsPushNotificationEnabled(
     isPushNotificationEnabled: boolean,
     iosAppAlias: string,
@@ -40,8 +41,19 @@ type RelatedDigitalType = {
   registerNotificationListeners(): void;
 };
 
-const { RelatedDigital } = NativeModules;
+export const { RelatedDigital } = NativeModules;
+const RelatedDigitalPushNotificationEmitter = new NativeEventEmitter(
+  RelatedDigital
+);
 
-RelatedDigital?.registerNotificationListeners();
+const onNotificationRegistered = 'onNotificationRegistered';
+const onNotificationReceived = 'onNotificationReceived';
+const onNotificationOpened = 'onNotificationOpened';
 
+export {
+  RelatedDigitalPushNotificationEmitter,
+  onNotificationRegistered,
+  onNotificationReceived,
+  onNotificationOpened,
+};
 export default RelatedDigital as RelatedDigitalType;
