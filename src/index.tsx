@@ -41,7 +41,4 @@ type RelatedDigitalType = {
 };
 
 const { RelatedDigital } = NativeModules;
-
-RelatedDigital?.registerNotificationListeners();
-
 export default RelatedDigital as RelatedDigitalType;

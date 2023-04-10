@@ -24,15 +24,16 @@ public class MainActivity extends ReactActivity {
       "visistore",
       "relateddigital-android-test",
       "relateddigital-android-huawei-test",
+      true,
       false,
-      0,
-      0,
-      false,
-      0,
-      0,
+      R.drawable.text_icon,
+      R.drawable.text_icon_dark_mode,
+      true,
+      R.mipmap.ic_launcher,
+      R.mipmap.ic_launcher,
       "com.relateddigital.androidexampleapp.MainActivity",
       "RelatedDigital Channel",
-      "",
+      "#d1dbbd",
       RDNotificationPriority.NORMAL
     );
   }

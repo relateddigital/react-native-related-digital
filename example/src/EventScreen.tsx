@@ -80,33 +80,32 @@ function EventScreen() {
     </ScrollView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
+    padding: 16,
+    backgroundColor: '#fff',
   },
   heading: {
-    fontWeight: 'bold',
     fontSize: 24,
-    marginBottom: 20,
+    fontWeight: 'bold',
+    marginBottom: 16,
   },
   input: {
+    height: 40,
+    borderColor: 'gray',
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    width: '100%',
-    marginBottom: 10,
+    paddingLeft: 8,
+    paddingRight: 8,
+    marginBottom: 16,
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    marginTop: 20,
+    marginBottom: 16,
   },
 });
 
