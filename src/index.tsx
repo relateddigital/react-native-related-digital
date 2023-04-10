@@ -16,7 +16,8 @@ type RelatedDigitalType = {
   customEvent(pageName: string, parameters: object): void;
   setIsPushNotificationEnabled(
     isPushNotificationEnabled: boolean,
-    appAlias: string,
+    iosAppAlias: string,
+    googleAppAlias: string,
     huaweiAppAlias: string,
     deliveredBadge: boolean
   ): void;

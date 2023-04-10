@@ -116,17 +116,18 @@ class RelatedDigitalModule internal constructor(private var reactContext: ReactA
   @ReactMethod
   fun setIsPushNotificationEnabled(
     isPushNotificationEnabled: Boolean,
-    appAlias: String,
+    iosAppAlias: String,
+    googleAppAlias: String,
     huaweiAppAlias: String,
     deliveredBadge: Boolean
   ) {
-    RelatedDigital.setGoogleAppAlias(reactApplicationContext, appAlias)
+    RelatedDigital.setGoogleAppAlias(reactApplicationContext, googleAppAlias)
     RelatedDigital.setHuaweiAppAlias(reactApplicationContext, huaweiAppAlias)
     val token = RelatedDigital.getToken(reactApplicationContext)
     RelatedDigital.setIsPushNotificationEnabled(
       reactApplicationContext,
       isPushNotificationEnabled,
-      appAlias,
+      googleAppAlias,
       huaweiAppAlias,
       token,
     )

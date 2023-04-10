@@ -24,15 +24,15 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-  <key>NSAppTransportSecurity</key>
-  <dict>
-      <key>NSAllowsArbitraryLoads</key>
-      <true/>
-      <key>NSAllowsArbitraryLoadsInWebContent</key>
-      <true/>
-      <key>NSAllowsLocalNetworking</key>
-      <true/>
-  </dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSAllowsArbitraryLoadsInWebContent</key>
+		<true/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UILaunchStoryboardName</key>
