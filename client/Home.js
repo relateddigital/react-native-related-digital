@@ -15,6 +15,7 @@ import {
   setGeofencingIntervalInMinute,
   logToConsole,
   RDStoryView,
+  RDBannerView,
   RecommendationAttribute,
   RecommendationFilterType
 } from 'react-native-related-digital'
@@ -39,6 +40,7 @@ export default class Home extends Component {
       token: null,
       inapps: false,
       story: false,
+      banner: false,
       widget: null,
       others: true,
       userData: {
@@ -543,6 +545,12 @@ export default class Home extends Component {
     })
   }
 
+  toggleBanner = () => {
+    this.setState({
+      banner: !this.state.banner
+    })
+  }
+
   toggleInapps = () => {
     this.setState({
       inapps: !this.state.inapps
@@ -671,6 +679,12 @@ export default class Home extends Component {
     )
   }
 
+  bannerToggleButton = () => {
+    return (
+      <CustomButton mini style={{ width: "50%" }} data={{ name: (!this.state.banner ? "Show Banner" : "Hide Banner") }} action={this.toggleBanner} />
+    )
+  }
+
   othersToggleButton = () => {
     return (
       <CustomButton mini style={{ width: "50%" }} data={{ name: (!this.state.others ? "Show Others" : "Hide Others") }} action={this.toggleOthers} />
@@ -778,6 +792,19 @@ export default class Home extends Component {
               <CustomButton mini style={{ width: "90%" }} data={{ name: "Copy Token" }} action={async () => { await ClipboardStatic.setString(this.state.token) }} />
             </View>}
           </View>
+
+          <View style={this.styles.titleContainer}>
+            {this.title("Banner", 25)}
+            {this.bannerToggleButton()}
+          </View>
+          {this.state.banner && <View style={[this.styles.main]}>
+            <RDBannerView
+              // actionId={'459'} // 459 banner, 497 normal optional
+              // onItemClicked={(data) => {
+              //   console.log('Banner data', data)
+              // }}
+            />
+          </View>}
 
           <View style={this.styles.titleContainer}>
             {this.title("Others", 25)}

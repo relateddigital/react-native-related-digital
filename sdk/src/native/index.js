@@ -24,6 +24,7 @@ const getSubscriptionNative = RelatedDigitalPushModule.getSubscription
 const setUserPropertyNative = RelatedDigitalPushModule.setUserProperty
 
 const RDStoryViewNative = requireNativeComponent('StoryView')
+const RDBannerViewNative = requireNativeComponent('BannerView')
 
 export {
     RelatedDigitalPushModule,
@@ -40,6 +41,7 @@ export {
     getRecommendationsNative,
     trackRecommendationClickNative,
     RDStoryViewNative,
+    RDBannerViewNative,
     getStoriesNative,
     checkNotificationNative,
     getFavoriteAttributeActionsNative,

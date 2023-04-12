@@ -13,6 +13,7 @@ import {
 } from './native'
 import { EuroMessageApi, VisilabsApi, RecommendationAttribute, RecommendationFilterType } from './api'
 import RDStoryView from './RDStoryView'
+import RDBannerView from './RDBannerView'
 import { getAllCookies, getLogToConsole, removeAllCookies } from './utils';
 
 const _notifHandlers = new Map();
@@ -207,6 +208,7 @@ export {
     EuroMessageApi,
     VisilabsApi,
     RDStoryView,
+    RDBannerView,
     RecommendationAttribute,
     RecommendationFilterType
 }

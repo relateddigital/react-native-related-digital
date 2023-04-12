@@ -25,8 +25,14 @@ public class RelatedDigitalPushPackage implements ReactPackage {
     @NonNull
     @Override
     public List<ViewManager> createViewManagers(@NonNull ReactApplicationContext reactContext) {
-        return Arrays.<ViewManager>asList(
-                new RelatedDigitalStoryViewManager(reactContext)
+        // return Arrays.<ViewManager>asList(
+        //         new RelatedDigitalStoryViewManager(reactContext),
+        //         new RelatedDigitalBannerViewManager(reactContext)
+        // );
+        List<ViewManager> viewManagers = Arrays.asList(
+                new RelatedDigitalStoryViewManager(reactContext),
+                new RelatedDigitalBannerViewManager(reactContext)
         );
+        return viewManagers;
     }
 }
