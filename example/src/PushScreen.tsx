@@ -16,7 +16,6 @@ function PushScreen() {
     React.useState(false);
   const [isPushNotificationEnabled, setIsPushNotificationEnabled] =
     React.useState(false);
-  const [isGeofenceEnabled, setIsGeofenceEnabled] = React.useState(false);
   const [propertyKey, setPropertyKey] = React.useState('');
   const [propertyValue, setPropertyValue] = React.useState('');
 
@@ -34,11 +33,6 @@ function PushScreen() {
       'relateddigital-android-huawei-test',
       true
     );
-  };
-
-  const handleIsGeofenceEnabled = (value: boolean) => {
-    setIsGeofenceEnabled(value);
-    RelatedDigital.setIsGeofenceEnabled(value);
   };
 
   const handleSetUserProperty = () => {
@@ -87,13 +81,6 @@ function PushScreen() {
         <Switch
           value={isPushNotificationEnabled}
           onValueChange={handleIsPushNotificationEnabled}
-        />
-      </View>
-      <View style={styles.switchRow}>
-        <Text>Geofence Enabled:</Text>
-        <Switch
-          value={isGeofenceEnabled}
-          onValueChange={handleIsGeofenceEnabled}
         />
       </View>
       <Text style={styles.heading}>User Properties</Text>

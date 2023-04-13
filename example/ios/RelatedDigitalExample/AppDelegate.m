@@ -4,6 +4,8 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 
+#import <Firebase.h>
+
 @import react_native_related_digital;
 
 #ifdef FB_SONARKIT_ENABLED
@@ -29,21 +31,17 @@ static void InitializeFlipper(UIApplication *application) {
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  
+  [FIRApp configure];
+  
+  
+  
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 
-  [[RelatedDigitalManager shared] initRelatedDigital:@"676D325830564761676D453D"
-                                       withProfileId:@"356467332F6533766975593D"
-                                      withDataSource:@"visistore"
-                                        withAppAlias:@"RDIOSExample"
-                          withEnablePushNotification:YES
-                                    withAppGroupsKey:@"group.com.relateddigital.RelatedDigitalExample.relateddigital"
-                                  withDeliveredBadge:YES
-                                  withEnableGeofence:NO
-                    withAskLocationPermissionAtStart:NO
-                                   withLaunchOptions:launchOptions];
+ 
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"RelatedDigitalExample"
@@ -53,6 +51,18 @@ static void InitializeFlipper(UIApplication *application) {
 
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
+  
+  [[RelatedDigitalManager shared] initRelatedDigital:@"676D325830564761676D453D"
+                                       withProfileId:@"356467332F6533766975593D"
+                                      withDataSource:@"visistore"
+                                        withAppAlias:@"RDIOSExample"
+                          withEnablePushNotification:YES
+                                    withAppGroupsKey:@"group.com.relateddigital.RelatedDigitalExample.relateddigital"
+                                  withDeliveredBadge:YES
+                                  withEnableGeofence:NO
+                    withAskLocationPermissionAtStart:NO
+                                  withLoggingEnabled:YES
+                                   withLaunchOptions:launchOptions];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
@@ -79,6 +89,7 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (void)application:(UIApplication *)application
     didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [[RelatedDigitalManager shared] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application
@@ -91,6 +102,11 @@ static void InitializeFlipper(UIApplication *application) {
     didReceiveNotificationResponse:(UNNotificationResponse *)response
              withCompletionHandler:(void (^)(void))completionHandler {
   [[RelatedDigitalManager shared] didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+  NSLog(@"didFailToRegisterForRemoteNotificationsWithError %@", error.description );
 }
 
 @end

@@ -3,7 +3,7 @@
 @interface RCT_EXTERN_MODULE (RelatedDigital, NSObject)
 
 - (NSArray<NSString *> *)supportedEvents {
-  return @[ @"supportedEvents" ];
+  return @[ @"onNotificationRegistered", @"onNotificationReceived", @"onNotificationOpened" ];
 }
 
 RCT_EXTERN_METHOD(initialize

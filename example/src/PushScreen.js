@@ -4,7 +4,6 @@ import RelatedDigital from 'react-native-related-digital';
 function PushScreen() {
     const [isInAppNotificationEnabled, setIsInAppNotificationEnabled] = React.useState(false);
     const [isPushNotificationEnabled, setIsPushNotificationEnabled] = React.useState(false);
-    const [isGeofenceEnabled, setIsGeofenceEnabled] = React.useState(false);
     const [propertyKey, setPropertyKey] = React.useState('');
     const [propertyValue, setPropertyValue] = React.useState('');
     const handleIsInAppNotificationEnabled = (value) => {
@@ -14,10 +13,6 @@ function PushScreen() {
     const handleIsPushNotificationEnabled = (value) => {
         setIsPushNotificationEnabled(value);
         RelatedDigital.setIsPushNotificationEnabled(value, 'yourAppAlias', 'relateddigital-android-test', 'relateddigital-android-huawei-test', true);
-    };
-    const handleIsGeofenceEnabled = (value) => {
-        setIsGeofenceEnabled(value);
-        RelatedDigital.setIsGeofenceEnabled(value);
     };
     const handleSetUserProperty = () => {
         RelatedDigital.setUserProperty(propertyKey, propertyValue);
@@ -52,9 +47,6 @@ function PushScreen() {
         React.createElement(View, { style: styles.switchRow },
             React.createElement(Text, null, "Push Notification Enabled:"),
             React.createElement(Switch, { value: isPushNotificationEnabled, onValueChange: handleIsPushNotificationEnabled })),
-        React.createElement(View, { style: styles.switchRow },
-            React.createElement(Text, null, "Geofence Enabled:"),
-            React.createElement(Switch, { value: isGeofenceEnabled, onValueChange: handleIsGeofenceEnabled })),
         React.createElement(Text, { style: styles.heading }, "User Properties"),
         React.createElement(Text, null, "Property Key:"),
         React.createElement(TextInput, { style: styles.input, value: propertyKey, onChangeText: setPropertyKey, placeholder: "Enter property key" }),

@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import UserNotifications
 import RelatedDigitalIOS
 
 private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
@@ -15,13 +16,14 @@ class RelatedDigital: RCTEventEmitter {
         askLocationPermissionAtStart: Bool
     ) {
         
-        NativeRD.initialize(
-            organizationId: organizationId as String,
-            profileId: profileId as String,
-            dataSource: dataSource as String,
-            launchOptions: nil,
-            askLocationPermmissionAtStart: askLocationPermissionAtStart)
-        
+        DispatchQueue.main.async {
+            NativeRD.initialize(
+                organizationId: organizationId as String,
+                profileId: profileId as String,
+                dataSource: dataSource as String,
+                launchOptions: nil,
+                askLocationPermmissionAtStart: askLocationPermissionAtStart)
+        }
     }
     
     @objc(setIsInAppNotificationEnabled:)
@@ -152,10 +154,8 @@ class RelatedDigital: RCTEventEmitter {
         resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock
     ) {
         NativeRD.getPushMessages { messages in
-            if let encodedData = try? JSONSerialization.data(
-                withJSONObject: messages, options: .prettyPrinted),
-               let jsonString = String(data: encodedData, encoding: .utf8) {
-                resolve(jsonString)
+            if let jsonData = try? JSONEncoder().encode(messages), let json = String(data: jsonData, encoding: String.Encoding.utf8){
+                resolve(json)
             } else {
                 reject("getPushMessages error", "getPushMessages error description", nil)
             }
@@ -165,7 +165,23 @@ class RelatedDigital: RCTEventEmitter {
     @objc(getToken:withReject:)
     public func getToken(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock
     ) {
-        resolve(UserDefaults.standard.string(forKey: RelatedDigitalManager.tokenKey) ?? "")
+        let userDefaultsToken = UserDefaults.standard.string(forKey: RelatedDigitalManager.tokenKey) ?? ""
+        if userDefaultsToken.isEmpty {
+            let center = UNUserNotificationCenter.current()
+            center.getNotificationSettings { settings in
+                if settings.authorizationStatus == .authorized {
+                    DispatchQueue.main.async {
+                        UIA.shared.registerForRemoteNotifications()
+                        resolve(userDefaultsToken)
+                    }
+                } else {
+                    resolve(userDefaultsToken)
+                }
+            }
+            
+        } else {
+            resolve(userDefaultsToken)
+        }
     }
     
     @objc(registerNotificationListeners)

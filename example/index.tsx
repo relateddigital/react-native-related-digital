@@ -16,6 +16,7 @@ RelatedDigital.initialize(
   'visistore',
   false // askLocationPermissionAtStart
 );
+
 RelatedDigital.registerNotificationListeners();
 
 RelatedDigitalPushNotificationEmitter.addListener(
