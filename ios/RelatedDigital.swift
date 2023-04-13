@@ -6,7 +6,15 @@ import RelatedDigitalIOS
 private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
 
 @objc(RelatedDigital)
-class RelatedDigital: RCTEventEmitter {
+public class RelatedDigital: RCTEventEmitter {
+    
+    private var relatedDigitalManager: RelatedDigitalManager?
+    
+    override public init() {
+        super.init()
+        relatedDigitalManager = RelatedDigitalManager.shared
+        relatedDigitalManager?.sendRelatedDigitalEvent = sendRelatedDigitalEvent
+    }
     
     @objc(initialize:withProfileId:withDataSource:withAskLocationPermissionAtStart:)
     public func initialize(
@@ -63,7 +71,11 @@ class RelatedDigital: RCTEventEmitter {
     
     @objc(askForPushNotificationPermission)
     public func askForPushNotificationPermission() {
-        NativeRD.askForNotificationPermission(register: true)
+        if RCTRunningInAppExtension() {
+            print("askForPushNotificationPermission is unavailable in an app extension")
+        } else {
+            NativeRD.askForNotificationPermission(register: true)
+        }
     }
     
     @objc(
@@ -184,9 +196,26 @@ class RelatedDigital: RCTEventEmitter {
         }
     }
     
+    public var listenersRegistered = false
+    public var hasListeners = false
+    
     @objc(registerNotificationListeners)
     public func registerNotificationListeners() {
-        
+        listenersRegistered = true
+    }
+    
+    public override func startObserving() {
+        hasListeners = true
+    }
+    
+    public override func stopObserving() {
+        hasListeners = false
+    }
+    
+    public func sendRelatedDigitalEvent(_ eventName: String, _ body:  [AnyHashable : Any] ) {
+        if listenersRegistered, hasListeners {
+            self.sendEvent(withName: eventName, body: body)
+        }
     }
     
 }

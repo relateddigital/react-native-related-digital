@@ -12,9 +12,9 @@ public typealias RNCRemoteNotificationCallback = (UIBackgroundFetchResult) -> Vo
 public class RelatedDigitalManager: NSObject {
     
     
-    static let onNotificationRegistered = "onNotificationRegistered"
-    static let onNotificationReceived = "onNotificationReceived"
-    static let onNotificationOpened = "onNotificationOpened"
+    @objc public static let onNotificationRegistered = "onNotificationRegistered"
+    @objc public static let onNotificationReceived = "onNotificationReceived"
+    @objc public static let onNotificationOpened = "onNotificationOpened"
     
     
     static let tokenKey = "RelatedDigitalManagerTokenKey"
@@ -24,6 +24,8 @@ public class RelatedDigitalManager: NSObject {
     @objc public static let shared = RelatedDigitalManager()
     
     @objc var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    
+    var sendRelatedDigitalEvent : ((String, [AnyHashable : Any]) -> Void)?
     
     @objc(
         initRelatedDigital:
@@ -65,18 +67,24 @@ public class RelatedDigitalManager: NSObject {
         NativeRD.registerToken(tokenData: deviceToken)
         let tokenString = deviceToken.reduce("", { $0 + String(format: "%02X", $1) })
         UserDefaults.standard.set(tokenString, forKey: Self.tokenKey)
+        var body = [String:String]()
+        body["token"] = tokenString
+        self.sendRelatedDigitalEvent(Self.onNotificationRegistered, body)
+    }
+    
+    
+    @objc(didReceiveRemoteNotification:)
+    public func didReceiveRemoteNotification(_ notification: UNNotification) {
+        let userInfo = notification.request.content.userInfo
+        self.sendRelatedDigitalEvent(Self.onNotificationReceived, userInfo)
     }
     
     @objc(didReceiveRemoteNotification:fetchCompletionHandler:)
     public func didReceiveRemoteNotification(
-        _ notification: [AnyHashable: Any],
+        _ userInfo: [AnyHashable: Any],
         fetchCompletionHandler completionHandler: @escaping RNCRemoteNotificationCallback
     ) {
-        let userInfo =
-        ["notification": notification, "completionHandler": completionHandler] as [String: Any]
-        NC.default.post(
-            name: NSNotification.Name(rawValue: Self.RCTRemoteNotificationReceived), object: self,
-            userInfo: userInfo)
+        self.sendRelatedDigitalEvent(Self.onNotificationReceived, userInfo)
     }
     
     @objc(didReceiveNotificationResponse:withCompletionHandler:)
@@ -84,7 +92,20 @@ public class RelatedDigitalManager: NSObject {
         _ response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
-        NativeRD.handlePush(pushDictionary: response.notification.request.content.userInfo)
+        let userInfo = response.notification.request.content.userInfo
+        NativeRD.handlePush(pushDictionary: userInfo)
+        self.sendRelatedDigitalEvent(Self.onNotificationOpened, userInfo)
+    }
+    
+    
+    public func sendRelatedDigitalEvent(_ eventName: String, _ body:  [AnyHashable : Any] ) {
+        self.sendRelatedDigitalEvent?(eventName, body)
+    }
+    
+    @objc(didReceive:withContentHandler:)
+    public func didReceive(_ bestAttemptContent: UNMutableNotificationContent?,
+                           withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+        RDPush.didReceive(bestAttemptContent, withContentHandler: contentHandler)
     }
     
 }

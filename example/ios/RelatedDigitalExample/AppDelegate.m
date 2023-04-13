@@ -85,6 +85,7 @@ static void InitializeFlipper(UIApplication *application) {
        willPresentNotification:(UNNotification *)notification
          withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
   completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
+  [[RelatedDigitalManager shared] didReceiveRemoteNotification:notification];
 }
 
 - (void)application:(UIApplication *)application
