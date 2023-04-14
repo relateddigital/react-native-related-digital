@@ -21,14 +21,14 @@ export default class RDBannerView extends React.Component {
   }
 
   render() {
-    const { style = {}, actionId = null } = this.props
+    const { style = {}, properties = null } = this.props
 
     return (
         <RDBannerViewNative 
             ref={(ref) => this.bannerView = ref}
             style={[styles.container, style]}
             onItemClicked={this._onItemClicked}
-            actionId={actionId}
+            properties={properties}
         />
     )
   }
@@ -45,7 +45,7 @@ export default class RDBannerView extends React.Component {
 
   _requestBannerCarousel() {
     const viewId = findNodeHandle(this.bannerView)
-    UIManager.dispatchViewManagerCommand(viewId, UIManager.BannerView.Commands.requestBannerCarousel.toString(), [viewId])
+    UIManager.dispatchViewManagerCommand(viewId, UIManager.BannerView.Commands.requestBannerCarousel.toString(), [viewId,this.props.properties])
   }
 }
 

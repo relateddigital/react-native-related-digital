@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.SimpleViewManager;
@@ -28,7 +29,10 @@ import com.visilabs.inApp.bannercarousel.BannerRequestListener;
 import com.visilabs.story.VisilabsRecyclerView;
 import com.visilabs.story.model.StoryItemClickListener;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import euromsg.com.euromobileandroid.utils.AppUtils;
@@ -57,32 +61,13 @@ public class RelatedDigitalBannerViewManager extends SimpleViewManager<BannerRec
     }
 
     BannerRequestListener bannerRequestListener = new BannerRequestListener() {
-    @Override
-    public void onRequestResult(boolean isAvailable) {
-        Log.i("BannerRequestListener", "dolu");
-        if (!isAvailable) {
-
-        //    binding.bannerListView.visibility = View.GONE;
-        }
-    }
-    };
-
-    BannerItemClickListener _bannerItemClickListener = new BannerItemClickListener() {
         @Override
-        public void bannerItemClicked(String bannerLink) {
-            if(bannerLink == null || bannerLink.isEmpty()) {
-                return;
-            }
-            Toast.makeText(mContext.getApplicationContext(), bannerLink, Toast.LENGTH_SHORT).show();
-            Log.i("link banner", bannerLink);
-            try {
-                Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(bannerLink));
-                //startActivity(viewIntent);
-            } catch (Exception e) {
+        public void onRequestResult(boolean isAvailable) {
+            if (!isAvailable) {
+            //    binding.bannerListView.visibility = View.GONE;
             }
         }
     };
-
 
     @Nullable
     @Override
@@ -93,26 +78,79 @@ public class RelatedDigitalBannerViewManager extends SimpleViewManager<BannerRec
     @Override
     public void receiveCommand(@NonNull final BannerRecyclerView root, String commandId, @Nullable ReadableArray args) {
         super.receiveCommand(root, commandId, args);
-        final HashMap<String, String> properties = new HashMap<>();//args;
         int commandIdInt = Integer.parseInt(commandId);
 
         if(commandIdInt == COMMAND_GET_BANNERS) {
-            requestBannerCarousel(root);
+            requestBannerCarousel(root,args);
         }
     }
 
-    public void requestBannerCarousel(final BannerRecyclerView bannerRecyclerView){
+    public void requestBannerCarousel(final BannerRecyclerView bannerRecyclerView, @Nullable ReadableArray args){
         try{
-            HashMap<String, String> properties = new HashMap<>();
-            properties.put("OM.inapptype", "banner_carousel");
-            // BannerRecyclerView bannerListView = (BannerRecyclerView) findViewById(R.layout.banner_view);
-            //LayoutInflater inflater = LayoutInflater.from(mContext);
-            //BannerRecyclerView bannerListView = (BannerRecyclerView) inflater.inflate(R.layout.banner_view, null);
+            final int viewId = args.getInt(0);
 
-            bannerRecyclerView.requestBannerCarouselAction(mContext,properties,bannerRequestListener,_bannerItemClickListener);
+            //List<Object> innerList = Arrays.asList((Object[]) args[1]);
+
+            ReadableArray innerArray = args.getArray(1);
+            List<Object> innerList = new ArrayList<>();
+            for (int i = 0; i < innerArray.size(); i++) {
+                innerList.add(innerArray.getMap(i));
+            }
+            HashMap<String, Object> propertiesMap = (HashMap<String, Object>) innerList.get(0);
+
+            //HashMap<String, Object> properties = (HashMap<String, Object>) args.getArray(1);
+            // properties.put("OM.inapptype", "banner_carousel");
+
+            HashMap<String, String> params = new HashMap<>();
+            //HashMap<String, Object> propertiesMap = properties;
+
+            for (Map.Entry<String, Object> entry : propertiesMap.entrySet()) {
+                if(entry.getValue() instanceof String){
+                    params.put(entry.getKey(), (String) entry.getValue());
+                }
+                else {
+                    params.put(entry.getKey(), entry.getValue().toString());
+                }
+            }
+
+            BannerItemClickListener _bannerItemClickListener = new BannerItemClickListener() {
+                @Override
+                public void bannerItemClicked(String bannerLink) {
+                    if(bannerLink == null || bannerLink.isEmpty()) {
+                        return;
+                    }
+                    try {
+                        WritableMap data = Arguments.createMap();
+                        data.putString("bannerLink", bannerLink);
+
+                        sendData(data, viewId);
+                        // Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(bannerLink));
+                        //startActivity(viewIntent);
+                    } catch (Exception e) {
+                    }
+                }
+            };
+
+            bannerRecyclerView.requestBannerCarouselAction(mContext,params,bannerRequestListener,_bannerItemClickListener);
         }
         catch(Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public Map getExportedCustomBubblingEventTypeConstants() {
+        return MapBuilder.builder()
+                .put(
+                        "onItemClicked",
+                        MapBuilder.of(
+                                "phasedRegistrationNames",
+                                MapBuilder.of("bubbled", "onItemClicked")))
+                .build();
+    }
+
+    private void sendData(WritableMap data, int viewId) {
+        mContext.getJSModule(RCTEventEmitter.class)
+                .receiveEvent(viewId, "onItemClicked", data);
     }
 }

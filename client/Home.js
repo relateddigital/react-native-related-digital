@@ -799,10 +799,10 @@ export default class Home extends Component {
           </View>
           {this.state.banner && <View style={[this.styles.main]}>
             <RDBannerView
-              // actionId={'459'} // 459 banner, 497 normal optional
-              // onItemClicked={(data) => {
-              //   console.log('Banner data', data)
-              // }}
+              properties={[{'OM.inapptype':'banner_carousel'}]}
+              onItemClicked={(data) => {
+                console.log('Banner data', data)
+              }}
             />
           </View>}
 

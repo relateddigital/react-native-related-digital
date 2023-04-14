@@ -79,6 +79,12 @@ export interface RDStoryViewProps {
     actionId?: string | null
 }
 export const RDStoryView: (props: RDStoryViewProps) => React.Component<RDStoryViewProps>
-export const RDBannerView: () => React.Component<RDBannerView>
+
+export interface RDBannerViewProps {
+    onItemClicked?: Function;
+    style?: StyleProp<ViewStyle>,
+    properties?: Array<Object> | null
+}
+export const RDBannerView: (props: RDBannerViewProps) => React.Component<RDBannerViewProps>
 export const RecommendationAttribute: RecommendationAttribute
 export const RecommendationFilterType: RecommendationFilterType
