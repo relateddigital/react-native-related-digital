@@ -1,12 +1,11 @@
 import Foundation
 import UIKit
-import UserNotifications
 import RelatedDigitalIOS
 
 private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
 
 @objc(RelatedDigital)
-public class RelatedDigital: RCTEventEmitter {
+class RelatedDigital: RCTEventEmitter {
     
     private var relatedDigitalManager: RelatedDigitalManager?
     
@@ -77,6 +76,7 @@ public class RelatedDigital: RCTEventEmitter {
             NativeRD.askForNotificationPermission(register: true)
         }
     }
+    
     
     @objc(
         setIsPushNotificationEnabled:withIosAppAlias:withGoogleAppAlias:withHuaweiAppAlias:
@@ -165,6 +165,7 @@ public class RelatedDigital: RCTEventEmitter {
     public func getPushMessages(
         resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock
     ) {
+        
         NativeRD.getPushMessages { messages in
             if let jsonData = try? JSONEncoder().encode(messages), let json = String(data: jsonData, encoding: String.Encoding.utf8){
                 resolve(json)
@@ -177,6 +178,7 @@ public class RelatedDigital: RCTEventEmitter {
     @objc(getToken:withReject:)
     public func getToken(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock
     ) {
+
         let userDefaultsToken = UserDefaults.standard.string(forKey: RelatedDigitalManager.tokenKey) ?? ""
         if userDefaultsToken.isEmpty {
             let center = UNUserNotificationCenter.current()
@@ -196,13 +198,14 @@ public class RelatedDigital: RCTEventEmitter {
         }
     }
     
-    public var listenersRegistered = false
-    public var hasListeners = false
-    
     @objc(registerNotificationListeners)
     public func registerNotificationListeners() {
         listenersRegistered = true
     }
+    
+    public var listenersRegistered = false
+    public var hasListeners = false
+    
     
     public override func startObserving() {
         hasListeners = true
@@ -212,6 +215,7 @@ public class RelatedDigital: RCTEventEmitter {
         hasListeners = false
     }
     
+    
     public func sendRelatedDigitalEvent(_ eventName: String, _ body:  [AnyHashable : Any] ) {
         if listenersRegistered, hasListeners {
             self.sendEvent(withName: eventName, body: body)
@@ -219,3 +223,16 @@ public class RelatedDigital: RCTEventEmitter {
     }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

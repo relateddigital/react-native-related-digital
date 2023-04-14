@@ -8,6 +8,8 @@
 
 @import react_native_related_digital;
 
+
+
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -31,17 +33,18 @@ static void InitializeFlipper(UIApplication *application) {
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  
+
+
   [FIRApp configure];
-  
-  
-  
+
+
+
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 
- 
+
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"RelatedDigitalExample"
@@ -51,7 +54,10 @@ static void InitializeFlipper(UIApplication *application) {
 
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
-  
+
+
+
+
   [[RelatedDigitalManager shared] initRelatedDigital:@"676D325830564761676D453D"
                                        withProfileId:@"356467332F6533766975593D"
                                       withDataSource:@"visistore"
@@ -63,6 +69,7 @@ static void InitializeFlipper(UIApplication *application) {
                     withAskLocationPermissionAtStart:NO
                                   withLoggingEnabled:YES
                                    withLaunchOptions:launchOptions];
+
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];

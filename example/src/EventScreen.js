@@ -5,17 +5,8 @@ function EventScreen() {
     const [exVisitorId, setExVisitorId] = React.useState('');
     const [properties, setProperties] = React.useState('');
     const [pageName, setPageName] = React.useState('');
-    const [parameters, setParameters] = React.useState('');
     const handleCustomEvent = () => {
-        let parsedParameters = {};
-        try {
-            parsedParameters = JSON.parse(parameters);
-        }
-        catch (error) {
-            console.error('Error parsing JSON:', error);
-            console.log('Parameters must be a valid JSON object.');
-            return;
-        }
+        let parsedParameters = { key: 'value' };
         RelatedDigital.customEvent(pageName, parsedParameters);
         console.log('Custom event sent.');
     };
@@ -39,8 +30,6 @@ function EventScreen() {
         React.createElement(Text, { style: styles.heading }, "Custom Events"),
         React.createElement(Text, null, "Page Name:"),
         React.createElement(TextInput, { style: styles.input, value: pageName, onChangeText: setPageName, placeholder: "Enter page name" }),
-        React.createElement(Text, null, "Parameters (JSON):"),
-        React.createElement(TextInput, { style: [styles.input, { height: 100 }], value: parameters, onChangeText: setParameters, placeholder: "Enter parameters as a JSON object", multiline: true }),
         React.createElement(Button, { title: "Send Custom Event", onPress: handleCustomEvent })));
 }
 const styles = StyleSheet.create({

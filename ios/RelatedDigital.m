@@ -1,7 +1,6 @@
 #import <React/RCTBridgeModule.h>
 
-@interface
-RCT_EXTERN_MODULE (RelatedDigital, NSObject)
+@interface RCT_EXTERN_MODULE (RelatedDigital, NSObject)
 
 - (NSArray<NSString *> *)supportedEvents
 {

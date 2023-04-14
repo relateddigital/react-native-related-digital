@@ -6,3 +6,6 @@
 //
 
 import Foundation
+//import react_native_related_digital
+
+//let a = RelatedDigitalManager.shared

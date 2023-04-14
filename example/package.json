@@ -1,6 +1,6 @@
 {
   "name": "react-native-relateddigital-example",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -9,9 +9,8 @@
     "pods": "pod-install --quiet"
   },
   "dependencies": {
-    "react-native-related-digital": "../",
-    "react": "17.0.2",
-    "react-native": "0.67.5",
+    "react": "18.2.0",
+    "react-native": "0.67.4",
     "react-native-screens": "^3.2.0",
     "react-native-safe-area-context": "^4.5.0",
     "@react-navigation/native": "^6.0.0",
@@ -23,7 +22,8 @@
     "@react-native-firebase/analytics": "^12.9.1",
     "@react-native-firebase/app": "^12.9.1",
     "@react-native-firebase/crashlytics": "^12.9.1",
-    "@react-native-firebase/messaging": "^12.9.1"
+    "@react-native-firebase/messaging": "^12.9.1",
+    "react-native-related-digital": "../"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
