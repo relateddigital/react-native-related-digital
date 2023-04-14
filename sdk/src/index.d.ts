@@ -82,6 +82,7 @@ export const RDStoryView: (props: RDStoryViewProps) => React.Component<RDStoryVi
 
 export interface RDBannerViewProps {
     onItemClicked?: Function;
+    onRequestResult?: Function;
     style?: StyleProp<ViewStyle>,
     properties?: Array<Object> | null
 }

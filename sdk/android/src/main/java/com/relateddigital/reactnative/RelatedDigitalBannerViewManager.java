@@ -17,6 +17,8 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
+import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.SimpleViewManager;
@@ -41,7 +43,8 @@ public class RelatedDigitalBannerViewManager extends SimpleViewManager<BannerRec
     public static final String VIEW_NAME = "BannerView";
     public final ReactApplicationContext mContext;
     public final int COMMAND_GET_BANNERS = 1;
-    String actionId;
+    HashMap<String, String> properties = new HashMap<>();
+    public int viewId = 0;
 
     public RelatedDigitalBannerViewManager(ReactApplicationContext context) {
         mContext = context;
@@ -63,9 +66,10 @@ public class RelatedDigitalBannerViewManager extends SimpleViewManager<BannerRec
     BannerRequestListener bannerRequestListener = new BannerRequestListener() {
         @Override
         public void onRequestResult(boolean isAvailable) {
-            if (!isAvailable) {
-            //    binding.bannerListView.visibility = View.GONE;
-            }
+            WritableMap data = Arguments.createMap();
+            data.putBoolean("isAvailable", isAvailable);
+
+            sendRequestData(data,viewId);
         }
     };
 
@@ -79,40 +83,26 @@ public class RelatedDigitalBannerViewManager extends SimpleViewManager<BannerRec
     public void receiveCommand(@NonNull final BannerRecyclerView root, String commandId, @Nullable ReadableArray args) {
         super.receiveCommand(root, commandId, args);
         int commandIdInt = Integer.parseInt(commandId);
-
+        this.viewId = args.getInt(0);
         if(commandIdInt == COMMAND_GET_BANNERS) {
-            requestBannerCarousel(root,args);
+            requestBannerCarousel(root);
         }
     }
 
-    public void requestBannerCarousel(final BannerRecyclerView bannerRecyclerView, @Nullable ReadableArray args){
+    @ReactProp(name = "properties")
+    public void setProperties(BannerRecyclerView view, @Nullable ReadableMap properties) {
+        this.properties = new HashMap<>();
+        ReadableMapKeySetIterator iter = properties.keySetIterator();
+        while (iter.hasNextKey()) {
+            String key = iter.nextKey();
+            if (properties.getType(key) == ReadableType.String){
+                this.properties.put(key, properties.getString(key));
+            }
+        }
+    }
+
+    public void requestBannerCarousel(final BannerRecyclerView bannerRecyclerView){
         try{
-            final int viewId = args.getInt(0);
-
-            //List<Object> innerList = Arrays.asList((Object[]) args[1]);
-
-            ReadableArray innerArray = args.getArray(1);
-            List<Object> innerList = new ArrayList<>();
-            for (int i = 0; i < innerArray.size(); i++) {
-                innerList.add(innerArray.getMap(i));
-            }
-            HashMap<String, Object> propertiesMap = (HashMap<String, Object>) innerList.get(0);
-
-            //HashMap<String, Object> properties = (HashMap<String, Object>) args.getArray(1);
-            // properties.put("OM.inapptype", "banner_carousel");
-
-            HashMap<String, String> params = new HashMap<>();
-            //HashMap<String, Object> propertiesMap = properties;
-
-            for (Map.Entry<String, Object> entry : propertiesMap.entrySet()) {
-                if(entry.getValue() instanceof String){
-                    params.put(entry.getKey(), (String) entry.getValue());
-                }
-                else {
-                    params.put(entry.getKey(), entry.getValue().toString());
-                }
-            }
-
             BannerItemClickListener _bannerItemClickListener = new BannerItemClickListener() {
                 @Override
                 public void bannerItemClicked(String bannerLink) {
@@ -124,14 +114,12 @@ public class RelatedDigitalBannerViewManager extends SimpleViewManager<BannerRec
                         data.putString("bannerLink", bannerLink);
 
                         sendData(data, viewId);
-                        // Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(bannerLink));
-                        //startActivity(viewIntent);
                     } catch (Exception e) {
                     }
                 }
             };
 
-            bannerRecyclerView.requestBannerCarouselAction(mContext,params,bannerRequestListener,_bannerItemClickListener);
+            bannerRecyclerView.requestBannerCarouselAction(mContext,this.properties,bannerRequestListener,_bannerItemClickListener);
         }
         catch(Exception ex){
             ex.printStackTrace();
@@ -146,11 +134,21 @@ public class RelatedDigitalBannerViewManager extends SimpleViewManager<BannerRec
                         MapBuilder.of(
                                 "phasedRegistrationNames",
                                 MapBuilder.of("bubbled", "onItemClicked")))
+                .put(
+                        "onRequestResult",
+                        MapBuilder.of(
+                                "phasedRegistrationNames",
+                                MapBuilder.of("bubbled", "onRequestResult")))
                 .build();
     }
 
     private void sendData(WritableMap data, int viewId) {
         mContext.getJSModule(RCTEventEmitter.class)
                 .receiveEvent(viewId, "onItemClicked", data);
+    }
+
+    private void sendRequestData(WritableMap data, int viewId) {
+        mContext.getJSModule(RCTEventEmitter.class)
+                .receiveEvent(viewId, "onRequestResult", data);
     }
 }

@@ -42,7 +42,7 @@ export default class Home extends Component {
       story: false,
       banner: false,
       widget: null,
-      others: true,
+      others: false,
       userData: {
         "Keyid": "1234-B-5678",
         "Email": "baris.arslan@euromsg.com",
@@ -776,72 +776,125 @@ export default class Home extends Component {
     }
   });
 
+  push = () => {
+    return (
+      <View>
+        {this.title("Push Notifications", 25)}
+        <View style={[this.styles.section]}>
+          {this.input()}
+          <View style={{ flexDirection: 'row' }}>
+            {this.loginLogoutButton("logout")}
+            {this.loginLogoutButton("login")}
+          </View>
+          {this.state.token && <View style={this.styles.tokenContainer}>
+            <Text style={this.styles.token}>{'Token: ' + this.state.token}</Text>
+            <CustomButton mini style={{ width: "90%" }} data={{ name: "Copy Token" }} action={async () => { await ClipboardStatic.setString(this.state.token) }} />
+          </View>}
+        </View>
+      </View>
+    )
+  }
+
+
+  banner = () => {
+    return (
+      <View style={{backgroundColor:'rgba(0,0,0,.3)'}}>
+        <View style={this.styles.titleContainer}>
+          {this.title("Banner", 25)}
+          {this.bannerToggleButton()}
+        </View>
+        {this.state.banner && <View style={[this.styles.main]}>
+          <RDBannerView
+            properties={
+              { 
+                'OM.inapptype': 'banner_carousel',
+                'baris':{'egemen':'egemen1'}
+              }
+            }
+            onItemClicked={(data) => {
+              console.log('Banner data', data)
+            }}
+            onRequestResult={(success) => {
+              console.log('Banner loading success', success)
+            }}
+          />
+        </View>}
+      </View>
+    )
+  }
+
+
+  reco = () => {
+    return (
+      <View>
+        <View style={this.styles.titleContainer}>
+          {this.title("Widget", 25)}
+          {this.getRecoButton()}
+        </View>
+        <View style={[this.styles.main]}>
+          {this.state.widget && <Widget widgetData={this.state.widget} trackRecommendationClick={this.trackRecommendationClick} />}
+        </View>
+      </View>
+    )
+  }
+
+
+  inapp = () => {
+    return (
+      <View>
+        <View style={this.styles.titleContainer}>
+          {this.title("In App", 25)}
+          {this.inappToggleButton()}
+        </View>
+        {this.state.inapps && <View style={[this.styles.section, this.styles.inAppContainer]}>
+          {this.renderInApptitles()}
+        </View>}
+      </View>
+    )
+  }
+
+  others = () => {
+    return (
+      <View>
+        <View style={this.styles.titleContainer}>
+          {this.title("Others", 25)}
+          {this.othersToggleButton()}
+        </View>
+        {this.state.others && <View style={[this.styles.inAppContainer]}>
+          {this.renderOthers()}
+        </View>}
+      </View>
+    )
+  }
+
+  story = () => {
+    return (
+      <View>
+        <View style={this.styles.titleContainer}>
+          {this.title("Story", 25)}
+          {this.storyToggleButton()}
+        </View>
+        {this.state.story && <View style={[this.styles.main]}>
+          <RDStoryView
+            // actionId={'459'} // 459 banner, 497 normal optional
+            onItemClicked={(data) => {
+              console.log('Story data', data)
+            }}
+          />
+        </View>}
+      </View>
+    )
+  }
+
   render() {
     return (
       <SafeAreaView style={[this.styles.container]}>
         <ScrollView>
-          {this.title("Push Notifications", 25)}
-          <View style={[this.styles.section]}>
-            {this.input()}
-            <View style={{ flexDirection: 'row' }}>
-              {this.loginLogoutButton("logout")}
-              {this.loginLogoutButton("login")}
-            </View>
-            {this.state.token && <View style={this.styles.tokenContainer}>
-              <Text style={this.styles.token}>{'Token: ' + this.state.token}</Text>
-              <CustomButton mini style={{ width: "90%" }} data={{ name: "Copy Token" }} action={async () => { await ClipboardStatic.setString(this.state.token) }} />
-            </View>}
-          </View>
-
-          <View style={this.styles.titleContainer}>
-            {this.title("Banner", 25)}
-            {this.bannerToggleButton()}
-          </View>
-          {this.state.banner && <View style={[this.styles.main]}>
-            <RDBannerView
-              properties={[{'OM.inapptype':'banner_carousel'}]}
-              onItemClicked={(data) => {
-                console.log('Banner data', data)
-              }}
-            />
-          </View>}
-
-          <View style={this.styles.titleContainer}>
-            {this.title("Others", 25)}
-            {this.othersToggleButton()}
-          </View>
-          {this.state.others && <View style={[this.styles.inAppContainer]}>
-            {this.renderOthers()}
-          </View>}
-
-          <View style={this.styles.titleContainer}>
-            {this.title("In App", 25)}
-            {this.inappToggleButton()}
-          </View>
-          {this.state.inapps && <View style={[this.styles.section, this.styles.inAppContainer]}>
-            {this.renderInApptitles()}
-          </View>}
-
-          <View style={this.styles.titleContainer}>
-            {this.title("Story", 25)}
-            {this.storyToggleButton()}
-          </View>
-          {this.state.story && <View style={[this.styles.main]}>
-            <RDStoryView
-              // actionId={'459'} // 459 banner, 497 normal optional
-              onItemClicked={(data) => {
-                console.log('Story data', data)
-              }}
-            />
-          </View>}
-
-          <View style={this.styles.titleContainer}>
-            {this.title("Widget", 25)}
-            {this.getRecoButton()}
-          </View>
-          <View style={[this.styles.main]}>
-            {this.state.widget && <Widget widgetData={this.state.widget} trackRecommendationClick={this.trackRecommendationClick} />}
-          </View>
+          {this.banner()}
+          {this.push()}
+          {this.reco()}
+          {this.inapp()}
+          {this.others()}
         </ScrollView>
       </SafeAreaView>
     )

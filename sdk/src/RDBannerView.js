@@ -11,6 +11,7 @@ export default class RDBannerView extends React.Component {
     super(props)
 
     this._onItemClicked = this._onItemClicked.bind(this)
+    this._onRequestResult = this._onRequestResult.bind(this)
     this._requestBannerCarousel = this._requestBannerCarousel.bind(this)
   }
 
@@ -28,6 +29,7 @@ export default class RDBannerView extends React.Component {
             ref={(ref) => this.bannerView = ref}
             style={[styles.container, style]}
             onItemClicked={this._onItemClicked}
+            onRequestResult={this._onRequestResult}
             properties={properties}
         />
     )
@@ -43,6 +45,16 @@ export default class RDBannerView extends React.Component {
     onItemClicked(event.nativeEvent)
   }
 
+  _onRequestResult(event) {
+    const { onRequestResult } = this.props
+
+    if (!onRequestResult) {
+      return
+    }
+
+    onRequestResult(event.nativeEvent)
+  }
+
   _requestBannerCarousel() {
     const viewId = findNodeHandle(this.bannerView)
     UIManager.dispatchViewManagerCommand(viewId, UIManager.BannerView.Commands.requestBannerCarousel.toString(), [viewId,this.props.properties])
@@ -51,8 +63,9 @@ export default class RDBannerView extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        minWidth: width,
-        minHeight: height
+        // minWidth: width,
+        minHeight: height,
+        // backgroundColor:'orange'
         // alignSelf: 'stretch'
     }
 })
