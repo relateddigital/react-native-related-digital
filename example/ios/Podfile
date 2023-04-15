@@ -6,10 +6,9 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '12.4'
 
-#target 'RelatedDigitalExampleNotificationServiceExtension' do
-#  config = use_native_modules!
-#  use_react_native!(:path => config["reactNativePath"])
-#end
+target 'RelatedDigitalExampleNotificationService' do
+  pod 'RelatedDigitalIOS', '4.0.13'
+end
 
 target 'RelatedDigitalExample' do
   config = use_native_modules!
@@ -26,6 +25,7 @@ target 'RelatedDigitalExample' do
   post_install do |installer|
       flipper_post_install(installer)
       __apply_Xcode_12_5_M1_post_install_workaround(installer)
+      notification_service_post_install(installer)
   end
 end
 
