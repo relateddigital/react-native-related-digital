@@ -14,11 +14,6 @@ public class RelatedDigitalManager: NSObject {
     public static let onNotificationReceived = "onNotificationReceived"
     public static let onNotificationOpened = "onNotificationOpened"
     
-    
-    static let tokenKey = "RelatedDigitalManagerTokenKey"
-    static let RCTRemoteNotificationReceived = "RemoteNotificationReceived"
-    static let kRemoteNotificationsRegistered = "RemoteNotificationsRegistered"
-    
     @objc public static let shared = RelatedDigitalManager()
     
     @objc var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -64,7 +59,6 @@ public class RelatedDigitalManager: NSObject {
     public func didRegisterForRemoteNotificationsWithDeviceToken(deviceToken: Data) {
         NativeRD.registerToken(tokenData: deviceToken)
         let tokenString = deviceToken.reduce("", { $0 + String(format: "%02X", $1) })
-        UserDefaults.standard.set(tokenString, forKey: Self.tokenKey)
         var body = [String:String]()
         body["token"] = tokenString
         self.sendRelatedDigitalEvent(Self.onNotificationRegistered, body)

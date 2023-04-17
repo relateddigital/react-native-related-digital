@@ -165,9 +165,11 @@ class RelatedDigital: RCTEventEmitter {
     public func getPushMessages(
         resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock
     ) {
-        
         NativeRD.getPushMessages { messages in
-            if let jsonData = try? JSONEncoder().encode(messages), let json = String(data: jsonData, encoding: String.Encoding.utf8){
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            if let jsonData = try? encoder.encode(messages)
+                ,let json = String(data: jsonData, encoding: String.Encoding.utf8) {
                 resolve(json)
             } else {
                 reject("getPushMessages error", "getPushMessages error description", nil)
@@ -178,23 +180,8 @@ class RelatedDigital: RCTEventEmitter {
     @objc(getToken:withReject:)
     public func getToken(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock
     ) {
-
-        let userDefaultsToken = UserDefaults.standard.string(forKey: RelatedDigitalManager.tokenKey) ?? ""
-        if userDefaultsToken.isEmpty {
-            let center = UNUserNotificationCenter.current()
-            center.getNotificationSettings { settings in
-                if settings.authorizationStatus == .authorized {
-                    DispatchQueue.main.async {
-                        UIA.shared.registerForRemoteNotifications()
-                        resolve(userDefaultsToken)
-                    }
-                } else {
-                    resolve(userDefaultsToken)
-                }
-            }
-            
-        } else {
-            resolve(userDefaultsToken)
+        NativeRD.getToken { token in
+            resolve(token)
         }
     }
     
