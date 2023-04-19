@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, StyleSheet, Dimensions, UIManager, findNodeHandle, Platform } from 'react-native'
-import { RDStoryViewNative, RDBannerViewNative, getStoriesNative } from './native'
+import { RDBannerViewNative } from './native'
 
 const { width } = Dimensions.get('window')
 const height = 110
@@ -42,7 +42,8 @@ export default class RDBannerView extends React.Component {
       return
     }
 
-    onItemClicked(event.nativeEvent)
+    const bannerLink = {"bannerLink":event.nativeEvent.bannerLink}
+    onItemClicked(bannerLink)
   }
 
   _onRequestResult(event) {
@@ -51,8 +52,8 @@ export default class RDBannerView extends React.Component {
     if (!onRequestResult) {
       return
     }
-
-    onRequestResult(event.nativeEvent)
+    const isAvailable = {"isAvailable":event.nativeEvent.isAvailable}
+    onRequestResult(isAvailable)
   }
 
   _requestBannerCarousel() {

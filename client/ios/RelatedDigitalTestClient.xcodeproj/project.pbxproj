@@ -12,6 +12,8 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		8B02E9C429EDAC25008EFDF8 /* BannerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B02E9C229EDAC25008EFDF8 /* BannerCollectionViewCell.xib */; };
+		8B02E9C529EDAC25008EFDF8 /* BannerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B02E9C329EDAC25008EFDF8 /* BannerView.xib */; };
 		8B8BC81928CA5B42001383FC /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8BC81828CA5B42001383FC /* Empty.swift */; };
 		8B8BC81C28CA5C71001383FC /* VisilabsFullNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B8BC81A28CA5C71001383FC /* VisilabsFullNotificationViewController.xib */; };
 		8B8BC81D28CA5C71001383FC /* VisilabsMiniNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B8BC81B28CA5C71001383FC /* VisilabsMiniNotificationViewController.xib */; };
@@ -78,6 +80,8 @@
 		67CD20BB19D537FC7DA9FF37 /* Pods-RelatedDigitalNotificationContent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RelatedDigitalNotificationContent.debug.xcconfig"; path = "Target Support Files/Pods-RelatedDigitalNotificationContent/Pods-RelatedDigitalNotificationContent.debug.xcconfig"; sourceTree = "<group>"; };
 		6B5B94F35396FF22641BC001 /* Pods-RelatedDigitalNotificationContent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RelatedDigitalNotificationContent.release.xcconfig"; path = "Target Support Files/Pods-RelatedDigitalNotificationContent/Pods-RelatedDigitalNotificationContent.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = RelatedDigitalTestClient/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B02E9C229EDAC25008EFDF8 /* BannerCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BannerCollectionViewCell.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerCollectionViewCell.xib; sourceTree = "<group>"; };
+		8B02E9C329EDAC25008EFDF8 /* BannerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BannerView.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerView.xib; sourceTree = "<group>"; };
 		8B8BC81628CA5AD5001383FC /* RelatedDigitalTestClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = RelatedDigitalTestClient.entitlements; path = RelatedDigitalTestClient/RelatedDigitalTestClient.entitlements; sourceTree = "<group>"; };
 		8B8BC81728CA5B42001383FC /* RelatedDigitalTestClient-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RelatedDigitalTestClient-Bridging-Header.h"; sourceTree = "<group>"; };
 		8B8BC81828CA5B42001383FC /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
@@ -174,6 +178,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				8B02E9C229EDAC25008EFDF8 /* BannerCollectionViewCell.xib */,
+				8B02E9C329EDAC25008EFDF8 /* BannerView.xib */,
 				8B8BC85228CA6057001383FC /* timerView.xib */,
 				8B8BC84F28CA5E09001383FC /* CarouselCell.xib */,
 				8B8BC84E28CA5E09001383FC /* EMNotificationCarousel.xib */,
@@ -350,6 +356,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B02E9C429EDAC25008EFDF8 /* BannerCollectionViewCell.xib in Resources */,
+				8B02E9C529EDAC25008EFDF8 /* BannerView.xib in Resources */,
 				8B8BC85328CA6057001383FC /* timerView.xib in Resources */,
 				8B8BC81F28CA5C8E001383FC /* sideBarView.xib in Resources */,
 				8B8BC81C28CA5C71001383FC /* VisilabsFullNotificationViewController.xib in Resources */,
@@ -604,6 +612,51 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5M383PCDJZ;
 				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/Euromsg\"",
+					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Fmt\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-RSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
+					"\"${PODS_ROOT}/Headers/Public/RCT-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCAsyncStorage\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Codegen\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTAnimation\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTBlob\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
+					"\"${PODS_ROOT}/Headers/Public/React-bridging\"",
+					"\"${PODS_ROOT}/Headers/Public/React-callinvoker\"",
+					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
+					"\"${PODS_ROOT}/Headers/Public/React-logger\"",
+					"\"${PODS_ROOT}/Headers/Public/React-perflogger\"",
+					"\"${PODS_ROOT}/Headers/Public/React-runtimeexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
+					"\"${PODS_ROOT}/Headers/Public/SocketRocket\"",
+					"\"${PODS_ROOT}/Headers/Public/VisilabsIOS\"",
+					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
+					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
+					"\"${PODS_ROOT}/Headers/Public/fmt\"",
+					"\"${PODS_ROOT}/Headers/Public/glog\"",
+					"\"${PODS_ROOT}/Headers/Public/libevent\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-related-digital\"",
+					"\"$(PODS_ROOT)/DoubleConversion\"",
+					"\"$(PODS_ROOT)/boost\"",
+					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+					"\"$(PODS_TARGET_SRCROOT)/include/\"",
+				);
 				INFOPLIST_FILE = RelatedDigitalTestClient/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -634,6 +687,51 @@
 				CODE_SIGN_ENTITLEMENTS = RelatedDigitalTestClient/RelatedDigitalTestClient.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5M383PCDJZ;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/Euromsg\"",
+					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Fmt\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-RSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
+					"\"${PODS_ROOT}/Headers/Public/RCT-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCAsyncStorage\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Codegen\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTAnimation\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTBlob\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
+					"\"${PODS_ROOT}/Headers/Public/React-bridging\"",
+					"\"${PODS_ROOT}/Headers/Public/React-callinvoker\"",
+					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
+					"\"${PODS_ROOT}/Headers/Public/React-logger\"",
+					"\"${PODS_ROOT}/Headers/Public/React-perflogger\"",
+					"\"${PODS_ROOT}/Headers/Public/React-runtimeexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
+					"\"${PODS_ROOT}/Headers/Public/SocketRocket\"",
+					"\"${PODS_ROOT}/Headers/Public/VisilabsIOS\"",
+					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
+					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
+					"\"${PODS_ROOT}/Headers/Public/fmt\"",
+					"\"${PODS_ROOT}/Headers/Public/glog\"",
+					"\"${PODS_ROOT}/Headers/Public/libevent\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-related-digital\"",
+					"\"$(PODS_ROOT)/DoubleConversion\"",
+					"\"$(PODS_ROOT)/boost\"",
+					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+					"\"$(PODS_TARGET_SRCROOT)/include/\"",
+				);
 				INFOPLIST_FILE = RelatedDigitalTestClient/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (

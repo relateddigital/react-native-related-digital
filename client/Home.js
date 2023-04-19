@@ -798,7 +798,7 @@ export default class Home extends Component {
 
   banner = () => {
     return (
-      <View style={{backgroundColor:'rgba(0,0,0,.3)'}}>
+      <View>
         <View style={this.styles.titleContainer}>
           {this.title("Banner", 25)}
           {this.bannerToggleButton()}
@@ -808,14 +808,14 @@ export default class Home extends Component {
             properties={
               { 
                 'OM.inapptype': 'banner_carousel',
-                'baris':{'egemen':'egemen1'}
+                // 'baris':{'egemen':'egemen1'}
               }
             }
             onItemClicked={(data) => {
               console.log('Banner data', data)
             }}
-            onRequestResult={(success) => {
-              console.log('Banner loading success', success)
+            onRequestResult={(isAvailable) => {
+              console.log('Banners isAvailable', isAvailable)
             }}
           />
         </View>}

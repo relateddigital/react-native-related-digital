@@ -88,6 +88,30 @@ import Euromsg
 			return Visilabs.callAPI().getStoryView()
 		}
 	}
+
+    @objc public static func getBannerView(actionId: String?) -> BannerView {
+        let bannerView = BannerView()
+        
+        var props = [String:String]()
+        props["OM.inapptype"] = "banner_carousel"
+        
+        Visilabs.getBannerView(properties: props) { banner in
+            if let banner = banner {
+                banner.translatesAutoresizingMaskIntoConstraints = false
+                bannerView.addSubview(banner)
+                
+                NSLayoutConstraint.activate([
+                    banner.topAnchor.constraint(equalTo: bannerView.topAnchor),
+                    banner.bottomAnchor.constraint(equalTo: bannerView.bottomAnchor),
+                    banner.leadingAnchor.constraint(equalTo: bannerView.leadingAnchor),
+                    banner.trailingAnchor.constraint(equalTo: bannerView.trailingAnchor)
+                ])
+            }
+        }
+        
+        return bannerView
+    }
+
 	
 	@objc public static func getFavoriteAttributeActions(actionId: String?, completion: @escaping ((_ response: String?) -> Void)) {
 		if(actionId != nil && actionId != "") {
