@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import React
+import RelatedDigitalIOS
 private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
 
 @objc(RDStoryView)

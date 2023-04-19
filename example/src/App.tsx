@@ -1,45 +1,40 @@
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, StyleSheet } from 'react-native';
-
+import React from 'react';
+import { Text } from 'react-native';
+import {
+  BottomNavigation,
+  Provider as PaperProvider,
+} from 'react-native-paper';
 import EventScreen from './EventScreen';
-import PushScreen from './PushScreen';
-import TargetScreen from './TargetScreen';
 
-const Tab = createBottomTabNavigator();
+const LibraryRoute = () => <Text>Library</Text>;
+const FavoritesRoute = () => <Text>Favorites</Text>;
+const PurchasedRoute = () => <Text>Purchased</Text>;
 
-function App() {
+const App = () => {
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'events', title: 'Events', icon: 'analytics.png' },
+    { key: 'library', title: 'Library', icon: 'inbox' },
+    { key: 'favorites', title: 'Favorites', icon: 'heart' },
+    { key: 'purchased', title: 'Purchased', icon: 'shopping' },
+  ]);
+
+  const renderScene = BottomNavigation.SceneMap({
+    events: EventScreen,
+    library: LibraryRoute,
+    favorites: FavoritesRoute,
+    purchased: PurchasedRoute,
+  });
+
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: () => {
-            let iconName;
-            if (route.name === 'Event') {
-              iconName = require('./img/analytics.png');
-            } else if (route.name === 'Push') {
-              iconName = require('./img/notification.png');
-            } else if (route.name === 'Target') {
-              iconName = require('./img/target.png');
-            }
-            return <Image source={iconName} style={styles.img} />;
-          },
-        })}
-      >
-        <Tab.Screen name="Event" component={EventScreen} />
-        <Tab.Screen name="Push" component={PushScreen} />
-        <Tab.Screen name="Target" component={TargetScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <PaperProvider>
+      <BottomNavigation
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderScene={renderScene}
+      />
+    </PaperProvider>
   );
-}
-
-const styles = StyleSheet.create({
-  img: {
-    width: 24,
-    height: 24,
-  },
-});
+};
 
 export default App;
