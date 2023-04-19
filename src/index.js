@@ -5,4 +5,5 @@ const onNotificationRegistered = 'onNotificationRegistered';
 const onNotificationReceived = 'onNotificationReceived';
 const onNotificationOpened = 'onNotificationOpened';
 export { RelatedDigitalPushNotificationEmitter, onNotificationRegistered, onNotificationReceived, onNotificationOpened, };
+export * from './RDStoryView';
 export default RelatedDigital;

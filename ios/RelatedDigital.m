@@ -1,4 +1,5 @@
 #import <React/RCTBridgeModule.h>
+#import <React/RCTViewManager.h>
 
 @interface RCT_EXTERN_MODULE (RelatedDigital, NSObject)
 
@@ -99,3 +100,9 @@ RCT_EXTERN_METHOD (registerNotificationListeners)
 
 @end
 
+
+
+@interface RCT_EXTERN_MODULE(RDStoryViewManager, RCTViewManager)
+    RCT_EXPORT_VIEW_PROPERTY(actionId, NSString)
+    RCT_EXPORT_VIEW_PROPERTY(onItemClicked, RCTBubblingEventBlock)
+@end

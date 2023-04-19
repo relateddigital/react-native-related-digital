@@ -5,6 +5,7 @@ import { Image, StyleSheet } from 'react-native';
 
 import EventScreen from './EventScreen';
 import PushScreen from './PushScreen';
+import TargetScreen from './TargetScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,16 +14,14 @@ function App() {
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused }) => {
+          tabBarIcon: () => {
             let iconName;
             if (route.name === 'Event') {
-              iconName = focused
-                ? require('./img/analytics.png')
-                : require('./img/analytics.png');
+              iconName = require('./img/analytics.png');
             } else if (route.name === 'Push') {
-              iconName = focused
-                ? require('./img/notification.png')
-                : require('./img/notification.png');
+              iconName = require('./img/notification.png');
+            } else if (route.name === 'Target') {
+              iconName = require('./img/target.png');
             }
             return <Image source={iconName} style={styles.img} />;
           },
@@ -30,6 +29,7 @@ function App() {
       >
         <Tab.Screen name="Event" component={EventScreen} />
         <Tab.Screen name="Push" component={PushScreen} />
+        <Tab.Screen name="Target" component={TargetScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

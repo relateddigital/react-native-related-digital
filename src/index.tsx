@@ -56,4 +56,6 @@ export {
   onNotificationReceived,
   onNotificationOpened,
 };
+
+export * from './RDStoryView';
 export default RelatedDigital as RelatedDigitalType;
