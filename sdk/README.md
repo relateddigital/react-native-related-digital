@@ -550,13 +550,13 @@ import { RDBannerView } from 'react-native-related-digital'
 />
 ```
 
-onRequestResult response
-```json
-{ "isAvailable": true /* or false */ } 
+`onRequestResult` response
+```js
+{ "isAvailable": true } // or false
 ```
 
-onItemClicked response
-```json
+`onItemClicked` response
+```js
 { "bannerLink": "URL" }
 ```
 
