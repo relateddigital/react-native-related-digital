@@ -253,6 +253,8 @@ If you don't want the location permission to be taken on startup, set the `askLo
   * `Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/Views/VisilabsMiniNotificationViewController.xib`
   * `Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/Views/VisilabsFullNotificationViewController.xib`
   * `Pods/VisilabsIOS/Sources/TargetingAction/sideBar/sideBarView.xib`
+  * `Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerView.xib`
+  * `Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerCollectionViewCell.xib`
 * To enable rich notification capabilites like showing image or video;
 1. Add `Notification Service Extension` target to your project and name it `RelatedDigitalNotificationService`. Change this service's target iOS version to 10.0. Then change newly added `NotificationService.m` file contents with the following:
 (Don't forget to enter your app name instead of `APP_ALIAS`)
@@ -500,6 +502,9 @@ No special installation required
 
 To add story view to your app, import `RDStoryView` and use as below:
 ```jsx
+import { RDStoryView } from 'react-native-related-digital'
+...
+...
 <RDStoryView
   actionId={'1'} // optional
   onItemClicked={(data) => { 
@@ -508,6 +513,43 @@ To add story view to your app, import `RDStoryView` and use as below:
   style={{ flex: 1 }}
 />
 ```
+
+
+### App Banner
+
+**iOS**
+
+Add below lines to your project target's `Build Phases`->`Copy Bundle Resources` section. Select `Create folder references` when prompted.
+  * `Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerView.xib`
+  * `Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerCollectionViewCell.xib`
+
+**Android**
+
+No special installation required
+
+**Usage**
+
+To add banner view to your app, import `RDBannerView` and use as below:
+```jsx
+import { RDBannerView } from 'react-native-related-digital'
+...
+...
+<RDBannerView
+  properties={{
+    // 'OM.inapptype': 'banner_carousel',
+  }}
+  onItemClicked={(data) => {
+    console.log('Related Digital - Banner data', data)
+  }}
+  onRequestResult={(isAvailable) => {
+    console.log('Related Digital - Banners', isAvailable)
+  }}
+  style={{
+    flex: 1,
+  }}
+/>
+```
+
 ### Provisional Push (iOS Only)
 To use provisional push feature on iOS, call `requestPermissions` method with parameter `false`
 ```javascript

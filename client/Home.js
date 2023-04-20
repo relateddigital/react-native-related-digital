@@ -805,17 +805,17 @@ export default class Home extends Component {
         </View>
         {this.state.banner && <View style={[this.styles.main]}>
           <RDBannerView
-            properties={
-              { 
-                'OM.inapptype': 'banner_carousel',
-                // 'baris':{'egemen':'egemen1'}
-              }
-            }
+            properties={{ 
+               'OM.inapptype': 'banner_carousel',
+            }}
             onItemClicked={(data) => {
-              console.log('Banner data', data)
+              console.log('Related Digital - Banner data', data)
             }}
             onRequestResult={(isAvailable) => {
-              console.log('Banners isAvailable', isAvailable)
+              console.log('Related Digital - Banners', isAvailable)
+            }}
+            style={{
+              flex: 1,
             }}
           />
         </View>}
@@ -892,8 +892,9 @@ export default class Home extends Component {
         <ScrollView>
           {this.banner()}
           {this.push()}
-          {this.reco()}
+          {this.story()}
           {this.inapp()}
+          {this.reco()}
           {this.others()}
         </ScrollView>
       </SafeAreaView>

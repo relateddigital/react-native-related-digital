@@ -13,7 +13,7 @@ class RDBannerView: UIView, BannerDelegate {
     
     static let viewTag: Int = 999
     
-    @objc var properties: [String:String]? {
+    @objc var properties: [String: Any]? {
         didSet {
             self.layoutSubviews()
         }
