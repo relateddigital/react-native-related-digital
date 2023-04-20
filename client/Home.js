@@ -808,12 +808,12 @@ export default class Home extends Component {
             properties={{ 
                'OM.inapptype': 'banner_carousel',
             }}
-            onItemClicked={(data) => {
+            onRequestResult={isAvailable => 
+              console.log('Related Digital - Banners', isAvailable) 
+            }
+            onItemClicked={data => 
               console.log('Related Digital - Banner data', data)
-            }}
-            onRequestResult={(isAvailable) => {
-              console.log('Related Digital - Banners', isAvailable)
-            }}
+            }
             style={{
               flex: 1,
             }}

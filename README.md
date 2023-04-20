@@ -538,16 +538,26 @@ import { RDBannerView } from 'react-native-related-digital'
   properties={{
     // 'OM.inapptype': 'banner_carousel',
   }}
-  onItemClicked={(data) => {
-    console.log('Related Digital - Banner data', data)
-  }}
-  onRequestResult={(isAvailable) => {
+  onRequestResult={isAvailable => 
     console.log('Related Digital - Banners', isAvailable)
-  }}
+  }
+  onItemClicked={data => 
+    console.log('Related Digital - Banner data', data)
+  }
   style={{
     flex: 1,
   }}
 />
+```
+
+onRequestResult response
+```json
+{ "isAvailable": true /* or false */ } 
+```
+
+onItemClicked response
+```json
+{ "bannerLink": "URL" }
 ```
 
 ### Provisional Push (iOS Only)
