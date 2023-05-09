@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, SafeAreaView, } from 'react-native';
 import RelatedDigital from 'react-native-related-digital';
 function EventScreen() {
     const [exVisitorId, setExVisitorId] = React.useState('');
@@ -19,18 +19,19 @@ function EventScreen() {
     const handleLogout = () => {
         RelatedDigital.logout();
     };
-    return (React.createElement(ScrollView, { contentContainerStyle: styles.container },
-        React.createElement(Text, { style: styles.heading }, "Authentication"),
-        React.createElement(TextInput, { style: styles.input, onChangeText: setExVisitorId, value: exVisitorId, placeholder: "exVisitorId" }),
-        React.createElement(TextInput, { style: styles.input, onChangeText: setProperties, value: properties, placeholder: '{"key": "value"}' }),
-        React.createElement(View, { style: styles.buttonContainer },
-            React.createElement(Button, { title: "Sign Up", onPress: handleSignUp }),
-            React.createElement(Button, { title: "Login", onPress: handleLogin }),
-            React.createElement(Button, { title: "Logout", onPress: handleLogout })),
-        React.createElement(Text, { style: styles.heading }, "Custom Events"),
-        React.createElement(Text, null, "Page Name:"),
-        React.createElement(TextInput, { style: styles.input, value: pageName, onChangeText: setPageName, placeholder: "Enter page name" }),
-        React.createElement(Button, { title: "Send Custom Event", onPress: handleCustomEvent })));
+    return (React.createElement(SafeAreaView, null,
+        React.createElement(ScrollView, { contentContainerStyle: styles.container },
+            React.createElement(Text, { style: styles.heading }, "Authentication"),
+            React.createElement(TextInput, { style: styles.input, onChangeText: setExVisitorId, value: exVisitorId, placeholder: "exVisitorId" }),
+            React.createElement(TextInput, { style: styles.input, onChangeText: setProperties, value: properties, placeholder: '{"key": "value"}' }),
+            React.createElement(View, { style: styles.buttonContainer },
+                React.createElement(Button, { title: "Sign Up", onPress: handleSignUp }),
+                React.createElement(Button, { title: "Login", onPress: handleLogin }),
+                React.createElement(Button, { title: "Logout", onPress: handleLogout })),
+            React.createElement(Text, { style: styles.heading }, "Custom Events"),
+            React.createElement(Text, null, "Page Name:"),
+            React.createElement(TextInput, { style: styles.input, value: pageName, onChangeText: setPageName, placeholder: "Enter page name" }),
+            React.createElement(Button, { title: "Send Custom Event", onPress: handleCustomEvent }))));
 }
 const styles = StyleSheet.create({
     container: {

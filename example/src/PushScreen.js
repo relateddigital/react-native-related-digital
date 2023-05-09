@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, Switch, Alert, } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, Switch, Alert, SafeAreaView, } from 'react-native';
 import RelatedDigital from 'react-native-related-digital';
 function PushScreen() {
     const [isInAppNotificationEnabled, setIsInAppNotificationEnabled] = React.useState(false);
@@ -39,31 +39,32 @@ function PushScreen() {
             console.log(pushMessages);
         });
     };
-    return (React.createElement(ScrollView, { contentContainerStyle: styles.container },
-        React.createElement(Text, { style: styles.heading }, "Notifications"),
-        React.createElement(View, { style: styles.switchRow },
-            React.createElement(Text, null, "In-App Notification Enabled:"),
-            React.createElement(Switch, { value: isInAppNotificationEnabled, onValueChange: handleIsInAppNotificationEnabled })),
-        React.createElement(View, { style: styles.switchRow },
-            React.createElement(Text, null, "Push Notification Enabled:"),
-            React.createElement(Switch, { value: isPushNotificationEnabled, onValueChange: handleIsPushNotificationEnabled })),
-        React.createElement(Text, { style: styles.heading }, "User Properties"),
-        React.createElement(Text, null, "Property Key:"),
-        React.createElement(TextInput, { style: styles.input, value: propertyKey, onChangeText: setPropertyKey, placeholder: "Enter property key" }),
-        React.createElement(Text, null, "Property Value:"),
-        React.createElement(TextInput, { style: styles.input, value: propertyValue, onChangeText: setPropertyValue, placeholder: "Enter property value" }),
-        React.createElement(View, { style: styles.button },
-            React.createElement(Button, { title: "Set User Property", onPress: handleSetUserProperty })),
-        React.createElement(View, { style: styles.button },
-            React.createElement(Button, { title: "Remove User Property", onPress: handleRemoveUserProperty })),
-        React.createElement(View, { style: styles.button },
-            React.createElement(Button, { title: "Get Token", onPress: handleGetToken })),
-        React.createElement(View, { style: styles.button },
-            React.createElement(Button, { title: "Ask for Push Notification Permission", onPress: handleAskForPushNotificationPermission })),
-        React.createElement(View, { style: styles.button },
-            React.createElement(Button, { title: "Set Email", onPress: handleSetEmail })),
-        React.createElement(View, { style: styles.button },
-            React.createElement(Button, { title: "Get Push Messages", onPress: handleGetPushMessages }))));
+    return (React.createElement(SafeAreaView, null,
+        React.createElement(ScrollView, { contentContainerStyle: styles.container },
+            React.createElement(Text, { style: styles.heading }, "Notifications"),
+            React.createElement(View, { style: styles.switchRow },
+                React.createElement(Text, null, "In-App Notification Enabled:"),
+                React.createElement(Switch, { value: isInAppNotificationEnabled, onValueChange: handleIsInAppNotificationEnabled })),
+            React.createElement(View, { style: styles.switchRow },
+                React.createElement(Text, null, "Push Notification Enabled:"),
+                React.createElement(Switch, { value: isPushNotificationEnabled, onValueChange: handleIsPushNotificationEnabled })),
+            React.createElement(Text, { style: styles.heading }, "User Properties"),
+            React.createElement(Text, null, "Property Key:"),
+            React.createElement(TextInput, { style: styles.input, value: propertyKey, onChangeText: setPropertyKey, placeholder: "Enter property key" }),
+            React.createElement(Text, null, "Property Value:"),
+            React.createElement(TextInput, { style: styles.input, value: propertyValue, onChangeText: setPropertyValue, placeholder: "Enter property value" }),
+            React.createElement(View, { style: styles.button },
+                React.createElement(Button, { title: "Set User Property", onPress: handleSetUserProperty })),
+            React.createElement(View, { style: styles.button },
+                React.createElement(Button, { title: "Remove User Property", onPress: handleRemoveUserProperty })),
+            React.createElement(View, { style: styles.button },
+                React.createElement(Button, { title: "Get Token", onPress: handleGetToken })),
+            React.createElement(View, { style: styles.button },
+                React.createElement(Button, { title: "Ask for Push Notification Permission", onPress: handleAskForPushNotificationPermission })),
+            React.createElement(View, { style: styles.button },
+                React.createElement(Button, { title: "Set Email", onPress: handleSetEmail })),
+            React.createElement(View, { style: styles.button },
+                React.createElement(Button, { title: "Get Push Messages", onPress: handleGetPushMessages })))));
 }
 const styles = StyleSheet.create({
     container: {

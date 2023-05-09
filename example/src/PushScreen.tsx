@@ -8,6 +8,7 @@ import {
   ScrollView,
   Switch,
   Alert,
+  SafeAreaView,
 } from 'react-native';
 import RelatedDigital from 'react-native-related-digital';
 
@@ -67,62 +68,64 @@ function PushScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.heading}>Notifications</Text>
-      <View style={styles.switchRow}>
-        <Text>In-App Notification Enabled:</Text>
-        <Switch
-          value={isInAppNotificationEnabled}
-          onValueChange={handleIsInAppNotificationEnabled}
+    <SafeAreaView>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.heading}>Notifications</Text>
+        <View style={styles.switchRow}>
+          <Text>In-App Notification Enabled:</Text>
+          <Switch
+            value={isInAppNotificationEnabled}
+            onValueChange={handleIsInAppNotificationEnabled}
+          />
+        </View>
+        <View style={styles.switchRow}>
+          <Text>Push Notification Enabled:</Text>
+          <Switch
+            value={isPushNotificationEnabled}
+            onValueChange={handleIsPushNotificationEnabled}
+          />
+        </View>
+        <Text style={styles.heading}>User Properties</Text>
+        <Text>Property Key:</Text>
+        <TextInput
+          style={styles.input}
+          value={propertyKey}
+          onChangeText={setPropertyKey}
+          placeholder="Enter property key"
         />
-      </View>
-      <View style={styles.switchRow}>
-        <Text>Push Notification Enabled:</Text>
-        <Switch
-          value={isPushNotificationEnabled}
-          onValueChange={handleIsPushNotificationEnabled}
+        <Text>Property Value:</Text>
+        <TextInput
+          style={styles.input}
+          value={propertyValue}
+          onChangeText={setPropertyValue}
+          placeholder="Enter property value"
         />
-      </View>
-      <Text style={styles.heading}>User Properties</Text>
-      <Text>Property Key:</Text>
-      <TextInput
-        style={styles.input}
-        value={propertyKey}
-        onChangeText={setPropertyKey}
-        placeholder="Enter property key"
-      />
-      <Text>Property Value:</Text>
-      <TextInput
-        style={styles.input}
-        value={propertyValue}
-        onChangeText={setPropertyValue}
-        placeholder="Enter property value"
-      />
-      <View style={styles.button}>
-        <Button title="Set User Property" onPress={handleSetUserProperty} />
-      </View>
-      <View style={styles.button}>
-        <Button
-          title="Remove User Property"
-          onPress={handleRemoveUserProperty}
-        />
-      </View>
-      <View style={styles.button}>
-        <Button title="Get Token" onPress={handleGetToken} />
-      </View>
-      <View style={styles.button}>
-        <Button
-          title="Ask for Push Notification Permission"
-          onPress={handleAskForPushNotificationPermission}
-        />
-      </View>
-      <View style={styles.button}>
-        <Button title="Set Email" onPress={handleSetEmail} />
-      </View>
-      <View style={styles.button}>
-        <Button title="Get Push Messages" onPress={handleGetPushMessages} />
-      </View>
-    </ScrollView>
+        <View style={styles.button}>
+          <Button title="Set User Property" onPress={handleSetUserProperty} />
+        </View>
+        <View style={styles.button}>
+          <Button
+            title="Remove User Property"
+            onPress={handleRemoveUserProperty}
+          />
+        </View>
+        <View style={styles.button}>
+          <Button title="Get Token" onPress={handleGetToken} />
+        </View>
+        <View style={styles.button}>
+          <Button
+            title="Ask for Push Notification Permission"
+            onPress={handleAskForPushNotificationPermission}
+          />
+        </View>
+        <View style={styles.button}>
+          <Button title="Set Email" onPress={handleSetEmail} />
+        </View>
+        <View style={styles.button}>
+          <Button title="Get Push Messages" onPress={handleGetPushMessages} />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -157,3 +160,5 @@ const styles = StyleSheet.create({
 });
 
 export default PushScreen;
+
+

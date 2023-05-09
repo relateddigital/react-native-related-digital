@@ -1,23 +1,25 @@
 import React from 'react';
-import { Text } from 'react-native';
 import { BottomNavigation, Provider as PaperProvider, } from 'react-native-paper';
 import EventScreen from './EventScreen';
-const LibraryRoute = () => React.createElement(Text, null, "Library");
-const FavoritesRoute = () => React.createElement(Text, null, "Favorites");
-const PurchasedRoute = () => React.createElement(Text, null, "Purchased");
+import PushScreen from './PushScreen';
+import { Text } from 'react-native';
+const RecentsRoute = () => React.createElement(Text, null, "Recents");
 const App = () => {
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-        { key: 'albums', title: 'Albums', icon: 'analytics.png' },
-        { key: 'library', title: 'Library', icon: 'inbox' },
-        { key: 'favorites', title: 'Favorites', icon: 'heart' },
-        { key: 'purchased', title: 'Purchased', icon: 'shopping' },
+        {
+            key: 'events',
+            title: 'Events',
+            icon: 'analytics.png',
+            color: '#b5513f',
+        },
+        { key: 'push', title: 'Push', icon: 'notification' },
+        { key: 'recents', title: 'Recents', icon: 'history' },
     ]);
     const renderScene = BottomNavigation.SceneMap({
-        albums: EventScreen,
-        library: LibraryRoute,
-        favorites: FavoritesRoute,
-        purchased: PurchasedRoute,
+        events: EventScreen,
+        push: PushScreen,
+        recents: RecentsRoute,
     });
     return (React.createElement(PaperProvider, null,
         React.createElement(BottomNavigation, { navigationState: { index, routes }, onIndexChange: setIndex, renderScene: renderScene })));
