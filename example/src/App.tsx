@@ -1,40 +1,35 @@
 import React from 'react';
-import {
-  BottomNavigation,
-  Provider as PaperProvider,
-} from 'react-native-paper';
-import EventScreen from './EventScreen';
-import PushScreen from './PushScreen';
-import { Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const RecentsRoute = () => <Text>Recents</Text>;
+import CustomTabBar from './components/TabBar/CustomTabBar';
+import Analytics from './screens/AnalyticsScreen';
+import TargetingAction from './screens/TargetingAction';
+import StoryScreen from './screens/StoryScreen';
+import GeofenceScreen from './screens/GeofenceScreen';
+import Recommendation from './screens/Recommendation';
+import FavoriteAttribute from './screens/FavoriteAttribute';
+import Push from './screens/Push';
 
-const App = () => {
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    {
-      key: 'events',
-      title: 'Events',
-      icon: 'analytics.png',
-    },
-    { key: 'push', title: 'Push', icon: 'notification' },
-    { key: 'recents', title: 'Recents', icon: 'history' },
-  ]);
+const Tab = createBottomTabNavigator();
 
-  const renderScene = BottomNavigation.SceneMap({
-    events: EventScreen,
-    push: PushScreen,
-    recents: RecentsRoute,
-  });
+import { NativeBaseProvider } from 'native-base';
 
+const App: React.FC = () => {
   return (
-    <PaperProvider>
-      <BottomNavigation
-        navigationState={{ index, routes }}
-        onIndexChange={setIndex}
-        renderScene={renderScene}
-      />
-    </PaperProvider>
+    <NativeBaseProvider>
+      <NavigationContainer>
+        <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
+          <Tab.Screen name="Analytics" component={Analytics} />
+          <Tab.Screen name="TargetingAction" component={TargetingAction} />
+          <Tab.Screen name="Story" component={StoryScreen} />
+          <Tab.Screen name="Geofence" component={GeofenceScreen} />
+          <Tab.Screen name="Recommendation" component={Recommendation} />
+          <Tab.Screen name="FavoriteAttribute" component={FavoriteAttribute} />
+          <Tab.Screen name="Push" component={Push} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </NativeBaseProvider>
   );
 };
 

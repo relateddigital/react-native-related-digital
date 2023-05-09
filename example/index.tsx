@@ -8,7 +8,7 @@ import {
   onNotificationRegistered,
   onNotificationReceived,
   onNotificationOpened,
-} from 'react-native-related-digital';
+} from '@relateddigital/react-native-huawei';
 
 RelatedDigital.initialize(
   '676D325830564761676D453D',

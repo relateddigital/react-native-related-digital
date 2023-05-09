@@ -1,5 +1,5 @@
 {
-  "name": "react-native-related-digital",
+  "name": "@relateddigital/react-native-huawei",
   "version": "1.6.0",
   "description": "React Native Related Digital SDK",
   "main": "lib/commonjs/index",

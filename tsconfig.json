@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
     "baseUrl": "./",
     "paths": {
       "react-native-related-digital": ["./src/index"]
