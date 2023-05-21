@@ -41,6 +41,10 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
     }
   };
 
+  const isSelected = (routeName: string) => {
+    return state.index === state.routes.findIndex((r) => r.name === routeName);
+  };
+
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom }]}>
       {state.routes.map((route, index) => {
@@ -57,14 +61,23 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
         };
 
         const logo = getTabLogo(route.name);
+        const selected = isSelected(route.name);
 
         return (
           <TouchableOpacity
             key={index}
             onPress={onPress}
-            style={styles.tabItem}
+            style={[
+              styles.tabItem,
+              selected ? styles.selectedTabItem : styles.unselectedTabItem,
+            ]}
           >
-            {logo && <Image source={logo} style={styles.logo} />}
+            {logo && (
+              <Image
+                source={logo}
+                style={[styles.logo, selected ? styles.selectedLogo : null]}
+              />
+            )}
           </TouchableOpacity>
         );
       })}
@@ -89,6 +102,16 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     marginBottom: Platform.OS === 'android' ? 0 : 5,
+  },
+
+  selectedTabItem: {
+    backgroundColor: '#e0e0e0', // seçili sekme öğesinin arka plan rengi
+  },
+  unselectedTabItem: {
+    backgroundColor: 'white', // seçilmemiş sekme öğesinin arka plan rengi
+  },
+  selectedLogo: {
+    tintColor: '#007AFF', // seçili logo rengi
   },
 });
 
