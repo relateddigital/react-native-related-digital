@@ -50,7 +50,7 @@ public class MainApplication extends Application implements ReactApplication {
   private static void initializeFlipper(Context context, ReactInstanceManager reactInstanceManager) {
     if (BuildConfig.DEBUG) {
       try {
-        Class<?> aClass = Class.forName("com.relateddigitalExample.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("com.relateddigital.androidexampleapp.ReactNativeFlipper");
         aClass
           .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
           .invoke(null, context, reactInstanceManager);

@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import CustomTabBar from './components/TabBar/CustomTabBar';
-import Analytics from './screens/AnalyticsScreen';
-import TargetingAction from './screens/TargetingAction';
+import CustomTabBar from './components/CustomTabBar';
+import AnalyticsScreen from './screens/AnalyticsScreen';
+import TargetingActionScreen from './screens/TargetingActionScreen';
 import StoryScreen from './screens/StoryScreen';
 import GeofenceScreen from './screens/GeofenceScreen';
 import Recommendation from './screens/Recommendation';
@@ -15,8 +15,8 @@ const App = () => {
     return (React.createElement(NativeBaseProvider, null,
         React.createElement(NavigationContainer, null,
             React.createElement(Tab.Navigator, { tabBar: (props) => React.createElement(CustomTabBar, { ...props }) },
-                React.createElement(Tab.Screen, { name: "Analytics", component: Analytics }),
-                React.createElement(Tab.Screen, { name: "TargetingAction", component: TargetingAction }),
+                React.createElement(Tab.Screen, { name: "Analytics", component: AnalyticsScreen }),
+                React.createElement(Tab.Screen, { name: "TargetingAction", component: TargetingActionScreen }),
                 React.createElement(Tab.Screen, { name: "Story", component: StoryScreen }),
                 React.createElement(Tab.Screen, { name: "Geofence", component: GeofenceScreen }),
                 React.createElement(Tab.Screen, { name: "Recommendation", component: Recommendation }),

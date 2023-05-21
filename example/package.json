@@ -1,6 +1,6 @@
 {
   "name": "react-native-relateddigital-example",
-  "version": "1.7.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -20,7 +20,7 @@
     "@relateddigital/react-native-huawei": "../",
     "lottie-react-native": "^5.1.5",
     "metro-config": "^0.76.3",
-    "native-base": "^3.4.28",
+    "native-base": "^3.0.0",
     "react": "17.0.2",
     "react-native": "0.67.5",
     "react-native-rate": "^1.2.9",
@@ -31,11 +31,9 @@
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/runtime": "^7.8.4",
-    "@types/react": "17.0.0",
-    "@types/react-dom": "17.0.0",
-    "@types/react-native-vector-icons": "^6.4.13",
+    "@types/react": "17.0.2",
+    "@types/react-dom": "17.0.2",
     "babel-plugin-module-resolver": "^4.0.0",
-    "escape-string-regexp": "^5.0.0",
     "metro-react-native-babel-preset": "^0.59.0",
     "prettier": "^2.8.7"
   }

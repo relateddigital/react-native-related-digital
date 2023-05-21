@@ -8,13 +8,13 @@ import {
 } from 'react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
-import analyticsLogo from '../../assets/analytics.png';
-import targetingActionLogo from '../../assets/targetingAction.png';
-import storyLogo from '../../assets/story.png';
-import geofenceLogo from '../../assets/geofence.png';
-import recommendationLogo from '../../assets/recommendation.png';
-import favoriteAttributeLogo from '../../assets/favoriteAttribute.png';
-import pushLogo from '../../assets/push.png';
+import analyticsLogo from '../assets/analytics.png';
+import targetingActionLogo from '../assets/targetingAction.png';
+import storyLogo from '../assets/story.png';
+import geofenceLogo from '../assets/geofence.png';
+import recommendationLogo from '../assets/recommendation.png';
+import favoriteAttributeLogo from '../assets/favoriteAttribute.png';
+import pushLogo from '../assets/push.png';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {

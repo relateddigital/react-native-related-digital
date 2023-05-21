@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import RelatedDigital from '@relateddigital/react-native-huawei';
 
-function TargetingAction() {
+function TargetingActionScreen() {
   const [exVisitorId, setExVisitorId] = React.useState('');
   const [properties, setProperties] = React.useState('');
   const [pageName, setPageName] = React.useState('');
@@ -96,4 +96,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TargetingAction;
+export default TargetingActionScreen;

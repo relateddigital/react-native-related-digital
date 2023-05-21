@@ -32,7 +32,7 @@ public class MainActivity extends ReactActivity {
       R.mipmap.ic_launcher,
       R.mipmap.ic_launcher,
       "com.relateddigital.androidexampleapp.MainActivity",
-      "RelatedDigital Channel",
+      "Android",
       "#d1dbbd",
       RDNotificationPriority.NORMAL
     );

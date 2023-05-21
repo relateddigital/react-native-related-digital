@@ -17,8 +17,6 @@ RelatedDigital.initialize(
   false // askLocationPermissionAtStart
 );
 
-RelatedDigital.registerNotificationListeners();
-
 RelatedDigitalPushNotificationEmitter.addListener(
   onNotificationRegistered,
   (token) => {
@@ -42,5 +40,7 @@ RelatedDigitalPushNotificationEmitter.addListener(
     console.log(payload);
   }
 );
+
+RelatedDigital.registerNotificationListeners();
 
 AppRegistry.registerComponent(appName, () => App);

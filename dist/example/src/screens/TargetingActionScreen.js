@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, ScrollView, SafeAreaView, } from 'react-native';
-import RelatedDigital from '../../../lib/typescript';
-function TargetingAction() {
+import RelatedDigital from '@relateddigital/react-native-huawei';
+function TargetingActionScreen() {
     const [exVisitorId, setExVisitorId] = React.useState('');
     const [properties, setProperties] = React.useState('');
     const [pageName, setPageName] = React.useState('');
@@ -60,4 +60,4 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
 });
-export default TargetingAction;
+export default TargetingActionScreen;

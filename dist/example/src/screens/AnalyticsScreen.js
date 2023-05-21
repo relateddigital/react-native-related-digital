@@ -1,63 +1,137 @@
-import React from 'react';
-//import { SectionList, View, Text } from 'react-native';
-import { Box, FlatList, Heading, HStack, VStack, Avatar, Text, Spacer, } from 'native-base';
-const AnalyticsScreen = () => {
-    const data = [
-        {
-            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-            fullName: 'Aafreen Khan',
-            timeStamp: '12:47 PM',
-            recentText: 'Good Day!',
-            avatarUrl: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-        },
-        {
-            id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-            fullName: 'Sujitha Mathur',
-            timeStamp: '11:11 PM',
-            recentText: 'Cheer up, there!',
-            avatarUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyEaZqT3fHeNrPGcnjLLX1v_W4mvBlgpwxnA&usqp=CAU',
-        },
-        {
-            id: '58694a0f-3da1-471f-bd96-145571e29d72',
-            fullName: 'Anci Barroco',
-            timeStamp: '6:22 PM',
-            recentText: 'Good Day!',
-            avatarUrl: 'https://miro.medium.com/max/1400/0*0fClPmIScV5pTLoE.jpg',
-        },
-        {
-            id: '68694a0f-3da1-431f-bd56-142371e29d72',
-            fullName: 'Aniket Kumar',
-            timeStamp: '8:56 PM',
-            recentText: 'All the best',
-            avatarUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr01zI37DYuR8bMV5exWQBSw28C1v_71CAh8d7GP1mplcmTgQA6Q66Oo--QedAN1B4E1k&usqp=CAU',
-        },
-        {
-            id: '28694a0f-3da1-471f-bd96-142456e29d72',
-            fullName: 'Kiara',
-            timeStamp: '12:47 PM',
-            recentText: 'I will call today.',
-            avatarUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU',
-        },
-    ];
-    return (React.createElement(Box, null,
-        React.createElement(Heading, { fontSize: "xl", p: "4", pb: "3" }, "Inbox"),
-        React.createElement(FlatList, { data: data, renderItem: ({ item }) => (React.createElement(Box, { borderBottomWidth: "1", _dark: {
-                    borderColor: 'muted.50',
-                }, borderColor: "muted.800", pl: ['0', '4'], pr: ['0', '5'], py: "2" },
-                React.createElement(HStack, { space: [2, 3], justifyContent: "space-between" },
-                    React.createElement(Avatar, { size: "48px", source: {
-                            uri: item.avatarUrl,
-                        } }),
-                    React.createElement(VStack, null,
-                        React.createElement(Text, { _dark: {
-                                color: 'warmGray.50',
-                            }, color: "coolGray.800", bold: true }, item.fullName),
-                        React.createElement(Text, { color: "coolGray.600", _dark: {
-                                color: 'warmGray.200',
-                            } }, item.recentText)),
-                    React.createElement(Spacer, null),
-                    React.createElement(Text, { fontSize: "xs", _dark: {
-                            color: 'warmGray.50',
-                        }, color: "coolGray.800", alignSelf: "flex-start" }, item.timeStamp)))), keyExtractor: (item) => item.id })));
-};
+import * as React from 'react';
+import { StyleSheet, View, Button, TextInput, ScrollView, SafeAreaView, } from 'react-native';
+import RelatedDigital from '@relateddigital/react-native-huawei';
+import { RelatedDigitalEventType, getRandomProductValues, formatPrice, } from '../Helpers';
+function AnalyticsScreen() {
+    const [exVisitorId, setExVisitorId] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const customEvent = (eventType) => {
+        let properties = {};
+        const randomProduct = getRandomProductValues();
+        switch (eventType) {
+            case RelatedDigitalEventType.login:
+            case RelatedDigitalEventType.signUp:
+            case RelatedDigitalEventType.loginWithExtraParameters:
+                if (exVisitorId.trim() === '') {
+                    console.log('Warning: exVisitorId cannot be empty');
+                    return;
+                }
+                else {
+                    if (eventType === RelatedDigitalEventType.login) {
+                        RelatedDigital.login(exVisitorId, properties);
+                    }
+                    else if (eventType === RelatedDigitalEventType.signUp) {
+                        RelatedDigital.signUp(exVisitorId, properties);
+                    }
+                    else {
+                        properties['OM.vseg1'] = 'seg1val';
+                        properties['OM.vseg2'] = 'seg2val';
+                        properties['OM.vseg3'] = 'seg3val';
+                        properties['OM.vseg4'] = 'seg4val';
+                        properties['OM.vseg5'] = 'seg5val';
+                        properties['OM.bd'] = '1977-03-15';
+                        properties['OM.gn'] = randomProduct.randomGender;
+                        properties['OM.loc'] = 'Bursa';
+                        RelatedDigital.login(exVisitorId, properties);
+                    }
+                    return;
+                }
+            case RelatedDigitalEventType.logout:
+                RelatedDigital.logout();
+                return;
+            case RelatedDigitalEventType.pageView:
+                RelatedDigital.customEvent('Page Name', {});
+                return;
+            case RelatedDigitalEventType.productView:
+                properties['OM.pv'] = `${randomProduct.randomProductCode1}`;
+                properties['OM.pn'] = `Name-${randomProduct.randomProductCode1}`;
+                properties['OM.ppr'] = formatPrice(randomProduct.randomProductPrice1);
+                properties['OM.pv.1'] = 'Brand';
+                properties['OM.inv'] = `${randomProduct.randomInventory}`;
+                RelatedDigital.customEvent('Product View', properties);
+                return;
+            case RelatedDigitalEventType.productAddToCart:
+                properties['OM.pv'] = `${randomProduct.randomProductCode1}`;
+                properties['OM.qt'] = `${randomProduct.randomProductQuantity1}`;
+                RelatedDigital.customEvent('Add To Cart', properties);
+                return;
+            case RelatedDigitalEventType.productPurchase:
+                properties['OM.pv'] = `${randomProduct.randomProductCode1}`;
+                properties['OM.qt'] = `${randomProduct.randomProductQuantity1}`;
+                properties['OM.oid'] = `${randomProduct.randomOrderID}`;
+                RelatedDigital.customEvent('Purchase', properties);
+                return;
+            case RelatedDigitalEventType.productCategoryPageView:
+                properties['OM.clist'] = `${randomProduct.randomCategoryID}`;
+                RelatedDigital.customEvent('Category View', properties);
+                return;
+            case RelatedDigitalEventType.inAppSearch:
+                properties['OM.OSS'] = 'laptop';
+                properties['OM.OSSR'] = `${randomProduct.randomNumberOfSearchResults}`;
+                RelatedDigital.customEvent('In App Search', properties);
+                return;
+            case RelatedDigitalEventType.bannerClick:
+                properties['OM.OSB'] = `${randomProduct.randomBannerCode}`;
+                RelatedDigital.customEvent('Banner Click', properties);
+                return;
+            case RelatedDigitalEventType.addToFavorites:
+                properties['OM.pv'] = `${randomProduct.randomProductCode1}`;
+                RelatedDigital.customEvent('Add To Favorites', properties);
+                return;
+            case RelatedDigitalEventType.removeFromFavorites:
+                properties['OM.pv'] = `${randomProduct.randomProductCode1}`;
+                RelatedDigital.customEvent('Remove From Favorites', properties);
+                return;
+            case RelatedDigitalEventType.sendingCampaignParameters:
+                let campaignParameters = {
+                    campaignId: 'Campaign Id',
+                    campaignStep: 'Campaign Step',
+                };
+                RelatedDigital.sendCampaignParameters(campaignParameters);
+                return;
+            case RelatedDigitalEventType.pushMessage:
+                // Assuming you have token, iosAppAlias, googleAppAlias, huaweiAppAlias, and deliveredBadge
+                RelatedDigital.setIsPushNotificationEnabled(true, 'RDIOSExample', 'relateddigital-android-test', 'relateddigital-android-huawei-test', true);
+                return;
+            default:
+                return;
+        }
+    };
+    return (React.createElement(SafeAreaView, null,
+        React.createElement(ScrollView, { contentContainerStyle: styles.container },
+            React.createElement(TextInput, { style: styles.input, onChangeText: setExVisitorId, value: exVisitorId, placeholder: "exVisitorId" }),
+            React.createElement(TextInput, { style: styles.input, onChangeText: setEmail, value: email, placeholder: "email" }),
+            Object.values(RelatedDigitalEventType).map((eventType, index) => (React.createElement(View, { style: styles.button, key: index },
+                React.createElement(Button, { title: eventType, onPress: () => customEvent(eventType) })))))));
+}
+const styles = StyleSheet.create({
+    container: {
+        flexGrow: 1,
+        padding: 16,
+        backgroundColor: '#fff',
+    },
+    heading: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 16,
+    },
+    input: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        paddingLeft: 8,
+        paddingRight: 8,
+        marginBottom: 16,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        marginBottom: 16,
+    },
+    button: {
+        marginBottom: 16,
+    },
+});
 export default AnalyticsScreen;
