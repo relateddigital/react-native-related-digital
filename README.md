@@ -17,7 +17,8 @@
   - [Registering the listeners](#registering-the-listeners)
   - [Analytics](#analytics)
   - [Push Notifications](#push-notifications)
-  - [User Properties](#user-properties)
+
+[//]: # (  - [User Properties]&#40;#user-properties&#41;)
 
 ## Introduction
 
@@ -100,6 +101,34 @@ protected void onCreate(Bundle savedInstanceState) {
     RDNotificationPriority.NORMAL // notificationPriority
   );
 }
+```
+
+#### Resolving Push Notification Conflicts
+
+
+In certain scenarios, you might encounter conflicts or errors due to multiple classes extending `FirebaseMessagingService` within your project. This situation generally arises when several integrated libraries each define a class that extends `FirebaseMessagingService`.
+
+As part of its design, Android merges all manifest files during application startup. This can lead to the multiple declarations of classes extending `FirebaseMessagingService`, causing conflicts.
+
+To utilize the push notification feature of the Related Digital SDK, you must disable the `FirebaseMessagingService` declared in the other libraries.
+
+Here's how to disable a service using the `tools:node="remove"` attribute in your Android Manifest file:
+
+```xml
+<service
+  android:name="io.invertase.firebase.messaging.ReactNativeFirebaseMessagingService"
+  tools:node="remove" />
+```
+
+In this snippet, `tools:node="remove"` effectively removes the `ReactNativeFirebaseMessagingService` from the final, merged Android manifest, thus disabling the service within your application.
+
+Please note that for the `tools:node="remove"` attribute to function correctly, you must define the tools namespace at the beginning of your manifest file:
+
+```
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.app" />
 ```
 
 #### Descriptions of Android Push Notification Parameters

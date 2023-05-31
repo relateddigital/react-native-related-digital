@@ -2,9 +2,6 @@
 #
 .DS_Store
 
-# XDE
-.expo/
-
 # VSCode
 .vscode/
 jsconfig.json
@@ -72,3 +69,4 @@ lib/
 
 /example/android/app/google-services.json
 /example/android/app/agconnect-services.json
+.watchman-cookie*
