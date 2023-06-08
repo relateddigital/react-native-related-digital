@@ -155,7 +155,7 @@ Please note that for the `tools:node="remove"` attribute to function correctly, 
   - Select Swift File & click Next.
   - Give a name to your file, for example, `Empty.swift`, and click Create.
   - Select Create Bridging Header.
-- Endpoint Configuration in `Info.plist`
+- Endpoint Configuration in `Info.plist` //TODO
 
 #### Add Required Capabilities
 
@@ -322,7 +322,7 @@ static void InitializeFlipper(UIApplication *application) {
                                       withDataSource:@"YOUR_DATA_SOURCE"
                                         withAppAlias:@"YOUR_APP_ALIAS"
                           withEnablePushNotification:YES
-                                    withAppGroupsKey:@"group.YOUR_APP_ALIAS.relateddigital"
+                                    withAppGroupsKey:@"YOUR_APP_GROUPS_KEY"
                                   withDeliveredBadge:YES
                                   withEnableGeofence:NO
                     withAskLocationPermissionAtStart:NO
@@ -379,6 +379,48 @@ static void InitializeFlipper(UIApplication *application) {
 @end
 ```
 
+##### Possible Issue and Solution
+
+If you encounter the error: `Use of '@import' when C++ modules are disabled, consider using -fmodules and -fcxx-modules`, this indicates that C++ modules are not enabled in your build settings.
+
+One solution is to access your RelatedDigital SDK through Swift, which is more flexible with module imports. You may create a Swift helper class such as the example below:
+
+```swift
+import Foundation
+import react_native_related_digital
+
+@objc(RDHelper)
+class RDHelper: NSObject {
+
+  @objc static func initRelatedDigital(launchOptions: NSDictionary?) {
+    RelatedDigitalManager.shared.initRelatedDigital(
+      organizationId: "YOUR_ORGANIZATION_ID",
+      profileId: "YOUR_PROFILE_ID",
+      dataSource: "YOUR_DATA_SOURCE",
+      appAlias: "YOUR_APP_ALIAS",
+      enablePushNotification: true,
+      appGroupsKey: "YOUR_APP_GROUPS_KEY",
+      deliveredBadge: true,
+      enableGeofence: false,
+      askLocationPermissionAtStart: false,
+      loggingEnabled: true,
+      launchOptions: launchOptions)
+  }
+}
+```
+
+You then need to modify your `AppDelegate.m` file to interact with this Swift helper class. Make sure that the Swift helper file is part of your target's compile sources. Replace the @import statement with a normal #import, with the format being `#import "ProductName-Swift.h"`, where "ProductName" is your target's name.
+
+In your `AppDelegate.m` file, replace the RelatedDigitalManager initialization code with:
+
+```objc
+[RDHelper initRelatedDigitalWithLaunchOptions:launchOptions];
+```
+
+Please note that using Swift in your project might require some additional configuration, such as creating a Bridging Header to expose Objective-C classes to Swift.
+
+Be sure to clean and rebuild your project after these changes.
+
 #### Enable Silent Push Notifications
 
 - Follow the steps (https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_usernotifications_filtering) to allow the notification service extension to receive remote notifications without displaying the notification to the user a
@@ -417,6 +459,7 @@ def notification_service_post_install(installer)
   end
 end
 ```
+
 
 ## JavaScript(TypeScript) Integration
 
