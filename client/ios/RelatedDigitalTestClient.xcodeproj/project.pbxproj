@@ -103,6 +103,8 @@
 		8B8BC84E28CA5E09001383FC /* EMNotificationCarousel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = EMNotificationCarousel.xib; path = Pods/Euromsg/Sources/Euromsg/Classes/EMNotificationCarousel/EMNotificationCarousel.xib; sourceTree = "<group>"; };
 		8B8BC84F28CA5E09001383FC /* CarouselCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CarouselCell.xib; path = Pods/Euromsg/Sources/Euromsg/Classes/EMNotificationCarousel/CarouselCell.xib; sourceTree = "<group>"; };
 		8B8BC85228CA6057001383FC /* timerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = timerView.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/Story/Views/timerView/timerView.xib; sourceTree = "<group>"; };
+		8BD83B332A30D00B00DBABD9 /* RelatedDigitalNotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelatedDigitalNotificationService.entitlements; sourceTree = "<group>"; };
+		8BD83B342A30D04200DBABD9 /* RelatedDigitalNotificationContent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelatedDigitalNotificationContent.entitlements; sourceTree = "<group>"; };
 		C82218222BE6793E4D73EEE5 /* libPods-RelatedDigitalNotificationContent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RelatedDigitalNotificationContent.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8B97799F893100A7C9630EF /* libPods-RelatedDigitalNotificationService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RelatedDigitalNotificationService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -212,6 +214,7 @@
 		8B8BC82528CA5CC7001383FC /* RelatedDigitalNotificationService */ = {
 			isa = PBXGroup;
 			children = (
+				8BD83B332A30D00B00DBABD9 /* RelatedDigitalNotificationService.entitlements */,
 				8B8BC82628CA5CC7001383FC /* NotificationService.h */,
 				8B8BC82728CA5CC7001383FC /* NotificationService.m */,
 				8B8BC82928CA5CC7001383FC /* Info.plist */,
@@ -224,6 +227,7 @@
 		8B8BC83D28CA5D9F001383FC /* RelatedDigitalNotificationContent */ = {
 			isa = PBXGroup;
 			children = (
+				8BD83B342A30D04200DBABD9 /* RelatedDigitalNotificationContent.entitlements */,
 				8B8BC84428CA5D9F001383FC /* Info.plist */,
 				8B8BC84C28CA5DC5001383FC /* EMNotificationViewController.swift */,
 				8B8BC84B28CA5DC4001383FC /* RelatedDigitalNotificationContent-Bridging-Header.h */,
@@ -899,6 +903,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = RelatedDigitalNotificationService/RelatedDigitalNotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -939,6 +944,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = RelatedDigitalNotificationService/RelatedDigitalNotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -978,6 +984,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = RelatedDigitalNotificationContent/RelatedDigitalNotificationContent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1018,6 +1025,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = RelatedDigitalNotificationContent/RelatedDigitalNotificationContent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
