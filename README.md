@@ -255,7 +255,7 @@ If you don't want the location permission to be taken on startup, set the `askLo
   * `Pods/VisilabsIOS/Sources/TargetingAction/sideBar/sideBarView.xib`
   * `Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerView.xib`
   * `Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerCollectionViewCell.xib`
-* To enable rich notification capabilites like showing image or video;
+* #### To enable rich notification capabilites like showing image or video;
 1. Add `Notification Service Extension` target to your project and name it `RelatedDigitalNotificationService`. Change this service's target iOS version to 10.0. Then change newly added `NotificationService.m` file contents with the following:
 (Don't forget to enter your app name instead of `APP_ALIAS`)
 ```objective-c
@@ -316,7 +316,7 @@ end
 platform :ios, '10.0'
 ```
 6. Execute `pod install` then run.
-* To enable push notification carousel;
+* #### To enable push notification carousel;
 1. Add `Notification Content Extension` target to your project and name it `RelatedDigitalNotificationContent`. Change this service's target iOS version to 11.0. Remove newly added files under RelatedDigitalNotificationContent except Info.plist. Then add EMNotificationViewController.swift file with the following content.
 ```swift
 import UIKit
