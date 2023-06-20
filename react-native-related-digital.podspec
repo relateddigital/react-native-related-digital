@@ -17,6 +17,6 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm,swift}"
 
   s.dependency "React-Core"
-  s.dependency "RelatedDigitalIOS", "4.0.16"
+  s.dependency "RelatedDigitalIOS", "4.0.20"
 
 end

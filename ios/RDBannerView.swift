@@ -38,11 +38,11 @@ class RDBannerView: RCTView, BannerDelegate {
     }
 
     private func setupView() {
-        if(self.viewWithTag(RDStoryView.viewTag) != nil) {
-            self.viewWithTag(RDStoryView.viewTag)?.removeFromSuperview()
+        if(self.viewWithTag(RDBannerView.viewTag) != nil) {
+            self.viewWithTag(RDBannerView.viewTag)?.removeFromSuperview()
         }
 
-        let bannerView: RDStoryView? = nil
+        let bannerView: RDBannerView? = nil
         let actId = Int(actionId ?? "")
         var properties = [String: String]()
         NativeRD.getBannerView(properties: properties) { (rdBannerView) in

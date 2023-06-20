@@ -7,20 +7,20 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '12.4'
 
 target 'RelatedDigitalExampleNotificationService' do
-  pod 'RelatedDigitalIOS', '4.0.16'
+  pod 'RelatedDigitalIOS', '4.0.20'
 end
 
 target 'RelatedDigitalExample' do
   config = use_native_modules!
   use_react_native!(:path => config["reactNativePath"])
-  
+
   #target 'RelatedDigitalExampleTests' do
   #    inherit! :complete
   #end
-  
-  
+
+
   pod 'RNRate', :path => '../node_modules/react-native-rate'
-  
+
   use_flipper!({ 'Flipper-Folly' => '2.5.3', 'Flipper' => '0.87.0', 'Flipper-RSocket' => '1.3.1' })
   post_install do |installer|
     flipper_post_install(installer)
