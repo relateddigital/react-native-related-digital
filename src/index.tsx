@@ -1,5 +1,10 @@
-import { NativeModules, NativeEventEmitter } from 'react-native';
+'use strict';
 
+export * from './RDBannerView';
+export * from './RDStoryView';
+export * from './RelatedDigital';
+
+/*
 type RelatedDigitalType = {
   initialize(
     organizationId: string,
@@ -59,3 +64,4 @@ export {
 
 export * from './RDStoryView';
 export default RelatedDigital as RelatedDigitalType;
+ */
