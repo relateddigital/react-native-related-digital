@@ -9,6 +9,8 @@ import Foundation
 import React
 import RelatedDigitalIOS
 
+private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
+
 
 @objc(RelatedDigitalReactModule)
 class RelatedDigitalReactModule: NSObject, RCTBridgeModule {
@@ -23,7 +25,7 @@ class RelatedDigitalReactModule: NSObject, RCTBridgeModule {
     let RDRCTStatusInvalidFeature = "INVALID_FEATURE"
     let RDRCTErrorDescriptionInvalidFeature = "Invalid feature, cancelling the action."
     let RDRCTErrorCodeInvalidFeature = 2
-    var rdListener: RDRCTRelatedDigitalListener?
+    var rdListener: RDRCTListener?
 
     @objc static func requiresMainQueueSetup() -> Bool {
         return true
@@ -34,32 +36,32 @@ class RelatedDigitalReactModule: NSObject, RCTBridgeModule {
     @objc func removeListeners(_ count: Int) {}
 
     @objc func onRelatedDigitalListenerAdded(_ eventName: String) {
-        RDRCTEventEmitter.shared.onRelatedDigitalListenerAdded(forType: eventName)
+        RDRCTEventEmitter.shared().onRelatedDigitalListenerAdded(forType: eventName)
     }
 
     @objc func setUserNotificationsEnabled(_ enabled: Bool) {
         guard self.ensureRelatedDigitalReady() else { return }
-        RelatedDigital.push().userPushNotificationsEnabled = enabled
+        //RelatedDigital.push().userPushNotificationsEnabled = enabled
     }
 
     @objc(setNotificationOptions:)
     func setNotificationOptions(_ options: [Any]) {
         guard self.ensureRelatedDigitalReady() else { return }
-        let notificationOptions = RDRCTUtils.options(fromOptionsArray: options)
-        RelatedDigital.push().notificationOptions = notificationOptions
-        RelatedDigital.push().updateRegistration()
+        //let notificationOptions = RDRCTUtils.options(fromOptionsArray: options)
+        //RelatedDigital.push().notificationOptions = notificationOptions
+        //RelatedDigital.push().updateRegistration()
     }
 
     @objc(setAutobadgeEnabled:)
     func setAutobadgeEnabled(_ enabled: Bool) {
         guard self.ensureRelatedDigitalReady() else { return }
-        RelatedDigital.push().autobadgeEnabled = enabled
+        //RelatedDigital.push().autobadgeEnabled = enabled
     }
 
     @objc(setBadgeNumber:)
     func setBadgeNumber(_ badgeNumber: Int) {
         guard self.ensureRelatedDigitalReady() else { return }
-        RelatedDigital.push().setBadgeNumber(badgeNumber)
+        //RelatedDigital.push().setBadgeNumber(badgeNumber)
     }
 
     @objc(clearNotifications)
@@ -69,9 +71,9 @@ class RelatedDigitalReactModule: NSObject, RCTBridgeModule {
 
     @objc(clearNotification:)
     func clearNotification(_ identifier: String) {
-        if let identifier = identifier {
-            UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [identifier])
-        }
+        //if let identifier = identifier {
+        //    UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [identifier])
+        //}
     }
 
     func ensureRelatedDigitalReady() -> Bool {
@@ -79,11 +81,11 @@ class RelatedDigitalReactModule: NSObject, RCTBridgeModule {
     }
 
     func ensureRelatedDigitalReady(reject: RCTPromiseRejectBlock?) -> Bool {
-        if RelatedDigital.isFlying {
-            return true
-        }
+        //if RelatedDigital.isFlying {
+        //    return true
+        //}
         if let reject = reject {
-            reject("TAKE_OFF_NOT_CALLED", "RelatedDigital not ready, takeOff not called", nil)
+            reject("TAKE_OFF_NOT_CALLED", "RelatedDigital not ready, init not called", nil)
         }
         return false
     }
@@ -104,24 +106,25 @@ class RelatedDigitalReactModule: NSObject, RCTBridgeModule {
 
     @objc(isAutobadgeEnabled:rejecter:)
     func isAutobadgeEnabled(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
-        if ensureRelatedDigitalReady(reject: reject) {
-            resolve(RelatedDigital.push().autobadgeEnabled)
-        }
+        //if ensureRelatedDigitalReady(reject: reject) {
+        //    resolve(RelatedDigital.push().autobadgeEnabled)
+        //}
     }
 
     @objc(getBadgeNumber:rejecter:)
     func getBadgeNumber(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
-        if ensureRelatedDigitalReady(reject: reject) {
-            resolve(UIApplication.shared.applicationIconBadgeNumber)
-        }
+        //if ensureRelatedDigitalReady(reject: reject) {
+        //    resolve(UIApplication.shared.applicationIconBadgeNumber)
+        //}
     }
 
     @objc(getInboxMessages:rejecter:)
-    func getInboxMessages(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
+    func getInboxMessages(_ resolve: RCTPromiseResolveBlock, rejecter reject: @escaping RCTPromiseRejectBlock) {
         if !ensureRelatedDigitalReady(reject: reject) { return }
 
         var messages: [[String: Any]] = []
 
+        /*
         for message in RDMessageCenter.shared().messageList.messages {
             if let icons = message.rawMessageObject["icons"] as? [String: Any],
                let iconUrl = icons["list_icon"] as? String,
@@ -137,6 +140,7 @@ class RelatedDigitalReactModule: NSObject, RCTBridgeModule {
                 messages.append(messageInfo)
             }
         }
+        */
 
         resolve(messages)
     }
