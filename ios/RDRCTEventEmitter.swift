@@ -8,15 +8,14 @@
 import Foundation
 import React
 
-@objc(RDRCTEventEmitter)
-class RDRCTEventEmitter: NSObject {
+@objc public class RDRCTEventEmitter: NSObject {
     
     
     static let RDRCTPendingEventName = "com.relateddigital.onPendingEvent"
     static let RDRCTEventNameKey = "name"
     static let RDRCTEventBodyKey = "body"
     
-    weak var bridge: RCTBridge?
+    @objc public weak var bridge: RCTBridge?
     
     private static var sharedEventEmitter: RDRCTEventEmitter = {
         let eventEmitter = RDRCTEventEmitter()
@@ -33,7 +32,7 @@ class RDRCTEventEmitter: NSObject {
         super.init()
     }
     
-    static func shared() -> RDRCTEventEmitter {
+    @objc public static func shared() -> RDRCTEventEmitter {
         return sharedEventEmitter
     }
     
