@@ -43,8 +43,8 @@ class RDBannerView: RCTView, BannerDelegate {
         }
 
         let bannerView: RDBannerView? = nil
-        let actId = Int(actionId ?? "")
-        var properties = [String: String]()
+        //let actId = Int(actionId ?? "")
+        let properties = [String: String]()
         NativeRD.getBannerView(properties: properties) { (rdBannerView) in
             if let bannerView = rdBannerView {
                 bannerView.tag = RDBannerView.viewTag

@@ -5,33 +5,18 @@
 //  Created by Egemen Gülkılık on 4.07.2023.
 //
 
-#import <Foundation/Foundation.h>
-#import <React/RCTEventEmitter.h>
-#import <React/RCTView.h>
-#import <React/RCTBridgeModule.h>
-#import <React/RCTViewManager.h>
-#import <React/RCTBridge+Private.h>
+//#import <React/RCTView.h>
+//#import <React/RCTBridgeModule.h>
+//#import <React/RCTViewManager.h>
+//#import <React/RCTBridge+Private.h>
+
+
 #import "RelatedDigitalReactModule.h"
+#import <UserNotifications/UserNotifications.h>
 #import "RDRCTUtils.h"
-#import "react_native_related_digital-Swift.h"
-//#import "RDRCTStorage.h"
-
-//#import "react_native_related_digital-Swift.h"
-
-
-//@import react_native_related_digital;
-
-//@class RDRCTListener;
-//@class RDRCTUtils;
-//@class RDRCTEventEmitter;
-
-//@import RelatedDigitalIOS;
-
-
-
-
-
-
+#import "RDRCTEventEmitter.h"
+#import "RDRCTListener.h"
+#import "RDErrors.h"
 
 
 @interface RelatedDigitalReactModule()
@@ -422,6 +407,7 @@ RCT_REMAP_METHOD(getSubscriptionLists,
     });
 }
 
+/*
 - (NSString *)getScopeString:(RDChannelScope )scope {
     switch (scope) {
         case RDChannelScopeSms:
@@ -434,6 +420,7 @@ RCT_REMAP_METHOD(getSubscriptionLists,
             return @"web";
     }
 }
+*/
 
 RCT_EXPORT_METHOD(setAnalyticsEnabled:(BOOL)enabled) {
     if (![self ensureRDReady]) {

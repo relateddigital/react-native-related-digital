@@ -7,7 +7,7 @@ export class RDEventBridge {
     }
 }
 class DefaultRDEventBridge extends RDEventBridge {
-    nativeModule = NativeModules.RDReactModule;
+    nativeModule = NativeModules.RelatedDigitalReactModule;
     eventEmitter = new NativeEventEmitter(this.nativeModule);
     constructor(dispatchEventsCallback) {
         super(dispatchEventsCallback);

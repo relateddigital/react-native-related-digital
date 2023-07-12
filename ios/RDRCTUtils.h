@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@import UserNotifications;
+//@import UserNotifications;
 
 
 /**
@@ -73,8 +73,8 @@ typedef NS_OPTIONS(NSUInteger, RDFeatures) {
     // - Push tokens
     RDFeaturesPush   = (1 << 2),
     
-    // Enables Airship Chat.
-    // In addition to the default data collection, Airship Chat will collect:
+    // Enables RD Chat.
+    // In addition to the default data collection, RD Chat will collect:
     // - User messages
     RDFeaturesChat = (1 << 3),
     
@@ -107,7 +107,7 @@ typedef NS_OPTIONS(NSUInteger, RDFeatures) {
     // Enables location (with Location module).
     // In addition to the default data collection, location will collect:
     // - Location permissions
-    // - Collect location for the app (Airship no longer supports uploading location as events)
+    // - Collect location for the app (  no longer supports uploading location as events)
     RDFeaturesLocation = (1 << 7),
     
     // Sets enabled features to all.

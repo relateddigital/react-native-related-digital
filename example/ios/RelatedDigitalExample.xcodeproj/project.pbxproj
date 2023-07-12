@@ -20,6 +20,20 @@
 		C1E264919244452BA3296045 /* libPods-RelatedDigitalExampleNotificationService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1B1F151FF926C2B78831D69 /* libPods-RelatedDigitalExampleNotificationService.a */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXBuildRule section */
+		88FB71E62A5EBE9200AA28E4 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = file.rcproject;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+			);
+			script = "# rctool\n";
+		};
+/* End PBXBuildRule section */
+
 /* Begin PBXContainerItemProxy section */
 		00E356F41AD99517003FC87E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -239,9 +253,10 @@
 				88230DDE29E8662C00340226 /* Embed Foundation Extensions */,
 				16C1B158C858C8753025BAA9 /* [CP-User] [RNFB] Core Configuration */,
 				1E7F17C0FB527E85929F67FA /* [CP-User] [RNFB] Crashlytics Configuration */,
-				0E53050D4B630412FC11CBB7 /* [CP] Embed Pods Frameworks */,
+				370DDCBC17DAA772954DEB56 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
+				88FB71E62A5EBE9200AA28E4 /* PBXBuildRule */,
 			);
 			dependencies = (
 				888C8F8429EAD53D00202869 /* PBXTargetDependency */,
@@ -355,23 +370,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		0E53050D4B630412FC11CBB7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RelatedDigitalExample/Pods-RelatedDigitalExample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RelatedDigitalExample/Pods-RelatedDigitalExample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RelatedDigitalExample/Pods-RelatedDigitalExample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		16C1B158C858C8753025BAA9 /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -398,6 +396,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\nif [[ ${PODS_ROOT} ]]; then\n  echo \"info: Exec FirebaseCrashlytics Run from Pods\"\n  \"${PODS_ROOT}/FirebaseCrashlytics/run\"\nelse\n  echo \"info: Exec FirebaseCrashlytics Run from framework\"\n  \"${PROJECT_DIR}/FirebaseCrashlytics.framework/run\"\nfi\n";
+		};
+		370DDCBC17DAA772954DEB56 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RelatedDigitalExample/Pods-RelatedDigitalExample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RelatedDigitalExample/Pods-RelatedDigitalExample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RelatedDigitalExample/Pods-RelatedDigitalExample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		3F574BC7773404F7AA7F1622 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

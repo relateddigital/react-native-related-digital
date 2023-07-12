@@ -6,6 +6,7 @@
 //
 
 #import "RDRCTUtils.h"
+#import <UserNotifications/UserNotifications.h>
 
 @implementation RDRCTUtils
 
