@@ -1,5 +1,5 @@
 //
-//  RDStoryViewManager.swift
+//  RDRCTStoryViewManager.swift
 //  react-native-related-digital
 //
 //  Created by Egemen Gülkılık on 17.04.2023.
@@ -10,15 +10,15 @@ import UIKit
 import React
 import RelatedDigitalIOS
 
-@objc(RDStoryViewManager)
-class RDStoryViewManager: RCTViewManager {
+@objc(RDRCTStoryViewManager)
+class RDRCTStoryViewManager: RCTViewManager {
 
     override static func moduleName() -> String {
         "RDStoryView"
     }
 
     override func view() -> UIView! {
-        RDStoryView(frame: .zero)
+        RDRCTStoryView(frame: .zero)
     }
 
     override static func requiresMainQueueSetup() -> Bool {

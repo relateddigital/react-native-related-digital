@@ -14,7 +14,7 @@ export type DispatchEventsCallback = (
 export abstract class RDEventBridge {
   dispatchEventsCallback: DispatchEventsCallback;
 
-  constructor(dispatchEventsCallback: DispatchEventsCallback) {
+  protected constructor(dispatchEventsCallback: DispatchEventsCallback) {
     this.dispatchEventsCallback = dispatchEventsCallback;
   }
 
@@ -57,11 +57,6 @@ class DefaultRDEventBridge extends RDEventBridge {
   }
 }
 
-/**
- * SDK event emitter.
- *
- * @hidden
- */
 export class RDEventEmitter {
   rdEventBridge: RDEventBridge;
   listeners: Map<string, Array<(...args: any[]) => any>>;
@@ -76,7 +71,7 @@ export class RDEventEmitter {
   }
 
   removeListener(eventType: string, listener: (...args: any[]) => any): void {
-    var typedListeners = this.listeners.get(eventType);
+    let typedListeners = this.listeners.get(eventType);
     if (typedListeners) {
       typedListeners = typedListeners.filter((obj) => obj !== listener);
       this.listeners.set(eventType, typedListeners);

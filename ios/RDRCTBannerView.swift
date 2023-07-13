@@ -1,5 +1,5 @@
 //
-//  RDBannerView.swift
+//  RDRCTBannerView.swift
 //  react-native-related-digital
 //
 //  Created by Egemen Gülkılık on 13.06.2023.
@@ -12,7 +12,7 @@ import RelatedDigitalIOS
 private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
 
 @objc(RDBannerView)
-class RDBannerView: RCTView, BannerDelegate {
+class RDRCTBannerView: RCTView, BannerDelegate {
 
     static let viewTag: Int = 998 //TODO
 
@@ -38,22 +38,22 @@ class RDBannerView: RCTView, BannerDelegate {
     }
 
     private func setupView() {
-        if(self.viewWithTag(RDBannerView.viewTag) != nil) {
-            self.viewWithTag(RDBannerView.viewTag)?.removeFromSuperview()
+        if(self.viewWithTag(RDRCTBannerView.viewTag) != nil) {
+            self.viewWithTag(RDRCTBannerView.viewTag)?.removeFromSuperview()
         }
 
-        let bannerView: RDBannerView? = nil
+        let bannerView: RDRCTBannerView? = nil
         //let actId = Int(actionId ?? "")
         let properties = [String: String]()
         NativeRD.getBannerView(properties: properties) { (rdBannerView) in
             if let bannerView = rdBannerView {
-                bannerView.tag = RDBannerView.viewTag
+                bannerView.tag = RDRCTBannerView.viewTag
                 self.addSubview(bannerView)
                 bannerView.frame = self.frame
             }
         }
 
-        bannerView?.tag = RDBannerView.viewTag
+        bannerView?.tag = RDRCTBannerView.viewTag
         if let bannerView = bannerView {
             self.addSubview(bannerView)
         }

@@ -1,5 +1,5 @@
 //
-//  RDBannerViewManager.swift
+//  RDRCTBannerViewManager.swift
 //  react-native-related-digital
 //
 //  Created by Egemen Gülkılık on 17.04.2023.
@@ -11,14 +11,14 @@ import React
 import RelatedDigitalIOS
 
 @objc(RDBannerViewManager)
-class RDBannerViewManager: RCTViewManager {
+class RDRCTBannerViewManager: RCTViewManager {
 
     override static func moduleName() -> String {
         "RDBannerView"
     }
 
     override func view() -> UIView! {
-        RDBannerView(frame: .zero)
+        RDRCTBannerView(frame: .zero)
     }
 
     override static func requiresMainQueueSetup() -> Bool {

@@ -8,17 +8,8 @@ var InternalEventType;
     InternalEventType["Registration"] = "com.relateddigital.registration";
     InternalEventType["NotificationResponse"] = "com.relateddigital.notification_response";
     InternalEventType["PushReceived"] = "com.relateddigital.push_received";
-    InternalEventType["DeepLink"] = "com.relateddigital.deep_link";
-    InternalEventType["InboxUpdated"] = "com.relateddigital.inbox_updated";
     InternalEventType["NotificationOptInStatus"] = "com.relateddigital.notification_opt_in_status";
-    InternalEventType["ShowInbox"] = "com.relateddigital.show_inbox";
-    InternalEventType["ConversationUpdated"] = "com.relateddigital.conversation_updated";
-    InternalEventType["OpenChat"] = "com.relateddigital.open_chat";
-    InternalEventType["OpenPreferenceCenter"] = "com.relateddigital.open_preference_center";
 })(InternalEventType || (InternalEventType = {}));
-/**
- * Enum of event type names.
- */
 export var EventType;
 (function (EventType) {
     /**
@@ -41,44 +32,10 @@ export var EventType;
      */
     EventType["Registration"] = "registration";
     /**
-     * Deep link event.
-     */
-    EventType["DeepLink"] = "deepLink";
-    /**
      * Notification opt-in status event.
      */
     EventType["NotificationOptInStatus"] = "notificationOptInStatus";
-    /**
-     * Inbox updated event.
-     */
-    EventType["InboxUpdated"] = "inboxUpdated";
-    /**
-     * Show inbox event.
-     */
-    EventType["ShowInbox"] = "showInbox";
-    /**
-     * Chat conversation updated.
-     */
-    EventType["ConversationUpdated"] = "conversationUpdated";
-    /**
-     * Open chat event.
-     */
-    EventType["OpenChat"] = "openChat";
-    /**
-     * Open preference center event.
-     */
-    EventType["OpenPreferenceCenter"] = "openPreferenceCenter";
 })(EventType || (EventType = {}));
-/**
- * Subscription Scope types.
- */
-export var SubscriptionScope;
-(function (SubscriptionScope) {
-    SubscriptionScope["App"] = "app";
-    SubscriptionScope["Web"] = "web";
-    SubscriptionScope["Sms"] = "sms";
-    SubscriptionScope["Email"] = "email";
-})(SubscriptionScope || (SubscriptionScope = {}));
 /**
  * iOS options
  */
@@ -89,33 +46,12 @@ export var iOS;
      */
     let NotificationOption;
     (function (NotificationOption) {
-        /**
-         * Alerts.
-         */
         NotificationOption["Alert"] = "alert";
-        /**
-         * Sounds.
-         */
         NotificationOption["Sound"] = "sound";
-        /**
-         * Badges.
-         */
         NotificationOption["Badge"] = "badge";
-        /**
-         * Car play.
-         */
         NotificationOption["CarPlay"] = "carPlay";
-        /**
-         * Critical Alert.
-         */
         NotificationOption["CriticalAlert"] = "criticalAlert";
-        /**
-         * Provides app notification settings.
-         */
         NotificationOption["ProvidesAppNotificationSettings"] = "providesAppNotificationSettings";
-        /**
-         * Provisional.
-         */
         NotificationOption["Provisional"] = "provisional";
     })(NotificationOption = iOS.NotificationOption || (iOS.NotificationOption = {}));
     /**
@@ -123,17 +59,8 @@ export var iOS;
      */
     let ForegroundPresentationOption;
     (function (ForegroundPresentationOption) {
-        /**
-         * Alerts.
-         */
         ForegroundPresentationOption["Alert"] = "alert";
-        /**
-         * Sounds.
-         */
         ForegroundPresentationOption["Sound"] = "sound";
-        /**
-         * Badges.
-         */
         ForegroundPresentationOption["Badge"] = "badge";
     })(ForegroundPresentationOption = iOS.ForegroundPresentationOption || (iOS.ForegroundPresentationOption = {}));
     /**
@@ -182,30 +109,12 @@ export var iOS;
          */
         AuthorizedNotificationSetting["TimeSensitive"] = "timeSensitive";
     })(AuthorizedNotificationSetting = iOS.AuthorizedNotificationSetting || (iOS.AuthorizedNotificationSetting = {}));
-    /**
-     * Enum of authorized status.
-     */
     let AuthorizedNotificationStatus;
     (function (AuthorizedNotificationStatus) {
-        /**
-         * Not determined.
-         */
         AuthorizedNotificationStatus["NotDetermined"] = "notDetermined";
-        /**
-         * Denied.
-         */
         AuthorizedNotificationStatus["Denied"] = "denied";
-        /**
-         * Authorized.
-         */
         AuthorizedNotificationStatus["Authorized"] = "authorized";
-        /**
-         * Provisional.
-         */
         AuthorizedNotificationStatus["Provisional"] = "provisional";
-        /**
-         * Ephemeral.
-         */
         AuthorizedNotificationStatus["Ephemeral"] = "ephemeral";
     })(AuthorizedNotificationStatus = iOS.AuthorizedNotificationStatus || (iOS.AuthorizedNotificationStatus = {}));
 })(iOS || (iOS = {}));
@@ -238,26 +147,8 @@ function convertEventEnum(type) {
     else if (type === EventType.Register || type === EventType.Registration) {
         return InternalEventType.Registration;
     }
-    else if (type == EventType.DeepLink) {
-        return InternalEventType.DeepLink;
-    }
     else if (type == EventType.NotificationOptInStatus) {
         return InternalEventType.NotificationOptInStatus;
-    }
-    else if (type == EventType.InboxUpdated) {
-        return InternalEventType.InboxUpdated;
-    }
-    else if (type == EventType.ShowInbox) {
-        return InternalEventType.ShowInbox;
-    }
-    else if (type == EventType.ConversationUpdated) {
-        return InternalEventType.ConversationUpdated;
-    }
-    else if (type == EventType.OpenChat) {
-        return InternalEventType.OpenChat;
-    }
-    else if (type == EventType.OpenPreferenceCenter) {
-        return InternalEventType.OpenPreferenceCenter;
     }
     throw new Error('Invalid event name: ' + type);
 }
@@ -268,23 +159,11 @@ function convertFeatureEnum(feature) {
     else if (feature == 'FEATURE_IN_APP_AUTOMATION') {
         return Feature.FEATURE_IN_APP_AUTOMATION;
     }
-    else if (feature == 'FEATURE_MESSAGE_CENTER') {
-        return Feature.FEATURE_MESSAGE_CENTER;
-    }
     else if (feature == 'FEATURE_PUSH') {
         return Feature.FEATURE_PUSH;
     }
-    else if (feature == 'FEATURE_CHAT') {
-        return Feature.FEATURE_CHAT;
-    }
     else if (feature == 'FEATURE_ANALYTICS') {
         return Feature.FEATURE_ANALYTICS;
-    }
-    else if (feature == 'FEATURE_TAGS_AND_ATTRIBUTES') {
-        return Feature.FEATURE_TAGS_AND_ATTRIBUTES;
-    }
-    else if (feature == 'FEATURE_CONTACTS') {
-        return Feature.FEATURE_CONTACTS;
     }
     else if (feature == 'FEATURE_LOCATION') {
         return Feature.FEATURE_LOCATION;
@@ -301,12 +180,8 @@ export var Feature;
 (function (Feature) {
     Feature["FEATURE_NONE"] = "FEATURE_NONE";
     Feature["FEATURE_IN_APP_AUTOMATION"] = "FEATURE_IN_APP_AUTOMATION";
-    Feature["FEATURE_MESSAGE_CENTER"] = "FEATURE_MESSAGE_CENTER";
     Feature["FEATURE_PUSH"] = "FEATURE_PUSH";
-    Feature["FEATURE_CHAT"] = "FEATURE_CHAT";
     Feature["FEATURE_ANALYTICS"] = "FEATURE_ANALYTICS";
-    Feature["FEATURE_TAGS_AND_ATTRIBUTES"] = "FEATURE_TAGS_AND_ATTRIBUTES";
-    Feature["FEATURE_CONTACTS"] = "FEATURE_CONTACTS";
     Feature["FEATURE_LOCATION"] = "FEATURE_LOCATION";
     Feature["FEATURE_ALL"] = "FEATURE_ALL";
 })(Feature || (Feature = {}));
@@ -314,71 +189,71 @@ export var Feature;
  * The main RelatedDigital API.
  */
 export class RelatedDigital {
-    setIsInAppNotificationEnabled(isInAppNotificationEnabled) {
+    static setIsInAppNotificationEnabled(isInAppNotificationEnabled) {
         RDModule.setIsInAppNotificationEnabled(isInAppNotificationEnabled);
     }
-    setIsGeofenceEnabled(isGeofenceEnabled) {
+    static setIsGeofenceEnabled(isGeofenceEnabled) {
         RDModule.setIsGeofenceEnabled(isGeofenceEnabled);
     }
-    setAdvertisingIdentifier(advertisingIdentifier) {
+    static setAdvertisingIdentifier(advertisingIdentifier) {
         RDModule.setAdvertisingIdentifier(advertisingIdentifier);
     }
-    signUp(exVisitorId, properties) {
+    static signUp(exVisitorId, properties) {
         RDModule.signUp(exVisitorId, properties);
     }
-    login(exVisitorId, properties) {
+    static login(exVisitorId, properties) {
         RDModule.login(exVisitorId, properties);
     }
-    logout() {
+    static logout() {
         RDModule.logout();
     }
-    customEvent(pageName, parameters) {
+    static customEvent(pageName, parameters) {
         RDModule.customEvent(pageName, parameters);
     }
-    askForPushNotificationPermission() {
+    static askForPushNotificationPermission() {
         RDModule.askForPushNotificationPermission();
     }
-    setIsPushNotificationEnabled(isPushNotificationEnabled, iosAppAlias, googleAppAlias, huaweiAppAlias, deliveredBadge) {
+    static setIsPushNotificationEnabled(isPushNotificationEnabled, iosAppAlias, googleAppAlias, huaweiAppAlias, deliveredBadge) {
         RDModule.setIsPushNotificationEnabled(isPushNotificationEnabled, iosAppAlias, googleAppAlias, huaweiAppAlias, deliveredBadge);
     }
-    setEmail(email, permission) {
+    static setEmail(email, permission) {
         RDModule.setEmail(email, permission);
     }
-    sendCampaignParameters(parameters) {
+    static sendCampaignParameters(parameters) {
         RDModule.sendCampaignParameters(parameters);
     }
-    setTwitterId(twitterId) {
+    static setTwitterId(twitterId) {
         RDModule.setTwitterId(twitterId);
     }
-    setFacebookId(facebookId) {
+    static setFacebookId(facebookId) {
         RDModule.setFacebookId(facebookId);
     }
-    setRelatedDigitalUserId(relatedDigitalUserId) {
+    static setRelatedDigitalUserId(relatedDigitalUserId) {
         RDModule.setRelatedDigitalUserId(relatedDigitalUserId);
     }
-    setNotificationLoginId(notificationLoginId) {
+    static setNotificationLoginId(notificationLoginId) {
         RDModule.setNotificationLoginId(notificationLoginId);
     }
-    setPhoneNumber(msisdn, permission) {
+    static setPhoneNumber(msisdn, permission) {
         RDModule.setPhoneNumber(msisdn, permission);
     }
-    setUserProperty(key, value) {
+    static setUserProperty(key, value) {
         RDModule.setUserProperty(key, value);
     }
-    removeUserProperty(key) {
+    static removeUserProperty(key) {
         RDModule.removeUserProperty(key);
     }
-    registerEmail(email, permission, isCommercial) {
+    static registerEmail(email, permission, isCommercial) {
         return RDModule.registerEmail(email, permission, isCommercial);
     }
-    getPushMessages() {
+    static getPushMessages() {
         return RDModule.getPushMessages();
     }
-    getToken() {
+    static getToken() {
         return RDModule.getToken();
     }
     //TODO: kaldırılabilir
-    registerNotificationListeners() {
+    static registerNotificationListeners() {
         RDModule.registerNotificationListeners();
     }
     /**
@@ -434,7 +309,7 @@ export class RelatedDigital {
     static getEnabledFeatures() {
         return new Promise((resolve, reject) => {
             RDModule.getEnabledFeatures().then((features) => {
-                var convertedFeatures = new Array();
+                let convertedFeatures = new Array();
                 for (const feature of features) {
                     convertedFeatures.push(convertFeatureEnum(feature));
                 }
@@ -667,7 +542,7 @@ export class RelatedDigital {
      * Adds a listener for an RelatedDigital event.
      *
      * @param eventType The event type. Either EventType.NotificationResponse, EventType.PushReceived,
-     * EventType.Register, EventType.Registration, EventType.DeepLink, EventType.NotificationOptInStatus,
+     * EventType.Register, EventType.Registration, EventType.NotificationOptInStatus,
      * @param listener The event listener.
      * @return A subscription.
      */
@@ -681,7 +556,7 @@ export class RelatedDigital {
      * Removes a listener for an RelatedDigital event.
      *
      * @param eventType The event type. Either EventType.NotificationResponse, EventType.PushReceived,
-     * EventType.Register, EventType.Registration, EventType.DeepLink, EventType.NotificationOptInStatus,
+     * EventType.Register, EventType.Registration, EventType.NotificationOptInStatus,
      * EventType.InboxUpdated, or EventType.ShowInbox.
      * @param listener The event listener. Should be a reference to the function passed into addListener.
      */
@@ -692,7 +567,7 @@ export class RelatedDigital {
      * Removes all listeners for Urban RelatedDigital events.
      *
      * @param eventType The event type. Either EventType.NotificationResponse, EventType.PushReceived,
-     * EventType.Register, EventType.Registration, EventType.DeepLink, EventType.NotificationOptInStatus,
+     * EventType.Register, EventType.Registration, EventType.NotificationOptInStatus,
      * EventType.InboxUpdated, or EventType.ShowInbox.
      */
     static removeAllListeners(eventType) {
@@ -776,32 +651,6 @@ export class RelatedDigital {
      */
     static dismissMessage() {
         RDModule.dismissMessage();
-    }
-    /**
-     * Retrieves the current inbox messages.
-     *
-     * @return A promise with the result.
-     */
-    static getInboxMessages() {
-        return RDModule.getInboxMessages();
-    }
-    /**
-     * Deletes an inbox message.
-     *
-     * @param messageId The id of the message to be deleted.
-     * @return A promise with the result.
-     */
-    static deleteInboxMessage(messageId) {
-        return RDModule.deleteInboxMessage(messageId);
-    }
-    /**
-     * Marks an inbox message as read.
-     *
-     * @param messageId The id of the message to be marked as read.
-     * @return A promise with the result.
-     */
-    static markInboxMessageRead(messageId) {
-        return RDModule.markInboxMessageRead(messageId);
     }
     /**
      * Forces the inbox to refresh. This is normally not needed as the inbox will

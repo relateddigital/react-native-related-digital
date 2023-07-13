@@ -31,11 +31,6 @@ class DefaultRDEventBridge extends RDEventBridge {
         this.nativeModule.onRDListenerAdded(eventType);
     }
 }
-/**
- * SDK event emitter.
- *
- * @hidden
- */
 export class RDEventEmitter {
     rdEventBridge;
     listeners;
@@ -46,7 +41,7 @@ export class RDEventEmitter {
             : new DefaultRDEventBridge(this.dispatchEvents.bind(this));
     }
     removeListener(eventType, listener) {
-        var typedListeners = this.listeners.get(eventType);
+        let typedListeners = this.listeners.get(eventType);
         if (typedListeners) {
             typedListeners = typedListeners.filter((obj) => obj !== listener);
             this.listeners.set(eventType, typedListeners);

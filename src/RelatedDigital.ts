@@ -4,6 +4,8 @@ import { NativeModules, Platform } from 'react-native';
 import { RDEventEmitter } from './RDEventEmitter';
 import type { JsonObject, JsonValue } from './Json';
 
+export type Dictionary = Record<string, string>;
+
 const RDModule = NativeModules.RelatedDigitalReactModule;
 
 const EventEmitter = new RDEventEmitter();
@@ -12,18 +14,9 @@ enum InternalEventType {
   Registration = 'com.relateddigital.registration',
   NotificationResponse = 'com.relateddigital.notification_response',
   PushReceived = 'com.relateddigital.push_received',
-  DeepLink = 'com.relateddigital.deep_link',
-  InboxUpdated = 'com.relateddigital.inbox_updated',
   NotificationOptInStatus = 'com.relateddigital.notification_opt_in_status',
-  ShowInbox = 'com.relateddigital.show_inbox',
-  ConversationUpdated = 'com.relateddigital.conversation_updated',
-  OpenChat = 'com.relateddigital.open_chat',
-  OpenPreferenceCenter = 'com.relateddigital.open_preference_center',
 }
 
-/**
- * Enum of event type names.
- */
 export enum EventType {
   /**
    * Notification response event. On Android, this event will be dispatched
@@ -45,72 +38,11 @@ export enum EventType {
    */
   Registration = 'registration',
   /**
-   * Deep link event.
-   */
-  DeepLink = 'deepLink',
-  /**
    * Notification opt-in status event.
    */
   NotificationOptInStatus = 'notificationOptInStatus',
-  /**
-   * Inbox updated event.
-   */
-  InboxUpdated = 'inboxUpdated',
-  /**
-   * Show inbox event.
-   */
-  ShowInbox = 'showInbox',
-  /**
-   * Chat conversation updated.
-   */
-  ConversationUpdated = 'conversationUpdated',
-  /**
-   * Open chat event.
-   */
-  OpenChat = 'openChat',
-  /**
-   * Open preference center event.
-   */
-  OpenPreferenceCenter = 'openPreferenceCenter',
 }
 
-/**
- * Inbox message object.
- */
-export interface InboxMessage {
-  /**
-   * The message ID. Needed to display, mark as read, or delete the message.
-   */
-  id: string;
-  /**
-   * The message title.
-   */
-  title: string;
-  /**
-   * The message sent date in milliseconds.
-   */
-  sentDate: number;
-  /**
-   * Optional - The icon url for the message.
-   */
-  listIconUrl: string;
-  /**
-   * The unread / read status of the message.
-   */
-  isRead: boolean;
-  /**
-   * The deleted status of the message.
-   */
-  isDeleted: boolean;
-  /**
-   * String to String map of any message extras.
-   */
-  extras: Record<string, string>;
-}
-
-/**
- * Event fired when a push is received.
- */
 export interface PushReceivedEvent {
   /**
    * The alert.
@@ -130,9 +62,6 @@ export interface PushReceivedEvent {
   extras: JsonObject;
 }
 
-/**
- * Event fired when the user initiates a notification response.
- */
 export interface NotificationResponseEvent {
   /**
    * The push notification.
@@ -171,11 +100,6 @@ export interface ConfigEnvironment {
 }
 
 /**
- * Possible sites.
- */
-export type Site = 'us' | 'eu';
-
-/**
  * Log levels.
  */
 export type LogLevel =
@@ -204,11 +128,6 @@ export interface RelatedDigitalConfig {
    * Production environment. Overrides default environment if inProduction is true.
    */
   production?: ConfigEnvironment;
-
-  /**
-   * Cloud site.
-   */
-  site?: Site;
 
   /**
    * Switches the environment from development or production. If the value is not
@@ -267,13 +186,6 @@ export interface RelatedDigitalConfig {
   enabledFeatures?: Feature[];
 
   /**
-   * Chat config. Only needed with the chat module.
-   */
-  chat?: {
-    webSocketUrl: string;
-    url: string;
-  };
-  /**
    * iOS config.
    */
   ios?: {
@@ -305,16 +217,6 @@ export interface RelatedDigitalConfig {
 }
 
 /**
- * Subscription Scope types.
- */
-export enum SubscriptionScope {
-  App = 'app',
-  Web = 'web',
-  Sms = 'sms',
-  Email = 'email',
-}
-
-/**
  * iOS options
  */
 export namespace iOS {
@@ -322,33 +224,12 @@ export namespace iOS {
    * Enum of notification options. iOS only.
    */
   export enum NotificationOption {
-    /**
-     * Alerts.
-     */
     Alert = 'alert',
-    /**
-     * Sounds.
-     */
     Sound = 'sound',
-    /**
-     * Badges.
-     */
     Badge = 'badge',
-    /**
-     * Car play.
-     */
     CarPlay = 'carPlay',
-    /**
-     * Critical Alert.
-     */
     CriticalAlert = 'criticalAlert',
-    /**
-     * Provides app notification settings.
-     */
     ProvidesAppNotificationSettings = 'providesAppNotificationSettings',
-    /**
-     * Provisional.
-     */
     Provisional = 'provisional',
   }
 
@@ -356,17 +237,8 @@ export namespace iOS {
    * Enum of foreground notification options.
    */
   export enum ForegroundPresentationOption {
-    /**
-     * Alerts.
-     */
     Alert = 'alert',
-    /**
-     * Sounds.
-     */
     Sound = 'sound',
-    /**
-     * Badges.
-     */
     Badge = 'badge',
   }
 
@@ -415,34 +287,11 @@ export namespace iOS {
      */
     TimeSensitive = 'timeSensitive',
   }
-
-  /**
-   * Enum of authorized status.
-   */
   export enum AuthorizedNotificationStatus {
-    /**
-     * Not determined.
-     */
     NotDetermined = 'notDetermined',
-
-    /**
-     * Denied.
-     */
     Denied = 'denied',
-
-    /**
-     * Authorized.
-     */
     Authorized = 'authorized',
-
-    /**
-     * Provisional.
-     */
     Provisional = 'provisional',
-
-    /**
-     * Ephemeral.
-     */
     Ephemeral = 'ephemeral',
   }
 }
@@ -563,16 +412,6 @@ export interface ShowInboxEvent {
 }
 
 /**
- * Event fired when a deep link is opened.
- */
-export interface DeepLinkEvent {
-  /**
-   * The deep link string.
-   */
-  deepLink: string;
-}
-
-/**
  * Event fired when a preference center requests to be displayed.
  */
 export interface OpenPreferenceCenterEvent {
@@ -626,20 +465,8 @@ function convertEventEnum(type: EventType): string {
     return InternalEventType.PushReceived;
   } else if (type === EventType.Register || type === EventType.Registration) {
     return InternalEventType.Registration;
-  } else if (type == EventType.DeepLink) {
-    return InternalEventType.DeepLink;
   } else if (type == EventType.NotificationOptInStatus) {
     return InternalEventType.NotificationOptInStatus;
-  } else if (type == EventType.InboxUpdated) {
-    return InternalEventType.InboxUpdated;
-  } else if (type == EventType.ShowInbox) {
-    return InternalEventType.ShowInbox;
-  } else if (type == EventType.ConversationUpdated) {
-    return InternalEventType.ConversationUpdated;
-  } else if (type == EventType.OpenChat) {
-    return InternalEventType.OpenChat;
-  } else if (type == EventType.OpenPreferenceCenter) {
-    return InternalEventType.OpenPreferenceCenter;
   }
 
   throw new Error('Invalid event name: ' + type);
@@ -650,18 +477,10 @@ function convertFeatureEnum(feature: String): Feature {
     return Feature.FEATURE_NONE;
   } else if (feature == 'FEATURE_IN_APP_AUTOMATION') {
     return Feature.FEATURE_IN_APP_AUTOMATION;
-  } else if (feature == 'FEATURE_MESSAGE_CENTER') {
-    return Feature.FEATURE_MESSAGE_CENTER;
   } else if (feature == 'FEATURE_PUSH') {
     return Feature.FEATURE_PUSH;
-  } else if (feature == 'FEATURE_CHAT') {
-    return Feature.FEATURE_CHAT;
   } else if (feature == 'FEATURE_ANALYTICS') {
     return Feature.FEATURE_ANALYTICS;
-  } else if (feature == 'FEATURE_TAGS_AND_ATTRIBUTES') {
-    return Feature.FEATURE_TAGS_AND_ATTRIBUTES;
-  } else if (feature == 'FEATURE_CONTACTS') {
-    return Feature.FEATURE_CONTACTS;
   } else if (feature == 'FEATURE_LOCATION') {
     return Feature.FEATURE_LOCATION;
   } else if (feature == 'FEATURE_ALL') {
@@ -699,12 +518,8 @@ export interface NotificationConfigAndroid {
 export enum Feature {
   FEATURE_NONE = 'FEATURE_NONE',
   FEATURE_IN_APP_AUTOMATION = 'FEATURE_IN_APP_AUTOMATION',
-  FEATURE_MESSAGE_CENTER = 'FEATURE_MESSAGE_CENTER',
   FEATURE_PUSH = 'FEATURE_PUSH',
-  FEATURE_CHAT = 'FEATURE_CHAT',
   FEATURE_ANALYTICS = 'FEATURE_ANALYTICS',
-  FEATURE_TAGS_AND_ATTRIBUTES = 'FEATURE_TAGS_AND_ATTRIBUTES',
-  FEATURE_CONTACTS = 'FEATURE_CONTACTS',
   FEATURE_LOCATION = 'FEATURE_LOCATION',
   FEATURE_ALL = 'FEATURE_ALL',
 }
@@ -713,31 +528,33 @@ export enum Feature {
  * The main RelatedDigital API.
  */
 export class RelatedDigital {
-  setIsInAppNotificationEnabled(isInAppNotificationEnabled: boolean): void {
+  static setIsInAppNotificationEnabled(
+    isInAppNotificationEnabled: boolean
+  ): void {
     RDModule.setIsInAppNotificationEnabled(isInAppNotificationEnabled);
   }
-  setIsGeofenceEnabled(isGeofenceEnabled: boolean): void {
+  static setIsGeofenceEnabled(isGeofenceEnabled: boolean): void {
     RDModule.setIsGeofenceEnabled(isGeofenceEnabled);
   }
-  setAdvertisingIdentifier(advertisingIdentifier: string): void {
+  static setAdvertisingIdentifier(advertisingIdentifier: string): void {
     RDModule.setAdvertisingIdentifier(advertisingIdentifier);
   }
-  signUp(exVisitorId: string, properties: object): void {
+  static signUp(exVisitorId: string, properties: Dictionary): void {
     RDModule.signUp(exVisitorId, properties);
   }
-  login(exVisitorId: string, properties: object): void {
+  static login(exVisitorId: string, properties: Dictionary): void {
     RDModule.login(exVisitorId, properties);
   }
-  logout(): void {
+  static logout(): void {
     RDModule.logout();
   }
-  customEvent(pageName: string, parameters: object): void {
+  static customEvent(pageName: string, parameters: Dictionary): void {
     RDModule.customEvent(pageName, parameters);
   }
-  askForPushNotificationPermission(): void {
+  static askForPushNotificationPermission(): void {
     RDModule.askForPushNotificationPermission();
   }
-  setIsPushNotificationEnabled(
+  static setIsPushNotificationEnabled(
     isPushNotificationEnabled: boolean,
     iosAppAlias: string,
     googleAppAlias: string,
@@ -752,49 +569,49 @@ export class RelatedDigital {
       deliveredBadge
     );
   }
-  setEmail(email: string, permission: boolean): void {
+  static setEmail(email: string, permission: boolean): void {
     RDModule.setEmail(email, permission);
   }
-  sendCampaignParameters(parameters: object): void {
+  static sendCampaignParameters(parameters: object): void {
     RDModule.sendCampaignParameters(parameters);
   }
-  setTwitterId(twitterId: string): void {
+  static setTwitterId(twitterId: string): void {
     RDModule.setTwitterId(twitterId);
   }
-  setFacebookId(facebookId: string): void {
+  static setFacebookId(facebookId: string): void {
     RDModule.setFacebookId(facebookId);
   }
-  setRelatedDigitalUserId(relatedDigitalUserId: string): void {
+  static setRelatedDigitalUserId(relatedDigitalUserId: string): void {
     RDModule.setRelatedDigitalUserId(relatedDigitalUserId);
   }
-  setNotificationLoginId(notificationLoginId: string): void {
+  static setNotificationLoginId(notificationLoginId: string): void {
     RDModule.setNotificationLoginId(notificationLoginId);
   }
-  setPhoneNumber(msisdn: string, permission: boolean): void {
+  static setPhoneNumber(msisdn: string, permission: boolean): void {
     RDModule.setPhoneNumber(msisdn, permission);
   }
-  setUserProperty(key: string, value: string): void {
+  static setUserProperty(key: string, value: string): void {
     RDModule.setUserProperty(key, value);
   }
-  removeUserProperty(key: string): void {
+  static removeUserProperty(key: string): void {
     RDModule.removeUserProperty(key);
   }
-  registerEmail(
+  static registerEmail(
     email: String,
     permission: Boolean,
     isCommercial: Boolean
   ): Promise<boolean> {
     return RDModule.registerEmail(email, permission, isCommercial);
   }
-  getPushMessages(): Promise<any> {
+  static getPushMessages(): Promise<any> {
     return RDModule.getPushMessages();
   }
-  getToken(): Promise<string> {
+  static getToken(): Promise<string> {
     return RDModule.getToken();
   }
 
   //TODO: kaldırılabilir
-  registerNotificationListeners(): void {
+  static registerNotificationListeners(): void {
     RDModule.registerNotificationListeners();
   }
 
@@ -856,7 +673,7 @@ export class RelatedDigital {
   static getEnabledFeatures(): Promise<Feature[]> {
     return new Promise((resolve, reject) => {
       RDModule.getEnabledFeatures().then((features: String[]) => {
-        var convertedFeatures: Feature[] = new Array();
+        let convertedFeatures: Feature[] = new Array();
         for (const feature of features) {
           convertedFeatures.push(convertFeatureEnum(feature));
         }
@@ -1118,7 +935,7 @@ export class RelatedDigital {
    * Adds a listener for an RelatedDigital event.
    *
    * @param eventType The event type. Either EventType.NotificationResponse, EventType.PushReceived,
-   * EventType.Register, EventType.Registration, EventType.DeepLink, EventType.NotificationOptInStatus,
+   * EventType.Register, EventType.Registration, EventType.NotificationOptInStatus,
    * @param listener The event listener.
    * @return A subscription.
    */
@@ -1136,7 +953,7 @@ export class RelatedDigital {
    * Removes a listener for an RelatedDigital event.
    *
    * @param eventType The event type. Either EventType.NotificationResponse, EventType.PushReceived,
-   * EventType.Register, EventType.Registration, EventType.DeepLink, EventType.NotificationOptInStatus,
+   * EventType.Register, EventType.Registration, EventType.NotificationOptInStatus,
    * EventType.InboxUpdated, or EventType.ShowInbox.
    * @param listener The event listener. Should be a reference to the function passed into addListener.
    */
@@ -1151,7 +968,7 @@ export class RelatedDigital {
    * Removes all listeners for Urban RelatedDigital events.
    *
    * @param eventType The event type. Either EventType.NotificationResponse, EventType.PushReceived,
-   * EventType.Register, EventType.Registration, EventType.DeepLink, EventType.NotificationOptInStatus,
+   * EventType.Register, EventType.Registration, EventType.NotificationOptInStatus,
    * EventType.InboxUpdated, or EventType.ShowInbox.
    */
   static removeAllListeners(eventType: EventType) {
@@ -1240,35 +1057,6 @@ export class RelatedDigital {
    */
   static dismissMessage() {
     RDModule.dismissMessage();
-  }
-
-  /**
-   * Retrieves the current inbox messages.
-   *
-   * @return A promise with the result.
-   */
-  static getInboxMessages(): Promise<InboxMessage[]> {
-    return RDModule.getInboxMessages();
-  }
-
-  /**
-   * Deletes an inbox message.
-   *
-   * @param messageId The id of the message to be deleted.
-   * @return A promise with the result.
-   */
-  static deleteInboxMessage(messageId: string): Promise<boolean> {
-    return RDModule.deleteInboxMessage(messageId);
-  }
-
-  /**
-   * Marks an inbox message as read.
-   *
-   * @param messageId The id of the message to be marked as read.
-   * @return A promise with the result.
-   */
-  static markInboxMessageRead(messageId: string): Promise<boolean> {
-    return RDModule.markInboxMessageRead(messageId);
   }
 
   /**

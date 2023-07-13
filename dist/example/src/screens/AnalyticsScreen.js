@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, View, Button, TextInput, ScrollView, SafeAreaView, } from 'react-native';
-import RelatedDigital from '@relateddigital/react-native-huawei';
+import { RelatedDigital } from '@relateddigital/react-native-huawei';
 import { RelatedDigitalEventType, getRandomProductValues, formatPrice, } from '../Helpers';
 function AnalyticsScreen() {
     const [exVisitorId, setExVisitorId] = React.useState('');

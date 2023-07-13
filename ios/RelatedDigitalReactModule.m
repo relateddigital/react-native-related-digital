@@ -16,7 +16,7 @@
 #import "RDRCTUtils.h"
 #import "RDRCTEventEmitter.h"
 #import "RDRCTListener.h"
-#import "RDErrors.h"
+#import "react_native_related_digital-Swift.h"
 
 
 @interface RelatedDigitalReactModule()
@@ -78,6 +78,135 @@ RCT_EXPORT_METHOD(removeListeners:(NSInteger)count) {
 RCT_EXPORT_METHOD(onRDListenerAdded:(NSString *)eventName) {
     //[[RDRCTEventEmitter shared] onRDListenerAddedForType:eventName];
 }
+
+
+
+
+//TODO: RELATED DIGITAL
+
+RCT_EXPORT_METHOD(setIsInAppNotificationEnabled: (BOOL)isInAppNotificationEnabled) {
+    [RDHelper.shared setIsInAppNotificationEnabled:isInAppNotificationEnabled];
+}
+
+RCT_EXPORT_METHOD (setIsGeofenceEnabled : (BOOL)isGeofenceEnabled) {
+    [RDHelper.shared setIsGeofenceEnabled:isGeofenceEnabled];
+}
+
+RCT_EXPORT_METHOD (setAdvertisingIdentifier : (NSString *)advertisingIdentifier) {
+    
+}
+
+RCT_EXPORT_METHOD (signUp
+                   : (NSString *)exVisitorId withProperties
+                   : (NSDictionary *)properties) {
+    
+}
+
+RCT_EXPORT_METHOD (login
+                   : (NSString *)exVisitorId withProperties
+                   : (NSDictionary *)properties) {
+    
+}
+
+RCT_EXPORT_METHOD (logout) {
+    
+}
+
+RCT_EXPORT_METHOD (customEvent
+                   : (NSString *)pageName withParameters
+                   : (NSDictionary *)parameters) {
+    
+}
+
+RCT_EXPORT_METHOD (askForPushNotificationPermission) {
+    
+}
+
+RCT_EXPORT_METHOD (setIsPushNotificationEnabled
+                   : (BOOL)isPushNotificationEnabled withIosAppAlias
+                   : (NSString *)iosAppAlias withGoogleAppAlias
+                   : (NSString *)googleAppAlias withHuaweiAppAlias
+                   : (NSString *)huaweiAppAlias withDeliveredBadge
+                   : (BOOL)deliveredBadge) {
+    
+}
+
+RCT_EXPORT_METHOD (setEmail
+                   : (NSString *)email withPermission
+                   : (BOOL)permission) {
+    
+}
+
+RCT_EXPORT_METHOD (sendCampaignParameters : (NSDictionary *)parameters) {
+    
+}
+
+RCT_EXPORT_METHOD (setTwitterId : (NSString *)twitterId) {
+    
+}
+
+RCT_EXPORT_METHOD (setFacebookId : (NSString *)facebookId) {
+    
+}
+
+RCT_EXPORT_METHOD (setRelatedDigitalUserId : (NSString *)relatedDigitalUserId) {
+    
+}
+
+RCT_EXPORT_METHOD (setNotificationLoginId : (NSString *)notificationLoginId) {
+    
+}
+
+RCT_EXPORT_METHOD (setPhoneNumber
+                   : (NSString *)msisdn withPermission
+                   : (BOOL)permission) {
+    
+}
+
+RCT_EXPORT_METHOD (setUserProperty
+                   : (NSString *)key withValue
+                   : (NSString *)value) {
+    
+}
+
+RCT_EXPORT_METHOD (removeUserProperty : (NSString *)key) {
+    
+}
+
+RCT_EXPORT_METHOD (getToken
+                   : (RCTPromiseResolveBlock)resolve reject
+                   : (RCTPromiseRejectBlock)reject) {
+    
+}
+
+RCT_EXPORT_METHOD (registerEmail
+                   : (NSString *)email withPermission
+                   : (BOOL)permission withIsCommercial
+                   : (BOOL)isCommercial withResolve
+                   : (RCTPromiseResolveBlock)resolve withReject
+                   : (RCTPromiseRejectBlock)reject) {
+    
+}
+
+RCT_EXPORT_METHOD (getPushMessages
+                   : (RCTPromiseResolveBlock)resolve withReject
+                   : (RCTPromiseRejectBlock)reject) {
+    
+}
+
+RCT_EXPORT_METHOD (getToken
+                   : (RCTPromiseResolveBlock)resolve withReject
+                   : (RCTPromiseRejectBlock)reject) {
+    
+}
+
+
+
+
+
+
+
+
 
 RCT_REMAP_METHOD(takeOff,
                  config:(NSDictionary *)config
@@ -332,80 +461,6 @@ RCT_REMAP_METHOD(getTags,
 //    resolve(RD.channel.tags ?: [NSArray array]);
 }
 
-RCT_REMAP_METHOD(getSubscriptionLists,
-                 subscriptionTypes:(NSArray *)subscriptionTypes
-                 getSubscriptionLists_resolver:(RCTPromiseResolveBlock)resolve
-                 rejecter:(RCTPromiseRejectBlock)reject) {
-
-    if (![self ensureRDReady:reject]) {
-        return;
-    }
-
-    NSSet *typedSet = [NSSet setWithArray:subscriptionTypes];
-    if (!typedSet.count) {
-        NSError *error = [RDErrors error:@"Failed to fetch subscription lists, no types."];
-        reject(error.description, error.description, error);
-        return;
-    }
-    
-    dispatch_group_t group = dispatch_group_create();
-    NSMutableDictionary *result = [NSMutableDictionary dictionary];
-    __block NSError *resultError;
-    
-    dispatch_group_enter(group);
-    
-    if ([typedSet containsObject:@"channel"]) {
-        dispatch_group_enter(group);
-        
-//        [RD.channel fetchSubscriptionListsWithCompletionHandler:^(NSArray<NSString *> * lists, NSError *error) {
-//            @synchronized (result) {
-//                result[@"channel"] = lists ?: @[];
-//                if (!resultError) {
-//                    resultError = error;
-//                }
-//            }
-//            dispatch_group_leave(group);
-//        }];
-    }
-    
-    if ([typedSet containsObject:@"contact"]) {
-        dispatch_group_enter(group);
-        
-//        [RD.contact fetchSubscriptionListsWithCompletionHandler:^(NSDictionary<NSString *,RDChannelScopes *> * lists, NSError *error) {
-//
-//            @synchronized (result) {
-//                NSMutableDictionary *converted = [NSMutableDictionary dictionary];
-//                for (NSString* identifier in lists.allKeys) {
-//                    RDChannelScopes *scopes = lists[identifier];
-//                    NSMutableArray *scopesArray = [NSMutableArray array];
-//                    for (id scope in scopes.values) {
-//                        RDChannelScope channelScope = (RDChannelScope)[scope intValue];
-//                        [scopesArray addObject:[self getScopeString:channelScope]];
-//                    }
-//                    [converted setValue:scopesArray forKey:identifier];
-//                }
-//
-//                result[@"contact"] = converted;
-//
-//                if (!resultError) {
-//                    resultError = error;
-//                }
-//            }
-//            dispatch_group_leave(group);
-//        }];
-    
-    }
-    
-    dispatch_group_leave(group);
-
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        if (resultError) {
-            reject(resultError.description, resultError.description, resultError);
-        } else {
-            resolve(result);
-        }
-    });
-}
 
 /*
 - (NSString *)getScopeString:(RDChannelScope )scope {

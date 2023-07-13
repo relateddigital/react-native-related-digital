@@ -1,5 +1,5 @@
 //
-//  RDStoryView.swift
+//  RDRCTStoryView.swift
 //  react-native-related-digital
 //
 //  Created by Egemen Gülkılık on 17.04.2023.
@@ -11,8 +11,8 @@ import React
 import RelatedDigitalIOS
 private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
 
-@objc(RDStoryView)
-class RDStoryView: RCTView, RDStoryURLDelegate {
+@objc(RDRCTStoryView)
+class RDRCTStoryView: RCTView, RDStoryURLDelegate {
 
     static let viewTag: Int = 999
 
@@ -38,21 +38,21 @@ class RDStoryView: RCTView, RDStoryURLDelegate {
     }
 
     private func setupView() {
-        if(self.viewWithTag(RDStoryView.viewTag) != nil) {
-            self.viewWithTag(RDStoryView.viewTag)?.removeFromSuperview()
+        if(self.viewWithTag(RDRCTStoryView.viewTag) != nil) {
+            self.viewWithTag(RDRCTStoryView.viewTag)?.removeFromSuperview()
         }
 
-        let storyView: RDStoryView? = nil
+        let storyView: RDRCTStoryView? = nil
         let actId = Int(actionId ?? "")
         NativeRD.getStoryViewAsync(actionId: actId, urlDelegate: self) { (rdStoryView) in
             if let storyView = rdStoryView {
-                storyView.tag = RDStoryView.viewTag
+                storyView.tag = RDRCTStoryView.viewTag
                 self.addSubview(storyView)
                 storyView.frame = self.frame
             }
         }
 
-        storyView?.tag = RDStoryView.viewTag
+        storyView?.tag = RDRCTStoryView.viewTag
         if let storyView = storyView {
             self.addSubview(storyView)
         }

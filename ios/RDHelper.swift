@@ -1,3 +1,10 @@
+//
+//  RDHelper.swift
+//  react-native-related-digital
+//
+//  Created by Egemen Gülkılık on 13.07.2023.
+//
+
 import Foundation
 import UIKit
 import React
@@ -5,33 +12,16 @@ import RelatedDigitalIOS
 
 private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
 
-@objc(RelatedDigital)
-class RelatedDigital: RCTEventEmitter {
-    
+@objc public class RDHelper: NSObject {
+        
     private var relatedDigitalManager: RelatedDigitalManager?
     
-    override public init() {
+    @objc public static let shared = RDHelper()
+    
+    override init() {
         super.init()
         relatedDigitalManager = RelatedDigitalManager.shared
-        relatedDigitalManager?.sendRelatedDigitalEvent = sendRelatedDigitalEvent
-    }
-    
-    @objc(initialize:withProfileId:withDataSource:withAskLocationPermissionAtStart:)
-    public func initialize(
-        organizationId: NSString,
-        profileId: NSString,
-        dataSource: NSString,
-        askLocationPermissionAtStart: Bool
-    ) {
-        
-        DispatchQueue.main.async {
-            NativeRD.initialize(
-                organizationId: organizationId as String,
-                profileId: profileId as String,
-                dataSource: dataSource as String,
-                launchOptions: nil,
-                askLocationPermmissionAtStart: askLocationPermissionAtStart)
-        }
+        //relatedDigitalManager?.sendRelatedDigitalEvent = sendRelatedDigitalEvent
     }
     
     @objc(setIsInAppNotificationEnabled:)
@@ -195,22 +185,24 @@ class RelatedDigital: RCTEventEmitter {
     public var hasListeners = false
     
     
-    public override func startObserving() {
+    func startObserving() {
         hasListeners = true
     }
     
-    public override func stopObserving() {
+    func stopObserving() {
         hasListeners = false
     }
     
-    
+    /*
     public func sendRelatedDigitalEvent(_ eventName: String, _ body:  [AnyHashable : Any] ) {
         if listenersRegistered, hasListeners {
             self.sendEvent(withName: eventName, body: body)
         }
     }
+     */
     
 }
+
 
 
 
