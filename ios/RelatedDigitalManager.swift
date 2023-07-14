@@ -7,8 +7,7 @@ import RelatedDigitalIOS
 private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
 public typealias RNCRemoteNotificationCallback = (UIBackgroundFetchResult) -> Void
 
-@objc(RelatedDigitalManager)
-public class RelatedDigitalManager: NSObject {
+@objc public class RelatedDigitalManager: NSObject {
     
     public static let onNotificationRegistered = "onNotificationRegistered"
     public static let onNotificationReceived = "onNotificationReceived"
@@ -101,6 +100,7 @@ public class RelatedDigitalManager: NSObject {
     
     
     public func sendRelatedDigitalEvent(_ eventName: String, _ body:  [AnyHashable : Any] ) {
+        RDRCTEventEmitter.shared().sendEvent(withName: eventName, body: body)
         self.sendRelatedDigitalEvent?(eventName, body)
     }
     

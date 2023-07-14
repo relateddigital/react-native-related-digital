@@ -1,42 +1,14 @@
 import { AppRegistry } from 'react-native';
 import App from './src/App';
 import { name as appName } from './app.json';
-// import {
-//   RelatedDigital,
-//   // RelatedDigitalPushNotificationEmitter,
-//   // onNotificationRegistered,
-//   // onNotificationReceived,
-//   // onNotificationOpened,
-// } from '@relateddigital/react-native-huawei';
-// RelatedDigital.initialize(
-//   '676D325830564761676D453D',
-//   '356467332F6533766975593D',
-//   'visistore',
-//   false // askLocationPermissionAtStart
-// );
-//
-// RelatedDigitalPushNotificationEmitter.addListener(
-//   onNotificationRegistered,
-//   (token) => {
-//     console.log(onNotificationRegistered);
-//     console.log(token);
-//   }
-// );
-//
-// RelatedDigitalPushNotificationEmitter.addListener(
-//   onNotificationReceived,
-//   (payload) => {
-//     console.log(onNotificationReceived);
-//     console.log(payload);
-//   }
-// );
-//
-// RelatedDigitalPushNotificationEmitter.addListener(
-//   onNotificationOpened,
-//   (payload) => {
-//     console.log(onNotificationOpened);
-//     console.log(payload);
-//   }
-// );
-//RelatedDigital.registerNotificationListeners();
+import { RelatedDigital, EventType } from '@relateddigital/react-native-huawei';
+RelatedDigital.addListener(EventType.NotificationRegistered, async (event) => {
+    console.log('Push Notification Registered: ' + JSON.stringify(event));
+});
+RelatedDigital.addListener(EventType.NotificationReceived, async (event) => {
+    console.log('Push Notification Received: ' + JSON.stringify(event));
+});
+RelatedDigital.addListener(EventType.NotificationOpened, async (event) => {
+    console.log('Push Notification Opened: ' + JSON.stringify(event));
+});
 AppRegistry.registerComponent(appName, () => App);

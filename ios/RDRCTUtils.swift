@@ -9,45 +9,39 @@ import Foundation
 import RelatedDigitalIOS
 import UserNotifications
 
-public struct RDNotificationOptions: OptionSet, Hashable {
-    public let rawValue: Int
+
+@objc public enum RDNotificationOptions: Int {
+    case none = 0
+    case badge
+    case sound
+    case alert
+    case carPlay
+    case criticalAlert
+    case providesAppNotificationSettings
+    case provisional
+    case announcement
     
-    public init(rawValue: Int) {
-        self.rawValue = rawValue
-    }
-    
-    static let none = RDNotificationOptions([])
-    static let badge = RDNotificationOptions(rawValue: 1 << 0)
-    static let sound = RDNotificationOptions(rawValue: 1 << 1)
-    static let alert = RDNotificationOptions(rawValue: 1 << 2)
-    static let carPlay = RDNotificationOptions(rawValue: 1 << 3)
-    static let criticalAlert = RDNotificationOptions(rawValue: 1 << 4)
-    static let providesAppNotificationSettings = RDNotificationOptions(rawValue: 1 << 5)
-    static let provisional = RDNotificationOptions(rawValue: 1 << 6)
-    static let announcement = RDNotificationOptions(rawValue: 1 << 7)
 }
 
-public struct RDAuthorizedNotificationSettings: OptionSet {
-    public let rawValue: Int
-    
-    public init(rawValue: Int) {
-        self.rawValue = rawValue
-    }
-    
-    static let none = RDAuthorizedNotificationSettings([])
-    static let badge = RDAuthorizedNotificationSettings(rawValue: 1 << 0)
-    static let sound = RDAuthorizedNotificationSettings(rawValue: 1 << 1)
-    static let alert = RDAuthorizedNotificationSettings(rawValue: 1 << 2)
-    static let carPlay = RDAuthorizedNotificationSettings(rawValue: 1 << 3)
-    static let lockScreen = RDAuthorizedNotificationSettings(rawValue: 1 << 4)
-    static let notificationCenter = RDAuthorizedNotificationSettings(rawValue: 1 << 5)
-    static let criticalAlert = RDAuthorizedNotificationSettings(rawValue: 1 << 6)
-    static let announcement = RDAuthorizedNotificationSettings(rawValue: 1 << 7)
-    static let scheduledDelivery = RDAuthorizedNotificationSettings(rawValue: 1 << 8)
-    static let timeSensitive = RDAuthorizedNotificationSettings(rawValue: 1 << 9)
+
+@objc public enum RDAuthorizedNotificationSettings: Int {
+    case none = 0
+    case badge
+    case sound
+    case alert
+    case carPlay
+    case lockScreen
+    case notificationCenter
+    case criticalAlert
+    case announcement
+    case scheduledDelivery
+    case timeSensitive
 }
 
-public enum RDAuthorizationStatus: Int {
+
+
+
+@objc public enum RDAuthorizationStatus: Int {
     case notDetermined = 0
     case denied
     case authorized
@@ -112,41 +106,41 @@ class RDRCTUtils: NSObject {
         }
     }
     
-    static func optionsFromOptionsArray(_ options: [String]) -> RDNotificationOptions {
-        var notificationOptions: RDNotificationOptions = []
+    static func optionsFromOptionsArray(_ options: [String]) -> [RDNotificationOptions] {
+        var notificationOptions = [RDNotificationOptions]()
         
         if options.contains("alert") {
-            notificationOptions.insert(.alert)
+            notificationOptions.append(.alert)
         }
         
         if options.contains("badge") {
-            notificationOptions.insert(.badge)
+            notificationOptions.append(.badge)
         }
         
         if options.contains("sound") {
-            notificationOptions.insert(.sound)
+            notificationOptions.append(.sound)
         }
         
         if options.contains("carPlay") {
-            notificationOptions.insert(.carPlay)
+            notificationOptions.append(.carPlay)
         }
         
         if options.contains("criticalAlert") {
-            notificationOptions.insert(.criticalAlert)
+            notificationOptions.append(.criticalAlert)
         }
         
         if options.contains("providesAppNotificationSettings") {
-            notificationOptions.insert(.providesAppNotificationSettings)
+            notificationOptions.append(.providesAppNotificationSettings)
         }
         
         if options.contains("provisional") {
-            notificationOptions.insert(.provisional)
+            notificationOptions.append(.provisional)
         }
         
         return notificationOptions
     }
     
-    static func authorizedSettingsArray(settings: RDAuthorizedNotificationSettings) -> [String] {
+    static func authorizedSettingsArray(settings: [RDAuthorizedNotificationSettings]) -> [String] {
         var settingsArray: [String] = []
         if settings.contains(.alert) {
             settingsArray.append("alert")
@@ -178,7 +172,7 @@ class RDRCTUtils: NSObject {
         return settingsArray
     }
     
-    static func authorizedSettingsDictionary(settings: RDAuthorizedNotificationSettings) -> [String: Bool] {
+    static func authorizedSettingsDictionary(settings: [RDAuthorizedNotificationSettings]) -> [String: Bool] {
         return [
             "alert" : settings.contains(.alert),
             "badge" : settings.contains(.badge),

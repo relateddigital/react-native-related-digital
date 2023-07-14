@@ -1,5 +1,5 @@
 //
-//  RDHelper.swift
+//  RDRCTHelper.swift
 //  react-native-related-digital
 //
 //  Created by Egemen Gülkılık on 13.07.2023.
@@ -12,11 +12,11 @@ import RelatedDigitalIOS
 
 private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
 
-@objc public class RDHelper: NSObject {
+@objc public class RDRCTHelper: NSObject {
         
     private var relatedDigitalManager: RelatedDigitalManager?
     
-    @objc public static let shared = RDHelper()
+    @objc public static let shared = RDRCTHelper()
     
     override init() {
         super.init()
