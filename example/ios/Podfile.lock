@@ -432,7 +432,7 @@ PODS:
     - React-logger (= 0.67.5)
     - React-perflogger (= 0.67.5)
   - RelatedDigitalIOS (4.0.21)
-  - RNCAsyncStorage (1.18.1):
+  - RNCAsyncStorage (1.19.0):
     - React-Core
   - RNFBAnalytics (12.9.3):
     - Firebase/AnalyticsWithoutAdIdSupport (= 8.8.0)
@@ -451,7 +451,7 @@ PODS:
     - RNFBApp
   - RNRate (1.2.12):
     - React-Core
-  - RNScreens (3.20.0):
+  - RNScreens (3.22.1):
     - React-Core
     - React-RCTImage
   - RNSVG (12.5.1):
@@ -705,13 +705,13 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 434efc9e5b6d0f14f49867f130b39376c971c1aa
   ReactCommon: a30c2448e5a88bae6fcb0e3da124c14ae493dac1
   RelatedDigitalIOS: f27eea8a9afadeb454555514bba9fb2188df7bc4
-  RNCAsyncStorage: b90b71f45b8b97be43bc4284e71a6af48ac9f547
+  RNCAsyncStorage: 4b98ac3c64efa4e35c1197cb0c5ca5e9f5d4c666
   RNFBAnalytics: 1b0e5ddb5e99c534403817ae93edb10d685378e9
   RNFBApp: 729c0666395b1953198dc4a1ec6deb8fbe1c302e
   RNFBCrashlytics: 2061ca863e8e2fa1aae9b12477d7dfa8e88ca0f9
   RNFBMessaging: 8415ec196e5c1196caa26ec0742cdb48ed4d0f97
   RNRate: ef3bcff84f39bb1d1e41c5593d3eea4aab2bd73a
-  RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
+  RNScreens: 50ffe2fa2342eabb2d0afbe19f7c1af286bc7fb3
   RNSVG: d7d7bc8229af3842c9cfc3a723c815a52cdd1105
   Yoga: 099a946cbf84c9b32ffdc4278d72db26710ecf92
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a

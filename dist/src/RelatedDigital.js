@@ -252,10 +252,10 @@ export class RelatedDigital {
     static getToken() {
         return RDModule.getToken();
     }
-    //TODO: kaldırılabilir
-    static registerNotificationListeners() {
-        RDModule.registerNotificationListeners();
-    }
+    /*  //TODO: kaldırılabilir
+    static registerNotificationListeners(): void {
+      RDModule.registerNotificationListeners();
+    }*/
     /**
      * Checks if RelatedDigital is initialized.
      *
@@ -538,38 +538,15 @@ export class RelatedDigital {
             return RDModule.setNotificationOptions(options);
         }
     }
-    /**
-     * Adds a listener for an RelatedDigital event.
-     *
-     * @param eventType The event type. Either EventType.NotificationResponse, EventType.PushReceived,
-     * EventType.Register, EventType.Registration, EventType.NotificationOptInStatus,
-     * @param listener The event listener.
-     * @return A subscription.
-     */
     static addListener(eventType, listener) {
         EventEmitter.addListener(convertEventEnum(eventType), listener);
         return new Subscription(() => {
             RelatedDigital.removeListener(eventType, listener);
         });
     }
-    /**
-     * Removes a listener for an RelatedDigital event.
-     *
-     * @param eventType The event type. Either EventType.NotificationResponse, EventType.PushReceived,
-     * EventType.Register, EventType.Registration, EventType.NotificationOptInStatus,
-     * EventType.InboxUpdated, or EventType.ShowInbox.
-     * @param listener The event listener. Should be a reference to the function passed into addListener.
-     */
     static removeListener(eventType, listener) {
         EventEmitter.removeListener(convertEventEnum(eventType), listener);
     }
-    /**
-     * Removes all listeners for Urban RelatedDigital events.
-     *
-     * @param eventType The event type. Either EventType.NotificationResponse, EventType.PushReceived,
-     * EventType.Register, EventType.Registration, EventType.NotificationOptInStatus,
-     * EventType.InboxUpdated, or EventType.ShowInbox.
-     */
     static removeAllListeners(eventType) {
         EventEmitter.removeAllListeners(convertEventEnum(eventType));
     }
@@ -672,28 +649,6 @@ export class RelatedDigital {
         RDModule.setAutoLaunchDefaultMessageCenter(enabled);
     }
     /**
-     * Overriding the locale.
-     *
-     * @param localeIdentifier The locale identifier.
-     */
-    static setCurrentLocale(localeIdentifier) {
-        RDModule.setCurrentLocale(localeIdentifier);
-    }
-    /**
-     * Getting the locale currently used by RelatedDigital.
-     *
-     */
-    static getCurrentLocale() {
-        return RDModule.getCurrentLocale();
-    }
-    /**
-     * Resets the current locale.
-     *
-     */
-    static clearLocale() {
-        RDModule.clearLocale();
-    }
-    /**
      * Gets all the active notifications for the application.
      * Supported on Android Marshmallow (23)+ and iOS 10+.
      *
@@ -720,13 +675,5 @@ export class RelatedDigital {
      */
     static clearNotification(identifier) {
         RDModule.clearNotification(identifier);
-    }
-    /**
-     * Sets the in-app message display interval on the default display coordinator.
-     *
-     * @param seconds The minimum number of seconds between message displays.
-     */
-    static setInAppAutomationDisplayInterval(seconds) {
-        RDModule.setInAppAutomationDisplayInterval(seconds);
     }
 }

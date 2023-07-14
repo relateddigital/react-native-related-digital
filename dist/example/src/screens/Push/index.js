@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, ScrollView, Switch, Alert, SafeAreaView, } from 'react-native';
-import RelatedDigital from '@relateddigital/react-native-huawei';
+import { RelatedDigital } from '@relateddigital/react-native-huawei';
 function Push() {
     const [isInAppNotificationEnabled, setIsInAppNotificationEnabled] = React.useState(false);
     const [isPushNotificationEnabled, setIsPushNotificationEnabled] = React.useState(false);

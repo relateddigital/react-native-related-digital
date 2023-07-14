@@ -6,7 +6,7 @@
 //
 
 #import "RDRCTListener.h"
-#import "RDRCTEventEmitter.h"
+#import "react_native_related_digital-Swift.h"
 
 NSString *const RDRCTRegistrationEventName = @"com.relateddigital.registration";
 NSString *const RDRCTNotificationResponseEventName = @"com.relateddigital.notification_response";

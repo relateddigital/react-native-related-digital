@@ -8,7 +8,7 @@ import {
   ScrollView,
   SafeAreaView,
 } from 'react-native';
-import RelatedDigital from '@relateddigital/react-native-huawei';
+import { RelatedDigital } from '@relateddigital/react-native-huawei';
 
 function TargetingActionScreen() {
   const [exVisitorId, setExVisitorId] = React.useState('');

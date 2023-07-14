@@ -10,7 +10,7 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
-import RelatedDigital from '@relateddigital/react-native-huawei';
+import { RelatedDigital } from '@relateddigital/react-native-huawei';
 
 function Recommendation() {
   const [isInAppNotificationEnabled, setIsInAppNotificationEnabled] =

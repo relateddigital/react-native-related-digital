@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, ScrollView, SafeAreaView, } from 'react-native';
-import RelatedDigital from '@relateddigital/react-native-huawei';
+import { RelatedDigital } from '@relateddigital/react-native-huawei';
 function TargetingActionScreen() {
     const [exVisitorId, setExVisitorId] = React.useState('');
     const [properties, setProperties] = React.useState('');
