@@ -79,8 +79,8 @@ RCT_EXPORT_METHOD(customEvent : (NSString *)pageName withParameters : (NSDiction
     [RDRCTHelper.shared customEvent:pageName withParameters:parameters];
 }
 
-RCT_EXPORT_METHOD(askForPushNotificationPermission) {
-    [RDRCTHelper.shared askForPushNotificationPermission];
+RCT_EXPORT_METHOD(askForNotificationPermission) {
+    [RDRCTHelper.shared askForNotificationPermission];
 }
 
 RCT_EXPORT_METHOD(setIsPushNotificationEnabled
@@ -161,6 +161,12 @@ RCT_EXPORT_METHOD(getToken
                   : (RCTPromiseResolveBlock)resolve withReject
                   : (RCTPromiseRejectBlock)reject) {
     [RDRCTHelper.shared getToken:resolve withReject:reject];
+}
+
+RCT_EXPORT_METHOD(getUser
+                  : (RCTPromiseResolveBlock)resolve withReject
+                  : (RCTPromiseRejectBlock)reject) {
+    [RDRCTHelper.shared getUser:resolve withReject:reject];
 }
 
 @end

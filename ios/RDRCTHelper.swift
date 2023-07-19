@@ -59,10 +59,10 @@ private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
         NativeRD.customEvent(pageName, properties: parameters)
     }
     
-    @objc(askForPushNotificationPermission)
-    public func askForPushNotificationPermission() {
+    @objc(askForNotificationPermission)
+    public func askForNotificationPermission() {
         if RCTRunningInAppExtension() {
-            print("askForPushNotificationPermission is unavailable in an app extension")
+            print("askForNotificationPermission is unavailable in an app extension")
         } else {
             NativeRD.askForNotificationPermission(register: true)
         }
@@ -175,6 +175,14 @@ private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
             resolve(token)
         }
     }
+    
+    @objc(getUser:withReject:)
+    public func getUser(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock
+    ) {
+        
+    }
+    
+    
     
     @objc(registerNotificationListeners)
     public func registerNotificationListeners() {

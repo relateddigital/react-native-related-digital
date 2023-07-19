@@ -71,8 +71,8 @@ export class RelatedDigital {
     static customEvent(pageName, parameters) {
         RDModule.customEvent(pageName, parameters);
     }
-    static askForPushNotificationPermission() {
-        RDModule.askForPushNotificationPermission();
+    static askForNotificationPermission() {
+        RDModule.askForNotificationPermission();
     }
     static setIsPushNotificationEnabled(isPushNotificationEnabled, iosAppAlias, googleAppAlias, huaweiAppAlias, deliveredBadge) {
         RDModule.setIsPushNotificationEnabled(isPushNotificationEnabled, iosAppAlias, googleAppAlias, huaweiAppAlias, deliveredBadge);

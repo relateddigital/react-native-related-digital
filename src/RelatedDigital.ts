@@ -80,8 +80,8 @@ export class RelatedDigital {
   static customEvent(pageName: string, parameters: RDProps): void {
     RDModule.customEvent(pageName, parameters);
   }
-  static askForPushNotificationPermission(): void {
-    RDModule.askForPushNotificationPermission();
+  static askForNotificationPermission(): void {
+    RDModule.askForNotificationPermission();
   }
   static setIsPushNotificationEnabled(
     isPushNotificationEnabled: boolean,
