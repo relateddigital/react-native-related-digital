@@ -21,7 +21,6 @@ private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
     override init() {
         super.init()
         relatedDigitalManager = RelatedDigitalManager.shared
-        //relatedDigitalManager?.sendRelatedDigitalEvent = sendRelatedDigitalEvent
     }
     
     @objc(setIsInAppNotificationEnabled:)
@@ -179,8 +178,30 @@ private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
     @objc(getUser:withReject:)
     public func getUser(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock
     ) {
-        
+        let pushConfiguration = RDPush.checkConfiguration()
+        resolve(NativeRD.rdUser)
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

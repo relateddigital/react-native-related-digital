@@ -29,7 +29,7 @@ function Push() {
         });
     };
     const handleAskForPushNotificationPermission = () => {
-        RelatedDigital.askForPushNotificationPermission();
+        //RelatedDigital.askForPushNotificationPermission();
     };
     const handleSetEmail = () => {
         RelatedDigital.setEmail('random@gmail.com', true);

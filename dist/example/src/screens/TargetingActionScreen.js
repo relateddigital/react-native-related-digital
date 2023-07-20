@@ -6,8 +6,9 @@ function TargetingActionScreen() {
     const [properties, setProperties] = React.useState('');
     const [pageName, setPageName] = React.useState('');
     const handleCustomEvent = () => {
-        let parsedParameters = { key: 'value' };
-        RelatedDigital.customEvent(pageName, parsedParameters);
+        let parsedParameters = { 'OM.inapptype': 'image_text_button' };
+        //let parsedParameters = { key: 'value' };
+        RelatedDigital.customEvent('Test', parsedParameters);
         console.log('Custom event sent.');
     };
     const handleSignUp = () => {

@@ -10,6 +10,14 @@ import RelatedDigitalIOS
 import UserNotifications
 
 
+public enum EventType : String {
+    case NotificationRegistered = "com.relateddigital.notification_registered"
+    case NotificationReceived = "com.relateddigital.notification_received"
+    case NotificationOpened = "com.relateddigital.notification_opened"
+}
+
+
+
 @objc public enum RDNotificationOptions: Int {
     case none = 0
     case badge

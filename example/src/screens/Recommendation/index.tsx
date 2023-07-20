@@ -54,7 +54,7 @@ function Recommendation() {
   };
 
   const handleAskForPushNotificationPermission = () => {
-    RelatedDigital.askForPushNotificationPermission();
+    //RelatedDigital.askForPushNotificationPermission();
   };
 
   const handleSetEmail = () => {

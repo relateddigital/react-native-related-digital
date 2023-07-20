@@ -3,17 +3,11 @@ import { NativeModules } from 'react-native';
 import { RDEventEmitter } from './RDEventEmitter';
 const RDModule = NativeModules.RelatedDigitalReactModule;
 const EventEmitter = new RDEventEmitter();
-var InternalEventType;
-(function (InternalEventType) {
-    InternalEventType["NotificationRegistered"] = "com.relateddigital.notification_registered";
-    InternalEventType["NotificationReceived"] = "com.relateddigital.notification_received";
-    InternalEventType["NotificationOpened"] = "com.relateddigital.notification_opened";
-})(InternalEventType || (InternalEventType = {}));
 export var EventType;
 (function (EventType) {
-    EventType["NotificationRegistered"] = "notificationRegistered";
-    EventType["NotificationReceived"] = "notificationReceived";
-    EventType["NotificationOpened"] = "notificationOpened";
+    EventType["NotificationRegistered"] = "com.relateddigital.notification_registered";
+    EventType["NotificationReceived"] = "com.relateddigital.notification_received";
+    EventType["NotificationOpened"] = "com.relateddigital.notification_opened";
 })(EventType || (EventType = {}));
 /**
  * A listener subscription.
@@ -36,13 +30,13 @@ export class Subscription {
  */
 function convertEventEnum(type) {
     if (type === EventType.NotificationRegistered) {
-        return InternalEventType.NotificationRegistered;
+        return EventType.NotificationRegistered;
     }
     else if (type === EventType.NotificationReceived) {
-        return InternalEventType.NotificationReceived;
+        return EventType.NotificationReceived;
     }
     else if (type === EventType.NotificationOpened) {
-        return InternalEventType.NotificationOpened;
+        return EventType.NotificationOpened;
     }
     throw new Error('Invalid event name: ' + type);
 }
@@ -112,6 +106,9 @@ export class RelatedDigital {
     }
     static getToken() {
         return RDModule.getToken();
+    }
+    static getUser() {
+        return RDModule.getUser();
     }
     static addListener(eventType, listener) {
         EventEmitter.addListener(convertEventEnum(eventType), listener);

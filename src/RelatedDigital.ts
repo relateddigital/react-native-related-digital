@@ -9,16 +9,10 @@ const RDModule = NativeModules.RelatedDigitalReactModule;
 
 const EventEmitter = new RDEventEmitter();
 
-enum InternalEventType {
+export enum EventType {
   NotificationRegistered = 'com.relateddigital.notification_registered',
   NotificationReceived = 'com.relateddigital.notification_received',
   NotificationOpened = 'com.relateddigital.notification_opened',
-}
-
-export enum EventType {
-  NotificationRegistered = 'notificationRegistered',
-  NotificationReceived = 'notificationReceived',
-  NotificationOpened = 'notificationOpened',
 }
 
 /**
@@ -43,11 +37,11 @@ export class Subscription {
  */
 function convertEventEnum(type: EventType): string {
   if (type === EventType.NotificationRegistered) {
-    return InternalEventType.NotificationRegistered;
+    return EventType.NotificationRegistered;
   } else if (type === EventType.NotificationReceived) {
-    return InternalEventType.NotificationReceived;
+    return EventType.NotificationReceived;
   } else if (type === EventType.NotificationOpened) {
-    return InternalEventType.NotificationOpened;
+    return EventType.NotificationOpened;
   }
 
   throw new Error('Invalid event name: ' + type);
@@ -137,6 +131,9 @@ export class RelatedDigital {
   }
   static getToken(): Promise<string> {
     return RDModule.getToken();
+  }
+  static getUser(): Promise<any> {
+    return RDModule.getUser();
   }
   static addListener(
     eventType: EventType,
