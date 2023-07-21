@@ -11,12 +11,13 @@ Pod::Spec.new do |s|
   s.license      = package["license"]
   s.authors      = package["author"]
 
-  s.platforms    = { :ios => "11.0" }
+  s.platform     = :ios, "11.0"
   s.source       = { :git => "https://github.com/relateddigital/react-native-related-digital.git", :tag => "#{s.version}" }
 
-  s.source_files = "ios/**/*.{h,m,swift}"
+  s.source_files = "ios/**/*.{h,m,swift,xib}"
+  s.resources    = ["ios/**/*.{html,js,png,xib}"]
 
   s.dependency "React-Core"
-  s.dependency "RelatedDigitalIOS", "4.0.25"
+  s.dependency "RelatedDigitalIOS", "4.0.26"
 
 end

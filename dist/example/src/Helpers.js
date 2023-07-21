@@ -1,3 +1,95 @@
+export var RDInAppNotificationType;
+(function (RDInAppNotificationType) {
+    RDInAppNotificationType["mini"] = "mini";
+    RDInAppNotificationType["full"] = "full";
+    RDInAppNotificationType["imageTextButton"] = "image_text_button";
+    RDInAppNotificationType["fullImage"] = "full_image";
+    RDInAppNotificationType["nps"] = "nps";
+    RDInAppNotificationType["imageButton"] = "image_button";
+    RDInAppNotificationType["smileRating"] = "smile_rating";
+    RDInAppNotificationType["emailForm"] = "subscription_email";
+    RDInAppNotificationType["alert"] = "alert";
+    RDInAppNotificationType["halfScreenImage"] = "half_screen_image";
+    RDInAppNotificationType["scratchToWin"] = "scratch_to_win";
+    RDInAppNotificationType["secondNps"] = "nps_with_secondpopup";
+    RDInAppNotificationType["inappcarousel"] = "inappcarousel";
+    RDInAppNotificationType["spintowin"] = "spintowin";
+    RDInAppNotificationType["productStatNotifier"] = "product_stat_notifier";
+    RDInAppNotificationType["drawer"] = "drawer";
+    RDInAppNotificationType["gamification"] = "giftrain";
+    RDInAppNotificationType["findToWin"] = "findtowin";
+    RDInAppNotificationType["video"] = "video";
+    RDInAppNotificationType["downHsView"] = "downHsView";
+    RDInAppNotificationType["shakeToWin"] = "ShakeToWin";
+    RDInAppNotificationType["giftBox"] = "giftBox";
+    RDInAppNotificationType["choosefavorite"] = "Choosefavorite";
+})(RDInAppNotificationType || (RDInAppNotificationType = {}));
+export const getInApps = () => {
+    return {
+        [RDInAppNotificationType.mini]: { [RDInAppNotificationType.mini]: 491 },
+        [RDInAppNotificationType.full]: { [RDInAppNotificationType.full]: 485 },
+        [RDInAppNotificationType.imageTextButton]: {
+            [RDInAppNotificationType.imageTextButton]: 490,
+        },
+        [RDInAppNotificationType.fullImage]: {
+            [RDInAppNotificationType.fullImage]: 495,
+        },
+        [RDInAppNotificationType.nps]: { [RDInAppNotificationType.nps]: 492 },
+        [RDInAppNotificationType.imageButton]: {
+            [RDInAppNotificationType.imageButton]: 489,
+        },
+        [RDInAppNotificationType.smileRating]: {
+            [RDInAppNotificationType.smileRating]: 494,
+        },
+        [RDInAppNotificationType.emailForm]: {
+            [RDInAppNotificationType.emailForm]: 417,
+        },
+        [RDInAppNotificationType.alert]: {
+            alert_actionsheet: 487,
+            alert_native: 540,
+        },
+        [RDInAppNotificationType.halfScreenImage]: {
+            [RDInAppNotificationType.halfScreenImage]: 704,
+        },
+        [RDInAppNotificationType.scratchToWin]: {
+            [RDInAppNotificationType.scratchToWin]: 592,
+        },
+        [RDInAppNotificationType.secondNps]: {
+            'nps-image-text-button': 585,
+            'nps-image-text-button-image': 586,
+            'nps-feedback': 587,
+        },
+        [RDInAppNotificationType.inappcarousel]: {
+            [RDInAppNotificationType.inappcarousel]: 927,
+        },
+        [RDInAppNotificationType.spintowin]: {
+            [RDInAppNotificationType.spintowin]: 562,
+        },
+        [RDInAppNotificationType.productStatNotifier]: {
+            [RDInAppNotificationType.productStatNotifier]: 703,
+        },
+        [RDInAppNotificationType.drawer]: { [RDInAppNotificationType.drawer]: 884 },
+        [RDInAppNotificationType.downHsView]: {
+            [RDInAppNotificationType.downHsView]: 238,
+        },
+        [RDInAppNotificationType.video]: { [RDInAppNotificationType.video]: 73 },
+        [RDInAppNotificationType.gamification]: {
+            [RDInAppNotificationType.gamification]: 131,
+        },
+        [RDInAppNotificationType.findToWin]: {
+            [RDInAppNotificationType.findToWin]: 132,
+        },
+        [RDInAppNotificationType.shakeToWin]: {
+            [RDInAppNotificationType.shakeToWin]: 255,
+        },
+        [RDInAppNotificationType.giftBox]: {
+            [RDInAppNotificationType.giftBox]: 577,
+        },
+        [RDInAppNotificationType.choosefavorite]: {
+            [RDInAppNotificationType.choosefavorite]: 1098,
+        },
+    };
+};
 export var RelatedDigitalEventType;
 (function (RelatedDigitalEventType) {
     RelatedDigitalEventType["login"] = "Login";

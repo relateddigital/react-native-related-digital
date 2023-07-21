@@ -1,69 +1,43 @@
 import * as React from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   Button,
-  TextInput,
   ScrollView,
   SafeAreaView,
 } from 'react-native';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
+import { RDInAppNotificationType, getInApps } from '../Helpers';
 
 function TargetingActionScreen() {
-  const [exVisitorId, setExVisitorId] = React.useState('');
-  const [properties, setProperties] = React.useState('');
-  const [pageName, setPageName] = React.useState('');
-
-  const handleCustomEvent = () => {
-    let parsedParameters = { 'OM.inapptype': 'image_text_button' };
-    //let parsedParameters = { key: 'value' };
-    RelatedDigital.customEvent('Test', parsedParameters);
-    console.log('Custom event sent.');
-  };
-
-  const handleSignUp = () => {
-    RelatedDigital.signUp(exVisitorId, {});
-  };
-
-  const handleLogin = () => {
-    RelatedDigital.login(exVisitorId, {});
-  };
-
-  const handleLogout = () => {
-    RelatedDigital.logout();
+  const inAppEvent = (queryStringFilter: string) => {
+    let properties: Record<string, string> = {};
+    properties['OM.inapptype'] = queryStringFilter;
+    if (
+      queryStringFilter.toLowerCase() ===
+      RDInAppNotificationType.productStatNotifier.toLowerCase()
+    ) {
+      properties['OM.pv'] = 'CV7933-837-837';
+    }
+    RelatedDigital.customEvent('InAppTest', properties);
   };
 
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.heading}>Authentication</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setExVisitorId}
-          value={exVisitorId}
-          placeholder="exVisitorId"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={setProperties}
-          value={properties}
-          placeholder='{"key": "value"}'
-        />
-        <View style={styles.buttonContainer}>
-          <Button title="Sign Up" onPress={handleSignUp} />
-          <Button title="Login" onPress={handleLogin} />
-          <Button title="Logout" onPress={handleLogout} />
-        </View>
-        <Text style={styles.heading}>Custom Events</Text>
-        <Text>Page Name:</Text>
-        <TextInput
-          style={styles.input}
-          value={pageName}
-          onChangeText={setPageName}
-          placeholder="Enter page name"
-        />
-        <Button title="Send Custom Event" onPress={handleCustomEvent} />
+        {Object.entries(getInApps()).map(
+          ([notificationType, inAppType], index) =>
+            Object.entries(inAppType).map(
+              ([queryStringFilter, actionId], subIndex) => (
+                <View style={styles.button} key={`${index}-${subIndex}`}>
+                  <Button
+                    title={`TYPE: ${notificationType} \n QUERY: ${queryStringFilter} \n ACTION ID: ${actionId}`}
+                    onPress={() => inAppEvent(queryStringFilter)}
+                  />
+                </View>
+              )
+            )
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -95,6 +69,8 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 16,
   },
+  button: {
+    marginBottom: 16,
+  },
 });
-
 export default TargetingActionScreen;

@@ -1,3 +1,99 @@
+export enum RDInAppNotificationType {
+  mini = 'mini',
+  full = 'full',
+  imageTextButton = 'image_text_button',
+  fullImage = 'full_image',
+  nps = 'nps',
+  imageButton = 'image_button',
+  smileRating = 'smile_rating',
+  emailForm = 'subscription_email',
+  alert = 'alert',
+  halfScreenImage = 'half_screen_image',
+  scratchToWin = 'scratch_to_win',
+  secondNps = 'nps_with_secondpopup',
+  inappcarousel = 'inappcarousel',
+  spintowin = 'spintowin',
+  productStatNotifier = 'product_stat_notifier',
+  drawer = 'drawer',
+  gamification = 'giftrain',
+  findToWin = 'findtowin',
+  video = 'video',
+  downHsView = 'downHsView',
+  shakeToWin = 'ShakeToWin',
+  giftBox = 'giftBox',
+  choosefavorite = 'Choosefavorite',
+}
+
+export const getInApps = (): Record<
+  RDInAppNotificationType,
+  Record<string, number>
+> => {
+  return {
+    [RDInAppNotificationType.mini]: { [RDInAppNotificationType.mini]: 491 },
+    [RDInAppNotificationType.full]: { [RDInAppNotificationType.full]: 485 },
+    [RDInAppNotificationType.imageTextButton]: {
+      [RDInAppNotificationType.imageTextButton]: 490,
+    },
+    [RDInAppNotificationType.fullImage]: {
+      [RDInAppNotificationType.fullImage]: 495,
+    },
+    [RDInAppNotificationType.nps]: { [RDInAppNotificationType.nps]: 492 },
+    [RDInAppNotificationType.imageButton]: {
+      [RDInAppNotificationType.imageButton]: 489,
+    },
+    [RDInAppNotificationType.smileRating]: {
+      [RDInAppNotificationType.smileRating]: 494,
+    },
+    [RDInAppNotificationType.emailForm]: {
+      [RDInAppNotificationType.emailForm]: 417,
+    },
+    [RDInAppNotificationType.alert]: {
+      alert_actionsheet: 487,
+      alert_native: 540,
+    },
+    [RDInAppNotificationType.halfScreenImage]: {
+      [RDInAppNotificationType.halfScreenImage]: 704,
+    },
+    [RDInAppNotificationType.scratchToWin]: {
+      [RDInAppNotificationType.scratchToWin]: 592,
+    },
+    [RDInAppNotificationType.secondNps]: {
+      'nps-image-text-button': 585,
+      'nps-image-text-button-image': 586,
+      'nps-feedback': 587,
+    },
+    [RDInAppNotificationType.inappcarousel]: {
+      [RDInAppNotificationType.inappcarousel]: 927,
+    },
+    [RDInAppNotificationType.spintowin]: {
+      [RDInAppNotificationType.spintowin]: 562,
+    },
+    [RDInAppNotificationType.productStatNotifier]: {
+      [RDInAppNotificationType.productStatNotifier]: 703,
+    },
+    [RDInAppNotificationType.drawer]: { [RDInAppNotificationType.drawer]: 884 },
+    [RDInAppNotificationType.downHsView]: {
+      [RDInAppNotificationType.downHsView]: 238,
+    },
+    [RDInAppNotificationType.video]: { [RDInAppNotificationType.video]: 73 },
+    [RDInAppNotificationType.gamification]: {
+      [RDInAppNotificationType.gamification]: 131,
+    },
+    [RDInAppNotificationType.findToWin]: {
+      [RDInAppNotificationType.findToWin]: 132,
+    },
+    [RDInAppNotificationType.shakeToWin]: {
+      [RDInAppNotificationType.shakeToWin]: 255,
+    },
+    [RDInAppNotificationType.giftBox]: {
+      [RDInAppNotificationType.giftBox]: 577,
+    },
+    [RDInAppNotificationType.choosefavorite]: {
+      [RDInAppNotificationType.choosefavorite]: 1098,
+    },
+  };
+};
+
 export enum RelatedDigitalEventType {
   login = 'Login',
   loginWithExtraParameters = 'Login with Extra Parameters',

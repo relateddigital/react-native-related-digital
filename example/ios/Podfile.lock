@@ -162,7 +162,7 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - OpenSSL-Universal (1.1.180)
-  - PromisesObjC (2.2.0)
+  - PromisesObjC (2.3.0)
   - RCT-Folly (2021.06.28.00-v2):
     - boost
     - DoubleConversion
@@ -363,7 +363,7 @@ PODS:
     - glog
   - react-native-related-digital (1.0.0):
     - React-Core
-    - RelatedDigitalIOS (= 4.0.25)
+    - RelatedDigitalIOS (= 4.0.26)
   - react-native-safe-area-context (3.4.1):
     - React-Core
   - React-perflogger (0.67.5)
@@ -431,8 +431,8 @@ PODS:
     - React-jsi (= 0.67.5)
     - React-logger (= 0.67.5)
     - React-perflogger (= 0.67.5)
-  - RelatedDigitalIOS (4.0.25)
-  - RNCAsyncStorage (1.19.0):
+  - RelatedDigitalIOS (4.0.26)
+  - RNCAsyncStorage (1.19.1):
     - React-Core
   - RNFBAnalytics (12.9.3):
     - Firebase/AnalyticsWithoutAdIdSupport (= 8.8.0)
@@ -517,7 +517,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - RelatedDigitalIOS (= 4.0.25)
+  - RelatedDigitalIOS (= 4.0.26)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -677,7 +677,7 @@ SPEC CHECKSUMS:
   lottie-react-native: 8f9d4be452e23f6e5ca0fdc11669dc99ab52be81
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
-  PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
+  PromisesObjC: 7f84fefd35e085854377a97e19424ae424cc7a9e
   RCT-Folly: 803a9cfd78114b2ec0f140cfa6fa2a6bafb2d685
   RCTRequired: 412e994c1e570cf35378a32c18fd46e50634938b
   RCTTypeSafety: ef27340c728e6d673af345ed69e479a010c8a2d8
@@ -690,7 +690,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: e9895ccae253323ca70f693945fecbba091f0abd
   React-jsinspector: ec4fe4f65ccf9d67c8429dda955d3412db8a25ef
   React-logger: 85f4ef06b9723714b2dfa5b0e5502b673b271b58
-  react-native-related-digital: 4b0581b42f6ea06d51b1d386682dedd41530ce94
+  react-native-related-digital: 605a69506a778ec3cd3f8e02d39ac1c3bb28120b
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   React-perflogger: d32ee13196f4ae2e4098fb7f8e7ed4f864c6fb0f
   React-RCTActionSheet: 81779c09e34a6a3d6b15783407ba9016a774f535
@@ -704,8 +704,8 @@ SPEC CHECKSUMS:
   React-RCTVibration: c3b8a3245267a3849b0c7cb91a37606bf5f3aa65
   React-runtimeexecutor: 434efc9e5b6d0f14f49867f130b39376c971c1aa
   ReactCommon: a30c2448e5a88bae6fcb0e3da124c14ae493dac1
-  RelatedDigitalIOS: 61cb193bc4425f402e6805805016e9530b540743
-  RNCAsyncStorage: 4b98ac3c64efa4e35c1197cb0c5ca5e9f5d4c666
+  RelatedDigitalIOS: 85948157a943c4f77fa8a173613ea60833138dad
+  RNCAsyncStorage: f47fe18526970a69c34b548883e1aeceb115e3e1
   RNFBAnalytics: 1b0e5ddb5e99c534403817ae93edb10d685378e9
   RNFBApp: 729c0666395b1953198dc4a1ec6deb8fbe1c302e
   RNFBCrashlytics: 2061ca863e8e2fa1aae9b12477d7dfa8e88ca0f9
@@ -716,6 +716,6 @@ SPEC CHECKSUMS:
   Yoga: 099a946cbf84c9b32ffdc4278d72db26710ecf92
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 98afed7bb43f18c4b5e6f5c326895499f4e915f5
+PODFILE CHECKSUM: c3e26999bae6fad64d1039608036b6befb432f2f
 
 COCOAPODS: 1.12.1
