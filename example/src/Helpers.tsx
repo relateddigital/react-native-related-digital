@@ -1,3 +1,13 @@
+import {
+  AnalyticsScreen,
+  FavoriteAttributeScreen,
+  GeofenceScreen,
+  PushScreen,
+  RecommendationScreen,
+  StoryScreen,
+  TargetingActionScreen,
+} from './screens';
+
 export enum RDInAppNotificationType {
   mini = 'mini',
   full = 'full',
@@ -180,4 +190,68 @@ export const getRandomProductValues = (): RandomProduct => {
 
 export const formatPrice = (price: number): string => {
   return price.toFixed(2);
+};
+
+export enum ScreenType {
+  analytics = 'analytics',
+  targetingAction = 'targetingAction',
+  story = 'story',
+  geofence = 'geofence',
+  recommendation = 'recommendation',
+  favoriteAttribute = 'favoriteAttribute',
+  push = 'push',
+}
+
+export interface ScreenTypeParams {
+  name: string;
+  screen: () => JSX.Element;
+  title: string;
+  type: ScreenType;
+}
+
+export const getScreens = (): ScreenTypeParams[] => {
+  return [
+    {
+      name: 'analytics',
+      screen: AnalyticsScreen,
+      title: 'Analytics',
+      type: ScreenType.analytics,
+    },
+    {
+      name: 'targetingAction',
+      screen: TargetingActionScreen,
+      title: 'Targeting Action',
+      type: ScreenType.targetingAction,
+    },
+    {
+      name: 'story',
+      screen: StoryScreen,
+      title: 'Story',
+      type: ScreenType.story,
+    },
+    {
+      name: 'geofence',
+      screen: GeofenceScreen,
+      title: 'Geofence',
+      type: ScreenType.geofence,
+    },
+    {
+      name: 'recommendation',
+      screen: RecommendationScreen,
+      title: 'Recommendation',
+      type: ScreenType.recommendation,
+    },
+    {
+      name: 'favoriteAttribute',
+      screen: FavoriteAttributeScreen,
+      title: 'Favorite Attribute',
+      type: ScreenType.favoriteAttribute,
+    },
+    {
+      name: 'push',
+      screen: PushScreen,
+      title: 'Push',
+      type: ScreenType.push,
+    },
+  ];
 };

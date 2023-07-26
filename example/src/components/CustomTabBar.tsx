@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import analyticsLogo from '../assets/analytics.png';
 import targetingActionLogo from '../assets/targetingAction.png';
 import storyLogo from '../assets/story.png';
@@ -15,26 +16,25 @@ import geofenceLogo from '../assets/geofence.png';
 import recommendationLogo from '../assets/recommendation.png';
 import favoriteAttributeLogo from '../assets/favoriteAttribute.png';
 import pushLogo from '../assets/push.png';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ScreenType } from '../Helpers';
 
 const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
   const insets = useSafeAreaInsets();
-
-  const getTabLogo = (routeName: string) => {
+  const getTabLogo = (routeName: ScreenType) => {
     switch (routeName) {
-      case 'Analytics':
+      case ScreenType.analytics:
         return analyticsLogo;
-      case 'TargetingAction':
+      case ScreenType.targetingAction:
         return targetingActionLogo;
-      case 'Story':
+      case ScreenType.story:
         return storyLogo;
-      case 'Geofence':
+      case ScreenType.geofence:
         return geofenceLogo;
-      case 'Recommendation':
+      case ScreenType.recommendation:
         return recommendationLogo;
-      case 'FavoriteAttribute':
+      case ScreenType.favoriteAttribute:
         return favoriteAttributeLogo;
-      case 'Push':
+      case ScreenType.push:
         return pushLogo;
       default:
         return null;
@@ -60,8 +60,10 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
           }
         };
 
-        const logo = getTabLogo(route.name);
+        const logo = getTabLogo(route.name as ScreenType);
         const selected = isSelected(route.name);
+        console.log(route.name);
+        console.log(logo);
 
         return (
           <TouchableOpacity

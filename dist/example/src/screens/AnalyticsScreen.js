@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet, View, Button, TextInput, ScrollView, SafeAreaView, } from 'react-native';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
 import { RelatedDigitalEventType, getRandomProductValues, formatPrice, } from '../Helpers';
-function AnalyticsScreen() {
+export function AnalyticsScreen() {
     const [exVisitorId, setExVisitorId] = React.useState('');
     const [email, setEmail] = React.useState('');
     const customEvent = (eventType) => {
@@ -104,6 +104,8 @@ function AnalyticsScreen() {
             Object.values(RelatedDigitalEventType).map((eventType, index) => (React.createElement(View, { style: styles.button, key: index },
                 React.createElement(Button, { title: eventType, onPress: () => customEvent(eventType) })))))));
 }
+AnalyticsScreen.title = 'Analytics';
+AnalyticsScreen.screenName = 'Analytics';
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
@@ -134,4 +136,3 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
 });
-export default AnalyticsScreen;

@@ -6,35 +6,14 @@ import {
   Button,
   TextInput,
   ScrollView,
-  Switch,
   Alert,
   SafeAreaView,
 } from 'react-native';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
 
-function Recommendation() {
-  const [isInAppNotificationEnabled, setIsInAppNotificationEnabled] =
-    React.useState(false);
-  const [isPushNotificationEnabled, setIsPushNotificationEnabled] =
-    React.useState(false);
+export function RecommendationScreen() {
   const [propertyKey, setPropertyKey] = React.useState('');
   const [propertyValue, setPropertyValue] = React.useState('');
-
-  const handleIsInAppNotificationEnabled = (value: boolean) => {
-    setIsInAppNotificationEnabled(value);
-    RelatedDigital.setIsInAppNotificationEnabled(value);
-  };
-
-  const handleIsPushNotificationEnabled = (value: boolean) => {
-    setIsPushNotificationEnabled(value);
-    RelatedDigital.setIsPushNotificationEnabled(
-      value,
-      'yourAppAlias',
-      'relateddigital-android-test',
-      'relateddigital-android-huawei-test',
-      true
-    );
-  };
 
   const handleSetUserProperty = () => {
     RelatedDigital.setUserProperty(propertyKey, propertyValue);
@@ -70,21 +49,6 @@ function Recommendation() {
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.heading}>Notifications</Text>
-        <View style={styles.switchRow}>
-          <Text>In-App Notification Enabled:</Text>
-          <Switch
-            value={isInAppNotificationEnabled}
-            onValueChange={handleIsInAppNotificationEnabled}
-          />
-        </View>
-        <View style={styles.switchRow}>
-          <Text>Push Notification Enabled:</Text>
-          <Switch
-            value={isPushNotificationEnabled}
-            onValueChange={handleIsPushNotificationEnabled}
-          />
-        </View>
         <Text style={styles.heading}>User Properties</Text>
         <Text>Property Key:</Text>
         <TextInput
@@ -158,5 +122,3 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 });
-
-export default Recommendation;

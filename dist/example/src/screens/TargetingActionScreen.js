@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet, View, Button, ScrollView, SafeAreaView, } from 'react-native';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
 import { RDInAppNotificationType, getInApps } from '../Helpers';
-function TargetingActionScreen() {
+export function TargetingActionScreen() {
     const inAppEvent = (queryStringFilter) => {
         let properties = {};
         properties['OM.inapptype'] = queryStringFilter;
@@ -46,4 +46,3 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
 });
-export default TargetingActionScreen;

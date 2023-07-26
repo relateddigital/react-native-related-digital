@@ -1,3 +1,4 @@
+import { AnalyticsScreen, FavoriteAttributeScreen, GeofenceScreen, PushScreen, RecommendationScreen, StoryScreen, TargetingActionScreen, } from './screens';
 export var RDInAppNotificationType;
 (function (RDInAppNotificationType) {
     RDInAppNotificationType["mini"] = "mini";
@@ -152,4 +153,60 @@ export const getRandomProductValues = () => {
 };
 export const formatPrice = (price) => {
     return price.toFixed(2);
+};
+export var ScreenType;
+(function (ScreenType) {
+    ScreenType["analytics"] = "analytics";
+    ScreenType["targetingAction"] = "targetingAction";
+    ScreenType["story"] = "story";
+    ScreenType["geofence"] = "geofence";
+    ScreenType["recommendation"] = "recommendation";
+    ScreenType["favoriteAttribute"] = "favoriteAttribute";
+    ScreenType["push"] = "push";
+})(ScreenType || (ScreenType = {}));
+export const getScreens = () => {
+    return [
+        {
+            name: 'analytics',
+            screen: AnalyticsScreen,
+            title: 'Analytics',
+            type: ScreenType.analytics,
+        },
+        {
+            name: 'targetingAction',
+            screen: TargetingActionScreen,
+            title: 'Targeting Action',
+            type: ScreenType.targetingAction,
+        },
+        {
+            name: 'story',
+            screen: StoryScreen,
+            title: 'Story',
+            type: ScreenType.story,
+        },
+        {
+            name: 'geofence',
+            screen: GeofenceScreen,
+            title: 'Geofence',
+            type: ScreenType.geofence,
+        },
+        {
+            name: 'recommendation',
+            screen: RecommendationScreen,
+            title: 'Recommendation',
+            type: ScreenType.recommendation,
+        },
+        {
+            name: 'favoriteAttribute',
+            screen: FavoriteAttributeScreen,
+            title: 'Favorite Attribute',
+            type: ScreenType.favoriteAttribute,
+        },
+        {
+            name: 'push',
+            screen: PushScreen,
+            title: 'Push',
+            type: ScreenType.push,
+        },
+    ];
 };

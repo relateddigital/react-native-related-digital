@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, Platform, StyleSheet, TouchableOpacity, View, } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import analyticsLogo from '../assets/analytics.png';
 import targetingActionLogo from '../assets/targetingAction.png';
 import storyLogo from '../assets/story.png';
@@ -7,24 +8,24 @@ import geofenceLogo from '../assets/geofence.png';
 import recommendationLogo from '../assets/recommendation.png';
 import favoriteAttributeLogo from '../assets/favoriteAttribute.png';
 import pushLogo from '../assets/push.png';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ScreenType } from '../Helpers';
 const CustomTabBar = ({ state, navigation }) => {
     const insets = useSafeAreaInsets();
     const getTabLogo = (routeName) => {
         switch (routeName) {
-            case 'Analytics':
+            case ScreenType.analytics:
                 return analyticsLogo;
-            case 'TargetingAction':
+            case ScreenType.targetingAction:
                 return targetingActionLogo;
-            case 'Story':
+            case ScreenType.story:
                 return storyLogo;
-            case 'Geofence':
+            case ScreenType.geofence:
                 return geofenceLogo;
-            case 'Recommendation':
+            case ScreenType.recommendation:
                 return recommendationLogo;
-            case 'FavoriteAttribute':
+            case ScreenType.favoriteAttribute:
                 return favoriteAttributeLogo;
-            case 'Push':
+            case ScreenType.push:
                 return pushLogo;
             default:
                 return null;
@@ -46,6 +47,8 @@ const CustomTabBar = ({ state, navigation }) => {
         };
         const logo = getTabLogo(route.name);
         const selected = isSelected(route.name);
+        console.log(route.name);
+        console.log(logo);
         return (React.createElement(TouchableOpacity, { key: index, onPress: onPress, style: [
                 styles.tabItem,
                 selected ? styles.selectedTabItem : styles.unselectedTabItem,

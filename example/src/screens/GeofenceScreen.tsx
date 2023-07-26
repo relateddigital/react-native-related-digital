@@ -20,7 +20,7 @@ export const geofenceData: GeofenceItem[] = [
   },
 ];
 
-const GeofenceScreen: React.FC = () => {
+export function GeofenceScreen() {
   const renderItem = ({ item }: { item: GeofenceItem }) => {
     return (
       <View style={styles.row}>
@@ -39,7 +39,7 @@ const GeofenceScreen: React.FC = () => {
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -63,5 +63,3 @@ const styles = StyleSheet.create({
     color: '#777',
   },
 });
-
-export default GeofenceScreen;

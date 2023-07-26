@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
 
-function FavoriteAttribute() {
+export function FavoriteAttributeScreen() {
   const [exVisitorId, setExVisitorId] = React.useState('');
   const [properties, setProperties] = React.useState('');
   const [pageName, setPageName] = React.useState('');
@@ -95,5 +95,3 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 });
-
-export default FavoriteAttribute;

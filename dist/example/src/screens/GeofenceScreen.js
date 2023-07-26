@@ -12,7 +12,7 @@ export const geofenceData = [
         description: 'This is geofence 2',
     },
 ];
-const GeofenceScreen = () => {
+export function GeofenceScreen() {
     const renderItem = ({ item }) => {
         return (React.createElement(View, { style: styles.row },
             React.createElement(Text, { style: styles.name }, item.name),
@@ -20,7 +20,7 @@ const GeofenceScreen = () => {
     };
     return (React.createElement(View, { style: styles.container },
         React.createElement(FlatList, { data: geofenceData, renderItem: renderItem, keyExtractor: (item) => item.id.toString() })));
-};
+}
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -43,4 +43,3 @@ const styles = StyleSheet.create({
         color: '#777',
     },
 });
-export default GeofenceScreen;

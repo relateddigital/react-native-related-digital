@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
 
-function StoryScreen() {
+export function StoryScreen() {
   const [isInAppNotificationEnabled, setIsInAppNotificationEnabled] =
     React.useState(false);
   const [isPushNotificationEnabled, setIsPushNotificationEnabled] =
@@ -158,5 +158,3 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 });
-
-export default StoryScreen;

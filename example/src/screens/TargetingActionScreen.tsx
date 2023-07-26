@@ -9,7 +9,7 @@ import {
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
 import { RDInAppNotificationType, getInApps } from '../Helpers';
 
-function TargetingActionScreen() {
+export function TargetingActionScreen() {
   const inAppEvent = (queryStringFilter: string) => {
     let properties: Record<string, string> = {};
     properties['OM.inapptype'] = queryStringFilter;
@@ -73,4 +73,3 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 });
-export default TargetingActionScreen;

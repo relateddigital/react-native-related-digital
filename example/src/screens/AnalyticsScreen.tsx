@@ -15,7 +15,7 @@ import {
   RandomProduct,
 } from '../Helpers';
 
-function AnalyticsScreen() {
+export function AnalyticsScreen() {
   const [exVisitorId, setExVisitorId] = React.useState('');
   const [email, setEmail] = React.useState('');
 
@@ -151,6 +151,8 @@ function AnalyticsScreen() {
     </SafeAreaView>
   );
 }
+AnalyticsScreen.title = 'Analytics';
+AnalyticsScreen.screenName = 'Analytics';
 
 const styles = StyleSheet.create({
   container: {
@@ -182,5 +184,3 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 });
-
-export default AnalyticsScreen;

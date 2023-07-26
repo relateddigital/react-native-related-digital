@@ -1,19 +1,9 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, Switch, Alert, SafeAreaView, } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, Alert, SafeAreaView, } from 'react-native';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
-export function StoryScreen() {
-    const [isInAppNotificationEnabled, setIsInAppNotificationEnabled] = React.useState(false);
-    const [isPushNotificationEnabled, setIsPushNotificationEnabled] = React.useState(false);
+export function RecommendationScreen() {
     const [propertyKey, setPropertyKey] = React.useState('');
     const [propertyValue, setPropertyValue] = React.useState('');
-    const handleIsInAppNotificationEnabled = (value) => {
-        setIsInAppNotificationEnabled(value);
-        RelatedDigital.setIsInAppNotificationEnabled(value);
-    };
-    const handleIsPushNotificationEnabled = (value) => {
-        setIsPushNotificationEnabled(value);
-        RelatedDigital.setIsPushNotificationEnabled(value, 'yourAppAlias', 'relateddigital-android-test', 'relateddigital-android-huawei-test', true);
-    };
     const handleSetUserProperty = () => {
         RelatedDigital.setUserProperty(propertyKey, propertyValue);
         console.log('User property set.');
@@ -41,13 +31,6 @@ export function StoryScreen() {
     };
     return (React.createElement(SafeAreaView, null,
         React.createElement(ScrollView, { contentContainerStyle: styles.container },
-            React.createElement(Text, { style: styles.heading }, "Notifications"),
-            React.createElement(View, { style: styles.switchRow },
-                React.createElement(Text, null, "In-App Notification Enabled:"),
-                React.createElement(Switch, { value: isInAppNotificationEnabled, onValueChange: handleIsInAppNotificationEnabled })),
-            React.createElement(View, { style: styles.switchRow },
-                React.createElement(Text, null, "Push Notification Enabled:"),
-                React.createElement(Switch, { value: isPushNotificationEnabled, onValueChange: handleIsPushNotificationEnabled })),
             React.createElement(Text, { style: styles.heading }, "User Properties"),
             React.createElement(Text, null, "Property Key:"),
             React.createElement(TextInput, { style: styles.input, value: propertyKey, onChangeText: setPropertyKey, placeholder: "Enter property key" }),
