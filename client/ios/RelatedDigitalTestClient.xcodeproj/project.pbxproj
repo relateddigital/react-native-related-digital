@@ -14,6 +14,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8B02E9C429EDAC25008EFDF8 /* BannerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B02E9C229EDAC25008EFDF8 /* BannerCollectionViewCell.xib */; };
 		8B02E9C529EDAC25008EFDF8 /* BannerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B02E9C329EDAC25008EFDF8 /* BannerView.xib */; };
+		8B284AC62A73532400C63796 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B9E27CE2A73360E0038A92B /* FontAwesome.ttf */; };
 		8B8BC81928CA5B42001383FC /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8BC81828CA5B42001383FC /* Empty.swift */; };
 		8B8BC81C28CA5C71001383FC /* VisilabsFullNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B8BC81A28CA5C71001383FC /* VisilabsFullNotificationViewController.xib */; };
 		8B8BC81D28CA5C71001383FC /* VisilabsMiniNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B8BC81B28CA5C71001383FC /* VisilabsMiniNotificationViewController.xib */; };
@@ -103,6 +104,7 @@
 		8B8BC84E28CA5E09001383FC /* EMNotificationCarousel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = EMNotificationCarousel.xib; path = Pods/Euromsg/Sources/Euromsg/Classes/EMNotificationCarousel/EMNotificationCarousel.xib; sourceTree = "<group>"; };
 		8B8BC84F28CA5E09001383FC /* CarouselCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CarouselCell.xib; path = Pods/Euromsg/Sources/Euromsg/Classes/EMNotificationCarousel/CarouselCell.xib; sourceTree = "<group>"; };
 		8B8BC85228CA6057001383FC /* timerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = timerView.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/Story/Views/timerView/timerView.xib; sourceTree = "<group>"; };
+		8B9E27CE2A73360E0038A92B /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		8BD83B332A30D00B00DBABD9 /* RelatedDigitalNotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelatedDigitalNotificationService.entitlements; sourceTree = "<group>"; };
 		8BD83B342A30D04200DBABD9 /* RelatedDigitalNotificationContent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelatedDigitalNotificationContent.entitlements; sourceTree = "<group>"; };
 		C82218222BE6793E4D73EEE5 /* libPods-RelatedDigitalNotificationContent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RelatedDigitalNotificationContent.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,6 +182,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				8B284AC52A73529800C63796 /* Fonts */,
 				8B02E9C229EDAC25008EFDF8 /* BannerCollectionViewCell.xib */,
 				8B02E9C329EDAC25008EFDF8 /* BannerView.xib */,
 				8B8BC85228CA6057001383FC /* timerView.xib */,
@@ -209,6 +212,14 @@
 				8B8BC83828CA5D9F001383FC /* RelatedDigitalNotificationContent.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8B284AC52A73529800C63796 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				8B9E27CE2A73360E0038A92B /* FontAwesome.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		8B8BC82528CA5CC7001383FC /* RelatedDigitalNotificationService */ = {
@@ -360,6 +371,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B284AC62A73532400C63796 /* FontAwesome.ttf in Resources */,
 				8B02E9C429EDAC25008EFDF8 /* BannerCollectionViewCell.xib in Resources */,
 				8B02E9C529EDAC25008EFDF8 /* BannerView.xib in Resources */,
 				8B8BC85328CA6057001383FC /* timerView.xib in Resources */,
@@ -613,7 +625,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = RelatedDigitalTestClient/RelatedDigitalTestClient.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5M383PCDJZ;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -662,11 +674,13 @@
 					"\"$(PODS_TARGET_SRCROOT)/include/\"",
 				);
 				INFOPLIST_FILE = RelatedDigitalTestClient/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				INFOPLIST_KEY_CFBundleDisplayName = "Related Digital";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -689,7 +703,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = RelatedDigitalTestClient/RelatedDigitalTestClient.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5M383PCDJZ;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -737,11 +751,13 @@
 					"\"$(PODS_TARGET_SRCROOT)/include/\"",
 				);
 				INFOPLIST_FILE = RelatedDigitalTestClient/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				INFOPLIST_KEY_CFBundleDisplayName = "Related Digital";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -913,7 +929,7 @@
 				INFOPLIST_FILE = RelatedDigitalNotificationService/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = RelatedDigitalNotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -955,7 +971,7 @@
 				INFOPLIST_FILE = RelatedDigitalNotificationService/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = RelatedDigitalNotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

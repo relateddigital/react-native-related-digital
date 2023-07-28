@@ -7,15 +7,15 @@ install! 'cocoapods', :deterministic_uuids => false
 production = ENV["PRODUCTION"] == "1"
 
 target 'RelatedDigitalNotificationContent' do
-  use_native_modules!
+  use_react_native!
   
   pod 'Euromsg', '>= 2.0.0'
 end
 
 target 'RelatedDigitalNotificationService' do
+  use_react_native!
   pod 'react-native-related-digital', :path => '../node_modules/react-native-related-digital'
   
-  use_native_modules!
 end
 
 # Post Install processing for RelatedDigitalNotificationService causing errors

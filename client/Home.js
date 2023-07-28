@@ -1,4 +1,7 @@
-import { Text, View, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity, TextInput, ClipboardStatic } from 'react-native'
+import { Text, View, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity, TextInput, Switch, StatusBar, Alert } from 'react-native'
+import Clipboard from '@react-native-clipboard/clipboard';
+// import FontAwesome, { SolidIcons, RegularIcons, BrandIcons } from 'react-native-fontawesome';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { Component } from 'react'
 import { width } from './constants/Constants'
 import {
@@ -43,13 +46,14 @@ export default class Home extends Component {
       banner: false,
       widget: null,
       others: false,
+      subsStatus:null,
+      pushPermit:false,
       userData: {
-        "Keyid": "baris.arslan@euromsg.com",
-        "Email": "baris.arslan@euromsg.com",
-        "ConsentTime": "2022-11-12 10:00:00",
+        "Keyid": "",
+        "Email": "",
+        "ConsentTime": "2029-01-01 10:00:00",
         "RecipientType": "BIREYSEL",
         "ConsentSource": "HS_MOBIL",
-        "PushPermit": "Y"
       },
     }
 
@@ -160,6 +164,7 @@ export default class Home extends Component {
       },
     ]
 
+    this.getUser(false)
   }
 
   componentDidMount() {
@@ -195,22 +200,31 @@ export default class Home extends Component {
 
 
   login = async () => {
+    if (!this.state.userData.Email) {
+      Alert.alert("Hata", "Email adresinizi girin");
+      return false
+    }
+
+    this.setState({subsStatus:true})
+
     let userData = { ...this.state.userData, "PushPermit": "Y" }
 
     euroMessageApi.setUserProperties(userData).then(() => {
       euroMessageApi.subscribe(this.state.token)
       visilabsApi.customEvent("Login", { 'OM.exVisitorID': this.state.userData.Keyid, 'OM.b_login': '1' })
-      console.log("Success login");
+      Alert.alert("Başarılı", "Başarılı şekilde giriş yaptınız.");
     })
   }
 
   logout = async () => {
     logout();
-    console.log("Success logout");
+    alert("Success logout");
+    this.getUser(false);
   }
 
-  PushPermitOff = async () => {
-    let userData = { ...this.state.userData, "PushPermit": "N" }
+  togglePushPermit = (value) => {
+    this.setState({ pushPermit: value })
+    let userData = { ...this.state.userData, "PushPermit": (value ? "Y" : "N") }
 
     euroMessageApi.setUserProperties(userData).then(() => {
       euroMessageApi.subscribe(this.state.token)
@@ -219,9 +233,9 @@ export default class Home extends Component {
   }
 
   changeEmail = (email) => {
-    let userData = { ...this.state.userData, "Email": email, "KeyID": email }
+    let userData = { ...this.state.userData, "Email": email, "Keyid": email }
 
-    this.setState({ userData })
+    this.setState({ userData,subsStatus:false })
   }
 
   sendCustomEvent = (type) => {
@@ -233,14 +247,42 @@ export default class Home extends Component {
     visilabsApi.customEvent("InAppTest", parameters);
   }
 
-  getUser = async () => {
+  getUser = async (isAlert) => {
     const result = await getUserAllData();
-    console.log("ALL Storage Data", result);
-    console.log("Visilabs - Exvisitorid", result.visilabs.exVisitorId);
+    isAlert && Alert.alert(
+      JSON.stringify(result),
+      "",
+      [
+        {
+            text: "Copy",
+            onPress: () => { this.cpy(JSON.stringify(result)) },
+        },
+        {
+            text: "Close",
+            onPress: () => {  },
+            style: 'cancel',
+        },
+      ], {
+        cancelable: true
+      }
+      )
+
     console.log("Euromsg - Keyid", result.euromsg.extra.Keyid);
     console.log("Euromsg - Email", result.euromsg.extra.Email);
-    console.log("JS Euromsg - Keyid", result.js.euromsgsubextra?.Keyid);
-    console.log("JS Euromsg - Email", result.js.euromsgsubextra?.Email);
+    console.log("Euromsg - PushPermit", result.euromsg.extra.PushPermit);
+
+    let userData = { 
+      ...this.state.userData, 
+      "Email": result.euromsg.extra.Email, 
+      "Keyid": result.euromsg.extra.Keyid,
+      "PushPermit": result.euromsg.extra.PushPermit
+    }
+
+    this.setState({ 
+      userData,
+      subsStatus: (result.euromsg.extra.Email ? true : false) ,
+      pushPermit: (result.euromsg.extra.PushPermit ? (result.euromsg.extra.PushPermit == "Y" ? true : false ) : false)
+    })
   }
 
   getRecommendations = async () => {
@@ -569,6 +611,71 @@ export default class Home extends Component {
     })
   }
 
+  copyOperations = () => {
+    const tmpUserData = {
+      email:this.state.userData.Email,
+      keyid:this.state.userData.Keyid,
+      pushPermit:this.state.userData.PushPermit,
+      token:this.state.token
+    }
+
+    this.cpy(JSON.stringify(tmpUserData))
+  }
+
+  cpy = async (text) => {
+    try {
+      Clipboard.setString(text)
+      alert("Kopyalandı")
+    } catch (error) {
+      console.log("Copy Error",error);
+      alert("Kopyalama sırasında hata oluştu")
+    }
+  }
+
+  tokenControl = () => { ////////
+    let status = this.state.token ? true : false;
+    let statusData = {
+      title: "Token Durumu",
+      status,
+      desc: status ? "Başarılı" : "Token Yakalanamamış olabilir. Çözüm için push bildirim ayarlarınızı kontrol edin."
+    }
+    return statusData
+  }
+
+  subsControl = () => { ////////
+    let status = (this.state.userData.Email && this.state.subsStatus) ? true : false;
+    let statusData = {
+      title: "Üyelik Durumu",
+      status,
+      desc: status ? "Eşleşme Başarılı" : "Kullanıcı ile token ile eşleşmemiş gözüküyor. Bu durumda sadece bulk pushları alabilirsiniz. Email adresinizi yazıp Login butonuna dokunun."
+    }
+    return statusData
+  }
+
+  permitControl = () => { ////////
+    let status = this.state.pushPermit ? true : false;
+    let statusData = {
+      title: "Push İzin Durumu",
+      status,
+      desc: status ? "İzin Verilmiş" : "Push izni kapalı. Bu durumda pushlar ulaşmayacaktır."
+    }
+    return statusData
+  }
+  
+
+  healthCheck = () => {
+    let ts = this.tokenControl()
+    let ss = this.subsControl()
+    let ps = this.permitControl()
+
+
+    if (ts.status && ss.status && ps.status) {
+      return true
+    }else{
+      return false
+    }
+  }
+
   // UI
   renderInApptitles = () => (
     this.inAppTypes.map((item, i) => {
@@ -626,7 +733,7 @@ export default class Home extends Component {
       <View>
         <View style={this.styles.titleContainer}>
           {this.title("Get User", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={() => { this.getUser() }} />
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={() => { this.getUser(true) }} />
         </View>
 
         <View style={this.styles.titleContainer}>
@@ -657,11 +764,6 @@ export default class Home extends Component {
         <View style={this.styles.titleContainer}>
           {this.title("Send Location Permission Event", 15)}
           <CustomButton mini style={{ width: "20%" }} data={{ name: "Send" }} action={async () => { await visilabsApi.sendLocationPermission() }} />
-        </View>
-
-        <View style={this.styles.titleContainer}>
-          {this.title("Turn Off Push Permit", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Turn Off" }} action={async () => { PushPermitOff(); console.log("Push Permit = N"); }} />
         </View>
       </View>
     )
@@ -695,7 +797,8 @@ export default class Home extends Component {
     container: {
       height: "100%",
       width: "95%",
-      alignSelf: 'center'
+      alignSelf: 'center',
+      backgroundColor:'white'
     },
     section: {
       // borderWidth: 1,
@@ -763,6 +866,7 @@ export default class Home extends Component {
     token: {
       // backgroundColor:'red',
       width: "95%",
+      marginVertical:3
     },
     main: {
       width: "95%",
@@ -773,24 +877,102 @@ export default class Home extends Component {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between'
+    },
+    hr:{
+      borderBottomWidth:1,
+      borderBottomColor:'gray',
+      width:"95%",
+      alignSelf:'center',
+      marginTop:15
+    },
+    row:{
+      flexDirection:'row',
+      // borderWidth:1,
+      width:"70%",
+      marginVertical:10,
+      alignItems:'flex-start',
+      justifyContent:'flex-start',
+    },
+    permitRow:{
+      flexDirection:'row',
+      alignItems:'center',
+      justifyContent:'flex-start',
+      // backgroundColor:'red',
+      width:"95%"
     }
   });
+
+  hr = () => {
+    return(
+      <View style={this.styles.hr}></View>
+    )
+  }
 
   push = () => {
     return (
       <View>
         {this.title("Push Notifications", 25)}
         <View style={[this.styles.section]}>
+          {this.userStatus()}
           {this.input()}
+          {this.pushPermit()}
           <View style={{ flexDirection: 'row' }}>
             {this.loginLogoutButton("logout")}
             {this.loginLogoutButton("login")}
           </View>
-          {this.state.token && <View style={this.styles.tokenContainer}>
+          <View style={this.styles.tokenContainer}>
+            {this.title("User Details", 18)}
+            <Text style={this.styles.token}>{'Email: ' + (this.state.userData.Email ? this.state.userData.Email : "Anonim")}</Text>
+            <Text style={this.styles.token}>{'Keyid(ExVisitorID): ' + (this.state.userData.Keyid ? this.state.userData.Keyid : "Anonim")}</Text>
             <Text style={this.styles.token}>{'Token: ' + this.state.token}</Text>
-            <CustomButton mini style={{ width: "90%" }} data={{ name: "Copy Token" }} action={async () => { await ClipboardStatic.setString(this.state.token) }} />
-          </View>}
+            <CustomButton mini style={{ width: "90%" }} data={{ name: "Copy User Data" }} action={()=>{ this.copyOperations() }} />
+          </View>
         </View>
+      </View>
+    )
+  }
+
+  pushPermit = () => {
+    return(
+      <View style={this.styles.permitRow}>
+        <Text style={{fontWeight:'bold'}}>Push İzni : </Text>
+        <Switch
+            style={{ transform: [{ scale: 1 }] }}
+            onValueChange={(value) => this.togglePushPermit(value)}
+            value={this.state.pushPermit}
+          />
+        
+        {this.title(this.state.pushPermit ? "Aktif" : "Pasif", 15)}
+      </View>
+    )
+  }
+
+  userStatus = () => {
+    return(
+      <View style={this.styles.main}>
+        <View style={[this.styles.tokenContainer,{width:"100%"}]}>
+            {this.title("Durum Bilgisi", 18)}
+            {this.title((this.healthCheck() ? "Bu cihaza push atılabilir" : "Eksik işlemler var, pushlar ulaşmayabilir"), 15)}
+            <View>
+              {this.statusRow(this.tokenControl())}
+              {this.statusRow(this.subsControl())}
+              {this.statusRow(this.permitControl())}
+            </View>
+          </View>
+      </View>
+    )
+  }
+
+  statusRow = (statusData) => { //////
+    return(
+      <View style={this.styles.row}>
+        {statusData.status ? 
+        <FontAwesome name={"check"} size={18} color={"green"} style={{marginTop:-2}}/>
+        : 
+        <FontAwesome name={"times"} size={18} color={"red"} style={{marginTop:-2}}/>
+        }
+        <Text>{statusData.title}:</Text>
+        <Text>{statusData.desc}</Text>
       </View>
     )
   }
@@ -889,12 +1071,17 @@ export default class Home extends Component {
   render() {
     return (
       <SafeAreaView style={[this.styles.container]}>
+        <StatusBar
+          barStyle={'dark-content'}
+          hidden={false}
+        />
         <ScrollView>
-          {this.banner()}
           {this.push()}
-          {this.story()}
+          {this.hr()}
           {this.inapp()}
+          {this.story()}
           {this.reco()}
+          {this.banner()}
           {this.others()}
         </ScrollView>
       </SafeAreaView>
