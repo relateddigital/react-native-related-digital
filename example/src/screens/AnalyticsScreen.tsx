@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   Button,
-  TextInput,
   ScrollView,
   SafeAreaView,
 } from 'react-native';
@@ -16,10 +15,7 @@ import {
 } from '../Helpers';
 
 export function AnalyticsScreen() {
-  const [exVisitorId, setExVisitorId] = React.useState('');
-  const [email, setEmail] = React.useState('');
-
-  const customEvent = (eventType: RelatedDigitalEventType) => {
+  const customEvent = (eventType: string) => {
     let properties: Record<string, string> = {};
     const randomProduct: RandomProduct = getRandomProductValues();
 
@@ -27,6 +23,7 @@ export function AnalyticsScreen() {
       case RelatedDigitalEventType.login:
       case RelatedDigitalEventType.signUp:
       case RelatedDigitalEventType.loginWithExtraParameters:
+        const exVisitorId = 'externalVisitorId';
         if (exVisitorId.trim() === '') {
           console.log('Warning: exVisitorId cannot be empty');
           return;
@@ -110,16 +107,10 @@ export function AnalyticsScreen() {
         };
         RelatedDigital.sendCampaignParameters(campaignParameters);
         return;
-
-      case RelatedDigitalEventType.pushMessage:
-        // Assuming you have token, iosAppAlias, googleAppAlias, huaweiAppAlias, and deliveredBadge
-        RelatedDigital.setIsPushNotificationEnabled(
-          true,
-          'RDIOSExample',
-          'relateddigital-android-test',
-          'relateddigital-android-huawei-test',
-          true
-        );
+      case RelatedDigitalEventType.getUser:
+        RelatedDigital.getUser().then((user) => {
+          console.log('User:', user);
+        });
         return;
 
       default:
@@ -130,18 +121,6 @@ export function AnalyticsScreen() {
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.container}>
-        <TextInput
-          style={styles.input}
-          onChangeText={setExVisitorId}
-          value={exVisitorId}
-          placeholder="exVisitorId"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={setEmail}
-          value={email}
-          placeholder="email"
-        />
         {Object.values(RelatedDigitalEventType).map((eventType, index) => (
           <View style={styles.button} key={index}>
             <Button title={eventType} onPress={() => customEvent(eventType)} />
@@ -151,8 +130,6 @@ export function AnalyticsScreen() {
     </SafeAreaView>
   );
 }
-AnalyticsScreen.title = 'Analytics';
-AnalyticsScreen.screenName = 'Analytics';
 
 const styles = StyleSheet.create({
   container: {

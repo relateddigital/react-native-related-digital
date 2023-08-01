@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { StyleSheet, View, Button, TextInput, ScrollView, SafeAreaView, } from 'react-native';
+import { StyleSheet, View, Button, ScrollView, SafeAreaView, } from 'react-native';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
 import { RelatedDigitalEventType, getRandomProductValues, formatPrice, } from '../Helpers';
 export function AnalyticsScreen() {
-    const [exVisitorId, setExVisitorId] = React.useState('');
-    const [email, setEmail] = React.useState('');
     const customEvent = (eventType) => {
         let properties = {};
         const randomProduct = getRandomProductValues();
@@ -12,6 +10,7 @@ export function AnalyticsScreen() {
             case RelatedDigitalEventType.login:
             case RelatedDigitalEventType.signUp:
             case RelatedDigitalEventType.loginWithExtraParameters:
+                const exVisitorId = 'externalVisitorId';
                 if (exVisitorId.trim() === '') {
                     console.log('Warning: exVisitorId cannot be empty');
                     return;
@@ -89,23 +88,19 @@ export function AnalyticsScreen() {
                 };
                 RelatedDigital.sendCampaignParameters(campaignParameters);
                 return;
-            case RelatedDigitalEventType.pushMessage:
-                // Assuming you have token, iosAppAlias, googleAppAlias, huaweiAppAlias, and deliveredBadge
-                RelatedDigital.setIsPushNotificationEnabled(true, 'RDIOSExample', 'relateddigital-android-test', 'relateddigital-android-huawei-test', true);
+            case RelatedDigitalEventType.getUser:
+                RelatedDigital.getUser().then((user) => {
+                    console.log('User:', user);
+                });
                 return;
             default:
                 return;
         }
     };
     return (React.createElement(SafeAreaView, null,
-        React.createElement(ScrollView, { contentContainerStyle: styles.container },
-            React.createElement(TextInput, { style: styles.input, onChangeText: setExVisitorId, value: exVisitorId, placeholder: "exVisitorId" }),
-            React.createElement(TextInput, { style: styles.input, onChangeText: setEmail, value: email, placeholder: "email" }),
-            Object.values(RelatedDigitalEventType).map((eventType, index) => (React.createElement(View, { style: styles.button, key: index },
-                React.createElement(Button, { title: eventType, onPress: () => customEvent(eventType) })))))));
+        React.createElement(ScrollView, { contentContainerStyle: styles.container }, Object.values(RelatedDigitalEventType).map((eventType, index) => (React.createElement(View, { style: styles.button, key: index },
+            React.createElement(Button, { title: eventType, onPress: () => customEvent(eventType) })))))));
 }
-AnalyticsScreen.title = 'Analytics';
-AnalyticsScreen.screenName = 'Analytics';
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,

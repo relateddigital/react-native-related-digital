@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  StyleSheet,
   Text,
   View,
   Button,
@@ -10,21 +9,14 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
+import styles from './../Styles';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
 
 export function PushScreen() {
-  const [isInAppNotificationEnabled, setIsInAppNotificationEnabled] =
-    React.useState(false);
   const [isPushNotificationEnabled, setIsPushNotificationEnabled] =
     React.useState(false);
   const [propertyKey, setPropertyKey] = React.useState('');
   const [propertyValue, setPropertyValue] = React.useState('');
-
-  const handleIsInAppNotificationEnabled = (value: boolean) => {
-    setIsInAppNotificationEnabled(value);
-    RelatedDigital.setIsInAppNotificationEnabled(value);
-  };
-
   const handleIsPushNotificationEnabled = (value: boolean) => {
     setIsPushNotificationEnabled(value);
     RelatedDigital.setIsPushNotificationEnabled(
@@ -70,14 +62,7 @@ export function PushScreen() {
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.heading}>Notifications</Text>
-        <View style={styles.switchRow}>
-          <Text>In-App Notification Enabled:</Text>
-          <Switch
-            value={isInAppNotificationEnabled}
-            onValueChange={handleIsInAppNotificationEnabled}
-          />
-        </View>
+        <Text style={styles.heading}>Push Permissions</Text>
         <View style={styles.switchRow}>
           <Text>Push Notification Enabled:</Text>
           <Switch
@@ -85,6 +70,13 @@ export function PushScreen() {
             onValueChange={handleIsPushNotificationEnabled}
           />
         </View>
+        <View style={styles.sectionHeaderContainer}>
+          <Text style={styles.cellTitle}>{'section.title.name'}</Text>
+          <Text style={styles.sectionSubtitle}>
+            {'section.title.description'}
+          </Text>
+        </View>
+
         <Text style={styles.heading}>User Properties</Text>
         <Text>Property Key:</Text>
         <TextInput
@@ -128,33 +120,3 @@ export function PushScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    padding: 16,
-    backgroundColor: '#fff',
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  switchRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 16,
-  },
-  input: {
-    height: 40,
-    borderColor: 'black',
-    borderWidth: 1,
-    paddingLeft: 8,
-    paddingRight: 8,
-    marginBottom: 16,
-  },
-  button: {
-    marginBottom: 16,
-  },
-});

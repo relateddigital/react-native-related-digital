@@ -18,10 +18,7 @@ target 'RelatedDigitalExample' do
   #    inherit! :complete
   #end
 
-
-  pod 'RNRate', :path => '../node_modules/react-native-rate'
-
-  use_flipper!({ 'Flipper-Folly' => '2.5.3', 'Flipper' => '0.87.0', 'Flipper-RSocket' => '1.3.1' })
+  use_flipper!()
   post_install do |installer|
     flipper_post_install(installer)
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
