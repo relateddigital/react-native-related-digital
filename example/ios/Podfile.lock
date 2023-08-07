@@ -363,7 +363,7 @@ PODS:
     - glog
   - react-native-related-digital (2.0.0):
     - React-Core
-    - RelatedDigitalIOS (= 4.0.28)
+    - RelatedDigitalIOS (= 4.0.29)
   - react-native-safe-area-context (3.4.1):
     - React-Core
   - React-perflogger (0.67.5)
@@ -431,7 +431,7 @@ PODS:
     - React-jsi (= 0.67.5)
     - React-logger (= 0.67.5)
     - React-perflogger (= 0.67.5)
-  - RelatedDigitalIOS (4.0.28)
+  - RelatedDigitalIOS (4.0.29)
   - RNCAsyncStorage (1.19.1):
     - React-Core
   - RNFBAnalytics (12.9.3):
@@ -517,7 +517,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - RelatedDigitalIOS (= 4.0.28)
+  - RelatedDigitalIOS (= 4.0.29)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -688,7 +688,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: e9895ccae253323ca70f693945fecbba091f0abd
   React-jsinspector: ec4fe4f65ccf9d67c8429dda955d3412db8a25ef
   React-logger: 85f4ef06b9723714b2dfa5b0e5502b673b271b58
-  react-native-related-digital: 4182ca038be6cfb1a077df70d2a6e96f30371042
+  react-native-related-digital: cc53a69ade325c2fbf1dbc3ef449f5ee898c450f
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   React-perflogger: d32ee13196f4ae2e4098fb7f8e7ed4f864c6fb0f
   React-RCTActionSheet: 81779c09e34a6a3d6b15783407ba9016a774f535
@@ -702,7 +702,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: c3b8a3245267a3849b0c7cb91a37606bf5f3aa65
   React-runtimeexecutor: 434efc9e5b6d0f14f49867f130b39376c971c1aa
   ReactCommon: a30c2448e5a88bae6fcb0e3da124c14ae493dac1
-  RelatedDigitalIOS: 9fbf52087326baeed31c3b353e1f0b603fc480fd
+  RelatedDigitalIOS: 1e2787af80a85df29ab2709cc39cd9127038290b
   RNCAsyncStorage: f47fe18526970a69c34b548883e1aeceb115e3e1
   RNFBAnalytics: 1b0e5ddb5e99c534403817ae93edb10d685378e9
   RNFBApp: 729c0666395b1953198dc4a1ec6deb8fbe1c302e
@@ -714,6 +714,6 @@ SPEC CHECKSUMS:
   Yoga: 099a946cbf84c9b32ffdc4278d72db26710ecf92
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 9930a1b13d405028a8a22cf0fab179e447b491cb
+PODFILE CHECKSUM: acc7a2f5271fd881664ab363a2bcc6a25c851ecf
 
 COCOAPODS: 1.12.1

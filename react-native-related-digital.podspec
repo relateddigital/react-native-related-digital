@@ -18,6 +18,6 @@ Pod::Spec.new do |s|
 
 
   s.dependency "React-Core"
-  s.dependency "RelatedDigitalIOS", "4.0.28"
+  s.dependency "RelatedDigitalIOS", "4.0.29"
 
 end
