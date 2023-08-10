@@ -49,8 +49,8 @@ export default class Home extends Component {
       subsStatus:null,
       pushPermit:false,
       userData: {
-        "Keyid": "",
-        "Email": "",
+        "keyID": "",
+        "email": "",
         "ConsentTime": "2029-01-01 10:00:00",
         "RecipientType": "BIREYSEL",
         "ConsentSource": "HS_MOBIL",
@@ -200,18 +200,18 @@ export default class Home extends Component {
 
 
   login = async () => {
-    if (!this.state.userData.Email) {
+    if (!this.state.userData.email) {
       Alert.alert("Hata", "Email adresinizi girin");
       return false
     }
 
     this.setState({subsStatus:true})
 
-    let userData = { ...this.state.userData, "PushPermit": "Y" }
+    let userData = { ...this.state.userData, "pushPermit": "Y" }
 
     euroMessageApi.setUserProperties(userData).then(() => {
       euroMessageApi.subscribe(this.state.token)
-      visilabsApi.customEvent("Login", { 'OM.exVisitorID': this.state.userData.Keyid, 'OM.b_login': '1' })
+      visilabsApi.customEvent("Login", { 'OM.exVisitorID': this.state.userData.keyID, 'OM.b_login': '1' })
       Alert.alert("Başarılı", "Başarılı şekilde giriş yaptınız.");
     })
   }
@@ -224,7 +224,7 @@ export default class Home extends Component {
 
   togglePushPermit = (value) => {
     this.setState({ pushPermit: value })
-    let userData = { ...this.state.userData, "PushPermit": (value ? "Y" : "N") }
+    let userData = { ...this.state.userData, "pushPermit": (value ? "Y" : "N") }
 
     euroMessageApi.setUserProperties(userData).then(() => {
       euroMessageApi.subscribe(this.state.token)
@@ -233,7 +233,7 @@ export default class Home extends Component {
   }
 
   changeEmail = (email) => {
-    let userData = { ...this.state.userData, "Email": email, "Keyid": email }
+    let userData = { ...this.state.userData, "email": email, "keyID": email }
 
     this.setState({ userData,subsStatus:false })
   }
@@ -267,21 +267,21 @@ export default class Home extends Component {
       }
       )
 
-    console.log("Euromsg - Keyid", result.euromsg.extra.Keyid);
-    console.log("Euromsg - Email", result.euromsg.extra.Email);
-    console.log("Euromsg - PushPermit", result.euromsg.extra.PushPermit);
+    console.log("Euromsg - keyID", result.euromsg.extra.keyID);
+    console.log("Euromsg - email", result.euromsg.extra.email);
+    console.log("Euromsg - pushPermit", result.euromsg.extra.pushPermit);
 
     let userData = { 
       ...this.state.userData, 
-      "Email": result.euromsg.extra.Email, 
-      "Keyid": result.euromsg.extra.Keyid,
-      "PushPermit": result.euromsg.extra.PushPermit
+      "email": result.euromsg.extra.email, 
+      "keyID": result.euromsg.extra.keyID,
+      "pushPermit": result.euromsg.extra.pushPermit
     }
 
     this.setState({ 
       userData,
-      subsStatus: (result.euromsg.extra.Email ? true : false) ,
-      pushPermit: (result.euromsg.extra.PushPermit ? (result.euromsg.extra.PushPermit == "Y" ? true : false ) : false)
+      subsStatus: (result.euromsg.extra.email ? true : false) ,
+      pushPermit: (result.euromsg.extra.pushPermit ? (result.euromsg.extra.pushPermit == "Y" ? true : false ) : false)
     })
   }
 
@@ -613,9 +613,9 @@ export default class Home extends Component {
 
   copyOperations = () => {
     const tmpUserData = {
-      email:this.state.userData.Email,
-      keyid:this.state.userData.Keyid,
-      pushPermit:this.state.userData.PushPermit,
+      email:this.state.userData.email,
+      keyid:this.state.userData.keyID,
+      pushPermit:this.state.userData.pushPermit,
       token:this.state.token
     }
 
@@ -643,7 +643,7 @@ export default class Home extends Component {
   }
 
   subsControl = () => { ////////
-    let status = (this.state.userData.Email && this.state.subsStatus) ? true : false;
+    let status = (this.state.userData.email && this.state.subsStatus) ? true : false;
     let statusData = {
       title: "Üyelik Durumu",
       status,
@@ -722,7 +722,7 @@ export default class Home extends Component {
         style={this.styles.textInput}
         placeholder={"Email"}
         placeholderTextColor="gray" 
-        value={this.state.userData.Email}
+        value={this.state.userData.email}
         onChangeText={(v) => { this.changeEmail(v) }}
         editable
       />
@@ -925,8 +925,8 @@ export default class Home extends Component {
           </View>
           <View style={this.styles.tokenContainer}>
             {this.title("User Details", 18)}
-            <Text style={this.styles.token}>{'Email: ' + (this.state.userData.Email ? this.state.userData.Email : "Anonim")}</Text>
-            <Text style={this.styles.token}>{'Keyid(ExVisitorID): ' + (this.state.userData.Keyid ? this.state.userData.Keyid : "Anonim")}</Text>
+            <Text style={this.styles.token}>{'Email: ' + (this.state.userData.email ? this.state.userData.email : "Anonim")}</Text>
+            <Text style={this.styles.token}>{'keyID(ExVisitorID): ' + (this.state.userData.keyID ? this.state.userData.keyID : "Anonim")}</Text>
             <Text style={this.styles.token}>{'Token: ' + this.state.token}</Text>
             <CustomButton mini style={{ width: "90%" }} data={{ name: "Copy User Data" }} action={()=>{ this.copyOperations() }} />
           </View>

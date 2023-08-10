@@ -99,7 +99,11 @@ class EuroMessageApi {
             AsyncStorage.setItem(this.expireSubscribeCheckDateKey, (new Date().getTime() + diffDays).toString())
 
             const result = await fetchAsync(this.euroMessageSubscriptionUrl, 'POST', parametersSubscription)
-            this.sendLogToGraylog("verbose", JSON.stringify(parametersSubscription), "EuroMessageApi.subscribe")
+            if (parametersSubscription.extra?.keyID) {
+                if (parametersSubscription.extra.keyID != "" && parametersSubscription.extra.keyID.indexOf("-") < 0) {
+                    this.sendLogToGraylog("verbose", JSON.stringify(parametersSubscription), "EuroMessageApi.subscribe")
+                }
+            }
             let lastResult
 
             if (result && (result.status === 200 || result.status === 201)) {
@@ -167,13 +171,16 @@ class EuroMessageApi {
         extra = extra ? JSON.parse(extra) : {}
         extra[key] = value
 
-        const data = {
-            extraneousKey: key,
-            extraneousValue: value,
-            extraResult: extra
+        if (key && key.toLowerCase() == 'keyid') {
+            if (value && value.indexOf('-') < 0) {
+                const data = {
+                    key,
+                    value
+                }
+                this.sendLogToGraylog("verbose", JSON.stringify(data), "EuroMessageApi.setUserProperty")
+            }
         }
 
-        this.sendLogToGraylog("verbose", JSON.stringify(data), "EuroMessageApi.setUserProperty")
 
         await AsyncStorage.setItem(this.subscriptionExtraKey, JSON.stringify(extra))
     }
@@ -183,23 +190,27 @@ class EuroMessageApi {
             return
         }
 
-        Object.entries(properties).forEach(
-            ([key, value]) =>
-                (value !== null && value !== undefined && typeof value !== "object") &&
-                (setUserPropertyNative(key, value))
-        );
-
         let extra = await AsyncStorage.getItem(this.subscriptionExtraKey)
         extra = extra ? JSON.parse(extra) : {}
         extra = { ...extra, ...properties };
 
+        Object.entries(properties).forEach(
+            ([key, value]) => {
+                if (value !== null && value !== undefined && typeof value !== "object") {
+                    setUserPropertyNative(key, value)
+                    if (key && key.toLowerCase() == 'keyid') {
+                        if (value && value.indexOf('-') < 0) {
+                            const data = {
+                                extraneousProperties: properties,
+                                extraResult: extra
+                            }
+                            this.sendLogToGraylog("verbose", JSON.stringify(data), "EuroMessageApi.setUserProperties")
+                        }
+                    }
+                }
+            }
+        );
 
-        const data = {
-            extraneousProperties: properties,
-            extraResult: extra
-        }
-
-        this.sendLogToGraylog("verbose", JSON.stringify(data), "EuroMessageApi.setUserProperties")
         await AsyncStorage.setItem(this.subscriptionExtraKey, JSON.stringify(extra))
 
         return Promise.resolve(null)
