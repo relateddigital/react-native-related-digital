@@ -514,4 +514,16 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
             promise.resolve(false);
         }
     }
+
+    @ReactMethod
+    public void sendLogToGraylog(String logLevel, String logMessage, String logPlace) {
+        try {
+            EuroMobileManager.getInstance().sendLogToGraylog(logLevel, logMessage, logPlace);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    
 }

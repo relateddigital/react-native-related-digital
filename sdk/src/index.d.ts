@@ -45,6 +45,7 @@ export class EuroMessageApi {
     setUserProperties(properties: object): Promise<void>;
     getPushMessages(): Promise<any>;
     getSubscription(): Promise<void>;
+    sendLogToGraylog(logLevel: string, logMessage: string, logPlace: string): Promise<void>;
 };
 export class VisilabsApi {
     constructor(

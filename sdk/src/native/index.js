@@ -22,6 +22,8 @@ const getPushMessagesNative = RelatedDigitalPushModule.getPushMessages
 const getUserNative = RelatedDigitalPushModule.getUser
 const getSubscriptionNative = RelatedDigitalPushModule.getSubscription
 const setUserPropertyNative = RelatedDigitalPushModule.setUserProperty
+const sendLogToGraylogNative = RelatedDigitalPushModule.sendLogToGraylog
+
 
 const RDStoryViewNative = requireNativeComponent('StoryView')
 const RDBannerViewNative = requireNativeComponent('BannerView')
@@ -50,5 +52,6 @@ export {
     getPushMessagesNative,
     getUserNative,
     getSubscriptionNative,
-    setUserPropertyNative
+    setUserPropertyNative,
+    sendLogToGraylogNative
 }

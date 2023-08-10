@@ -65,9 +65,9 @@ public class MainApplication extends Application implements ReactApplication {
   private void initEuroMessage() {
     String appAlias = "RnPushSdk";
       String huaweiAppAlias = "rnsdk-client-huawei";
-      String organizationId = "676D325830564761676D453D";
-      String siteId = "356467332F6533766975593D";
-      String datasource = "visistore";
+      String organizationId = "6D754E4971557457324B493D";
+      String siteId = "556173334F5475694E6F453D";
+      String datasource = "uspoloassn";
       String channel = "Android";
       String segmentUrl = "http://lgr.visilabs.net";
       String realtimeUrl = "http://rt.visilabs.net";
