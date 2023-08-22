@@ -8,8 +8,6 @@
 #import <Foundation/Foundation.h>
 #import <React/RCTEventEmitter.h>
 
-
-
 /**
  * React module for Related Digital
  */

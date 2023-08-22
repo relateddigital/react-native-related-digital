@@ -25,6 +25,7 @@ public typealias RNCRemoteNotificationCallback = (UIBackgroundFetchResult) -> Vo
             withProfileId:
             withDataSource:
             withAppAlias:
+            withInAppNotificationsEnabled:
             withEnablePushNotification:
             withAppGroupsKey:
             withDeliveredBadge:
@@ -35,6 +36,7 @@ public typealias RNCRemoteNotificationCallback = (UIBackgroundFetchResult) -> Vo
     )
     public func initRelatedDigital(
         organizationId: NSString, profileId: NSString, dataSource: NSString, appAlias: NSString,
+        inAppNotificationsEnabled: DarwinBoolean,
         enablePushNotification: DarwinBoolean, appGroupsKey: NSString, deliveredBadge: DarwinBoolean,
         enableGeofence: DarwinBoolean, askLocationPermissionAtStart: DarwinBoolean, loggingEnabled: DarwinBoolean,
         launchOptions: NSDictionary?
@@ -46,7 +48,7 @@ public typealias RNCRemoteNotificationCallback = (UIBackgroundFetchResult) -> Vo
             organizationId: organizationId as String, profileId: profileId as String,
             dataSource: dataSource as String, launchOptions: self.launchOptions,
             askLocationPermmissionAtStart: askLocationPermissionAtStart.boolValue)
-        
+        NativeRD.inAppNotificationsEnabled = inAppNotificationsEnabled.boolValue
         NativeRD.enablePushNotifications(
             appAlias: appAlias as String, launchOptions: self.launchOptions,
             appGroupsKey: appGroupsKey as String, deliveredBadge: deliveredBadge.boolValue)
