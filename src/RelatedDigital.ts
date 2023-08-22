@@ -2,6 +2,11 @@
 
 import { NativeModules } from 'react-native';
 import { RDEventEmitter } from './RDEventEmitter';
+import type {
+  RDRecommendationFilter,
+  RDRecommendationResponse,
+} from './models/RDRecommendation';
+import type { RDFavoriteAttributeActionResponse } from './models/RDFavoriteAttribute';
 
 export type RDProps = Record<string, string>;
 
@@ -9,7 +14,7 @@ const RDModule = NativeModules.RelatedDigitalReactModule;
 
 const EventEmitter = new RDEventEmitter();
 
-export enum EventType {
+export enum RDEventType {
   NotificationRegistered = 'com.relateddigital.notification_registered',
   NotificationReceived = 'com.relateddigital.notification_received',
   NotificationOpened = 'com.relateddigital.notification_opened',
@@ -35,13 +40,13 @@ export class Subscription {
  * Converts between public and internal event types.
  * @hidden
  */
-function convertEventEnum(type: EventType): string {
-  if (type === EventType.NotificationRegistered) {
-    return EventType.NotificationRegistered;
-  } else if (type === EventType.NotificationReceived) {
-    return EventType.NotificationReceived;
-  } else if (type === EventType.NotificationOpened) {
-    return EventType.NotificationOpened;
+function convertEventEnum(type: RDEventType): string {
+  if (type === RDEventType.NotificationRegistered) {
+    return RDEventType.NotificationRegistered;
+  } else if (type === RDEventType.NotificationReceived) {
+    return RDEventType.NotificationReceived;
+  } else if (type === RDEventType.NotificationOpened) {
+    return RDEventType.NotificationOpened;
   }
 
   throw new Error('Invalid event name: ' + type);
@@ -77,6 +82,12 @@ export class RelatedDigital {
   static askForNotificationPermission(): void {
     RDModule.askForNotificationPermission();
   }
+  static askForNotificationPermissionProvisional(
+    register: Boolean = false
+  ): void {
+    RDModule.askForNotificationPermissionProvisional(register);
+  }
+
   static setIsPushNotificationEnabled(
     isPushNotificationEnabled: boolean,
     iosAppAlias: string,
@@ -129,6 +140,9 @@ export class RelatedDigital {
   static getPushMessages(): Promise<any> {
     return RDModule.getPushMessages();
   }
+  static getPushMessagesWithID(): Promise<any> {
+    return RDModule.getPushMessagesWithID();
+  }
   static getToken(): Promise<string> {
     return RDModule.getToken();
   }
@@ -136,7 +150,7 @@ export class RelatedDigital {
     return RDModule.getUser();
   }
   static addListener(
-    eventType: EventType,
+    eventType: RDEventType,
     listener: (...args: any[]) => any
   ): Subscription {
     EventEmitter.addListener(convertEventEnum(eventType), listener);
@@ -145,12 +159,51 @@ export class RelatedDigital {
     });
   }
   static removeListener(
-    eventType: EventType,
+    eventType: RDEventType,
     listener: (...args: any[]) => any
   ) {
     EventEmitter.removeListener(convertEventEnum(eventType), listener);
   }
-  static removeAllListeners(eventType: EventType) {
+  static removeAllListeners(eventType: RDEventType) {
     EventEmitter.removeAllListeners(convertEventEnum(eventType));
+  }
+
+  static requestIDFA(): void {
+    RDModule.requestIDFA();
+  }
+
+  static sendLocationPermission(): void {
+    RDModule.sendLocationPermission();
+  }
+
+  static requestLocationPermissions(): void {
+    RDModule.requestLocationPermissions();
+  }
+
+  static sendTheListOfAppsInstalled(): void {
+    RDModule.sendTheListOfAppsInstalled();
+  }
+
+  static setNotificationLoginID(notificationLoginID: string | null): void {
+    RDModule.setNotificationLoginID(notificationLoginID);
+  }
+
+  static recommend(
+    zoneId: string,
+    productCode: string | null = null,
+    filters: RDRecommendationFilter[] = [],
+    properties: RDProps
+  ): Promise<RDRecommendationResponse> {
+    return RDModule.recommend(zoneId, productCode, filters, properties);
+  }
+
+  static trackRecommendationClick(qs: string): void {
+    RDModule.trackRecommendationClick(qs);
+  }
+
+  static getFavoriteAttributeActions(
+    actionId: string | null = null
+  ): Promise<RDFavoriteAttributeActionResponse> {
+    return RDModule.getFavoriteAttributeActions(actionId);
   }
 }

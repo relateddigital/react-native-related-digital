@@ -16,6 +16,8 @@ import com.relateddigital.relateddigital_android.push.PushMessageInterface
 import org.json.JSONObject
 
 
+//sendPushNotificationOpenReport
+
 class RelatedDigitalModule internal constructor(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
   override fun getName(): String {

@@ -25,7 +25,7 @@ public typealias RNCRemoteNotificationCallback = (UIBackgroundFetchResult) -> Vo
             withProfileId:
             withDataSource:
             withAppAlias:
-            withInAppNotificationsEnabled:
+            withInAppNotificationEnabled:
             withEnablePushNotification:
             withAppGroupsKey:
             withDeliveredBadge:
