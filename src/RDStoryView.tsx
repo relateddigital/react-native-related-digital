@@ -1,93 +1,29 @@
+/* Copyright Airship and Contributors */
+
 'use strict';
 
 import React from 'react';
-import {
-  requireNativeComponent,
-  NativeSyntheticEvent,
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+import { requireNativeComponent, NativeSyntheticEvent } from 'react-native';
 
-const RNRDStoryView = requireNativeComponent<RNRDStoryViewProps>('RDStoryView');
+const RDRCTStoryView =
+  requireNativeComponent<RDRCTStoryViewProps>('RDRCTStoryView');
 
-interface RNRDStoryViewProps {
-  actionId: string;
-  onItemClicked: (event: NativeSyntheticEvent<RDStoryItemClickedEvent>) => void;
-  style?: any;
-  //onLoadStarted: (event: NativeSyntheticEvent<RDStoryLoadStartedEvent>) => void;
-  //onLoadFinished: (
-  //  event: NativeSyntheticEvent<RDStoryLoadFinishedEvent>
-  //) => void;
-  //onLoadError: (event: NativeSyntheticEvent<RDStoryLoadErrorEvent>) => void;
-  //onClose: (event: NativeSyntheticEvent<RDStoryClosedEvent>) => void;
+interface RDRCTStoryViewProps {
+  actionId: string | null;
+  onItemClicked: (event: NativeSyntheticEvent<StoryItemClickedEvent>) => void;
 }
 
-export interface RDStoryItemClickedEvent {
-  actionId: string;
+export interface StoryItemClickedEvent {
+  url: string;
 }
 
-export enum RDStoryLoadError {
-  NotAvailable = 'MESSAGE_NOT_AVAILABLE',
-  FetchFailed = 'FAILED_TO_FETCH_MESSAGE',
-  LoadFailed = 'MESSAGE_LOAD_FAILED',
+export interface StoryViewProps {
+  actionId: string | null;
+  onItemClicked: (event: StoryItemClickedEvent) => void;
 }
 
-export interface RDStoryLoadStartedEvent {
-  actionId: string;
-}
-
-export interface RDStoryLoadFinishedEvent {
-  actionId: string;
-}
-
-export interface RDStoryLoadErrorEvent {
-  actionId: string;
-  retryable: boolean;
-  error: RDStoryLoadError;
-}
-
-export interface RDStoryClosedEvent {
-  actionId: string;
-}
-
-export interface RDStoryViewProps {
-  actionId: string;
-  onItemClicked: (event: RDStoryItemClickedEvent) => void;
-  style?: any;
-}
-
-export class RDStoryView extends React.Component<RDStoryViewProps> {
-  /*
-  _onLoadStarted = (event: NativeSyntheticEvent<RDStoryLoadStartedEvent>) => {
-    if (!this.props.onLoadStarted) {
-      return;
-    }
-    this.props.onLoadStarted(event.nativeEvent);
-  };
-
-  _onLoadFinished = (event: NativeSyntheticEvent<RDStoryLoadFinishedEvent>) => {
-    if (!this.props.onLoadFinished) {
-      return;
-    }
-    this.props.onLoadFinished(event.nativeEvent);
-  };
-
-  _onLoadError = (event: NativeSyntheticEvent<RDStoryLoadErrorEvent>) => {
-    if (!this.props.onLoadError) {
-      return;
-    }
-    this.props.onLoadError(event.nativeEvent);
-  };
-
-  _onClose = (event: NativeSyntheticEvent<RDStoryClosedEvent>) => {
-    if (!this.props.onClose) {
-      return;
-    }
-    this.props.onClose(event.nativeEvent);
-  };
-  */
-
-  _onItemClicked = (event: NativeSyntheticEvent<RDStoryItemClickedEvent>) => {
+export class StoryView extends React.Component<StoryViewProps> {
+  _onItemClicked = (event: NativeSyntheticEvent<StoryItemClickedEvent>) => {
     if (!this.props.onItemClicked) {
       return;
     }
@@ -96,25 +32,11 @@ export class RDStoryView extends React.Component<RDStoryViewProps> {
 
   render() {
     return (
-      <RNRDStoryView
+      <RDRCTStoryView
         {...this.props}
+        actionId={this.props.actionId}
         onItemClicked={this._onItemClicked}
-        style={styles.container}
-        //onLoadError={this._onLoadError}
-        //onLoadStarted={this._onLoadStarted}
-        //onLoadFinished={this._onLoadFinished}
-        //onClose={this._onClose}
       />
     );
   }
 }
-const { width } = Dimensions.get('window');
-const height = 110;
-
-const styles = StyleSheet.create({
-  container: {
-    minWidth: width,
-    minHeight: height,
-    // alignSelf: 'stretch'
-  },
-});

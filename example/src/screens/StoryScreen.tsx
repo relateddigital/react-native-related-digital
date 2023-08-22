@@ -6,7 +6,7 @@ import {
   Button,
   View,
 } from 'react-native';
-import { RDStoryView } from '@relateddigital/react-native-huawei';
+import { StoryView } from '@relateddigital/react-native-huawei';
 
 export function StoryScreen() {
   function showStory() {}
@@ -17,11 +17,14 @@ export function StoryScreen() {
         <View style={styles.button}>
           <Button title={'Show Story'} onPress={() => showStory()} />
         </View>
-        <RDStoryView
-          style={styles.container}
-          onItemClicked={(event) => console.log(event)}
-          actionId={'459'}
-        />
+        <View style={styles.button}>
+          <StoryView
+            actionId={'459'}
+            onItemClicked={(event) => console.log(event)}
+            // @ts-ignore
+            style={{ flex: 1 }}
+          />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -54,5 +57,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: 16,
+  },
+  backgroundContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#e00070',
   },
 });
