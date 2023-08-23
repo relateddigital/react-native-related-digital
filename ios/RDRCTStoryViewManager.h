@@ -6,7 +6,6 @@
 //
 
 #import <React/RCTViewManager.h>
-#import "react_native_related_digital-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
