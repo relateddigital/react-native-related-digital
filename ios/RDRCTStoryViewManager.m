@@ -6,10 +6,11 @@
 //
 
 #import "RDRCTStoryViewManager.h"
-#import "RDRCTStoryView.h"
 
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
+
+#import "react_native_related_digital-Swift.h"
 
 @implementation RDRCTStoryViewManager
 

@@ -14,7 +14,7 @@ interface RDRCTStoryViewProps {
 }
 
 export interface StoryItemClickedEvent {
-  url: string;
+  storyItemUrl: string;
 }
 
 export interface StoryViewProps {

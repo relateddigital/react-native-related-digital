@@ -5,26 +5,48 @@ import {
   SafeAreaView,
   Button,
   View,
+  TextInput,
 } from 'react-native';
 import { StoryView } from '@relateddigital/react-native-huawei';
 
 export function StoryScreen() {
-  function showStory() {}
+  const [showingStory, setShowingStory] = React.useState(false);
+  const [actionId, setActionId] = React.useState('310');
+
+  function showStory() {
+    setShowingStory(true);
+  }
+
+  function showNpsWithNumbers() {}
 
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.container}>
+        <TextInput
+          style={styles.input}
+          placeholder="Action Id(optional)"
+          value={actionId}
+          onChangeText={setActionId}
+        />
         <View style={styles.button}>
           <Button title={'Show Story'} onPress={() => showStory()} />
         </View>
         <View style={styles.button}>
-          <StoryView
-            actionId={'459'}
-            onItemClicked={(event) => console.log(event)}
-            // @ts-ignore
-            style={{ flex: 1 }}
+          <Button
+            title={'Show Nps With Numbers'}
+            onPress={() => showNpsWithNumbers()}
           />
         </View>
+        {showingStory && (
+          <View style={styles.storyBackgroundContainer}>
+            <StoryView
+              actionId={actionId}
+              onItemClicked={(event) => console.log(event)}
+              // @ts-ignore
+              style={{ flex: 1 }}
+            />
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -33,7 +55,7 @@ export function StoryScreen() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    padding: 16,
+    padding: 0,
     backgroundColor: '#fff',
   },
   heading: {
@@ -53,14 +75,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingLeft: 8,
     paddingRight: 8,
-    marginBottom: 16,
+    margin: 16,
   },
   button: {
     marginBottom: 16,
   },
-  backgroundContainer: {
+  storyBackgroundContainer: {
+    height: 110,
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#e00070',
+    flexDirection: 'row',
+    backgroundColor: 'white',
   },
 });

@@ -62,8 +62,6 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
 
         const logo = getTabLogo(route.name as ScreenType);
         const selected = isSelected(route.name);
-        console.log(route.name);
-        console.log(logo);
 
         return (
           <TouchableOpacity

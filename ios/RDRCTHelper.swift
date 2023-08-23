@@ -199,9 +199,9 @@ private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
     
     
     @objc(getStoryView:withUrlDelegate:withCompletionHandler:)
-    public func getStoryView(actionId: String, urlDelegate: RDStoryURLDelegate, completionHandler: @escaping (RDRCTStoryView?) -> Void) {
+    public func getStoryView(actionId: String, urlDelegate: RDStoryURLDelegate, completionHandler: @escaping (RDStoryHomeView?) -> Void) {
         let actionId = Int(actionId)
-        NativeRD.getStoryViewAsync(actionId:actionId, urlDelegate: nil) { storyHomeView in
+        NativeRD.getStoryViewAsync(actionId: 6, urlDelegate: urlDelegate) { storyHomeView in
             completionHandler(storyHomeView)
         }
     }
