@@ -148,13 +148,14 @@ class EuroMessageApi {
         return await Promise.resolve(null)
     }
 
-    async reportRead(pushId) {
+    async reportRead(pushId, emPushSp) {
         let subscriptionInfo = await AsyncStorage.getItem(this.subscriptionKey)
         subscriptionInfo = subscriptionInfo ? JSON.parse(subscriptionInfo) : null
 
         const parametersRetention = {
             key: this.appAlias,
             pushId,
+            emPushSp,
             status: 'O',
             token: subscriptionInfo && subscriptionInfo.token
         }

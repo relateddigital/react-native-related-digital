@@ -222,8 +222,9 @@ RCT_REMAP_METHOD(customEvent,
 	[RelatedDigitalBridge customEventWithPageName:pageName properties:properties];
 }
 
-RCT_REMAP_METHOD(logout,logoutNative){
-    [RelatedDigitalBridge logoutNative];
+RCT_REMAP_METHOD(logout,
+                  logoutNativeWithOnlyEM: (BOOL *)onlyEM){
+    [RelatedDigitalBridge logoutNativeWithOnlyEM:onlyEM];
 }
 
 RCT_REMAP_METHOD(getRecommendations,

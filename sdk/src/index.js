@@ -41,7 +41,8 @@ const addEventListener = (type, handler, readHandler, euroMessageApi, visilabsAp
         const readListener = RelatedDigitalPushNotificationEmitter.addListener(
             DEVICE_NOTIF_EVENT,
             async (notification) => {
-              const readResult = await euroMessageApi.reportRead(notification.pushId)
+              const emPushSp = Platform.OS == 'android' ? notification.params?.emPushSp : notification.emPushSp;
+              const readResult = await euroMessageApi.reportRead(notification.pushId, emPushSp)
 
               if(readHandler && typeof readHandler === 'function') {
                 readHandler(notification)
@@ -164,8 +165,8 @@ const logToConsole = (value) => {
     _log = value
 }
 
-const logout = async () => {
-    await logoutNative()
+const logout = async (onlyEM) => {
+    await logoutNative(onlyEM)
     removeAllCookies()
 }
 

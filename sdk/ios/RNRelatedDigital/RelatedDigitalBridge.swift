@@ -19,8 +19,10 @@ import Euromsg
 		Visilabs.callAPI().customEvent(pageName, properties: properties)
 	}
 
-	@objc public static func logoutNative() -> Void {
-		Visilabs.callAPI().logout()
+	@objc public static func logoutNative(onlyEM: Bool) -> Void {
+		if (!onlyEM) {
+			Visilabs.callAPI().logout()
+		}
 		Euromsg.logout()
 	}
 

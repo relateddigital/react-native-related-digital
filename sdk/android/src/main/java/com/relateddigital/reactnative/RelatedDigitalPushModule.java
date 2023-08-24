@@ -289,16 +289,19 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
         Visilabs.CallAPI().customEvent(pageName, params, getCurrentActivity());
     }
 
-     @ReactMethod
-    public void logout() {
-        try{
-            Visilabs.CallAPI().logout();
+    @ReactMethod
+    public void logout(boolean onlyEM) {
+        try {
+            Log.i("RDPushModuleJava onlyEM", Boolean.toString(onlyEM));
+            if (!onlyEM) {
+                Visilabs.CallAPI().logout();
+            }
             EuroMobileManager.getInstance().logout(reactContext);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.e("RDPushModuleJava", e.getMessage());
         }
     }
+
 
     @ReactMethod
     public void getRecommendations(String zoneId, String productCode, ReadableMap properties, ReadableArray filters, final Promise promise) {

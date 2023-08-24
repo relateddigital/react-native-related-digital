@@ -25,7 +25,7 @@ import {
 import CustomButton from './components/CustomButton'
 import Widget from './components/Widget'
 
-
+// ios test alias : rniostestapptest
 const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapp'
 
 const siteId = "556173334F5475694E6F453D";
@@ -207,17 +207,20 @@ export default class Home extends Component {
 
     this.setState({subsStatus:true})
 
-    let userData = { ...this.state.userData, "pushPermit": "Y" }
+    let userData = { ...this.state.userData, "pushPermit": (this.state.pushPermit ? "Y" : "N")  }
+
+    console.log("userData",userData);
 
     euroMessageApi.setUserProperties(userData).then(() => {
       euroMessageApi.subscribe(this.state.token)
       visilabsApi.customEvent("Login", { 'OM.exVisitorID': this.state.userData.keyID, 'OM.b_login': '1' })
       Alert.alert("Başarılı", "Başarılı şekilde giriş yaptınız.");
+      this.getUser(false);
     })
   }
 
   logout = async () => {
-    logout();
+    logout(true);
     alert("Success logout");
     this.getUser(false);
   }
@@ -267,22 +270,26 @@ export default class Home extends Component {
       }
       )
 
-    console.log("Euromsg - keyID", result.euromsg.extra.keyID);
-    console.log("Euromsg - email", result.euromsg.extra.email);
-    console.log("Euromsg - pushPermit", result.euromsg.extra.pushPermit);
+    console.info("Euromsg", result);
+    console.info("Euromsg js", result.js?.extra);
+    // console.warn("Euromsg - keyID", result.euromsg.extra.keyID);
+    // console.log("Euromsg - email", result.euromsg.extra.email);
+    // console.log("Euromsg - pushPermit", result.euromsg.extra.pushPermit);
 
-    let userData = { 
-      ...this.state.userData, 
-      "email": result.euromsg.extra.email, 
-      "keyID": result.euromsg.extra.keyID,
-      "pushPermit": result.euromsg.extra.pushPermit
+    if (result.js.euromsgsubextra) {
+      let userData = { 
+        ...this.state.userData, 
+        "email": result.euromsg.extra.email, 
+        "keyID": result.euromsg.extra.keyID,
+        "pushPermit": result.euromsg.extra.pushPermit
+      }
+  
+      this.setState({ 
+        userData,
+        subsStatus: (result.euromsg.extra.email ? true : false) ,
+        pushPermit: (result.euromsg.extra.pushPermit ? (result.euromsg.extra.pushPermit == "Y" ? true : false ) : false)
+      })
     }
-
-    this.setState({ 
-      userData,
-      subsStatus: (result.euromsg.extra.email ? true : false) ,
-      pushPermit: (result.euromsg.extra.pushPermit ? (result.euromsg.extra.pushPermit == "Y" ? true : false ) : false)
-    })
   }
 
   getRecommendations = async () => {
