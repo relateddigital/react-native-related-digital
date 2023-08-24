@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  StyleSheet,
   Text,
   View,
   Button,
@@ -10,6 +9,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
+import styles from './../Styles';
 
 export function RecommendationScreen() {
   const [propertyKey, setPropertyKey] = React.useState('');
@@ -92,33 +92,3 @@ export function RecommendationScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    padding: 16,
-    backgroundColor: '#fff',
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  switchRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 16,
-  },
-  input: {
-    height: 40,
-    borderColor: 'black',
-    borderWidth: 1,
-    paddingLeft: 8,
-    paddingRight: 8,
-    marginBottom: 16,
-  },
-  button: {
-    marginBottom: 16,
-  },
-});

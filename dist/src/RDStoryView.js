@@ -1,43 +1,9 @@
+/* Copyright Airship and Contributors */
 'use strict';
 import React from 'react';
-import { requireNativeComponent, StyleSheet, Dimensions, } from 'react-native';
-const RNRDStoryView = requireNativeComponent('RDStoryView');
-export var RDStoryLoadError;
-(function (RDStoryLoadError) {
-    RDStoryLoadError["NotAvailable"] = "MESSAGE_NOT_AVAILABLE";
-    RDStoryLoadError["FetchFailed"] = "FAILED_TO_FETCH_MESSAGE";
-    RDStoryLoadError["LoadFailed"] = "MESSAGE_LOAD_FAILED";
-})(RDStoryLoadError || (RDStoryLoadError = {}));
-export class RDStoryView extends React.Component {
-    /*
-    _onLoadStarted = (event: NativeSyntheticEvent<RDStoryLoadStartedEvent>) => {
-      if (!this.props.onLoadStarted) {
-        return;
-      }
-      this.props.onLoadStarted(event.nativeEvent);
-    };
-  
-    _onLoadFinished = (event: NativeSyntheticEvent<RDStoryLoadFinishedEvent>) => {
-      if (!this.props.onLoadFinished) {
-        return;
-      }
-      this.props.onLoadFinished(event.nativeEvent);
-    };
-  
-    _onLoadError = (event: NativeSyntheticEvent<RDStoryLoadErrorEvent>) => {
-      if (!this.props.onLoadError) {
-        return;
-      }
-      this.props.onLoadError(event.nativeEvent);
-    };
-  
-    _onClose = (event: NativeSyntheticEvent<RDStoryClosedEvent>) => {
-      if (!this.props.onClose) {
-        return;
-      }
-      this.props.onClose(event.nativeEvent);
-    };
-    */
+import { requireNativeComponent } from 'react-native';
+const RDRCTStoryView = requireNativeComponent('RDRCTStoryView');
+export class StoryView extends React.Component {
     _onItemClicked = (event) => {
         if (!this.props.onItemClicked) {
             return;
@@ -45,15 +11,6 @@ export class RDStoryView extends React.Component {
         this.props.onItemClicked(event.nativeEvent);
     };
     render() {
-        return (React.createElement(RNRDStoryView, { ...this.props, onItemClicked: this._onItemClicked, style: styles.container }));
+        return (React.createElement(RDRCTStoryView, { ...this.props, actionId: this.props.actionId, onItemClicked: this._onItemClicked }));
     }
 }
-const { width } = Dimensions.get('window');
-const height = 110;
-const styles = StyleSheet.create({
-    container: {
-        minWidth: width,
-        minHeight: height,
-        // alignSelf: 'stretch'
-    },
-});

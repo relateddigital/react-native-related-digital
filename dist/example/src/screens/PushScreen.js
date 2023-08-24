@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text, View, Button, TextInput, ScrollView, Switch, Alert, SafeAreaView, } from 'react-native';
-import styles from './../Styles';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
+import styles from './../Styles';
 export function PushScreen() {
     const [isPushNotificationEnabled, setIsPushNotificationEnabled] = React.useState(false);
     const [propertyKey, setPropertyKey] = React.useState('');

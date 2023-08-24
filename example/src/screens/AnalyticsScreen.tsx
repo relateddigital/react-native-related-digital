@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  View,
-  Button,
-  ScrollView,
-  SafeAreaView,
-} from 'react-native';
+import { View, Button, ScrollView, SafeAreaView } from 'react-native';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
 import {
   RelatedDigitalEventType,
@@ -13,6 +7,7 @@ import {
   formatPrice,
   RandomProduct,
 } from '../Helpers';
+import styles from './../Styles';
 
 export function AnalyticsScreen() {
   const customEvent = (eventType: string) => {
@@ -130,34 +125,3 @@ export function AnalyticsScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    padding: 16,
-    backgroundColor: '#fff',
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    paddingLeft: 8,
-    paddingRight: 8,
-    marginBottom: 16,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    marginBottom: 16,
-  },
-  button: {
-    marginBottom: 16,
-  },
-});

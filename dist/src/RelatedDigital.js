@@ -3,12 +3,12 @@ import { NativeModules } from 'react-native';
 import { RDEventEmitter } from './RDEventEmitter';
 const RDModule = NativeModules.RelatedDigitalReactModule;
 const EventEmitter = new RDEventEmitter();
-export var EventType;
-(function (EventType) {
-    EventType["NotificationRegistered"] = "com.relateddigital.notification_registered";
-    EventType["NotificationReceived"] = "com.relateddigital.notification_received";
-    EventType["NotificationOpened"] = "com.relateddigital.notification_opened";
-})(EventType || (EventType = {}));
+export var RDEventType;
+(function (RDEventType) {
+    RDEventType["NotificationRegistered"] = "com.relateddigital.notification_registered";
+    RDEventType["NotificationReceived"] = "com.relateddigital.notification_received";
+    RDEventType["NotificationOpened"] = "com.relateddigital.notification_opened";
+})(RDEventType || (RDEventType = {}));
 /**
  * A listener subscription.
  */
@@ -29,14 +29,14 @@ export class Subscription {
  * @hidden
  */
 function convertEventEnum(type) {
-    if (type === EventType.NotificationRegistered) {
-        return EventType.NotificationRegistered;
+    if (type === RDEventType.NotificationRegistered) {
+        return RDEventType.NotificationRegistered;
     }
-    else if (type === EventType.NotificationReceived) {
-        return EventType.NotificationReceived;
+    else if (type === RDEventType.NotificationReceived) {
+        return RDEventType.NotificationReceived;
     }
-    else if (type === EventType.NotificationOpened) {
-        return EventType.NotificationOpened;
+    else if (type === RDEventType.NotificationOpened) {
+        return RDEventType.NotificationOpened;
     }
     throw new Error('Invalid event name: ' + type);
 }
@@ -67,6 +67,9 @@ export class RelatedDigital {
     }
     static askForNotificationPermission() {
         RDModule.askForNotificationPermission();
+    }
+    static askForNotificationPermissionProvisional(register = false) {
+        RDModule.askForNotificationPermissionProvisional(register);
     }
     static setIsPushNotificationEnabled(isPushNotificationEnabled, iosAppAlias, googleAppAlias, huaweiAppAlias, deliveredBadge) {
         RDModule.setIsPushNotificationEnabled(isPushNotificationEnabled, iosAppAlias, googleAppAlias, huaweiAppAlias, deliveredBadge);
@@ -104,6 +107,9 @@ export class RelatedDigital {
     static getPushMessages() {
         return RDModule.getPushMessages();
     }
+    static getPushMessagesWithID() {
+        return RDModule.getPushMessagesWithID();
+    }
     static getToken() {
         return RDModule.getToken();
     }
@@ -121,5 +127,29 @@ export class RelatedDigital {
     }
     static removeAllListeners(eventType) {
         EventEmitter.removeAllListeners(convertEventEnum(eventType));
+    }
+    static requestIDFA() {
+        RDModule.requestIDFA();
+    }
+    static sendLocationPermission() {
+        RDModule.sendLocationPermission();
+    }
+    static requestLocationPermissions() {
+        RDModule.requestLocationPermissions();
+    }
+    static sendTheListOfAppsInstalled() {
+        RDModule.sendTheListOfAppsInstalled();
+    }
+    static setNotificationLoginID(notificationLoginID) {
+        RDModule.setNotificationLoginID(notificationLoginID);
+    }
+    static recommend(zoneId, productCode = null, filters = [], properties) {
+        return RDModule.recommend(zoneId, productCode, filters, properties);
+    }
+    static trackRecommendationClick(qs) {
+        RDModule.trackRecommendationClick(qs);
+    }
+    static getFavoriteAttributeActions(actionId = null) {
+        return RDModule.getFavoriteAttributeActions(actionId);
     }
 }

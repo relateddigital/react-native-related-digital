@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, Alert, SafeAreaView, } from 'react-native';
+import { Text, View, Button, TextInput, ScrollView, Alert, SafeAreaView, } from 'react-native';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
+import styles from './../Styles';
 export function RecommendationScreen() {
     const [propertyKey, setPropertyKey] = React.useState('');
     const [propertyValue, setPropertyValue] = React.useState('');
@@ -49,32 +50,3 @@ export function RecommendationScreen() {
             React.createElement(View, { style: styles.button },
                 React.createElement(Button, { title: "Get Push Messages", onPress: handleGetPushMessages })))));
 }
-const styles = StyleSheet.create({
-    container: {
-        flexGrow: 1,
-        padding: 16,
-        backgroundColor: '#fff',
-    },
-    heading: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    switchRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: 16,
-    },
-    input: {
-        height: 40,
-        borderColor: 'black',
-        borderWidth: 1,
-        paddingLeft: 8,
-        paddingRight: 8,
-        marginBottom: 16,
-    },
-    button: {
-        marginBottom: 16,
-    },
-});

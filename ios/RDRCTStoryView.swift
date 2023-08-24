@@ -16,11 +16,7 @@ private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
     static let viewTag: Int = 1903
     static let storyItemUrlKey = "storyItemUrl"
 
-    @objc var actionId: String? {
-        didSet {
-            self.layoutSubviews()
-        }
-    }
+    @objc var actionId: String? = nil
 
     @objc var onItemClicked: RCTBubblingEventBlock?
 

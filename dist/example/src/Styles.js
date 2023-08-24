@@ -18,13 +18,20 @@ export default StyleSheet.create({
     },
     input: {
         height: 40,
-        borderColor: 'black',
+        borderColor: 'gray',
         borderWidth: 1,
         paddingLeft: 8,
         paddingRight: 8,
         marginBottom: 16,
     },
     button: {
+        marginBottom: 16,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
         marginBottom: 16,
     },
     sectionHeaderContainer: {
@@ -42,5 +49,47 @@ export default StyleSheet.create({
     cellTitle: {
         fontSize: 20,
         color: '#000000',
+    },
+    geofenceContainer: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    geofenceRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+    },
+    geofenceName: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    geofenceDescription: {
+        fontSize: 14,
+        color: '#777',
+    },
+    storyContainer: {
+        flexGrow: 1,
+        padding: 0,
+        backgroundColor: '#fff',
+    },
+    storyActionIdInput: {
+        height: 40,
+        borderColor: 'black',
+        borderWidth: 1,
+        paddingLeft: 8,
+        paddingRight: 8,
+        margin: 16,
+    },
+    storyBackgroundContainer: {
+        height: 110,
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: 'white',
+    },
+    flex1: {
+        flex: 1,
     },
 });

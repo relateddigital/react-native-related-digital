@@ -1,40 +1,33 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, SafeAreaView, Button, View, } from 'react-native';
-import { RDStoryView } from '@relateddigital/react-native-huawei';
+import { SafeAreaView, Button, View, TextInput } from 'react-native';
+import { StoryView } from '@relateddigital/react-native-huawei';
+import styles from './../Styles';
 export function StoryScreen() {
-    function showStory() { }
-    return (React.createElement(SafeAreaView, null,
-        React.createElement(ScrollView, { contentContainerStyle: styles.container },
-            React.createElement(View, { style: styles.button },
-                React.createElement(Button, { title: 'Show Story', onPress: () => showStory() })),
-            React.createElement(RDStoryView, { style: styles.container, onItemClicked: (event) => console.log(event), actionId: '459' }))));
+    const [showingStory, setShowingStory] = React.useState(false);
+    const [showingNps, setShowingNps] = React.useState(false);
+    const [actionId, setActionId] = React.useState('310');
+    function showStory() {
+        setShowingStory(false);
+        setShowingStory(true);
+        setShowingNps(false);
+    }
+    function showNpsWithNumbers() {
+        setShowingNps(false);
+        setShowingNps(true);
+        setShowingStory(false);
+    }
+    return (React.createElement(SafeAreaView, { style: styles.container },
+        React.createElement(TextInput, { style: styles.storyActionIdInput, placeholder: "Action Id(optional)", value: actionId, onChangeText: setActionId }),
+        React.createElement(View, { style: styles.button },
+            React.createElement(Button, { title: 'Show Story', onPress: () => showStory() })),
+        React.createElement(View, { style: styles.button },
+            React.createElement(Button, { title: 'Show Nps With Numbers', onPress: () => showNpsWithNumbers() })),
+        showingStory && (React.createElement(View, { style: styles.storyBackgroundContainer },
+            React.createElement(StoryView, { actionId: actionId, onItemClicked: (event) => console.log(event), 
+                // @ts-ignore
+                style: styles.flex1 }))),
+        showingNps && (React.createElement(View, { style: styles.storyBackgroundContainer },
+            React.createElement(StoryView, { actionId: actionId, onItemClicked: (event) => console.log(event), 
+                // @ts-ignore
+                style: styles.flex1 })))));
 }
-const styles = StyleSheet.create({
-    container: {
-        flexGrow: 1,
-        padding: 16,
-        backgroundColor: '#fff',
-    },
-    heading: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    switchRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: 16,
-    },
-    input: {
-        height: 40,
-        borderColor: 'black',
-        borderWidth: 1,
-        paddingLeft: 8,
-        paddingRight: 8,
-        marginBottom: 16,
-    },
-    button: {
-        marginBottom: 16,
-    },
-});

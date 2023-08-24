@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
+import styles from './../Styles';
 
 export interface GeofenceItem {
   id: number;
@@ -23,15 +24,15 @@ export const geofenceData: GeofenceItem[] = [
 export function GeofenceScreen() {
   const renderItem = ({ item }: { item: GeofenceItem }) => {
     return (
-      <View style={styles.row}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.description}>{item.description}</Text>
+      <View style={styles.geofenceRow}>
+        <Text style={styles.geofenceName}>{item.name}</Text>
+        <Text style={styles.geofenceDescription}>{item.description}</Text>
       </View>
     );
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.geofenceContainer}>
       <FlatList
         data={geofenceData}
         renderItem={renderItem}
@@ -40,26 +41,3 @@ export function GeofenceScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  description: {
-    fontSize: 14,
-    color: '#777',
-  },
-});

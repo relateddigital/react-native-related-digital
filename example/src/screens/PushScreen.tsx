@@ -9,8 +9,8 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
-import styles from './../Styles';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
+import styles from './../Styles';
 
 export function PushScreen() {
   const [isPushNotificationEnabled, setIsPushNotificationEnabled] =

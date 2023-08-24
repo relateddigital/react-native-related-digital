@@ -47,8 +47,6 @@ const CustomTabBar = ({ state, navigation }) => {
         };
         const logo = getTabLogo(route.name);
         const selected = isSelected(route.name);
-        console.log(route.name);
-        console.log(logo);
         return (React.createElement(TouchableOpacity, { key: index, onPress: onPress, style: [
                 styles.tabItem,
                 selected ? styles.selectedTabItem : styles.unselectedTabItem,
@@ -62,6 +60,8 @@ const styles = StyleSheet.create({
         height: 80,
         backgroundColor: 'white',
         paddingBottom: Platform.OS === 'android' ? 0 : 10,
+        borderTopColor: '#e0e0e0',
+        borderTopWidth: 1,
     },
     tabItem: {
         flex: 1,

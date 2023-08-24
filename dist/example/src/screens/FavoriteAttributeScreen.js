@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, SafeAreaView, } from 'react-native';
+import { Text, View, Button, TextInput, ScrollView, SafeAreaView, } from 'react-native';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
+import styles from './../Styles';
 export function FavoriteAttributeScreen() {
     const [exVisitorId, setExVisitorId] = React.useState('');
     const [properties, setProperties] = React.useState('');
@@ -33,30 +34,3 @@ export function FavoriteAttributeScreen() {
             React.createElement(TextInput, { style: styles.input, value: pageName, onChangeText: setPageName, placeholder: "Enter page name" }),
             React.createElement(Button, { title: "Send Custom Event", onPress: handleCustomEvent }))));
 }
-const styles = StyleSheet.create({
-    container: {
-        flexGrow: 1,
-        padding: 16,
-        backgroundColor: '#fff',
-    },
-    heading: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        paddingLeft: 8,
-        paddingRight: 8,
-        marginBottom: 16,
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '100%',
-        marginBottom: 16,
-    },
-});
