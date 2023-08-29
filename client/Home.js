@@ -26,11 +26,13 @@ import CustomButton from './components/CustomButton'
 import Widget from './components/Widget'
 
 
-const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapp'
+  // test app alias = rniostestapptest
+  // test app alias = rniostestapp
 
-const siteId = "556173334F5475694E6F453D";
-const organizationId = "6D754E4971557457324B493D";
-const dataSource = "uspoloassn";
+const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapptest'
+const siteId = "356467332F6533766975593D";
+const organizationId = "676D325830564761676D453D";
+const dataSource = "visistore";
 
 const euroMessageApi = new EuroMessageApi(appAlias)
 const visilabsApi = new VisilabsApi(appAlias, siteId, organizationId, dataSource)
@@ -1061,7 +1063,7 @@ export default class Home extends Component {
         </View>
         {this.state.story && <View style={[this.styles.main]}>
           <RDStoryView
-            // actionId={'459'} // 459 banner, 497 normal optional
+            // actionId={'44'} // 459 banner, 497 normal optional
             onItemClicked={(data) => {
               console.log('Story data', data)
             }}
