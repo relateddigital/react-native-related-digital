@@ -29,7 +29,7 @@ import Widget from './components/Widget'
   // test app alias = rniostestapptest
   // test app alias = rniostestapp
 
-const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapptest'
+const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapp'
 const siteId = "356467332F6533766975593D";
 const organizationId = "676D325830564761676D453D";
 const dataSource = "visistore";
