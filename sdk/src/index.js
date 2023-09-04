@@ -41,7 +41,7 @@ const addEventListener = (type, handler, readHandler, euroMessageApi, visilabsAp
         const readListener = RelatedDigitalPushNotificationEmitter.addListener(
             DEVICE_NOTIF_EVENT,
             async (notification) => {
-              const readResult = await euroMessageApi.reportRead(notification.pushId)
+              const readResult = await euroMessageApi.reportRead(notification)
 
               if(readHandler && typeof readHandler === 'function') {
                 readHandler(notification)
