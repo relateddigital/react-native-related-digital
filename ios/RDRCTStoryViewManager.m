@@ -19,7 +19,7 @@ RCT_EXPORT_VIEW_PROPERTY(actionId, NSString)
 RCT_EXPORT_MODULE(RDRCTStoryView)
 
 - (UIView *)view {
-    return [[RDRCTStoryView alloc] init];
+  return [[RDRCTStoryView alloc] init];
 }
 
 @end

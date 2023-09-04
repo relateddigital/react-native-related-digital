@@ -3,7 +3,7 @@
     "outDir": "dist",
     "baseUrl": "./",
     "paths": {
-      "react-native-related-digital": ["./src/index"]
+      "@relateddigital/react-native-huawei": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

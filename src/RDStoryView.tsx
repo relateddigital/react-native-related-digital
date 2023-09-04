@@ -1,4 +1,4 @@
-/* Copyright Airship and Contributors */
+/* Copyright Related Digital and Contributors */
 
 'use strict';
 

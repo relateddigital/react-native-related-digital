@@ -196,15 +196,6 @@ private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
         hasListeners = false
     }
     
-    
-    
-    @objc(getStoryView:withUrlDelegate:withCompletionHandler:)
-    public func getStoryView(actionId: String, urlDelegate: RDStoryURLDelegate, completionHandler: @escaping (RDStoryHomeView?) -> Void) {
-        let actionId = Int(actionId)
-        NativeRD.getStoryViewAsync(actionId: 6, urlDelegate: urlDelegate) { storyHomeView in
-            completionHandler(storyHomeView)
-        }
-    }
 
     /*
     public func sendRelatedDigitalEvent(_ eventName: String, _ body:  [AnyHashable : Any] ) {
