@@ -5,25 +5,21 @@
 //  Created by Egemen Gülkılık on 13.06.2023.
 //
 
-import Foundation
 import UIKit
 import React
 import RelatedDigitalIOS
+
 private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
 
-@objc(RDBannerView)
-class RDRCTBannerView: RCTView, BannerDelegate {
+@objc public class RDRCTBannerView: RCTView, BannerDelegate {
 
-    static let viewTag: Int = 998 //TODO
+    static let viewTag = 1871
 
-    @objc var actionId: String? {
-        didSet {
-            layoutSubviews()
-        }
-    }
+    static let urlKey = "url"
 
-    @objc var onItemClicked: RCTBubblingEventBlock?
-    //var onLoadStarted: RCTDirectEventBlock?
+    @objc var properties: [String: String]?
+
+    @objc var onClicked: RCTBubblingEventBlock?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,42 +29,38 @@ class RDRCTBannerView: RCTView, BannerDelegate {
         super.init(coder: aDecoder)
     }
 
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         setupView()
     }
 
     private func setupView() {
-        if(self.viewWithTag(RDRCTBannerView.viewTag) != nil) {
-            self.viewWithTag(RDRCTBannerView.viewTag)?.removeFromSuperview()
+        let bannerView = UIView()
+        if self.viewWithTag(Self.viewTag) != nil {
+            self.viewWithTag(Self.viewTag)?.removeFromSuperview()
         }
 
-        let bannerView: RDRCTBannerView? = nil
-        //let actId = Int(actionId ?? "")
-        let properties = [String: String]()
-        NativeRD.getBannerView(properties: properties) { (rdBannerView) in
-            if let bannerView = rdBannerView {
-                bannerView.tag = RDRCTBannerView.viewTag
-                self.addSubview(bannerView)
-                bannerView.frame = self.frame
+        NativeRD.getBannerView(properties: properties ?? [:]) {nativeBannerView in
+            if let nativeBannerView = nativeBannerView {
+                nativeBannerView.translatesAutoresizingMaskIntoConstraints = false
+                nativeBannerView.delegate = self
+                bannerView.addSubview(nativeBannerView as UIView)
+
+                NSLayoutConstraint.activate([nativeBannerView.topAnchor.constraint(equalTo: bannerView.topAnchor),
+                                             nativeBannerView.bottomAnchor.constraint(equalTo: bannerView.bottomAnchor),
+                                             nativeBannerView.leadingAnchor.constraint(equalTo: bannerView.leadingAnchor),
+                                             nativeBannerView.trailingAnchor.constraint(equalTo: bannerView.trailingAnchor)])
+
             }
         }
 
-        bannerView?.tag = RDRCTBannerView.viewTag
-        if let bannerView = bannerView {
-            self.addSubview(bannerView)
-        }
-        bannerView?.frame = self.frame
+        bannerView.tag = Self.viewTag
+
+        self.addSubview(bannerView)
+        bannerView.frame = self.frame
     }
 
-    func urlClicked(_ url: URL) {
-        if(onItemClicked != nil) {
-            let storyData: [String : Any] = ["storyLink": url.absoluteString]
-            self.onItemClicked!(storyData)
-        }
+    public func bannerItemClickListener(url: String) {
+        self.onClicked?([RDRCTBannerView.urlKey: url])
     }
-    
-    func bannerItemClickListener(url: String) {
-        
-    }
+
 }
-

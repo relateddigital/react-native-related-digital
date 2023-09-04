@@ -1,58 +1,57 @@
+/* Copyright Related Digital and Contributors */
+
 'use strict';
 
 import React from 'react';
 import {
   requireNativeComponent,
   NativeSyntheticEvent,
+  StyleProp,
+  ViewStyle,
   StyleSheet,
-  Dimensions,
 } from 'react-native';
 
-const RNRDBannerView =
-  requireNativeComponent<RNRDBannerViewProps>('RDBannerView');
+const RDRCTBannerView =
+  requireNativeComponent<RDRCTBannerViewProps>('RDRCTBannerView');
 
-interface RNRDBannerViewProps {
-  actionId: string;
-  onItemClicked: (
-    event: NativeSyntheticEvent<RDBannerItemClickedEvent>
-  ) => void;
-  style?: any;
+interface RDRCTBannerViewProps {
+  properties: Record<string, string> | null;
+  onClicked: (event: NativeSyntheticEvent<BannerItemClickedEvent>) => void;
+  style?: StyleProp<ViewStyle>;
 }
 
-export interface RDBannerItemClickedEvent {
-  actionId: string;
+export interface BannerItemClickedEvent {
+  url: string;
 }
 
-export interface RDBannerViewProps {
-  actionId: string;
-  onItemClicked: (event: RDBannerItemClickedEvent) => void;
-  style?: any;
+export interface BannerViewProps {
+  properties: Record<string, string> | null;
+  onClicked: (event: BannerItemClickedEvent) => void;
+  style?: StyleProp<ViewStyle>;
 }
 
-export class RDBannerView extends React.Component<RDBannerViewProps> {
-  _onItemClicked = (event: NativeSyntheticEvent<RDBannerItemClickedEvent>) => {
-    if (!this.props.onItemClicked) {
+const styles = StyleSheet.create({
+  defaultStyle: {
+    minHeight: 110,
+  },
+});
+
+export class BannerView extends React.Component<BannerViewProps> {
+  _onClicked = (event: NativeSyntheticEvent<BannerItemClickedEvent>) => {
+    if (!this.props.onClicked) {
       return;
     }
-    this.props.onItemClicked(event.nativeEvent);
+    this.props.onClicked(event.nativeEvent);
   };
 
   render() {
     return (
-      <RNRDBannerView
+      <RDRCTBannerView
         {...this.props}
-        onItemClicked={this._onItemClicked}
-        style={styles.container}
+        properties={this.props.properties}
+        onClicked={this._onClicked}
+        style={[styles.defaultStyle, this.props.style]}
       />
     );
   }
 }
-const { width } = Dimensions.get('window');
-const height = 110;
-
-const styles = StyleSheet.create({
-  container: {
-    minWidth: width,
-    minHeight: height,
-  },
-});

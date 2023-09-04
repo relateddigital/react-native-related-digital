@@ -85,9 +85,8 @@ export default StyleSheet.create({
     margin: 16,
   },
   storyBackgroundContainer: {
-    height: 110,
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     backgroundColor: 'white',
   },
   flex1: {

@@ -14,7 +14,7 @@
 
 @implementation RDRCTStoryViewManager
 
-RCT_EXPORT_VIEW_PROPERTY(onItemClicked, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onClicked, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(actionId, NSString)
 RCT_EXPORT_MODULE(RDRCTStoryView)
 

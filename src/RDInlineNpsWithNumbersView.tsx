@@ -3,7 +3,13 @@
 'use strict';
 
 import React from 'react';
-import { requireNativeComponent, NativeSyntheticEvent } from 'react-native';
+import {
+  requireNativeComponent,
+  NativeSyntheticEvent,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 
 const RDRCTInlineNpsWithNumbersView =
   requireNativeComponent<RDRCTInlineNpsWithNumbersViewProps>(
@@ -12,24 +18,32 @@ const RDRCTInlineNpsWithNumbersView =
 
 interface RDRCTInlineNpsWithNumbersViewProps {
   properties: Record<string, string> | null;
-  npsItemClicked: (event: NativeSyntheticEvent<NpsItemClickedEvent>) => void;
+  onClicked: (event: NativeSyntheticEvent<NpsButtonClickedEvent>) => void;
+  style?: StyleProp<ViewStyle>;
 }
 
-export interface NpsItemClickedEvent {
-  npsLink: string;
+export interface NpsButtonClickedEvent {
+  url: string;
 }
 
 export interface InlineNpsWithNumbersViewProps {
   properties: Record<string, string> | null;
-  npsItemClicked: (event: NpsItemClickedEvent) => void;
+  onClicked: (event: NpsButtonClickedEvent) => void;
+  style?: StyleProp<ViewStyle>;
 }
 
+const styles = StyleSheet.create({
+  defaultStyle: {
+    minHeight: 110,
+  },
+});
+
 export class InlineNpsWithNumbersView extends React.Component<InlineNpsWithNumbersViewProps> {
-  _npsItemClicked = (event: NativeSyntheticEvent<NpsItemClickedEvent>) => {
-    if (!this.props.npsItemClicked) {
+  _onClicked = (event: NativeSyntheticEvent<NpsButtonClickedEvent>) => {
+    if (!this.props.onClicked) {
       return;
     }
-    this.props.npsItemClicked(event.nativeEvent);
+    this.props.onClicked(event.nativeEvent);
   };
 
   render() {
@@ -37,7 +51,8 @@ export class InlineNpsWithNumbersView extends React.Component<InlineNpsWithNumbe
       <RDRCTInlineNpsWithNumbersView
         {...this.props}
         properties={this.props.properties}
-        npsItemClicked={this._npsItemClicked}
+        onClicked={this._onClicked}
+        style={[styles.defaultStyle, this.props.style]}
       />
     );
   }

@@ -3,31 +3,45 @@
 'use strict';
 
 import React from 'react';
-import { requireNativeComponent, NativeSyntheticEvent } from 'react-native';
+import {
+  requireNativeComponent,
+  NativeSyntheticEvent,
+  StyleProp,
+  ViewStyle,
+  StyleSheet,
+} from 'react-native';
 
 const RDRCTStoryView =
   requireNativeComponent<RDRCTStoryViewProps>('RDRCTStoryView');
 
 interface RDRCTStoryViewProps {
   actionId: string | null;
-  onItemClicked: (event: NativeSyntheticEvent<StoryItemClickedEvent>) => void;
+  onClicked: (event: NativeSyntheticEvent<StoryItemClickedEvent>) => void;
+  style?: StyleProp<ViewStyle>;
 }
 
 export interface StoryItemClickedEvent {
-  storyItemUrl: string;
+  url: string;
 }
 
 export interface StoryViewProps {
   actionId: string | null;
-  onItemClicked: (event: StoryItemClickedEvent) => void;
+  onClicked: (event: StoryItemClickedEvent) => void;
+  style?: StyleProp<ViewStyle>;
 }
 
+const styles = StyleSheet.create({
+  defaultStyle: {
+    minHeight: 110,
+  },
+});
+
 export class StoryView extends React.Component<StoryViewProps> {
-  _onItemClicked = (event: NativeSyntheticEvent<StoryItemClickedEvent>) => {
-    if (!this.props.onItemClicked) {
+  _onClicked = (event: NativeSyntheticEvent<StoryItemClickedEvent>) => {
+    if (!this.props.onClicked) {
       return;
     }
-    this.props.onItemClicked(event.nativeEvent);
+    this.props.onClicked(event.nativeEvent);
   };
 
   render() {
@@ -35,7 +49,8 @@ export class StoryView extends React.Component<StoryViewProps> {
       <RDRCTStoryView
         {...this.props}
         actionId={this.props.actionId}
-        onItemClicked={this._onItemClicked}
+        onClicked={this._onClicked}
+        style={[styles.defaultStyle, this.props.style]}
       />
     );
   }

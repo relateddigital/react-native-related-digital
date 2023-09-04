@@ -36,7 +36,7 @@ static void InitializeFlipper(UIApplication *application) {
   [FIRApp configure];
 
 #ifdef FB_SONARKIT_ENABLED
-  InitializeFlipper(application);
+  //InitializeFlipper(application);
 #endif
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 

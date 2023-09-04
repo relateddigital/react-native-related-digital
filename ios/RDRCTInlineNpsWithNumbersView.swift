@@ -16,11 +16,11 @@ private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
     
     static let viewTag = 1871
     
-    static let npsLinkKey = "npsLink"
+    static let urlKey = "url"
     
     @objc var properties: [String: String]? = nil
     
-    @objc var npsItemClicked: RCTBubblingEventBlock?
+    @objc var onClicked: RCTBubblingEventBlock?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,7 +61,7 @@ private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
     }
     
     public func npsItemClicked(npsLink: String?) {
-        self.npsItemClicked?([RDRCTInlineNpsWithNumbersView.npsLinkKey: npsLink ?? ""])
+        self.onClicked?([RDRCTInlineNpsWithNumbersView.urlKey: npsLink ?? ""])
     }
     
     

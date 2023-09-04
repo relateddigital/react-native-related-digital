@@ -3,24 +3,61 @@ import { SafeAreaView, Button, View, TextInput } from 'react-native';
 import {
   StoryView,
   InlineNpsWithNumbersView,
+  BannerView,
 } from '@relateddigital/react-native-huawei';
 import styles from './../Styles';
 
 enum ViewType {
+  None,
   Story,
   Nps,
+  Banner,
 }
 
+interface ButtonProps {
+  title: string;
+  onPress: () => void;
+}
+
+const CustomButton: React.FC<ButtonProps> = ({ title, onPress }) => (
+  <View style={styles.button}>
+    <Button title={title} onPress={onPress} />
+  </View>
+);
+
 export function StoryScreen() {
-  const [showingStory, setShowingStory] = React.useState(false);
-  const [showingNps, setShowingNps] = React.useState(false);
+  const [viewType, setViewType] = React.useState<ViewType>(ViewType.None);
   const [actionId, setActionId] = React.useState('310');
 
-  function show(viewType: ViewType) {
-    setShowingStory(false);
-    setShowingNps(false);
-    viewType === ViewType.Story ? setShowingStory(true) : setShowingNps(true);
-  }
+  const getContentComponent = () => {
+    switch (viewType) {
+      case ViewType.Story:
+        return (
+          <StoryView
+            actionId={actionId}
+            onClicked={(event) => console.log(event)}
+            style={styles.flex1}
+          />
+        );
+      case ViewType.Nps:
+        return (
+          <InlineNpsWithNumbersView
+            properties={{ 'OM.inapptype': 'inapp_nps_with_numbers_inline' }}
+            onClicked={(event) => console.log(event)}
+            style={styles.flex1}
+          />
+        );
+      case ViewType.Banner:
+        return (
+          <BannerView
+            properties={{ 'OM.inapptype': 'banner_carousel' }}
+            onClicked={(event) => console.log(event)}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,33 +67,22 @@ export function StoryScreen() {
         value={actionId}
         onChangeText={setActionId}
       />
-      <View style={styles.button}>
-        <Button title={'Show Story'} onPress={() => show(ViewType.Story)} />
-      </View>
-      <View style={styles.button}>
-        <Button
-          title={'Show Nps With Numbers'}
-          onPress={() => show(ViewType.Nps)}
-        />
-      </View>
-      {showingStory && (
+      <CustomButton
+        title={'Show Story'}
+        onPress={() => setViewType(ViewType.Story)}
+      />
+      <CustomButton
+        title={'Show Inline Nps With Numbers'}
+        onPress={() => setViewType(ViewType.Nps)}
+      />
+      <CustomButton
+        title={'Show Banner'}
+        onPress={() => setViewType(ViewType.Banner)}
+      />
+
+      {viewType !== ViewType.None && (
         <View style={styles.storyBackgroundContainer}>
-          <StoryView
-            actionId={actionId}
-            onItemClicked={(event) => console.log(event)}
-            // @ts-ignore
-            style={styles.flex1}
-          />
-        </View>
-      )}
-      {showingNps && (
-        <View style={styles.storyBackgroundContainer}>
-          <InlineNpsWithNumbersView
-            properties={{ 'OM.inapptype': 'inapp_nps_with_numbers_inline' }}
-            npsItemClicked={(event) => console.log(event)}
-            // @ts-ignore
-            style={styles.flex1}
-          />
+          {getContentComponent()}
         </View>
       )}
     </SafeAreaView>
