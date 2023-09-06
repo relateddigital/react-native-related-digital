@@ -235,9 +235,7 @@ public typealias Reject = RCTPromiseRejectBlock
         }
 
         NativeRD.recommend(zoneId: zoneId, productCode: productCode, filters: recommendationFilters, properties: properties) { response in
-            let products = response.products.map({ RDRCTProduct(from: $0)})
-            let recommendationResponse = RDRCTRecommendationResponse(products: products, widgetTitle: response.widgetTitle)
-            resolve(recommendationResponse)
+            resolve(response.toDictionary())
         }
 
     }

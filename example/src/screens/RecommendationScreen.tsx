@@ -1,73 +1,44 @@
 import * as React from 'react';
 import {
-  Text,
   View,
   Button,
   TextInput,
   ScrollView,
-  Alert,
   SafeAreaView,
 } from 'react-native';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
 import styles from './../Styles';
 
 export function RecommendationScreen() {
-  const [propertyKey, setPropertyKey] = React.useState('');
-  const [propertyValue, setPropertyValue] = React.useState('');
-
-  const handleGetToken = () => {
-    RelatedDigital.getToken().then((token) => {
-      console.log(token);
-      Alert.alert('Push Token', token);
-    });
-  };
-
-  const handleAskForPushNotificationPermission = () => {
-    //RelatedDigital.askForPushNotificationPermission();
-  };
-
-  const handleSetEmail = () => {
-    RelatedDigital.setEmail('random@gmail.com', true);
-  };
-
-  const handleGetPushMessages = () => {
-    RelatedDigital.getPushMessages().then((pushMessages) => {
-      console.log(pushMessages);
-    });
+  const [zoneId, setZoneId] = React.useState('1');
+  const [productCode, setProductCode] = React.useState('');
+  const recommend = () => {
+    console.log('Zone Id:', zoneId);
+    console.log('Product Code:', productCode);
+    RelatedDigital.recommend(zoneId, productCode, [], {}).then(
+      (rdRecommendationResponse) => {
+        console.log('Recommendation Response:', rdRecommendationResponse);
+      }
+    );
   };
 
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.heading}>User Properties</Text>
-        <Text>Property Key:</Text>
         <TextInput
           style={styles.input}
-          value={propertyKey}
-          onChangeText={setPropertyKey}
-          placeholder="Enter property key"
+          placeholder="Zone Id(required)"
+          value={zoneId}
+          onChangeText={setZoneId}
         />
-        <Text>Property Value:</Text>
         <TextInput
           style={styles.input}
-          value={propertyValue}
-          onChangeText={setPropertyValue}
-          placeholder="Enter property value"
+          placeholder="Product Code(optional)"
+          value={productCode}
+          onChangeText={setProductCode}
         />
         <View style={styles.button}>
-          <Button title="Get Token" onPress={handleGetToken} />
-        </View>
-        <View style={styles.button}>
-          <Button
-            title="Ask for Push Notification Permission"
-            onPress={handleAskForPushNotificationPermission}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button title="Set Email" onPress={handleSetEmail} />
-        </View>
-        <View style={styles.button}>
-          <Button title="Get Push Messages" onPress={handleGetPushMessages} />
+          <Button title={'Recommend'} onPress={() => recommend()} />
         </View>
       </ScrollView>
     </SafeAreaView>
