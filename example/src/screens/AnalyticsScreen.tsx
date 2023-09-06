@@ -12,7 +12,13 @@ import styles from './../Styles';
 export function AnalyticsScreen() {
   const customEvent = (eventType: string) => {
     let properties: Record<string, string> = {};
-    const randomProduct: RandomProduct = getRandomProductValues();
+    const randomValues: RandomProduct = getRandomProductValues();
+    let code1 = `${randomValues.randomProductCode1}`;
+    let code2 = `${randomValues.randomProductCode2}`;
+    let quantity1 = `${randomValues.randomProductQuantity1}`;
+    let quantity2 = `${randomValues.randomProductQuantity2}`;
+    let price1 = `${formatPrice(randomValues.randomProductPrice1)}`;
+    let price2 = `${formatPrice(randomValues.randomProductPrice2)}`;
 
     switch (eventType) {
       case RelatedDigitalEventType.login:
@@ -34,7 +40,7 @@ export function AnalyticsScreen() {
             properties['OM.vseg4'] = 'seg4val';
             properties['OM.vseg5'] = 'seg5val';
             properties['OM.bd'] = '1977-03-15';
-            properties['OM.gn'] = randomProduct.randomGender;
+            properties['OM.gn'] = randomValues.randomGender;
             properties['OM.loc'] = 'Bursa';
             RelatedDigital.login(exVisitorId, properties);
           }
@@ -48,57 +54,68 @@ export function AnalyticsScreen() {
         return;
 
       case RelatedDigitalEventType.productView:
-        properties['OM.pv'] = `${randomProduct.randomProductCode1}`;
-        properties['OM.pn'] = `Name-${randomProduct.randomProductCode1}`;
-        properties['OM.ppr'] = formatPrice(randomProduct.randomProductPrice1);
+        properties['OM.pv'] = code1;
+        properties['OM.pn'] = `Name-${code1}`;
+        properties['OM.ppr'] = formatPrice(randomValues.randomProductPrice1);
         properties['OM.pv.1'] = 'Brand';
-        properties['OM.inv'] = `${randomProduct.randomInventory}`;
+        properties['OM.inv'] = `${randomValues.randomInventory}`;
         RelatedDigital.customEvent('Product View', properties);
         return;
 
       case RelatedDigitalEventType.productAddToCart:
-        properties['OM.pv'] = `${randomProduct.randomProductCode1}`;
-        properties['OM.qt'] = `${randomProduct.randomProductQuantity1}`;
+        properties['OM.pbid'] = `${randomValues.randomBasketID}`;
+        properties['OM.pb'] = `${code1};${code2}`;
+        properties['OM.pu'] = `${quantity1};${quantity2}`;
+        properties['OM.ppr'] = `${price1};${price2}`;
         RelatedDigital.customEvent('Add To Cart', properties);
         return;
 
       case RelatedDigitalEventType.productPurchase:
-        properties['OM.pv'] = `${randomProduct.randomProductCode1}`;
-        properties['OM.qt'] = `${randomProduct.randomProductQuantity1}`;
-        properties['OM.oid'] = `${randomProduct.randomOrderID}`;
+        properties['OM.tid'] = `${randomValues.randomOrderID}`;
+        properties['OM.pp'] = `${code1};${code2}`;
+        properties['OM.pu'] = `${quantity1};${quantity2}`;
+        properties['OM.ppr'] = `${price1};${price2}`;
         RelatedDigital.customEvent('Purchase', properties);
         return;
 
       case RelatedDigitalEventType.productCategoryPageView:
-        properties['OM.clist'] = `${randomProduct.randomCategoryID}`;
+        properties['OM.clist'] = `${randomValues.randomCategoryID}`;
         RelatedDigital.customEvent('Category View', properties);
         return;
 
       case RelatedDigitalEventType.inAppSearch:
         properties['OM.OSS'] = 'laptop';
-        properties['OM.OSSR'] = `${randomProduct.randomNumberOfSearchResults}`;
+        properties['OM.OSSR'] = `${randomValues.randomNumberOfSearchResults}`;
         RelatedDigital.customEvent('In App Search', properties);
         return;
 
       case RelatedDigitalEventType.bannerClick:
-        properties['OM.OSB'] = `${randomProduct.randomBannerCode}`;
+        properties['OM.OSB'] = `${randomValues.randomBannerCode}`;
         RelatedDigital.customEvent('Banner Click', properties);
         return;
 
       case RelatedDigitalEventType.addToFavorites:
-        properties['OM.pv'] = `${randomProduct.randomProductCode1}`;
+        properties['OM.pf'] = code1;
+        properties['OM.pfu'] = '1';
+        properties['OM.ppr'] = formatPrice(randomValues.randomProductPrice1);
         RelatedDigital.customEvent('Add To Favorites', properties);
         return;
 
       case RelatedDigitalEventType.removeFromFavorites:
-        properties['OM.pv'] = `${randomProduct.randomProductCode1}`;
+        properties['OM.pf'] = code1;
+        properties['OM.pfu'] = '-1';
+        properties['OM.ppr'] = formatPrice(randomValues.randomProductPrice1);
         RelatedDigital.customEvent('Remove From Favorites', properties);
         return;
 
       case RelatedDigitalEventType.sendingCampaignParameters:
         let campaignParameters = {
-          campaignId: 'Campaign Id',
-          campaignStep: 'Campaign Step',
+          'utm_source': 'euromsg',
+          'utm_medium': 'push',
+          'utm_campaign': 'euromsg campaign',
+          'OM.csource': 'euromsg',
+          'OM.cmedium': 'push',
+          'OM.cname': 'euromsg campaign',
         };
         RelatedDigital.sendCampaignParameters(campaignParameters);
         return;
@@ -107,7 +124,9 @@ export function AnalyticsScreen() {
           console.log('User:', user);
         });
         return;
-
+      case RelatedDigitalEventType.requestIDFA:
+        RelatedDigital.requestIDFA();
+        return;
       default:
         return;
     }

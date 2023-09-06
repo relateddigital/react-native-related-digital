@@ -145,7 +145,6 @@ RCT_EXPORT_METHOD(getPushMessages
   [RDRCTHelper.shared getPushMessages:resolve withReject:reject];
 }
 
-
 RCT_EXPORT_METHOD(getPushMessagesWithId
                   : (RCTPromiseResolveBlock)resolve withReject
                   : (RCTPromiseRejectBlock)reject) {
@@ -183,24 +182,20 @@ RCT_EXPORT_METHOD(recommend
                 withProductCode:productCode
                     withFilters:filters
                  withProperties:properties
-                        withResolve:resolve
-                         withReject:reject];
+                    withResolve:resolve
+                     withReject:reject];
 }
 
-
-RCT_EXPORT_METHOD(trackRecommendationClick:(NSString *) qs) {
-    [RDRCTHelper.shared trackRecommendationClick:qs];
+RCT_EXPORT_METHOD(trackRecommendationClick : (NSString *)qs) {
+  [RDRCTHelper.shared trackRecommendationClick:qs];
 }
 
 RCT_EXPORT_METHOD(getFavoriteAttributeActions
                   : (NSString *)actionId withResolve
                   : (RCTPromiseResolveBlock)resolve withReject
                   : (RCTPromiseRejectBlock)reject) {
-  [RDRCTHelper.shared getFavoriteAttributeActions:actionId
-                        withResolve:resolve
-                         withReject:reject];
+  [RDRCTHelper.shared getFavoriteAttributeActions:actionId withResolve:resolve withReject:reject];
 }
-
 
 RCT_EXPORT_METHOD(addListener : (NSString *)eventName) {}
 
@@ -209,8 +204,5 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {}
 RCT_EXPORT_METHOD(onRDListenerAdded : (NSString *)eventName) {
   [RDRCTEventEmitter.shared onRelatedDigitalListenerAddedForType:eventName];
 }
-
-
-
 
 @end

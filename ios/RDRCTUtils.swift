@@ -9,43 +9,32 @@ import Foundation
 import RelatedDigitalIOS
 import UserNotifications
 
-public struct RDRCTUser: Codable {
-    public var cookieId: String?
-    public var exVisitorId: String?
-    public var tokenId: String?
-    public var appId: String?
-    public var visitData: String?
-    public var visitorData: String?
-    public var userAgent: String?
-    public var identifierForAdvertising: String?
-    public var sdkVersion: String?
-    public var sdkType: String?
-    public var lastEventTime: String?
-    public var nrv = 0
-    public var pviv = 0
-    public var tvc = 0
-    public var lvt: String?
-    public var appVersion: String?
-
-    init(from user: RDUser) {
-        self.cookieId = user.cookieId
-        self.exVisitorId = user.exVisitorId
-        self.tokenId = user.tokenId
-        self.appId = user.appId
-        self.visitData = user.visitData
-        self.visitorData = user.visitorData
-        self.userAgent = user.userAgent
-        self.identifierForAdvertising = user.identifierForAdvertising
-        self.sdkVersion = user.sdkVersion
-        self.sdkType = user.sdkType
-        self.lastEventTime = user.lastEventTime
-        self.nrv = user.nrv
-        self.pviv = user.pviv
-        self.tvc = user.tvc
-        self.lvt = user.lvt
-        self.appVersion = user.appVersion
+extension RDUser {
+    func toDictionary() -> [String: Any] {
+        var dictionary: [String: Any] = [:]
+        
+        dictionary["cookieId"] = cookieId ?? NSNull()
+        dictionary["exVisitorId"] = exVisitorId ?? NSNull()
+        dictionary["tokenId"] = tokenId ?? NSNull()
+        dictionary["appId"] = appId ?? NSNull()
+        dictionary["visitData"] = visitData ?? NSNull()
+        dictionary["visitorData"] = visitorData ?? NSNull()
+        dictionary["userAgent"] = userAgent ?? NSNull()
+        dictionary["identifierForAdvertising"] = identifierForAdvertising ?? NSNull()
+        dictionary["sdkVersion"] = sdkVersion ?? NSNull()
+        dictionary["sdkType"] = sdkType ?? NSNull()
+        dictionary["lastEventTime"] = lastEventTime ?? NSNull()
+        dictionary["nrv"] = nrv
+        dictionary["pviv"] = pviv
+        dictionary["tvc"] = tvc
+        dictionary["lvt"] = lvt ?? NSNull()
+        dictionary["appVersion"] = appVersion ?? NSNull()
+        
+        return dictionary
     }
 }
+
+
 
 public enum EventType: String {
     case NotificationRegistered = "com.relateddigital.notification_registered"
@@ -63,7 +52,7 @@ public enum EventType: String {
     case providesAppNotificationSettings
     case provisional
     case announcement
-
+    
 }
 
 @objc public enum RDAuthorizedNotificationSettings: Int {
@@ -93,38 +82,38 @@ struct RDFeatures: OptionSet, Hashable {
     var hashValue: Int {
         return self.rawValue
     }
-
+    
     static let none = RDFeatures([])
-
+    
     // Enables In-App Automation.
     static let inAppAutomation = RDFeatures(rawValue: 1 << 0)
-
+    
     // Enables Message Center.
     static let messageCenter = RDFeatures(rawValue: 1 << 1)
-
+    
     // Enables push.
     static let push = RDFeatures(rawValue: 1 << 2)
-
+    
     static let chat = RDFeatures(rawValue: 1 << 3)
-
+    
     // Enables analytics.
     static let analytics = RDFeatures(rawValue: 1 << 4)
-
+    
     // Enables tags and attributes.
     static let tagsAndAttributes = RDFeatures(rawValue: 1 << 5)
-
+    
     // Enables contacts.
     static let contacts = RDFeatures(rawValue: 1 << 6)
-
+    
     // Enables location (with Location module).
     static let location = RDFeatures(rawValue: 1 << 7)
-
+    
     // Sets enabled features to all.
     static let all: RDFeatures = [.inAppAutomation, .messageCenter, .push, .chat, .analytics, .tagsAndAttributes, .contacts, .location]
 }
 
 class RDRCTUtils: NSObject {
-
+    
     static func authorizedStatusString(status: RDAuthorizationStatus) -> String {
         switch status {
         case .denied:
@@ -141,41 +130,41 @@ class RDRCTUtils: NSObject {
             return "notDetermined"
         }
     }
-
+    
     static func optionsFromOptionsArray(_ options: [String]) -> [RDNotificationOptions] {
         var notificationOptions = [RDNotificationOptions]()
-
+        
         if options.contains("alert") {
             notificationOptions.append(.alert)
         }
-
+        
         if options.contains("badge") {
             notificationOptions.append(.badge)
         }
-
+        
         if options.contains("sound") {
             notificationOptions.append(.sound)
         }
-
+        
         if options.contains("carPlay") {
             notificationOptions.append(.carPlay)
         }
-
+        
         if options.contains("criticalAlert") {
             notificationOptions.append(.criticalAlert)
         }
-
+        
         if options.contains("providesAppNotificationSettings") {
             notificationOptions.append(.providesAppNotificationSettings)
         }
-
+        
         if options.contains("provisional") {
             notificationOptions.append(.provisional)
         }
-
+        
         return notificationOptions
     }
-
+    
     static func authorizedSettingsArray(settings: [RDAuthorizedNotificationSettings]) -> [String] {
         var settingsArray: [String] = []
         if settings.contains(.alert) {
@@ -207,7 +196,7 @@ class RDRCTUtils: NSObject {
         }
         return settingsArray
     }
-
+    
     static func authorizedSettingsDictionary(settings: [RDAuthorizedNotificationSettings]) -> [String: Bool] {
         return [
             "alert": settings.contains(.alert),
@@ -222,12 +211,12 @@ class RDRCTUtils: NSObject {
             "timeSensitive": settings.contains(.notificationCenter)
         ]
     }
-
+    
     static func eventBodyForNotificationResponse(notificationResponse: UNNotificationResponse) -> [String: Any] {
         var body: [String: Any] = [:]
         let content = notificationResponse.notification.request.content
         body["notification"] = eventBodyForNotificationContent(userInfo: content.userInfo, notificationIdentifier: notificationResponse.notification.request.identifier)
-
+        
         if notificationResponse.actionIdentifier == UNNotificationDefaultActionIdentifier {
             body["isForeground"] = true
         } else {
@@ -237,23 +226,23 @@ class RDRCTUtils: NSObject {
                 body["actionId"] = notificationResponse.actionIdentifier
             }
         }
-
+        
         return body
     }
-
+    
     static func eventBodyForNotificationContent(userInfo: [AnyHashable: Any], notificationIdentifier: String?) -> [String: Any] {
         var pushBody: [String: Any] = [:]
         if let identifier = notificationIdentifier {
             pushBody["notificationId"] = identifier
         }
-
+        
         var extras: [AnyHashable: Any] = userInfo
         extras.removeValue(forKey: "aps")
         extras.removeValue(forKey: "_")
         if !extras.isEmpty {
             pushBody["extras"] = extras
         }
-
+        
         if let aps = userInfo["aps"] as? [AnyHashable: Any] {
             let alert = aps["alert"]
             if let alertDict = alert as? [AnyHashable: Any] {
@@ -264,10 +253,10 @@ class RDRCTUtils: NSObject {
                 pushBody["alert"] = alert
             }
         }
-
+        
         return pushBody
     }
-
+    
     static func notificationAction(forCategory category: String, actionIdentifier identifier: String) -> UNNotificationAction? {
         /*
          guard let categories = RDPush.push().combinedCategories else {
@@ -297,7 +286,7 @@ class RDRCTUtils: NSObject {
          */
         return nil
     }
-
+    
     static func isValidFeatureArray(stringArray: [String]) -> Bool {
         for value in stringArray {
             if featureMap.values.contains(value) {
@@ -306,7 +295,7 @@ class RDRCTUtils: NSObject {
         }
         return false
     }
-
+    
     static func stringArrayToFeatures(stringArray: [String]) -> RDFeatures {
         var result: RDFeatures = []
         for value in stringArray {
@@ -316,7 +305,7 @@ class RDRCTUtils: NSObject {
         }
         return result
     }
-
+    
     static func featureToStringArray(features: RDFeatures) -> [String] {
         var result: [String] = []
         for (key, value) in featureMap {
@@ -332,7 +321,7 @@ class RDRCTUtils: NSObject {
         }
         return result
     }
-
+    
     static var featureMap: [RDFeatures: String] = {
         [
             RDFeatures.inAppAutomation: "FEATURE_IN_APP_AUTOMATION",

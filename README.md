@@ -713,4 +713,6 @@ RelatedDigital.getToken().then((token) => {
 
 
 
-
+//TODO:
+- RelatedDigitalEventType.requestIDFA
+- NSUserTrackingUsageDescription

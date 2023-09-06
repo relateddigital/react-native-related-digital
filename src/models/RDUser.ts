@@ -10,9 +10,9 @@ export interface RDUser {
   sdkVersion?: string;
   sdkType?: string;
   lastEventTime?: string;
-  nrv: number;
-  pviv: number;
-  tvc: number;
+  nrv?: number;
+  pviv?: number;
+  tvc?: number;
   lvt?: string;
-  appVersion: string;
+  appVersion?: string;
 }

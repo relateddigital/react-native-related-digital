@@ -194,8 +194,7 @@ public typealias Reject = RCTPromiseRejectBlock
     public func getUser(
         resolve: @escaping Resolve, reject: @escaping Reject
     ) {
-        let rdUser = RDRCTUser(from: NativeRD.rdUser)
-        resolve(rdUser)
+        resolve(NativeRD.rdUser.toDictionary())
     }
 
     @objc(requestIDFA)
