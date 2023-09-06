@@ -11,26 +11,28 @@ import React
 import RelatedDigitalIOS
 
 private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
+public typealias Resolve = RCTPromiseResolveBlock
+public typealias Reject = RCTPromiseRejectBlock
 
 @objc public class RDRCTHelper: NSObject {
 
-    private var relatedDigitalManager: RelatedDigitalManager?
+    private var rdManager: RelatedDigitalManager?
 
     @objc public static let shared = RDRCTHelper()
 
     override init() {
         super.init()
-        relatedDigitalManager = RelatedDigitalManager.shared
+        rdManager = RelatedDigitalManager.shared
     }
 
     @objc(setIsInAppNotificationEnabled:)
-    public func setIsInAppNotificationEnabled(isInAppNotificationEnabled: Bool) {
-        NativeRD.inAppNotificationsEnabled = isInAppNotificationEnabled
+    public func setIsInAppNotificationEnabled(enabled: Bool) {
+        NativeRD.inAppNotificationsEnabled = enabled
     }
 
     @objc(setIsGeofenceEnabled:)
-    public func setIsGeofenceEnabled(isGeofenceEnabled: Bool) {
-        NativeRD.geofenceEnabled = isGeofenceEnabled
+    public func setIsGeofenceEnabled(enabled: Bool) {
+        NativeRD.geofenceEnabled = enabled
     }
 
     @objc(setAdvertisingIdentifier:)
@@ -67,18 +69,27 @@ private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
         }
     }
 
+    @objc(askForNotificationPermissionProvisional)
+    public func askForNotificationPermissionProvisional() {
+        if RCTRunningInAppExtension() {
+            print("askForNotificationPermission is unavailable in an app extension")
+        } else {
+            NativeRD.askForNotificationPermissionProvisional(register: true)
+        }
+    }
+
     @objc(
         setIsPushNotificationEnabled:withIosAppAlias:withGoogleAppAlias:withHuaweiAppAlias:
             withDeliveredBadge:
     )
     public func setIsPushNotificationEnabled(
-        isPushNotificationEnabled: Bool,
+        enabled: Bool,
         iosAppAlias: String,
         googleAppAlias: String,
         huaweiAppAlias: String,
         deliveredBadge: Bool
     ) {
-        if isPushNotificationEnabled {
+        if enabled {
             NativeRD.enablePushNotifications(
                 appAlias: iosAppAlias,
                 launchOptions: nil,
@@ -142,8 +153,8 @@ private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
 
     @objc(registerEmail:withPermission:withIsCommercial:withResolve:withReject:)
     public func registerEmail(
-        email: String, permission: Bool, isCommercial: Bool, resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
+        email: String, permission: Bool, isCommercial: Bool, resolve: @escaping Resolve,
+        reject: @escaping Reject
     ) {
         NativeRD.registerEmail(email: email, permission: permission, isCommercial: isCommercial)
         NativeRD.sync()
@@ -152,21 +163,27 @@ private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
 
     @objc(getPushMessages:withReject:)
     public func getPushMessages(
-        resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock
+        resolve: @escaping Resolve, reject: @escaping Reject
     ) {
-        NativeRD.getPushMessages { messages in
-            let encoder = JSONEncoder()
-            encoder.outputFormatting = .prettyPrinted
-            if let jsonData = try? encoder.encode(messages), let json = String(data: jsonData, encoding: String.Encoding.utf8) {
-                resolve(json)
-            } else {
-                reject("getPushMessages error", "getPushMessages error description", nil)
-            }
+        NativeRD.getPushMessages { nativeMessages in
+            let messages = nativeMessages.map({ RDRCTPushMessage(from: $0)})
+            resolve(messages)
+        }
+    }
+
+    @objc(getPushMessagesWithId:withReject:)
+    public func getPushMessagesWithId(
+        resolve: @escaping Resolve, reject: @escaping Reject
+    ) {
+        NativeRD.getPushMessagesWithID { nativeMessages in
+            let messages = nativeMessages.map({ RDRCTPushMessage(from: $0)})
+            resolve(messages)
         }
     }
 
     @objc(getToken:withReject:)
-    public func getToken(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock
+    public func getToken(
+        resolve: @escaping Resolve, reject: @escaping Reject
     ) {
         NativeRD.getToken { token in
             resolve(token)
@@ -174,10 +191,68 @@ private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
     }
 
     @objc(getUser:withReject:)
-    public func getUser(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock
+    public func getUser(
+        resolve: @escaping Resolve, reject: @escaping Reject
     ) {
-        let rdUser = NativeRD.rdUser
+        let rdUser = RDRCTUser(from: NativeRD.rdUser)
         resolve(rdUser)
+    }
+
+    @objc(requestIDFA)
+    public func requestIDFA() {
+        NativeRD.requestIDFA()
+    }
+
+    @objc(sendLocationPermission)
+    public func sendLocationPermission() {
+        NativeRD.sendLocationPermission()
+    }
+
+    @objc(requestLocationPermissions)
+    public func requestLocationPermissions() {
+        NativeRD.requestLocationPermissions()
+    }
+
+    @objc(sendTheListOfAppsInstalled)
+    public func sendTheListOfAppsInstalled() {
+        return
+    }
+
+    @objc(recommend:withProductCode:withFilters:withProperties:withResolve:withReject:)
+    public func recommend(
+        zoneId: String, productCode: String, filters: [NSDictionary] = [],
+        properties: [String: String], resolve: @escaping Resolve, reject: @escaping Reject
+    ) {
+
+        var recommendationFilters = [RDRecommendationFilter]()
+        for filter in filters {
+            if let attribute = filter["attribute"] as? RDProductFilterAttribute,
+               let filterType = filter["filterType"] as? RDRecommendationFilterType,
+               let value = filter["value"] as? String {
+                let recoFilter = RDRecommendationFilter(attribute: attribute, filterType: filterType, value: value)
+                recommendationFilters.append(recoFilter)
+
+            }
+        }
+
+        NativeRD.recommend(zoneId: zoneId, productCode: productCode, filters: recommendationFilters, properties: properties) { response in
+            let products = response.products.map({ RDRCTProduct(from: $0)})
+            let recommendationResponse = RDRCTRecommendationResponse(products: products, widgetTitle: response.widgetTitle)
+            resolve(recommendationResponse)
+        }
+
+    }
+
+    @objc(trackRecommendationClick:)
+    public func trackRecommendationClick(qs: String) {
+        NativeRD.trackRecommendationClick(qs: qs)
+    }
+
+    @objc(getFavoriteAttributeActions:withResolve:withReject:)
+    public func getFavoriteAttributeActions(actionId: String, resolve: @escaping Resolve, reject: @escaping Reject) {
+        NativeRD.getFavoriteAttributeActions(actionId: Int(actionId)) { response in
+            resolve(RDRCTFavoriteAttributeActionResponse(from: response))
+        }
     }
 
     @objc(registerNotificationListeners)
@@ -195,14 +270,13 @@ private typealias NativeRD = RelatedDigitalIOS.RelatedDigital
     func stopObserving() {
         hasListeners = false
     }
-    
 
     /*
-    public func sendRelatedDigitalEvent(_ eventName: String, _ body:  [AnyHashable : Any] ) {
-        if listenersRegistered, hasListeners {
-            self.sendEvent(withName: eventName, body: body)
-        }
-    }
+     public func sendRelatedDigitalEvent(_ eventName: String, _ body:  [AnyHashable : Any] ) {
+     if listenersRegistered, hasListeners {
+     self.sendEvent(withName: eventName, body: body)
+     }
+     }
      */
 
 }

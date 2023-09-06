@@ -7,6 +7,9 @@ import type {
   RDRecommendationResponse,
 } from './models/RDRecommendation';
 import type { RDFavoriteAttributeActionResponse } from './models/RDFavoriteAttribute';
+import { RDEventType, RDSubscription } from './models/RDSubscription';
+import type { RDPushMessage } from './models/RDPushMessage';
+import type { RDUser } from './models/RDUser';
 
 export type RDProps = Record<string, string>;
 
@@ -14,55 +17,15 @@ const RDModule = NativeModules.RelatedDigitalReactModule;
 
 const EventEmitter = new RDEventEmitter();
 
-export enum RDEventType {
-  NotificationRegistered = 'com.relateddigital.notification_registered',
-  NotificationReceived = 'com.relateddigital.notification_received',
-  NotificationOpened = 'com.relateddigital.notification_opened',
-}
-
-/**
- * A listener subscription.
- */
-export class Subscription {
-  onRemove: () => void;
-  constructor(onRemove: () => void) {
-    this.onRemove = onRemove;
-  }
-  /**
-   * Removes the listener.
-   */
-  remove(): void {
-    this.onRemove();
-  }
-}
-
-/**
- * Converts between public and internal event types.
- * @hidden
- */
-function convertEventEnum(type: RDEventType): string {
-  if (type === RDEventType.NotificationRegistered) {
-    return RDEventType.NotificationRegistered;
-  } else if (type === RDEventType.NotificationReceived) {
-    return RDEventType.NotificationReceived;
-  } else if (type === RDEventType.NotificationOpened) {
-    return RDEventType.NotificationOpened;
-  }
-
-  throw new Error('Invalid event name: ' + type);
-}
-
 /**
  * The main RelatedDigital API.
  */
 export class RelatedDigital {
-  static setIsInAppNotificationEnabled(
-    isInAppNotificationEnabled: boolean
-  ): void {
-    RDModule.setIsInAppNotificationEnabled(isInAppNotificationEnabled);
+  static setIsInAppNotificationEnabled(enabled: boolean): void {
+    RDModule.setIsInAppNotificationEnabled(enabled);
   }
-  static setIsGeofenceEnabled(isGeofenceEnabled: boolean): void {
-    RDModule.setIsGeofenceEnabled(isGeofenceEnabled);
+  static setIsGeofenceEnabled(enabled: boolean): void {
+    RDModule.setIsGeofenceEnabled(enabled);
   }
   static setAdvertisingIdentifier(advertisingIdentifier: string): void {
     RDModule.setAdvertisingIdentifier(advertisingIdentifier);
@@ -82,21 +45,18 @@ export class RelatedDigital {
   static askForNotificationPermission(): void {
     RDModule.askForNotificationPermission();
   }
-  static askForNotificationPermissionProvisional(
-    register: Boolean = false
-  ): void {
-    RDModule.askForNotificationPermissionProvisional(register);
+  static askForNotificationPermissionProvisional(): void {
+    RDModule.askForNotificationPermissionProvisional();
   }
-
   static setIsPushNotificationEnabled(
-    isPushNotificationEnabled: boolean,
+    enabled: boolean,
     iosAppAlias: string,
     googleAppAlias: string,
     huaweiAppAlias: string,
     deliveredBadge: boolean
   ): void {
     RDModule.setIsPushNotificationEnabled(
-      isPushNotificationEnabled,
+      enabled,
       iosAppAlias,
       googleAppAlias,
       huaweiAppAlias,
@@ -137,57 +97,30 @@ export class RelatedDigital {
   ): Promise<boolean> {
     return RDModule.registerEmail(email, permission, isCommercial);
   }
-  static getPushMessages(): Promise<any> {
+  static getPushMessages(): Promise<RDPushMessage[]> {
     return RDModule.getPushMessages();
   }
-  static getPushMessagesWithID(): Promise<any> {
+  static getPushMessagesWithId(): Promise<RDPushMessage[]> {
     return RDModule.getPushMessagesWithID();
   }
   static getToken(): Promise<string> {
     return RDModule.getToken();
   }
-  static getUser(): Promise<any> {
+  static getUser(): Promise<RDUser> {
     return RDModule.getUser();
   }
-  static addListener(
-    eventType: RDEventType,
-    listener: (...args: any[]) => any
-  ): Subscription {
-    EventEmitter.addListener(convertEventEnum(eventType), listener);
-    return new Subscription(() => {
-      RelatedDigital.removeListener(eventType, listener);
-    });
-  }
-  static removeListener(
-    eventType: RDEventType,
-    listener: (...args: any[]) => any
-  ) {
-    EventEmitter.removeListener(convertEventEnum(eventType), listener);
-  }
-  static removeAllListeners(eventType: RDEventType) {
-    EventEmitter.removeAllListeners(convertEventEnum(eventType));
-  }
-
   static requestIDFA(): void {
     RDModule.requestIDFA();
   }
-
   static sendLocationPermission(): void {
     RDModule.sendLocationPermission();
   }
-
   static requestLocationPermissions(): void {
     RDModule.requestLocationPermissions();
   }
-
   static sendTheListOfAppsInstalled(): void {
     RDModule.sendTheListOfAppsInstalled();
   }
-
-  static setNotificationLoginID(notificationLoginID: string | null): void {
-    RDModule.setNotificationLoginID(notificationLoginID);
-  }
-
   static recommend(
     zoneId: string,
     productCode: string | null = null,
@@ -196,14 +129,30 @@ export class RelatedDigital {
   ): Promise<RDRecommendationResponse> {
     return RDModule.recommend(zoneId, productCode, filters, properties);
   }
-
   static trackRecommendationClick(qs: string): void {
     RDModule.trackRecommendationClick(qs);
   }
-
   static getFavoriteAttributeActions(
     actionId: string | null = null
   ): Promise<RDFavoriteAttributeActionResponse> {
     return RDModule.getFavoriteAttributeActions(actionId);
+  }
+  static addListener(
+    eventType: RDEventType,
+    listener: (...args: any[]) => any
+  ): RDSubscription {
+    EventEmitter.addListener(eventType, listener);
+    return new RDSubscription(() => {
+      RelatedDigital.removeListener(eventType, listener);
+    });
+  }
+  static removeListener(
+    eventType: RDEventType,
+    listener: (...args: any[]) => any
+  ) {
+    EventEmitter.removeListener(eventType, listener);
+  }
+  static removeAllListeners(eventType: RDEventType) {
+    EventEmitter.removeAllListeners(eventType);
   }
 }

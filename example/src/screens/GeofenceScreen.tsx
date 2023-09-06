@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, Button, SafeAreaView } from 'react-native';
 import styles from './../Styles';
 
 export interface GeofenceItem {
@@ -21,6 +21,17 @@ export const geofenceData: GeofenceItem[] = [
   },
 ];
 
+interface ButtonProps {
+  title: string;
+  onPress: () => void;
+}
+
+const CustomButton: React.FC<ButtonProps> = ({ title, onPress }) => (
+  <View style={styles.button}>
+    <Button title={title} onPress={onPress} />
+  </View>
+);
+
 export function GeofenceScreen() {
   const renderItem = ({ item }: { item: GeofenceItem }) => {
     return (
@@ -32,12 +43,17 @@ export function GeofenceScreen() {
   };
 
   return (
-    <View style={styles.geofenceContainer}>
+    <SafeAreaView style={styles.container}>
+      <CustomButton
+        title={'Clear History'}
+        onPress={() => console.log('asd')}
+      />
+      <CustomButton title={'Refresh'} onPress={() => console.log('asd')} />
       <FlatList
         data={geofenceData}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       />
-    </View>
+    </SafeAreaView>
   );
 }

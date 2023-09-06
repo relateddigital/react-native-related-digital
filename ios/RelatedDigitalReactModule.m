@@ -41,22 +41,14 @@ RCT_EXPORT_MODULE();
 #pragma mark -
 #pragma mark Module methods
 
-RCT_EXPORT_METHOD(addListener : (NSString *)eventName) {}
-
-RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {}
-
-RCT_EXPORT_METHOD(onRDListenerAdded : (NSString *)eventName) {
-  [RDRCTEventEmitter.shared onRelatedDigitalListenerAddedForType:eventName];
-}
-
 // TODO: RELATED DIGITAL
 
-RCT_EXPORT_METHOD(setIsInAppNotificationEnabled : (BOOL)isInAppNotificationEnabled) {
-  [RDRCTHelper.shared setIsInAppNotificationEnabled:isInAppNotificationEnabled];
+RCT_EXPORT_METHOD(setIsInAppNotificationEnabled : (BOOL)enabled) {
+  [RDRCTHelper.shared setIsInAppNotificationEnabled:enabled];
 }
 
-RCT_EXPORT_METHOD(setIsGeofenceEnabled : (BOOL)isGeofenceEnabled) {
-  [RDRCTHelper.shared setIsGeofenceEnabled:isGeofenceEnabled];
+RCT_EXPORT_METHOD(setIsGeofenceEnabled : (BOOL)enabled) {
+  [RDRCTHelper.shared setIsGeofenceEnabled:enabled];
 }
 
 RCT_EXPORT_METHOD(setAdvertisingIdentifier : (NSString *)advertisingIdentifier) {
@@ -81,13 +73,17 @@ RCT_EXPORT_METHOD(askForNotificationPermission) {
   [RDRCTHelper.shared askForNotificationPermission];
 }
 
+RCT_EXPORT_METHOD(askForNotificationPermissionProvisional) {
+  [RDRCTHelper.shared askForNotificationPermissionProvisional];
+}
+
 RCT_EXPORT_METHOD(setIsPushNotificationEnabled
-                  : (BOOL)isPushNotificationEnabled withIosAppAlias
+                  : (BOOL)enabled withIosAppAlias
                   : (NSString *)iosAppAlias withGoogleAppAlias
                   : (NSString *)googleAppAlias withHuaweiAppAlias
                   : (NSString *)huaweiAppAlias withDeliveredBadge
                   : (BOOL)deliveredBadge) {
-  [RDRCTHelper.shared setIsPushNotificationEnabled:isPushNotificationEnabled
+  [RDRCTHelper.shared setIsPushNotificationEnabled:enabled
                                    withIosAppAlias:iosAppAlias
                                 withGoogleAppAlias:googleAppAlias
                                 withHuaweiAppAlias:huaweiAppAlias
@@ -130,12 +126,6 @@ RCT_EXPORT_METHOD(removeUserProperty : (NSString *)key) {
   [RDRCTHelper.shared removeUserProperty:key];
 }
 
-RCT_EXPORT_METHOD(getToken
-                  : (RCTPromiseResolveBlock)resolve reject
-                  : (RCTPromiseRejectBlock)reject) {
-  [RDRCTHelper.shared getToken:resolve withReject:reject];
-}
-
 RCT_EXPORT_METHOD(registerEmail
                   : (NSString *)email withPermission
                   : (BOOL)permission withIsCommercial
@@ -155,6 +145,13 @@ RCT_EXPORT_METHOD(getPushMessages
   [RDRCTHelper.shared getPushMessages:resolve withReject:reject];
 }
 
+
+RCT_EXPORT_METHOD(getPushMessagesWithId
+                  : (RCTPromiseResolveBlock)resolve withReject
+                  : (RCTPromiseRejectBlock)reject) {
+  [RDRCTHelper.shared getPushMessagesWithId:resolve withReject:reject];
+}
+
 RCT_EXPORT_METHOD(getToken
                   : (RCTPromiseResolveBlock)resolve withReject
                   : (RCTPromiseRejectBlock)reject) {
@@ -166,5 +163,54 @@ RCT_EXPORT_METHOD(getUser
                   : (RCTPromiseRejectBlock)reject) {
   [RDRCTHelper.shared getUser:resolve withReject:reject];
 }
+
+RCT_EXPORT_METHOD(requestIDFA) { [RDRCTHelper.shared requestIDFA]; }
+
+RCT_EXPORT_METHOD(sendLocationPermission) { [RDRCTHelper.shared sendLocationPermission]; }
+
+RCT_EXPORT_METHOD(requestLocationPermissions) { [RDRCTHelper.shared requestLocationPermissions]; }
+
+RCT_EXPORT_METHOD(sendTheListOfAppsInstalled) { [RDRCTHelper.shared sendTheListOfAppsInstalled]; }
+
+RCT_EXPORT_METHOD(recommend
+                  : (NSString *)zoneId withProductCode
+                  : (NSString *)productCode withFilters
+                  : (NSArray<NSDictionary *> *)filters withProperties
+                  : (NSDictionary *)properties withResolve
+                  : (RCTPromiseResolveBlock)resolve withReject
+                  : (RCTPromiseRejectBlock)reject) {
+  [RDRCTHelper.shared recommend:zoneId
+                withProductCode:productCode
+                    withFilters:filters
+                 withProperties:properties
+                        withResolve:resolve
+                         withReject:reject];
+}
+
+
+RCT_EXPORT_METHOD(trackRecommendationClick:(NSString *) qs) {
+    [RDRCTHelper.shared trackRecommendationClick:qs];
+}
+
+RCT_EXPORT_METHOD(getFavoriteAttributeActions
+                  : (NSString *)actionId withResolve
+                  : (RCTPromiseResolveBlock)resolve withReject
+                  : (RCTPromiseRejectBlock)reject) {
+  [RDRCTHelper.shared getFavoriteAttributeActions:actionId
+                        withResolve:resolve
+                         withReject:reject];
+}
+
+
+RCT_EXPORT_METHOD(addListener : (NSString *)eventName) {}
+
+RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {}
+
+RCT_EXPORT_METHOD(onRDListenerAdded : (NSString *)eventName) {
+  [RDRCTEventEmitter.shared onRelatedDigitalListenerAddedForType:eventName];
+}
+
+
+
 
 @end

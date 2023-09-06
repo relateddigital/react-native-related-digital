@@ -53,10 +53,12 @@ export function PushScreen() {
     RelatedDigital.setEmail('random@gmail.com', true);
   };
 
-  const handleGetPushMessages = () => {
-    RelatedDigital.getPushMessages().then((pushMessages) => {
-      console.log(pushMessages);
-    });
+  const handleGetPushMessages = (withId: boolean) => {
+    const fetchMethod = withId
+      ? RelatedDigital.getPushMessagesWithId
+      : RelatedDigital.getPushMessages;
+
+    fetchMethod().then(console.log);
   };
 
   return (
@@ -114,7 +116,16 @@ export function PushScreen() {
           <Button title="Set Email" onPress={handleSetEmail} />
         </View>
         <View style={styles.button}>
-          <Button title="Get Push Messages" onPress={handleGetPushMessages} />
+          <Button
+            title="Get Push Messages"
+            onPress={() => handleGetPushMessages(false)}
+          />
+        </View>
+        <View style={styles.button}>
+          <Button
+            title="Get Push Messages With Id"
+            onPress={() => handleGetPushMessages(true)}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

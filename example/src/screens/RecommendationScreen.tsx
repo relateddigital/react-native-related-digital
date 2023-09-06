@@ -15,16 +15,6 @@ export function RecommendationScreen() {
   const [propertyKey, setPropertyKey] = React.useState('');
   const [propertyValue, setPropertyValue] = React.useState('');
 
-  const handleSetUserProperty = () => {
-    RelatedDigital.setUserProperty(propertyKey, propertyValue);
-    console.log('User property set.');
-  };
-
-  const handleRemoveUserProperty = () => {
-    RelatedDigital.removeUserProperty(propertyKey);
-    console.log('User property removed.');
-  };
-
   const handleGetToken = () => {
     RelatedDigital.getToken().then((token) => {
       console.log(token);
@@ -64,15 +54,6 @@ export function RecommendationScreen() {
           onChangeText={setPropertyValue}
           placeholder="Enter property value"
         />
-        <View style={styles.button}>
-          <Button title="Set User Property" onPress={handleSetUserProperty} />
-        </View>
-        <View style={styles.button}>
-          <Button
-            title="Remove User Property"
-            onPress={handleRemoveUserProperty}
-          />
-        </View>
         <View style={styles.button}>
           <Button title="Get Token" onPress={handleGetToken} />
         </View>
