@@ -38,6 +38,7 @@ class RelatedDigitalManager private constructor() {
     dataSource: String,
     googleAppAlias: String?,
     huaweiAppAlias: String?,
+    inAppNotificationsEnabled: Boolean,
     enablePushNotification: Boolean,
     enableGeofence: Boolean,
     notificationSmallIcon: Int = 0,
@@ -57,6 +58,8 @@ class RelatedDigitalManager private constructor() {
       profileId,
       dataSource
     )
+    RelatedDigital.setIsInAppNotificationEnabled(context, inAppNotificationsEnabled)
+
     RelatedDigital.setIsGeofenceEnabled(context, enableGeofence)
 
     val googleAlias = googleAppAlias ?: ""

@@ -12,9 +12,15 @@ If you are sure the module exists, try these steps:
 
 
 
+#### Command PhaseScriptExecution failed with a nonzero exit code - Error when Archive on Xcode 14.3 #36762
 
 
+- https://github.com/facebook/react-native/issues/36762
 
+#### MaxListenersExceededWarning: Possible EventEmitter memory leak detected. #1295
+
+- https://github.com/node-fetch/node-fetch/issues/1295
+- https://stackoverflow.com/questions/9768444/possible-eventemitter-memory-leak-detected
 
 
 

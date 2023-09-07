@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, Button, SafeAreaView } from 'react-native';
 import styles from './../Styles';
+import { RelatedDigital } from '@relateddigital/react-native-huawei';
 
 export interface GeofenceItem {
   id: number;
@@ -44,6 +45,10 @@ export function GeofenceScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <CustomButton
+        title={'Request Location Permissions'}
+        onPress={() => RelatedDigital.requestLocationPermissions()}
+      />
       <CustomButton
         title={'Clear History'}
         onPress={() => console.log('asd')}
