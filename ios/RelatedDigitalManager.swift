@@ -41,20 +41,20 @@ public typealias RNCRemoteNotificationCallback = (UIBackgroundFetchResult) -> Vo
         enableGeofence: DarwinBoolean, askLocationPermissionAtStart: DarwinBoolean, loggingEnabled: DarwinBoolean,
         launchOptions: NSDictionary?
     ) {
+            self.launchOptions = launchOptions as? [UIApplication.LaunchOptionsKey: Any]
+            
+            NativeRD.initialize(
+                organizationId: organizationId as String, profileId: profileId as String,
+                dataSource: dataSource as String, launchOptions: self.launchOptions,
+                askLocationPermmissionAtStart: askLocationPermissionAtStart.boolValue)
+            NativeRD.inAppNotificationsEnabled = inAppNotificationsEnabled.boolValue
+            NativeRD.enablePushNotifications(
+                appAlias: appAlias as String, launchOptions: self.launchOptions,
+                appGroupsKey: appGroupsKey as String, deliveredBadge: deliveredBadge.boolValue)
+            NativeRD.setPushNotification(permission: enablePushNotification.boolValue)
+            NativeRD.geofenceEnabled = enableGeofence.boolValue
+            NativeRD.loggingEnabled = loggingEnabled.boolValue
         
-        self.launchOptions = launchOptions as? [UIApplication.LaunchOptionsKey: Any]
-        
-        NativeRD.initialize(
-            organizationId: organizationId as String, profileId: profileId as String,
-            dataSource: dataSource as String, launchOptions: self.launchOptions,
-            askLocationPermmissionAtStart: askLocationPermissionAtStart.boolValue)
-        NativeRD.inAppNotificationsEnabled = inAppNotificationsEnabled.boolValue
-        NativeRD.enablePushNotifications(
-            appAlias: appAlias as String, launchOptions: self.launchOptions,
-            appGroupsKey: appGroupsKey as String, deliveredBadge: deliveredBadge.boolValue)
-        NativeRD.setPushNotification(permission: enablePushNotification.boolValue)
-        NativeRD.geofenceEnabled = enableGeofence.boolValue
-        NativeRD.loggingEnabled = loggingEnabled.boolValue
     }
     
     @objc(didRegisterForRemoteNotificationsWithDeviceToken:)
@@ -91,7 +91,7 @@ public typealias RNCRemoteNotificationCallback = (UIBackgroundFetchResult) -> Vo
     ) {
         let userInfo = response.notification.request.content.userInfo
         NativeRD.handlePush(pushDictionary: userInfo)
-        RDRCTEventEmitter.shared().sendEvent(withName: EventType.NotificationOpened.rawValue, body: userInfo)
+        RDRCTEventEmitter.shared.sendEvent(withName: EventType.NotificationOpened.rawValue, body: userInfo)
         completionHandler()
     }
     
@@ -103,7 +103,7 @@ public typealias RNCRemoteNotificationCallback = (UIBackgroundFetchResult) -> Vo
     
     
     public func sendRelatedDigitalEvent(_ eventName: String, _ body:  [AnyHashable : Any] ) {
-        RDRCTEventEmitter.shared().sendEvent(withName: eventName, body: body)
+        RDRCTEventEmitter.shared.sendEvent(withName: eventName, body: body)
         //self.sendRelatedDigitalEvent?(eventName, body)
     }
     

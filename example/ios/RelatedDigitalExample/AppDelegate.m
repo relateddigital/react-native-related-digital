@@ -33,10 +33,11 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  
   [FIRApp configure];
 
 #ifdef FB_SONARKIT_ENABLED
-  //InitializeFlipper(application);
+  InitializeFlipper(application);
 #endif
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 
@@ -48,6 +49,7 @@ static void InitializeFlipper(UIApplication *application) {
 
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
+  
 
   [[RelatedDigitalManager shared]
                     initRelatedDigital:@"676D325830564761676D453D"
@@ -55,7 +57,7 @@ static void InitializeFlipper(UIApplication *application) {
                         withDataSource:@"visistore"
                           withAppAlias:@"RDIOSExample"
          withInAppNotificationsEnabled:YES
-            withEnablePushNotification:YES
+            withEnablePushNotification:NO
                       withAppGroupsKey:
                           @"group.com.relateddigital.RelatedDigitalExample.relateddigital"
                     withDeliveredBadge:YES

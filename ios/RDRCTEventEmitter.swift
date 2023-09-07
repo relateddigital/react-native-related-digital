@@ -16,44 +16,39 @@ import React
     
     @objc public weak var bridge: RCTBridge?
     
-    private static var sharedEventEmitter: RDRCTEventEmitter = {
-        let eventEmitter = RDRCTEventEmitter()
-        return eventEmitter
-    }()
     
-    var pendingEvents: [[String: Any]]
+    var pendingEvents: [[String: Any]] = []
     
-    private let pendingEventsQueue = DispatchQueue(
-        label: "com.relateddigital.pendingEventsQueue", attributes: .concurrent)
+    private let lock = DispatchSemaphore(value: 1)
+    
     
     override init() {
         self.pendingEvents = [[String: Any]]()
         super.init()
     }
     
-    @objc public static func shared() -> RDRCTEventEmitter {
-        return sharedEventEmitter
+    @objc public static let shared = RDRCTEventEmitter()
+    
+    @objc public func sendEvent(withName eventName: String) {
+        lock.wait()
+        self.pendingEvents.append([RDRCTEventEmitter.RDRCTEventNameKey: eventName])
+        self.notifyPendingEvents()
+        lock.signal()
     }
     
-    func sendEvent(withName eventName: String) {
-        self.pendingEventsQueue.async(flags: .barrier) { [weak self] in
-            self?.pendingEvents.append([Self.RDRCTEventNameKey: eventName])
-            self?.notifyPendingEvents()
+    @objc public func sendEvent(withName eventName: String, body: Any?) {
+        lock.wait()
+        var event: [String: Any] = [Self.RDRCTEventNameKey: eventName]
+        if let body = body {
+            event[Self.RDRCTEventBodyKey] = body
         }
+        self.pendingEvents.append(event)
+        self.notifyPendingEvents()
+        lock.signal()
+        
     }
     
-    func sendEvent(withName eventName: String, body: Any?) {
-        self.pendingEventsQueue.async(flags: .barrier) { [weak self] in
-            var event: [String: Any] = [Self.RDRCTEventNameKey: eventName]
-            if let body = body {
-                event[Self.RDRCTEventBodyKey] = body
-            }
-            self?.pendingEvents.append(event)
-            self?.notifyPendingEvents()
-        }
-    }
-    
-    func notifyPendingEvents() {
+    @objc public func notifyPendingEvents() {
         self.bridge?.enqueueJSCall(
             "RCTDeviceEventEmitter",
             method: "emit",
@@ -61,31 +56,32 @@ import React
             completion: nil)
     }
     
-    func takePendingEvents(withType type: String) -> [Any] {
+    @objc public func takePendingEvents(withType type: String) -> [Any] {
+        lock.wait()
         var events: [Any] = []
-        pendingEventsQueue.async(flags: .barrier) { [weak self] in
-            guard let self = self else { return }
-            self.pendingEvents = self.pendingEvents.filter { event in
-                if event[Self.RDRCTEventNameKey] as? String == type {
-                    if let eventBody = event[Self.RDRCTEventBodyKey] {
-                        events.append(eventBody)
-                    }
-                    return false
-                } else {
-                    return true
+        self.pendingEvents = self.pendingEvents.filter { event in
+            if event[Self.RDRCTEventNameKey] as? String == type {
+                if let eventBody = event[Self.RDRCTEventBodyKey] {
+                    events.append(eventBody)
                 }
+                return false
+            } else {
+                return true
             }
         }
+        lock.signal()
         return events
+        
     }
     
     @objc public func onRelatedDigitalListenerAdded(forType type: String) {
-        pendingEventsQueue.async(flags: .barrier) { [weak self] in
-            guard let self = self else { return }
-            if self.pendingEvents.contains(where: { $0[Self.RDRCTEventNameKey] as? String == type }) {
-                self.notifyPendingEvents()
-            }
+        lock.wait()
+        if self.pendingEvents.contains(where: { $0[Self.RDRCTEventNameKey] as? String == type }) {
+            self.notifyPendingEvents()
         }
+        lock.signal()
+        
     }
+    
     
 }

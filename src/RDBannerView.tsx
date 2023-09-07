@@ -26,7 +26,7 @@ export interface BannerItemClickedEvent {
 
 export interface BannerViewProps {
   properties: Record<string, string> | null;
-  onClicked: (event: BannerItemClickedEvent) => void;
+  onClicked: (url: string) => void;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -41,7 +41,7 @@ export class BannerView extends React.Component<BannerViewProps> {
     if (!this.props.onClicked) {
       return;
     }
-    this.props.onClicked(event.nativeEvent);
+    this.props.onClicked(event.nativeEvent.url);
   };
 
   render() {

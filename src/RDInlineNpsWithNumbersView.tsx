@@ -28,7 +28,7 @@ export interface NpsButtonClickedEvent {
 
 export interface InlineNpsWithNumbersViewProps {
   properties: Record<string, string> | null;
-  onClicked: (event: NpsButtonClickedEvent) => void;
+  onClicked: (url: string) => void;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -43,7 +43,7 @@ export class InlineNpsWithNumbersView extends React.Component<InlineNpsWithNumbe
     if (!this.props.onClicked) {
       return;
     }
-    this.props.onClicked(event.nativeEvent);
+    this.props.onClicked(event.nativeEvent.url);
   };
 
   render() {

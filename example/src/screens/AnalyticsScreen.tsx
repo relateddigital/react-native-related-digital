@@ -127,6 +127,9 @@ export function AnalyticsScreen() {
       case RelatedDigitalEventType.requestIDFA:
         RelatedDigital.requestIDFA();
         return;
+      case RelatedDigitalEventType.sendLocationPermission:
+        RelatedDigital.sendLocationPermission();
+        return;
       default:
         return;
     }

@@ -31,7 +31,7 @@ RCT_EXPORT_MODULE();
 }
 
 - (RCTBridge *)bridge {
-  return [RDRCTEventEmitter shared].bridge;
+    return [RDRCTEventEmitter shared].bridge;
 }
 
 + (BOOL)requiresMainQueueSetup {

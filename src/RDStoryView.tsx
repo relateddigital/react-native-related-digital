@@ -26,7 +26,7 @@ export interface StoryItemClickedEvent {
 
 export interface StoryViewProps {
   actionId: string | null;
-  onClicked: (event: StoryItemClickedEvent) => void;
+  onClicked: (url: string) => void;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -41,7 +41,7 @@ export class StoryView extends React.Component<StoryViewProps> {
     if (!this.props.onClicked) {
       return;
     }
-    this.props.onClicked(event.nativeEvent);
+    this.props.onClicked(event.nativeEvent.url);
   };
 
   render() {

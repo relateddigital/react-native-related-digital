@@ -716,3 +716,8 @@ RelatedDigital.getToken().then((token) => {
 //TODO:
 - RelatedDigitalEventType.requestIDFA
 - NSUserTrackingUsageDescription
+- MaxListenersExceededWarning: Possible EventEmitter memory leak detected.
+- (node:31737) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 close listeners added to [TLSSocket]. Use emitter.setMaxListeners() to increase limit
+- NODE_OPTIONS="--trace-warnings" npm install
+
+
