@@ -11,67 +11,149 @@ import UserNotifications
 
 extension RDUser {
     func toDictionary() -> [String: Any] {
-        var dictionary: [String: Any] = [:]
-        dictionary["cookieId"] = cookieId ?? NSNull()
-        dictionary["exVisitorId"] = exVisitorId ?? NSNull()
-        dictionary["tokenId"] = tokenId ?? NSNull()
-        dictionary["appId"] = appId ?? NSNull()
-        dictionary["visitData"] = visitData ?? NSNull()
-        dictionary["visitorData"] = visitorData ?? NSNull()
-        dictionary["userAgent"] = userAgent ?? NSNull()
-        dictionary["identifierForAdvertising"] = identifierForAdvertising ?? NSNull()
-        dictionary["sdkVersion"] = sdkVersion ?? NSNull()
-        dictionary["sdkType"] = sdkType ?? NSNull()
-        dictionary["lastEventTime"] = lastEventTime ?? NSNull()
-        dictionary["nrv"] = nrv
-        dictionary["pviv"] = pviv
-        dictionary["tvc"] = tvc
-        dictionary["lvt"] = lvt ?? NSNull()
-        dictionary["appVersion"] = appVersion ?? NSNull()
-        return dictionary
+        var dict: [String: Any] = [:]
+        dict["cookieId"] = cookieId ?? NSNull()
+        dict["exVisitorId"] = exVisitorId ?? NSNull()
+        dict["tokenId"] = tokenId ?? NSNull()
+        dict["appId"] = appId ?? NSNull()
+        dict["visitData"] = visitData ?? NSNull()
+        dict["visitorData"] = visitorData ?? NSNull()
+        dict["userAgent"] = userAgent ?? NSNull()
+        dict["identifierForAdvertising"] = identifierForAdvertising ?? NSNull()
+        dict["sdkVersion"] = sdkVersion ?? NSNull()
+        dict["sdkType"] = sdkType ?? NSNull()
+        dict["lastEventTime"] = lastEventTime ?? NSNull()
+        dict["nrv"] = nrv
+        dict["pviv"] = pviv
+        dict["tvc"] = tvc
+        dict["lvt"] = lvt ?? NSNull()
+        dict["appVersion"] = appVersion ?? NSNull()
+        return dict
     }
 }
 
 extension RDProduct {
     func toDictionary() -> [String: Any] {
-        var dictionary: [String: Any] = [:]
+        var dict: [String: Any] = [:]
 
-        dictionary[PayloadKey.code] = code
-        dictionary[PayloadKey.title] = title
-        dictionary[PayloadKey.img] = img
-        dictionary[PayloadKey.destUrl] = destUrl
-        dictionary[PayloadKey.brand] = brand
-        dictionary[PayloadKey.price] = price
-        dictionary[PayloadKey.dprice] = dprice
-        dictionary[PayloadKey.cur] = cur
-        dictionary[PayloadKey.dcur] = dcur
-        dictionary[PayloadKey.freeshipping] = freeshipping
-        dictionary[PayloadKey.samedayshipping] = samedayshipping
-        dictionary[PayloadKey.rating] = rating
-        dictionary[PayloadKey.comment] = comment
-        dictionary[PayloadKey.discount] = discount
-        dictionary[PayloadKey.attr1] = attr1
-        dictionary[PayloadKey.attr2] = attr2
-        dictionary[PayloadKey.attr3] = attr3
-        dictionary[PayloadKey.attr4] = attr4
-        dictionary[PayloadKey.attr5] = attr5
-        dictionary[PayloadKey.attr6] = attr6
-        dictionary[PayloadKey.attr7] = attr7
-        dictionary[PayloadKey.attr8] = attr8
-        dictionary[PayloadKey.attr9] = attr9
-        dictionary[PayloadKey.attr10] = attr10
-        dictionary[PayloadKey.qs] = qs
+        dict[PayloadKey.code] = code
+        dict[PayloadKey.title] = title
+        dict[PayloadKey.img] = img
+        dict[PayloadKey.destUrl] = destUrl
+        dict[PayloadKey.brand] = brand
+        dict[PayloadKey.price] = price
+        dict[PayloadKey.dprice] = dprice
+        dict[PayloadKey.cur] = cur
+        dict[PayloadKey.dcur] = dcur
+        dict[PayloadKey.freeshipping] = freeshipping
+        dict[PayloadKey.samedayshipping] = samedayshipping
+        dict[PayloadKey.rating] = rating
+        dict[PayloadKey.comment] = comment
+        dict[PayloadKey.discount] = discount
+        dict[PayloadKey.attr1] = attr1
+        dict[PayloadKey.attr2] = attr2
+        dict[PayloadKey.attr3] = attr3
+        dict[PayloadKey.attr4] = attr4
+        dict[PayloadKey.attr5] = attr5
+        dict[PayloadKey.attr6] = attr6
+        dict[PayloadKey.attr7] = attr7
+        dict[PayloadKey.attr8] = attr8
+        dict[PayloadKey.attr9] = attr9
+        dict[PayloadKey.attr10] = attr10
+        dict[PayloadKey.qs] = qs
 
-        return dictionary
+        return dict
     }
 }
 
 extension RDRecommendationResponse {
     func toDictionary() -> [String: Any] {
-        var dictionary: [String: Any] = [:]
-        dictionary["products"] = products.map { $0.toDictionary() }
-        dictionary["widgetTitle"] = widgetTitle
-        return dictionary
+        var dict: [String: Any] = [:]
+        dict["products"] = products.map { $0.toDictionary() }
+        dict["widgetTitle"] = widgetTitle
+        return dict
+    }
+}
+
+extension RDPushMessage.Alert {
+    func toDictionary() -> [String: Any] {
+        var dict: [String: Any] = [:]
+
+        dict["title"] = self.title
+        dict["body"] = self.body
+
+        return dict
+    }
+}
+
+extension RDPushMessage.Aps {
+    func toDictionary() -> [String: Any] {
+        var dict: [String: Any] = [:]
+
+        dict["alert"] = self.alert?.toDictionary()
+        dict["category"] = self.category
+        dict["sound"] = self.sound
+        dict["contentAvailable"] = self.contentAvailable
+
+        return dict
+    }
+}
+
+extension RDPushMessage.Element {
+    func toDictionary() -> [String: Any] {
+        var dict: [String: Any] = [:]
+
+        dict["title"] = self.title
+        dict["content"] = self.content
+        dict["url"] = self.url
+        dict["picture"] = self.picture
+
+        return dict
+    }
+}
+
+extension RDPushMessage.ActionButtons {
+    func toDictionary() -> [String: Any] {
+        var dict: [String: Any] = [:]
+
+        dict["title"] = self.title
+        dict["identifier"] = self.identifier
+        dict["url"] = self.url
+
+        return dict
+    }
+}
+
+extension RDPushMessage {
+    func toDictionary() -> [String: Any] {
+        var dict: [String: Any] = [:]
+        dict["title"] = self.aps?.alert?.title
+        dict["body"] = self.aps?.alert?.body
+        dict["formattedDateString"] = self.formattedDateString
+        dict["aps"] = self.aps?.toDictionary()
+        dict["altURL"] = self.altURL
+        dict["cid"] = self.cid
+        dict["url"] = self.url
+        dict["settings"] = self.settings
+        dict["pushType"] = self.pushType
+        dict["altUrl"] = self.altUrl
+        dict["mediaUrl"] = self.mediaUrl
+        dict["deeplink"] = self.deeplink
+        dict["pushId"] = self.pushId
+        dict["emPushSp"] = self.emPushSp
+        dict["elements"] = self.elements?.map { $0.toDictionary() }
+        dict["buttons"] = self.buttons?.map { $0.toDictionary() }
+        dict["utm_source"] = self.utm_source
+        dict["utm_campaign"] = self.utm_campaign
+        dict["utm_medium"] = self.utm_medium
+        dict["utm_content"] = self.utm_content
+        dict["utm_term"] = self.utm_term
+        dict["notificationLoginID"] = self.notificationLoginID
+        dict["status"] = self.status
+        dict["openedDate"] = self.openedDate
+        dict["deliver"] = self.deliver
+        dict["silent"] = self.silent
+        return dict
     }
 }
 

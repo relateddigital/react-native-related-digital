@@ -166,7 +166,7 @@ public typealias Reject = RCTPromiseRejectBlock
         resolve: @escaping Resolve, reject: @escaping Reject
     ) {
         NativeRD.getPushMessages { nativeMessages in
-            let messages = nativeMessages.map({ RDRCTPushMessage(from: $0)})
+            let messages = nativeMessages.map { $0.toDictionary() }
             resolve(messages)
         }
     }
@@ -176,7 +176,7 @@ public typealias Reject = RCTPromiseRejectBlock
         resolve: @escaping Resolve, reject: @escaping Reject
     ) {
         NativeRD.getPushMessagesWithID { nativeMessages in
-            let messages = nativeMessages.map({ RDRCTPushMessage(from: $0)})
+            let messages = nativeMessages.map { $0.toDictionary() }
             resolve(messages)
         }
     }

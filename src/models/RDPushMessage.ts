@@ -1,4 +1,31 @@
+export interface Alert {
+  title?: string;
+  body?: string;
+}
+
+export interface Aps {
+  alert?: Alert;
+  category?: string;
+  sound?: string;
+  contentAvailable?: number;
+}
+
+export interface Element {
+  title?: string;
+  content?: string;
+  url?: string;
+  picture?: string;
+}
+
+export interface ActionButton {
+  title?: string;
+  identifier?: string;
+  url?: string;
+}
+
 export interface RDPushMessage {
+  title?: string;
+  body?: string;
   formattedDateString?: string;
   formattedOpenDateString?: string;
   aps?: Aps;
@@ -23,29 +50,4 @@ export interface RDPushMessage {
   status?: string;
   deliver?: string;
   silent?: string;
-}
-
-export interface Aps {
-  alert?: Alert;
-  category?: string;
-  sound?: string;
-  contentAvailable?: number;
-}
-
-export interface Alert {
-  title?: string;
-  body?: string;
-}
-
-export interface Element {
-  title?: string;
-  content?: string;
-  url?: string;
-  picture?: string;
-}
-
-export interface ActionButton {
-  title?: string;
-  identifier?: string;
-  url?: string;
 }
