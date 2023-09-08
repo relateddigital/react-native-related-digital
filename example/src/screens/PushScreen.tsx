@@ -5,37 +5,47 @@ import {
   Button,
   TextInput,
   ScrollView,
-  Switch,
   Alert,
   SafeAreaView,
 } from 'react-native';
-import { RelatedDigital } from '@relateddigital/react-native-huawei';
 import styles from './../Styles';
+import { RelatedDigital } from '@relateddigital/react-native-huawei';
+
+interface ButtonProps {
+  title: string;
+  onPress: () => void;
+}
+
+const CustomButton: React.FC<ButtonProps> = ({ title, onPress }) => (
+  <View style={styles.button}>
+    <Button title={title} onPress={onPress} />
+  </View>
+);
 
 export function PushScreen() {
-  const [isPushNotificationEnabled, setIsPushNotificationEnabled] =
-    React.useState(false);
-  const [propertyKey, setPropertyKey] = React.useState('');
-  const [propertyValue, setPropertyValue] = React.useState('');
-  const handleIsPushNotificationEnabled = (value: boolean) => {
-    setIsPushNotificationEnabled(value);
+  const [email, setEmail] = React.useState('');
+  const [relatedDigitalUserId, setRelatedDigitalUserId] = React.useState('');
+
+  const handlePushPermission = (permission: boolean) => {
     RelatedDigital.setIsPushNotificationEnabled(
-      value,
-      'yourAppAlias',
+      permission,
+      'RDIOSExample',
       'relateddigital-android-test',
       'relateddigital-android-huawei-test',
-      true
+      permission
     );
   };
 
-  const handleSetUserProperty = () => {
-    RelatedDigital.setUserProperty(propertyKey, propertyValue);
-    console.log('User property set.');
+  const handlePhonePermission = (permission: boolean) => {
+    RelatedDigital.setPhoneNumber('05559990000', permission);
   };
 
-  const handleRemoveUserProperty = () => {
-    RelatedDigital.removeUserProperty(propertyKey);
-    console.log('User property removed.');
+  const handleEmailPermission = (permission: boolean) => {
+    RelatedDigital.setEmail(email, permission);
+  };
+
+  const handleRegisterEmail = () => {
+    RelatedDigital.registerEmail(email, true, true);
   };
 
   const handleGetToken = () => {
@@ -43,14 +53,6 @@ export function PushScreen() {
       console.log(token);
       Alert.alert('Push Token', token);
     });
-  };
-
-  const handleAskForPushNotificationPermission = () => {
-    //RelatedDigital.askForPushNotificationPermission();
-  };
-
-  const handleSetEmail = () => {
-    RelatedDigital.setEmail('random@gmail.com', true);
   };
 
   const handleGetPushMessages = (withId: boolean) => {
@@ -64,69 +66,91 @@ export function PushScreen() {
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.heading}>Push Permissions</Text>
-        <View style={styles.switchRow}>
-          <Text>Push Notification Enabled:</Text>
-          <Switch
-            value={isPushNotificationEnabled}
-            onValueChange={handleIsPushNotificationEnabled}
-          />
-        </View>
-        <View style={styles.sectionHeaderContainer}>
-          <Text style={styles.cellTitle}>{'section.title.name'}</Text>
-          <Text style={styles.sectionSubtitle}>
-            {'section.title.description'}
-          </Text>
-        </View>
-
-        <Text style={styles.heading}>User Properties</Text>
-        <Text>Property Key:</Text>
+        <CustomButton
+          title={'Ask For Push Notification Permission'}
+          onPress={() => RelatedDigital.askForNotificationPermission()}
+        />
+        <CustomButton
+          title={'Ask For Push Notification Permission Provisional'}
+          onPress={() =>
+            RelatedDigital.askForNotificationPermissionProvisional()
+          }
+        />
+        <Text>Email:</Text>
+        <TextInput style={styles.input} value={email} onChangeText={setEmail} />
+        <Text>User Id:</Text>
         <TextInput
           style={styles.input}
-          value={propertyKey}
-          onChangeText={setPropertyKey}
-          placeholder="Enter property key"
+          value={relatedDigitalUserId}
+          onChangeText={setRelatedDigitalUserId}
         />
-        <Text>Property Value:</Text>
-        <TextInput
-          style={styles.input}
-          value={propertyValue}
-          onChangeText={setPropertyValue}
-          placeholder="Enter property value"
+        <CustomButton
+          title={'Enable Push Notification'}
+          onPress={() => handlePushPermission(true)}
         />
-        <View style={styles.button}>
-          <Button title="Set User Property" onPress={handleSetUserProperty} />
-        </View>
-        <View style={styles.button}>
-          <Button
-            title="Remove User Property"
-            onPress={handleRemoveUserProperty}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button title="Get Token" onPress={handleGetToken} />
-        </View>
-        <View style={styles.button}>
-          <Button
-            title="Ask for Push Notification Permission"
-            onPress={handleAskForPushNotificationPermission}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button title="Set Email" onPress={handleSetEmail} />
-        </View>
-        <View style={styles.button}>
-          <Button
-            title="Get Push Messages"
-            onPress={() => handleGetPushMessages(false)}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button
-            title="Get Push Messages With Id"
-            onPress={() => handleGetPushMessages(true)}
-          />
-        </View>
+        <CustomButton
+          title={'Disable Push Notification'}
+          onPress={() => handlePushPermission(false)}
+        />
+        <CustomButton
+          title={'Enable Phone Permission'}
+          onPress={() => handlePhonePermission(true)}
+        />
+        <CustomButton
+          title={'Disable Phone Permission'}
+          onPress={() => handlePhonePermission(false)}
+        />
+        <CustomButton
+          title={'Enable Email Permission'}
+          onPress={() => handleEmailPermission(true)}
+        />
+        <CustomButton
+          title={'Disable Email Permission'}
+          onPress={() => handleEmailPermission(false)}
+        />
+        <CustomButton
+          title={'Set Email'}
+          onPress={() => handleEmailPermission(true)}
+        />
+        <CustomButton
+          title={'Register Email'}
+          onPress={() => handleRegisterEmail()}
+        />
+        <CustomButton
+          title={'Set Twitter Id'}
+          onPress={() => RelatedDigital.setTwitterId('123456789')}
+        />
+        <CustomButton
+          title={'Set Facebook Id'}
+          onPress={() => RelatedDigital.setFacebookId('123456789')}
+        />
+        <CustomButton
+          title={'Set Related Digital Id'}
+          onPress={() =>
+            RelatedDigital.setRelatedDigitalUserId(relatedDigitalUserId)
+          }
+        />
+        <CustomButton
+          title={'Set Notification Login Id'}
+          onPress={() => RelatedDigital.setNotificationLoginId('987654321')}
+        />
+        <CustomButton
+          title={'Set User Property'}
+          onPress={() => RelatedDigital.setUserProperty('key', 'value')}
+        />
+        <CustomButton
+          title={'Remove User Property'}
+          onPress={() => RelatedDigital.removeUserProperty('key')}
+        />
+        <CustomButton title={'Get Token'} onPress={handleGetToken} />
+        <CustomButton
+          title={'Get Push Messages'}
+          onPress={() => handleGetPushMessages(false)}
+        />
+        <CustomButton
+          title={'Get Push Messages With Id'}
+          onPress={() => handleGetPushMessages(true)}
+        />
       </ScrollView>
     </SafeAreaView>
   );

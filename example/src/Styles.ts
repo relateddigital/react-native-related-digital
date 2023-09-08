@@ -19,21 +19,18 @@ export default StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
+    borderColor: '#eeeeee',
+    borderWidth: 0.5,
     paddingLeft: 8,
     paddingRight: 8,
     marginBottom: 16,
   },
   button: {
-    marginBottom: 16,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    marginBottom: 16,
+    borderBottomWidth: 0.25,
+    borderTopWidth: 0.5,
+    borderColor: '#eeeeee',
+    paddingTop: 8,
+    paddingBottom: 8,
   },
   sectionHeaderContainer: {
     paddingTop: 20,
@@ -50,26 +47,6 @@ export default StyleSheet.create({
   cellTitle: {
     fontSize: 20,
     color: '#000000',
-  },
-  geofenceContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  geofenceRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  geofenceName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  geofenceDescription: {
-    fontSize: 14,
-    color: '#777',
   },
   storyContainer: {
     flexGrow: 1,
