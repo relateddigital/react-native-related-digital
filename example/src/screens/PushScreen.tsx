@@ -9,7 +9,10 @@ import {
   SafeAreaView,
 } from 'react-native';
 import styles from './../Styles';
-import { RelatedDigital } from '@relateddigital/react-native-huawei';
+import {
+  RDEventType,
+  RelatedDigital,
+} from '@relateddigital/react-native-huawei';
 
 interface ButtonProps {
   title: string;
@@ -61,6 +64,29 @@ export function PushScreen() {
       : RelatedDigital.getPushMessages;
 
     fetchMethod().then(console.log);
+  };
+
+  const handleCreateListeners = () => {
+    RelatedDigital.addListener(
+      RDEventType.NotificationRegistered,
+      async (event) => {
+        console.log('Push Notification Registered: ' + JSON.stringify(event));
+      }
+    );
+
+    RelatedDigital.addListener(
+      RDEventType.NotificationReceived,
+      async (event) => {
+        console.log('Push Notification Received: ' + JSON.stringify(event));
+      }
+    );
+
+    RelatedDigital.addListener(
+      RDEventType.NotificationOpened,
+      async (event) => {
+        console.log('Push Notification Opened: ' + JSON.stringify(event));
+      }
+    );
   };
 
   return (
@@ -150,6 +176,10 @@ export function PushScreen() {
         <CustomButton
           title={'Get Push Messages With Id'}
           onPress={() => handleGetPushMessages(true)}
+        />
+        <CustomButton
+          title={'Create Listeners'}
+          onPress={() => handleCreateListeners()}
         />
       </ScrollView>
     </SafeAreaView>

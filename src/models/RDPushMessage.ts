@@ -51,3 +51,10 @@ export interface RDPushMessage {
   deliver?: string;
   silent?: string;
 }
+
+export enum RDEventType {
+  NotificationRegistered = 'com.relateddigital.notification_registered',
+  NotificationReceived = 'com.relateddigital.notification_received',
+  NotificationOpened = 'com.relateddigital.notification_opened',
+}
+

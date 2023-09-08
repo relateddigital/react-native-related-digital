@@ -10,7 +10,7 @@
 #import "react_native_related_digital-Swift.h"
 
 @interface RelatedDigitalReactModule ()
-//@property(nonatomic, strong) RDRCTListener *rdListener;
+@property(nonatomic, strong) RDRCTListener *rdListener;
 @end
 
 @implementation RelatedDigitalReactModule
@@ -203,6 +203,14 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {}
 
 RCT_EXPORT_METHOD(onRDListenerAdded : (NSString *)eventName) {
   [RDRCTEventEmitter.shared onRelatedDigitalListenerAddedForType:eventName];
+}
+
+RCT_REMAP_METHOD(takePendingEvents,
+                 type:(NSString *)type
+                 takePendingEvents_resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+
+    resolve([RDRCTEventEmitter.shared takePendingEventsWithType:type]);
 }
 
 @end
