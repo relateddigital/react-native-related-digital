@@ -22,9 +22,9 @@ If you are sure the module exists, try these steps:
 - https://github.com/node-fetch/node-fetch/issues/1295
 - https://stackoverflow.com/questions/9768444/possible-eventemitter-memory-leak-detected
 
+#### Build Phases => Bundle React Native code and images
 
-
-
+- For install builds only => TRUE
 
 
 

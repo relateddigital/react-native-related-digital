@@ -7,6 +7,13 @@ import {
   StoryScreen,
   TargetingActionScreen,
 } from './screens';
+import analyticsLogo from './assets/analytics.png';
+import targetingActionLogo from './assets/targetingAction.png';
+import storyLogo from './assets/story.png';
+import geofenceLogo from './assets/geofence.png';
+import recommendationLogo from './assets/recommendation.png';
+import favoriteAttributeLogo from './assets/favoriteAttribute.png';
+import pushLogo from './assets/push.png';
 
 export enum RDInAppNotificationType {
   mini = 'mini',
@@ -204,52 +211,86 @@ export enum ScreenType {
 export interface ScreenTypeParams {
   name: string;
   screen: () => JSX.Element;
-  title: string;
   type: ScreenType;
 }
+
+export const getTabLogo = (routeName: ScreenType) => {
+  switch (routeName) {
+    case ScreenType.analytics:
+      return analyticsLogo;
+    case ScreenType.targetingAction:
+      return targetingActionLogo;
+    case ScreenType.story:
+      return storyLogo;
+    case ScreenType.geofence:
+      return geofenceLogo;
+    case ScreenType.recommendation:
+      return recommendationLogo;
+    case ScreenType.favoriteAttribute:
+      return favoriteAttributeLogo;
+    case ScreenType.push:
+      return pushLogo;
+    default:
+      return null;
+  }
+};
+
+export const getTitle = (routeName: ScreenType) => {
+  switch (routeName) {
+    case ScreenType.analytics:
+      return 'Analytics';
+    case ScreenType.targetingAction:
+      return 'Targeting';
+    case ScreenType.story:
+      return 'Story';
+    case ScreenType.geofence:
+      return 'Geofence';
+    case ScreenType.recommendation:
+      return 'Reco';
+    case ScreenType.favoriteAttribute:
+      return 'Favorites';
+    case ScreenType.push:
+      return 'Push';
+    default:
+      return null;
+  }
+};
 
 export const getScreens = (): ScreenTypeParams[] => {
   return [
     {
       name: 'analytics',
       screen: AnalyticsScreen,
-      title: 'Analytics',
       type: ScreenType.analytics,
     },
     {
       name: 'targetingAction',
       screen: TargetingActionScreen,
-      title: 'Targeting Action',
       type: ScreenType.targetingAction,
     },
     {
       name: 'story',
       screen: StoryScreen,
-      title: 'Story',
       type: ScreenType.story,
     },
     {
       name: 'geofence',
       screen: GeofenceScreen,
-      title: 'Geofence',
       type: ScreenType.geofence,
     },
     {
       name: 'recommendation',
       screen: RecommendationScreen,
-      title: 'Recommendation',
       type: ScreenType.recommendation,
     },
     {
       name: 'favoriteAttribute',
       screen: FavoriteAttributeScreen,
-      title: 'Favorite Attribute',
       type: ScreenType.favoriteAttribute,
     },
     {
       name: 'push',
       screen: PushScreen,
-      title: 'Push',
       type: ScreenType.push,
     },
   ];

@@ -57,7 +57,7 @@ static void InitializeFlipper(UIApplication *application) {
                         withDataSource:@"visistore"
                           withAppAlias:@"RDIOSExample"
          withInAppNotificationsEnabled:YES
-            withEnablePushNotification:NO
+            withEnablePushNotification:YES
                       withAppGroupsKey:
                           @"group.com.relateddigital.RelatedDigitalExample.relateddigital"
                     withDeliveredBadge:YES

@@ -13,13 +13,15 @@ const App: React.FC = () => {
   return (
     <NativeBaseProvider>
       <NavigationContainer>
-        <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
+        <Tab.Navigator
+          tabBar={(props) => <CustomTabBar {...props} />}
+          screenOptions={{ headerShown: false }}
+        >
           {screens.map((screen) => (
             <Tab.Screen
               key={screen.name}
               name={screen.name}
               component={screen.screen}
-              options={{ title: screen.title }}
             />
           ))}
         </Tab.Navigator>
