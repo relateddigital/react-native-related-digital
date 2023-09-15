@@ -9,7 +9,7 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.reactnative_relateddigital.RelatedDigitalManager;
+import com.reactnative_relateddigital.RDManager;
 import com.relateddigital.relateddigital_android.model.RDNotificationPriority;
 
 import java.lang.reflect.InvocationTargetException;
@@ -47,7 +47,7 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this,false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager()); // Remove this line if you don't want Flipper enabled
-    RelatedDigitalManager rdManager = RelatedDigitalManager.Companion.getSharedInstance();
+    RDManager rdManager = RDManager.Companion.getSharedInstance();
     rdManager.injectReactInstanceManager(getReactNativeHost().getReactInstanceManager());
     rdManager.initRelatedDigital(getApplicationContext(),
       "676D325830564761676D453D",
@@ -56,6 +56,7 @@ public class MainApplication extends Application implements ReactApplication {
       "relateddigital-android-test",
       "relateddigital-android-huawei-test",
       true,
+      false,
       false,
       R.drawable.text_icon,
       R.drawable.text_icon_dark_mode,

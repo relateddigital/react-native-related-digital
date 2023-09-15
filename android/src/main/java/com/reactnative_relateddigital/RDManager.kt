@@ -8,7 +8,7 @@ import com.facebook.react.bridge.ReactContext
 import com.relateddigital.relateddigital_android.model.RDNotificationPriority
 
 
-class RelatedDigitalManager private constructor() {
+class RDManager private constructor() {
   private var reactInstanceManager: ReactInstanceManager? = null
 
   var initialized = false
@@ -89,6 +89,6 @@ class RelatedDigitalManager private constructor() {
 
   companion object {
     private const val LOG_TAG: String = "RelatedDigitalManager"
-    var sharedInstance = RelatedDigitalManager()
+    var sharedInstance = RDManager()
   }
 }

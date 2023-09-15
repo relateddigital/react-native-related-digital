@@ -26,15 +26,14 @@ export interface ActionButton {
 export interface RDPushMessage {
   title?: string;
   body?: string;
+  message?: string;
   formattedDateString?: string;
   formattedOpenDateString?: string;
   aps?: Aps;
-  altURL?: string;
+  altUrl?: string;
   cid?: string;
   url?: string;
-  settings?: string;
   pushType?: string;
-  altUrl?: string;
   mediaUrl?: string;
   deeplink?: string;
   pushId?: string;
@@ -57,4 +56,3 @@ export enum RDEventType {
   NotificationReceived = 'com.relateddigital.notification_received',
   NotificationOpened = 'com.relateddigital.notification_opened',
 }
-

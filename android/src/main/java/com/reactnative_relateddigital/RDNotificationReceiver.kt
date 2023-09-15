@@ -11,7 +11,7 @@ import com.relateddigital.relateddigital_android.constants.Constants
 import com.relateddigital.relateddigital_android.model.Message
 import org.json.JSONObject
 
-class RelatedDigitalNotificationReceiver(reactAppContext: ReactApplicationContext) :
+class RDNotificationReceiver(reactAppContext: ReactApplicationContext) :
   BroadcastReceiver() {
 
   companion object {

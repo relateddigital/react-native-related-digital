@@ -21,12 +21,7 @@ extension RDUser {
         dict["userAgent"] = userAgent ?? NSNull()
         dict["identifierForAdvertising"] = identifierForAdvertising ?? NSNull()
         dict["sdkVersion"] = sdkVersion ?? NSNull()
-        dict["sdkType"] = sdkType ?? NSNull()
-        dict["lastEventTime"] = lastEventTime ?? NSNull()
-        dict["nrv"] = nrv
-        dict["pviv"] = pviv
-        dict["tvc"] = tvc
-        dict["lvt"] = lvt ?? NSNull()
+        dict["sdkType"] = "react-native"
         dict["appVersion"] = appVersion ?? NSNull()
         return dict
     }
@@ -129,14 +124,13 @@ extension RDPushMessage {
         var dict: [String: Any] = [:]
         dict["title"] = self.aps?.alert?.title
         dict["body"] = self.aps?.alert?.body
+        dict["message"] = self.aps?.alert?.body
         dict["formattedDateString"] = self.formattedDateString
         dict["aps"] = self.aps?.toDictionary()
-        dict["altURL"] = self.altURL
+        dict["altUrl"] = self.altUrl
         dict["cid"] = self.cid
         dict["url"] = self.url
-        dict["settings"] = self.settings
         dict["pushType"] = self.pushType
-        dict["altUrl"] = self.altUrl
         dict["mediaUrl"] = self.mediaUrl
         dict["deeplink"] = self.deeplink
         dict["pushId"] = self.pushId

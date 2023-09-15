@@ -9,10 +9,5 @@ export interface RDUser {
   identifierForAdvertising?: string;
   sdkVersion?: string;
   sdkType?: string;
-  lastEventTime?: string;
-  nrv?: number;
-  pviv?: number;
-  tvc?: number;
-  lvt?: string;
   appVersion?: string;
 }
