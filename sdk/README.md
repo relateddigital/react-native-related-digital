@@ -441,6 +441,16 @@ Enable `App Groups` Capability for your targets. App Groups allow your app to ex
 
 ![App Groups Name](https://raw.githubusercontent.com/relateddigital/euromessage-ios/master/screenshots/appgroups-name.png)
 
+
+#### Errors and Solutions
+  If you are getting errors regarding the firebase app, update all Define Module parameters to YES as shown in the screenshots.
+  
+  ![Pods Defines Module](https://raw.githubusercontent.com/relateddigital/euromessage-ios/master/screenshots/podsdefinesmodule.png)
+  ![Main Target Defines Module](https://raw.githubusercontent.com/relateddigital/euromessage-ios/master/screenshots/maintargetdefinesmodule.png)
+  ![Service Target Defines Module](https://raw.githubusercontent.com/relateddigital/euromessage-ios/master/screenshots/servicetargetdefinesmodule.png)
+  ![Content Target Defines Module](https://raw.githubusercontent.com/relateddigital/euromessage-ios/master/screenshots/contenttargetdefinesmodule.png)
+
+
 ### Recommendations
 To view recommendations, use `visilabsApi.getRecommendations(zoneId, productCode, properties, filters)` method.
 
