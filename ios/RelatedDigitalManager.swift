@@ -9,15 +9,9 @@ public typealias RNCRemoteNotificationCallback = (UIBackgroundFetchResult) -> Vo
 
 @objc public class RelatedDigitalManager: NSObject {
 
-    // public static let onNotificationRegistered = "onNotificationRegistered"
-    // public static let onNotificationReceived = "onNotificationReceived"
-    // public static let onNotificationOpened = "onNotificationOpened"
-
     @objc public static let shared = RelatedDigitalManager()
 
     @objc var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-
-    // var sendRelatedDigitalEvent : ((String, [AnyHashable : Any]) -> Void)?
 
     @objc(
         initRelatedDigital:

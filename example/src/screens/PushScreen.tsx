@@ -53,7 +53,7 @@ export function PushScreen() {
 
   const handleGetToken = () => {
     RelatedDigital.getToken().then((token) => {
-      console.log(token);
+      console.log('Push Token', token);
       Alert.alert('Push Token', token);
     });
   };
