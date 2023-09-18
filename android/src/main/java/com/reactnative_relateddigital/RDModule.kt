@@ -373,6 +373,36 @@ class RDModule internal constructor(reactContext: ReactApplicationContext) :
     RelatedDigital.sendLocationPermission(reactApplicationContext)
   }
 
+  @ReactMethod
+  fun requestLocationPermissions() {
+    currentActivity?.let {
+      RelatedDigital.requestLocationPermission(it)
+    }
+  }
+
+  @ReactMethod
+  fun sendTheListOfAppsInstalled() {
+    RelatedDigital.sendTheListOfAppsInstalled(reactApplicationContext)
+  }
+
+  @ReactMethod
+  fun recommend() {
+    //TODO: implement
+    //RelatedDigital.getRecommendations(reactApplicationContext)
+  }
+
+  @ReactMethod
+  fun trackRecommendationClick() {
+    //TODO: implement
+    RelatedDigital.trackRecommendationClick(reactApplicationContext, "TODO:")
+  }
+
+  @ReactMethod
+  fun getFavoriteAttributeActions() {
+    //TODO: implement
+    //RelatedDigital.getFavoriteAttributeActions(reactApplicationContext)
+  }
+
   //requestLocationPermissions
   //sendTheListOfAppsInstalled
   //recommend
