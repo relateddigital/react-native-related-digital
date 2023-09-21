@@ -7,7 +7,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '12.4'
 
 target 'RelatedDigitalExampleNotificationService' do
-  pod 'RelatedDigitalIOS', '4.0.29'
+  pod 'RelatedDigitalIOS', '4.0.30'
 end
 
 target 'RelatedDigitalExample' do
