@@ -7,10 +7,12 @@ import android.util.Log
 import android.content.Intent
 import com.facebook.react.bridge.*
 import com.facebook.react.modules.core.DeviceEventManagerModule.RCTDeviceEventEmitter
+import com.relateddigital.relateddigital_android.RelatedDigital
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import com.relateddigital.relateddigital_android.model.Message
+import com.relateddigital.relateddigital_android.util.GoogleUtils
 
 
 fun List<Message>.toWritableArray(): WritableArray {
@@ -22,7 +24,7 @@ fun List<Message>.toWritableArray(): WritableArray {
     messageMap.putString("body", pushMessage.message)
     messageMap.putString("message", pushMessage.message)
     messageMap.putString("formattedDateString", pushMessage.date)
-    messageMap.putMap("aps",  WritableNativeMap())
+    messageMap.putMap("aps", WritableNativeMap())
     messageMap.putString("altUrl", pushMessage.altUrl)
     messageMap.putString("cid", pushMessage.campaignId)
     messageMap.putString("url", pushMessage.url)
@@ -42,27 +44,58 @@ fun List<Message>.toWritableArray(): WritableArray {
     }
     messageMap.putArray("elements", elementsArray)
     //TODO: change buttons props
-    val buttonsArray: WritableNativeArray = WritableNativeArray()
+    val buttonsArray = WritableNativeArray()
     //pushMessage().buttons?.forEach { button ->
     //}
-    messageMap.putArray("buttons", elementsArray)
+    messageMap.putArray("buttons", buttonsArray)
     //TODO: change utm params
-    //messageMap.putString("utm_source", pushMessage)
-    //messageMap.putString("utm_campaign", pushMessage)
-    //messageMap.putString("utm_medium", pushMessage)
-    //messageMap.putString("utm_content", pushMessage)
-    //messageMap.putString("utm_term", pushMessage)
-    //messageMap.putString("notificationLoginID", pushMessage.loginID)
+    pushMessage.getParams().forEach { (key, value) ->
+      if(key == "utm_source") {
+        messageMap.putString("utm_source", value)
+      } else if(key == "utm_campaign") {
+        messageMap.putString("utm_campaign", value)
+      } else if(key == "utm_medium") {
+        messageMap.putString("utm_medium", value)
+      } else if(key == "utm_content") {
+        messageMap.putString("utm_content", value)
+      } else if(key == "utm_term") {
+        messageMap.putString("utm_term", value)
+      }
+    }
+    //TODO: update status props
     //messageMap.putString("status", pushMessage.status)
     messageMap.putString("deliver", pushMessage.deliver)
     messageMap.putString("silent", pushMessage.silent)
-    //TODO: change extras
-    //messageMap.putMap("extras", extrasMap)
     messagesArray.pushMap(messageMap)
   }
 
   return messagesArray
 }
+
+fun ReactApplicationContext.retrieveAppId(): String {
+  return if (GoogleUtils.checkPlayService(this)) {
+    RelatedDigital.getGoogleAppAlias(this)
+  } else {
+    RelatedDigital.getHuaweiAppAlias(this)
+  }
+}
+
+fun ReactApplicationContext.getUser(): WritableMap {
+  val userMap: WritableMap = WritableNativeMap()
+  userMap.putString("cookieId", RelatedDigital.getCookieId(this))
+  userMap.putString("exVisitorId", RelatedDigital.getExVisitorId(this))
+  userMap.putString("tokenId", RelatedDigital.getToken(this))
+  userMap.putString("appId", this.retrieveAppId())
+  userMap.putString("visitData", "")
+  userMap.putString("visitorData", RelatedDigital.getVisitorData(this))
+  userMap.putString("userAgent", RelatedDigital.getUserAgent(this))
+  userMap.putString("identifierForAdvertising", RelatedDigital.getAdvertisingIdentifier(this))
+  userMap.putString("sdkVersion", RelatedDigital.getSdkVersion(this))
+  userMap.putString("sdkType", "react-native")
+  userMap.putString("appVersion", RelatedDigital.getAppVersion(this))
+  return userMap
+}
+
 
 inline fun <reified T : java.io.Serializable> Bundle.serializable(key: String): T? = when {
   Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializable(key, T::class.java)
@@ -132,7 +165,7 @@ object MapUtil {
       while (iterator.hasNextKey()) {
         val key = iterator.nextKey()
         val value = readableMap.getString(key)
-        if(key.isNotEmpty() && value != null ) {
+        if (key.isNotEmpty() && value != null) {
           stringMap[key] = value
         }
       }
@@ -228,24 +261,30 @@ object MapUtil {
     val array: WritableArray = WritableNativeArray()
     for (i in 0 until jsonArray.length()) {
       when (val value = jsonArray[i]) {
-          is JSONObject -> {
-            array.pushMap(convertJsonToMap(value))
-          }
+        is JSONObject -> {
+          array.pushMap(convertJsonToMap(value))
+        }
+
         is JSONArray -> {
           array.pushArray(convertJsonToArray(value))
         }
+
         is Boolean -> {
           array.pushBoolean(value)
         }
+
         is Int -> {
           array.pushInt(value)
         }
+
         is Double -> {
           array.pushDouble(value)
         }
+
         is String -> {
           array.pushString(value)
         }
+
         else -> {
           array.pushString(value.toString())
         }

@@ -12,17 +12,17 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableMap
-import com.facebook.react.bridge.WritableNativeArray
 import com.facebook.react.bridge.WritableNativeMap
 import com.google.gson.Gson
 import com.reactnative_relateddigital.MapUtil.stringStringMap
-import com.relateddigital.relateddigital_android.RelatedDigital
+import com.relateddigital.relateddigital_android.RelatedDigital as NativeRD
 import com.relateddigital.relateddigital_android.constants.Constants
 import com.relateddigital.relateddigital_android.model.EmailPermit
 import com.relateddigital.relateddigital_android.model.GsmPermit
 import com.relateddigital.relateddigital_android.model.Message
 import com.relateddigital.relateddigital_android.push.EuromessageCallback
 import com.relateddigital.relateddigital_android.push.PushMessageInterface
+import com.relateddigital.relateddigital_android.util.GoogleUtils
 import org.json.JSONObject
 
 
@@ -58,54 +58,54 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
 
   @ReactMethod
   fun setIsInAppNotificationEnabled(enabled: Boolean) {
-    RelatedDigital.setIsInAppNotificationEnabled(
+    NativeRD.setIsInAppNotificationEnabled(
       reactApplicationContext, enabled
     )
   }
 
   @ReactMethod
   fun setIsGeofenceEnabled(enabled: Boolean) {
-    RelatedDigital.setIsGeofenceEnabled(reactApplicationContext, enabled)
+    NativeRD.setIsGeofenceEnabled(reactApplicationContext, enabled)
   }
 
   @ReactMethod
   fun setAdvertisingIdentifier(advertisingIdentifier: String) {
-    RelatedDigital.setAdvertisingIdentifier(reactApplicationContext, advertisingIdentifier)
+    NativeRD.setAdvertisingIdentifier(reactApplicationContext, advertisingIdentifier)
   }
 
   @ReactMethod
   fun signUp(exVisitorId: String, properties: ReadableMap) {
-    RelatedDigital.signUp(
+    NativeRD.signUp(
       reactApplicationContext,
       exVisitorId,
       stringStringMap(properties),
-      if (RelatedDigital.getIsInAppNotificationEnabled(reactApplicationContext)) currentActivity else null
+      if (NativeRD.getIsInAppNotificationEnabled(reactApplicationContext)) currentActivity else null
     )
   }
 
   @ReactMethod
   fun login(exVisitorId: String, properties: ReadableMap) {
-    RelatedDigital.login(
+    NativeRD.login(
       reactApplicationContext,
       exVisitorId,
       stringStringMap(properties),
-      if (RelatedDigital.getIsInAppNotificationEnabled(reactApplicationContext)) currentActivity else null
+      if (NativeRD.getIsInAppNotificationEnabled(reactApplicationContext)) currentActivity else null
     )
   }
 
   @ReactMethod
   fun logout() {
-    RelatedDigital.logout(reactApplicationContext)
-    RelatedDigital.sync(reactApplicationContext)
+    NativeRD.logout(reactApplicationContext)
+    NativeRD.sync(reactApplicationContext)
   }
 
   @ReactMethod
   fun customEvent(pageName: String, parameters: ReadableMap) {
-    RelatedDigital.customEvent(
+    NativeRD.customEvent(
       reactApplicationContext,
       pageName,
       stringStringMap(parameters),
-      if (RelatedDigital.getIsInAppNotificationEnabled(reactApplicationContext)) currentActivity else null
+      if (NativeRD.getIsInAppNotificationEnabled(reactApplicationContext)) currentActivity else null
     )
   }
 
@@ -127,80 +127,80 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
     huaweiAppAlias: String,
     deliveredBadge: Boolean
   ) {
-    RelatedDigital.setGoogleAppAlias(reactApplicationContext, googleAppAlias)
-    RelatedDigital.setHuaweiAppAlias(reactApplicationContext, huaweiAppAlias)
-    val token = RelatedDigital.getToken(reactApplicationContext)
-    RelatedDigital.setIsPushNotificationEnabled(
+    NativeRD.setGoogleAppAlias(reactApplicationContext, googleAppAlias)
+    NativeRD.setHuaweiAppAlias(reactApplicationContext, huaweiAppAlias)
+    val token = NativeRD.getToken(reactApplicationContext)
+    NativeRD.setIsPushNotificationEnabled(
       reactApplicationContext,
       enabled,
       googleAppAlias,
       huaweiAppAlias,
       token,
     )
-    RelatedDigital.sync(reactApplicationContext)
+    NativeRD.sync(reactApplicationContext)
   }
 
   @ReactMethod
   fun setEmail(email: String, permission: Boolean) {
-    RelatedDigital.setEmail(reactApplicationContext, email)
+    NativeRD.setEmail(reactApplicationContext, email)
     val emailPermit = if (permission) EmailPermit.ACTIVE else EmailPermit.PASSIVE
-    RelatedDigital.setEmailPermit(reactApplicationContext, emailPermit)
-    RelatedDigital.sync(reactApplicationContext)
+    NativeRD.setEmailPermit(reactApplicationContext, emailPermit)
+    NativeRD.sync(reactApplicationContext)
   }
 
   @ReactMethod
   fun sendCampaignParameters(parameters: ReadableMap) {
-    RelatedDigital.sendCampaignParameters(reactApplicationContext, stringStringMap(parameters))
+    NativeRD.sendCampaignParameters(reactApplicationContext, stringStringMap(parameters))
   }
 
   @ReactMethod
   fun setTwitterId(twitterId: String) {
-    RelatedDigital.setTwitterId(reactApplicationContext, twitterId)
-    RelatedDigital.sync(reactApplicationContext)
+    NativeRD.setTwitterId(reactApplicationContext, twitterId)
+    NativeRD.sync(reactApplicationContext)
   }
 
   @ReactMethod
   fun setFacebookId(facebookId: String) {
-    RelatedDigital.setFacebookId(reactApplicationContext, facebookId)
-    RelatedDigital.sync(reactApplicationContext)
+    NativeRD.setFacebookId(reactApplicationContext, facebookId)
+    NativeRD.sync(reactApplicationContext)
   }
 
   @ReactMethod
   fun setRelatedDigitalUserId(relatedDigitalUserId: String) {
-    RelatedDigital.setRelatedDigitalUserId(reactApplicationContext, relatedDigitalUserId)
-    RelatedDigital.sync(reactApplicationContext)
+    NativeRD.setRelatedDigitalUserId(reactApplicationContext, relatedDigitalUserId)
+    NativeRD.sync(reactApplicationContext)
   }
 
   @ReactMethod
   fun setNotificationLoginId(notificationLoginId: String) {
-    RelatedDigital.setNotificationLoginID(notificationLoginId, reactApplicationContext)
-    RelatedDigital.sync(reactApplicationContext)
+    NativeRD.setNotificationLoginID(notificationLoginId, reactApplicationContext)
+    NativeRD.sync(reactApplicationContext)
   }
 
   @ReactMethod
   fun setPhoneNumber(msisdn: String, permission: Boolean) {
     val gsmPermit = if (permission) GsmPermit.ACTIVE else GsmPermit.PASSIVE
-    RelatedDigital.setPhoneNumber(reactApplicationContext, msisdn)
-    RelatedDigital.setGsmPermit(reactApplicationContext, gsmPermit)
-    RelatedDigital.sync(reactApplicationContext)
+    NativeRD.setPhoneNumber(reactApplicationContext, msisdn)
+    NativeRD.setGsmPermit(reactApplicationContext, gsmPermit)
+    NativeRD.sync(reactApplicationContext)
   }
 
   @ReactMethod
   fun setUserProperty(key: String, value: String) {
-    RelatedDigital.setUserProperty(reactApplicationContext, key, value)
-    RelatedDigital.sync(reactApplicationContext)
+    NativeRD.setUserProperty(reactApplicationContext, key, value)
+    NativeRD.sync(reactApplicationContext)
   }
 
   @ReactMethod
   fun removeUserProperty(key: String) {
-    RelatedDigital.removeUserProperty(reactApplicationContext, key)
-    RelatedDigital.sync(reactApplicationContext)
+    NativeRD.removeUserProperty(reactApplicationContext, key)
+    NativeRD.sync(reactApplicationContext)
   }
 
   @ReactMethod
   fun registerEmail(email: String, permission: Boolean, isCommercial: Boolean, promise: Promise) {
     val emailPermit = if (permission) EmailPermit.ACTIVE else EmailPermit.PASSIVE
-    RelatedDigital.registerEmail(reactApplicationContext,
+    NativeRD.registerEmail(reactApplicationContext,
       email,
       emailPermit,
       isCommercial,
@@ -217,50 +217,10 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
   @ReactMethod
   fun getPushMessages(promise: Promise) {
     currentActivity?.let {
-      RelatedDigital.getPushMessages(it, object : PushMessageInterface {
+      NativeRD.getPushMessages(it, object : PushMessageInterface {
         override fun success(pushMessages: List<Message>) {
-
-          val messagesArray = Arguments.createArray()
-
-          for (pushMessage in pushMessages) {
-            val messageMap: WritableMap = WritableNativeMap()
-            messageMap.putString("title", pushMessage.title)
-            messageMap.putString("body", pushMessage.message)
-            messageMap.putString("message", pushMessage.message)
-            messageMap.putString("formattedDateString", pushMessage.date)
-            messageMap.putMap("aps",  WritableNativeMap())
-            messageMap.putString("altUrl", pushMessage.altUrl)
-            messageMap.putString("cid", pushMessage.campaignId)
-            messageMap.putString("url", pushMessage.url)
-            messageMap.putString("pushType", pushMessage.getPushType()?.name)
-            messageMap.putString("mediaUrl", pushMessage.mediaUrl)
-            messageMap.putString("deeplink", pushMessage.url)
-            messageMap.putString("emPushSp", pushMessage.emPushSp)
-            //TODO: change elements props
-            val elementsArray: WritableNativeArray = WritableNativeArray()
-            pushMessage.getElements()?.forEach { element ->
-            }
-            messageMap.putArray("elements", elementsArray)
-            //TODO: change buttons props
-            val buttonsArray: WritableNativeArray = WritableNativeArray()
-            //pushMessage().buttons?.forEach { button ->
-            //}
-            messageMap.putArray("buttons", elementsArray)
-            //TODO: change utm params
-            //messageMap.putString("utm_source", pushMessage)
-            //messageMap.putString("utm_campaign", pushMessage)
-            //messageMap.putString("utm_medium", pushMessage)
-            //messageMap.putString("utm_content", pushMessage)
-            //messageMap.putString("utm_term", pushMessage)
-            //messageMap.putString("notificationLoginID", pushMessage.loginID)
-            //messageMap.putString("status", pushMessage.status)
-            messageMap.putString("deliver", pushMessage.deliver)
-            messageMap.putString("silent", pushMessage.silent)
-            //TODO: change extras
-            //messageMap.putMap("extras", extrasMap)
-            messagesArray.pushMap(messageMap)
-          }
-          promise.resolve(messagesArray)
+          val pushMessagesArray = pushMessages.toWritableArray()
+          promise.resolve(pushMessagesArray)
         }
         override fun fail(errorMessage: String) {
           promise.resolve(Arguments.createArray())
@@ -274,54 +234,10 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
   @ReactMethod
   fun getPushMessagesWithId(promise: Promise) {
     currentActivity?.let {
-      RelatedDigital.getPushMessagesWithID(it, object : PushMessageInterface {
+      NativeRD.getPushMessagesWithID(it, object : PushMessageInterface {
         override fun success(pushMessages: List<Message>) {
-
           val pushMessagesArray = pushMessages.toWritableArray()
-
           promise.resolve(pushMessagesArray)
-
-          val messagesArray = Arguments.createArray()
-
-          for (pushMessage in pushMessages) {
-            val messageMap: WritableMap = WritableNativeMap()
-            messageMap.putString("title", pushMessage.title)
-            messageMap.putString("body", pushMessage.message)
-            messageMap.putString("message", pushMessage.message)
-            messageMap.putString("formattedDateString", pushMessage.date)
-            messageMap.putMap("aps",  WritableNativeMap())
-            messageMap.putString("altUrl", pushMessage.altUrl)
-            messageMap.putString("cid", pushMessage.campaignId)
-            messageMap.putString("url", pushMessage.url)
-            messageMap.putString("pushType", pushMessage.getPushType()?.name)
-            messageMap.putString("mediaUrl", pushMessage.mediaUrl)
-            messageMap.putString("deeplink", pushMessage.url)
-            messageMap.putString("emPushSp", pushMessage.emPushSp)
-            //TODO: change elements props
-            val elementsArray: WritableNativeArray = WritableNativeArray()
-            pushMessage.getElements()?.forEach { element ->
-            }
-            messageMap.putArray("elements", elementsArray)
-            //TODO: change buttons props
-            val buttonsArray: WritableNativeArray = WritableNativeArray()
-            //pushMessage().buttons?.forEach { button ->
-            //}
-            messageMap.putArray("buttons", elementsArray)
-            //TODO: change utm params
-            //messageMap.putString("utm_source", pushMessage)
-            //messageMap.putString("utm_campaign", pushMessage)
-            //messageMap.putString("utm_medium", pushMessage)
-            //messageMap.putString("utm_content", pushMessage)
-            //messageMap.putString("utm_term", pushMessage)
-            //messageMap.putString("notificationLoginID", pushMessage.loginID)
-            //messageMap.putString("status", pushMessage.status)
-            messageMap.putString("deliver", pushMessage.deliver)
-            messageMap.putString("silent", pushMessage.silent)
-            //TODO: change extras
-            //messageMap.putMap("extras", extrasMap)
-            messagesArray.pushMap(messageMap)
-          }
-          promise.resolve(messagesArray)
         }
         override fun fail(errorMessage: String) {
           promise.resolve(Arguments.createArray())
@@ -334,36 +250,13 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
 
   @ReactMethod
   fun getToken(promise: Promise) {
-    val token = RelatedDigital.getToken(reactApplicationContext)
+    val token = NativeRD.getToken(reactApplicationContext)
     promise.resolve(token)
   }
 
-
   @ReactMethod
   fun getUser(promise: Promise) {
-    val cookieId = RelatedDigital.getCookieId(reactApplicationContext)
-    val exVisitorId = RelatedDigital.getExVisitorId(reactApplicationContext)
-    val tokenId = RelatedDigital.getToken(reactApplicationContext)
-    //TODO: google vs huawei
-    val appId = RelatedDigital.getGoogleAppAlias(reactApplicationContext)
-    val visitorData = RelatedDigital.getVisitorData(reactApplicationContext)
-    val userAgent = RelatedDigital.getUserAgent(reactApplicationContext)
-    val identifierForAdvertising = RelatedDigital.getAdvertisingIdentifier(reactApplicationContext)
-    val sdkVersion = RelatedDigital.getSdkVersion(reactApplicationContext)
-    val appVersion = RelatedDigital.getAppVersion(reactApplicationContext)
-    val userMap: WritableMap = WritableNativeMap()
-    userMap.putString("cookieId", cookieId)
-    userMap.putString("exVisitorId", exVisitorId)
-    userMap.putString("tokenId", tokenId)
-    userMap.putString("appId", appId)
-    userMap.putString("visitData", "")
-    userMap.putString("visitorData", visitorData)
-    userMap.putString("userAgent", userAgent)
-    userMap.putString("identifierForAdvertising", identifierForAdvertising)
-    userMap.putString("sdkVersion", sdkVersion)
-    userMap.putString("sdkType", "react-native")
-    userMap.putString("appVersion", appVersion)
-    promise.resolve(userMap)
+    promise.resolve(reactApplicationContext.getUser())
   }
 
   @ReactMethod
@@ -373,37 +266,37 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
 
   @ReactMethod
   fun sendLocationPermission() {
-    RelatedDigital.sendLocationPermission(reactApplicationContext)
+    NativeRD.sendLocationPermission(reactApplicationContext)
   }
 
   @ReactMethod
   fun requestLocationPermissions() {
     currentActivity?.let {
-      RelatedDigital.requestLocationPermission(it)
+      NativeRD.requestLocationPermission(it)
     }
   }
 
   @ReactMethod
   fun sendTheListOfAppsInstalled() {
-    RelatedDigital.sendTheListOfAppsInstalled(reactApplicationContext)
+    NativeRD.sendTheListOfAppsInstalled(reactApplicationContext)
   }
 
   @ReactMethod
   fun recommend() {
     //TODO: implement
-    //RelatedDigital.getRecommendations(reactApplicationContext)
+    //NativeRD.getRecommendations(reactApplicationContext)
   }
 
   @ReactMethod
   fun trackRecommendationClick() {
     //TODO: implement
-    RelatedDigital.trackRecommendationClick(reactApplicationContext, "TODO:")
+    NativeRD.trackRecommendationClick(reactApplicationContext, "TODO:")
   }
 
   @ReactMethod
   fun getFavoriteAttributeActions() {
     //TODO: implement
-    //RelatedDigital.getFavoriteAttributeActions(reactApplicationContext)
+    //NativeRD.getFavoriteAttributeActions(reactApplicationContext)
   }
 
 

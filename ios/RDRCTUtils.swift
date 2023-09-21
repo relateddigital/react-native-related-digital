@@ -142,7 +142,6 @@ extension RDPushMessage {
         dict["utm_medium"] = self.utm_medium
         dict["utm_content"] = self.utm_content
         dict["utm_term"] = self.utm_term
-        dict["notificationLoginID"] = self.notificationLoginID
         dict["status"] = self.status
         dict["openedDate"] = self.openedDate
         dict["deliver"] = self.deliver

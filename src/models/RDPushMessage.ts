@@ -45,7 +45,6 @@ export interface RDPushMessage {
   utm_medium?: string;
   utm_content?: string;
   utm_term?: string;
-  notificationLoginID?: string;
   status?: string;
   deliver?: string;
   silent?: string;
