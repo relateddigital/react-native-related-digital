@@ -2,7 +2,6 @@ package com.reactnative_relateddigital
 
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Bundle
 import android.util.Log
 import com.facebook.react.bridge.ActivityEventListener
 import com.facebook.react.bridge.Arguments
@@ -29,10 +28,10 @@ import org.json.JSONObject
 
 //sendPushNotificationOpenReport
 
-class RDModule internal constructor(reactContext: ReactApplicationContext) :
+class RDReactModule internal constructor(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
   override fun getName(): String {
-    return "RelatedDigital"
+    return "RelatedDigitalReactModule"
   }
 
   private val mActivityEventListener: ActivityEventListener = object : BaseActivityEventListener() {
@@ -40,7 +39,7 @@ class RDModule internal constructor(reactContext: ReactApplicationContext) :
       val bundle = intent.extras
       if (bundle != null) {
         Log.d(LOG_TAG, "opened push notification.")
-        val message: Message? = bundle.getSerializable("message") as Message?
+        val message: Message? = bundle.serializable("message") as Message?
         if (message != null) {
           Log.d(LOG_TAG, "opened push notification ${message.pushId}.")
           PushUtils.sendEvent(
@@ -278,6 +277,10 @@ class RDModule internal constructor(reactContext: ReactApplicationContext) :
       RelatedDigital.getPushMessagesWithID(it, object : PushMessageInterface {
         override fun success(pushMessages: List<Message>) {
 
+          val pushMessagesArray = pushMessages.toWritableArray()
+
+          promise.resolve(pushMessagesArray)
+
           val messagesArray = Arguments.createArray()
 
           for (pushMessage in pushMessages) {
@@ -403,6 +406,28 @@ class RDModule internal constructor(reactContext: ReactApplicationContext) :
     //RelatedDigital.getFavoriteAttributeActions(reactApplicationContext)
   }
 
+
+  private var listenerCount = 0
+
+  @ReactMethod
+  fun addListener(eventName: String) {
+    if (listenerCount == 0) {
+      Log.d(LOG_TAG, "addListener")
+      // Set up any upstream listeners or background tasks as necessary
+    }
+
+    listenerCount += 1
+  }
+
+  @ReactMethod
+  fun removeListeners(count: Int) {
+    listenerCount -= count
+    if (listenerCount == 0) {
+      Log.d(LOG_TAG, "removeListeners")
+      // Remove upstream listeners, stop unnecessary background tasks
+    }
+  }
+
   //requestLocationPermissions
   //sendTheListOfAppsInstalled
   //recommend
@@ -423,7 +448,7 @@ class RDModule internal constructor(reactContext: ReactApplicationContext) :
   }
 
   companion object {
-    const val NAME = "RelatedDigital"
-    private const val LOG_TAG: String = "RelatedDigitalModule"
+    const val NAME = "RDReactModule"
+    private const val LOG_TAG: String = "RDReactModule"
   }
 }

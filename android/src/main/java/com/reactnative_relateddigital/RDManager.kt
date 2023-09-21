@@ -88,7 +88,7 @@ class RDManager private constructor() {
   }
 
   companion object {
-    private const val LOG_TAG: String = "RelatedDigitalManager"
+    private const val LOG_TAG: String = "RDManager"
     var sharedInstance = RDManager()
   }
 }

@@ -1,13 +1,78 @@
 package com.reactnative_relateddigital
 
+import java.util.*
+import android.os.Build
+import android.os.Bundle
 import android.util.Log
+import android.content.Intent
 import com.facebook.react.bridge.*
 import com.facebook.react.modules.core.DeviceEventManagerModule.RCTDeviceEventEmitter
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.*
+import com.relateddigital.relateddigital_android.model.Message
 
+
+fun List<Message>.toWritableArray(): WritableArray {
+  val messagesArray = Arguments.createArray()
+
+  this.forEach { pushMessage ->
+    val messageMap: WritableMap = WritableNativeMap()
+    messageMap.putString("title", pushMessage.title)
+    messageMap.putString("body", pushMessage.message)
+    messageMap.putString("message", pushMessage.message)
+    messageMap.putString("formattedDateString", pushMessage.date)
+    messageMap.putMap("aps",  WritableNativeMap())
+    messageMap.putString("altUrl", pushMessage.altUrl)
+    messageMap.putString("cid", pushMessage.campaignId)
+    messageMap.putString("url", pushMessage.url)
+    messageMap.putString("pushType", pushMessage.getPushType()?.name)
+    messageMap.putString("mediaUrl", pushMessage.mediaUrl)
+    messageMap.putString("deeplink", pushMessage.url)
+    messageMap.putString("emPushSp", pushMessage.emPushSp)
+    val elementsArray = WritableNativeArray()
+    pushMessage.getElements()?.forEach { element ->
+      elementsArray.pushMap(WritableNativeMap().apply {
+        putString("title", element.title)
+        putString("content", element.content)
+        putString("url", element.url)
+        putString("picture", element.picture)
+      })
+
+    }
+    messageMap.putArray("elements", elementsArray)
+    //TODO: change buttons props
+    val buttonsArray: WritableNativeArray = WritableNativeArray()
+    //pushMessage().buttons?.forEach { button ->
+    //}
+    messageMap.putArray("buttons", elementsArray)
+    //TODO: change utm params
+    //messageMap.putString("utm_source", pushMessage)
+    //messageMap.putString("utm_campaign", pushMessage)
+    //messageMap.putString("utm_medium", pushMessage)
+    //messageMap.putString("utm_content", pushMessage)
+    //messageMap.putString("utm_term", pushMessage)
+    //messageMap.putString("notificationLoginID", pushMessage.loginID)
+    //messageMap.putString("status", pushMessage.status)
+    messageMap.putString("deliver", pushMessage.deliver)
+    messageMap.putString("silent", pushMessage.silent)
+    //TODO: change extras
+    //messageMap.putMap("extras", extrasMap)
+    messagesArray.pushMap(messageMap)
+  }
+
+  return messagesArray
+}
+
+inline fun <reified T : java.io.Serializable> Bundle.serializable(key: String): T? = when {
+  Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializable(key, T::class.java)
+  else -> @Suppress("DEPRECATION") getSerializable(key) as? T
+}
+
+inline fun <reified T : java.io.Serializable> Intent.serializable(key: String): T? = when {
+  Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializableExtra(key, T::class.java)
+  else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
+}
 
 object ArrayUtil {
   @Throws(JSONException::class)
