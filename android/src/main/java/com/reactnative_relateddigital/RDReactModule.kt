@@ -10,6 +10,7 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.bridge.WritableNativeMap
@@ -17,11 +18,14 @@ import com.google.gson.Gson
 import com.reactnative_relateddigital.MapUtil.stringStringMap
 import com.relateddigital.relateddigital_android.RelatedDigital as NativeRD
 import com.relateddigital.relateddigital_android.constants.Constants
+import com.relateddigital.relateddigital_android.inapp.VisilabsCallback
+import com.relateddigital.relateddigital_android.inapp.VisilabsResponse
 import com.relateddigital.relateddigital_android.model.EmailPermit
 import com.relateddigital.relateddigital_android.model.GsmPermit
 import com.relateddigital.relateddigital_android.model.Message
 import com.relateddigital.relateddigital_android.push.EuromessageCallback
 import com.relateddigital.relateddigital_android.push.PushMessageInterface
+import com.relateddigital.relateddigital_android.recommendation.VisilabsTargetFilter
 import com.relateddigital.relateddigital_android.util.GoogleUtils
 import org.json.JSONObject
 
@@ -208,6 +212,7 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
         override fun success() {
           promise.resolve(true)
         }
+
         override fun fail(errorMessage: String?) {
           promise.resolve(false)
         }
@@ -222,6 +227,7 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
           val pushMessagesArray = pushMessages.toWritableArray()
           promise.resolve(pushMessagesArray)
         }
+
         override fun fail(errorMessage: String) {
           promise.resolve(Arguments.createArray())
         }
@@ -239,6 +245,7 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
           val pushMessagesArray = pushMessages.toWritableArray()
           promise.resolve(pushMessagesArray)
         }
+
         override fun fail(errorMessage: String) {
           promise.resolve(Arguments.createArray())
         }
@@ -282,9 +289,46 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
   }
 
   @ReactMethod
-  fun recommend() {
-    //TODO: implement
-    //NativeRD.getRecommendations(reactApplicationContext)
+  fun recommend(
+    zoneId: String,
+    productCode: String,
+    filters: ReadableArray,
+    properties: ReadableMap,
+    promise: Promise
+  ) {
+
+    val recommendationFilters = filters.toArrayList().mapNotNull { it as? ReadableMap }
+      .filter { it.hasKey("attribute") && it.hasKey("filterType") && it.hasKey("value") }
+      .mapNotNull {
+        val attribute = it.getString("attribute")
+        val filterType = it.getString("filterType")
+        val value = it.getString("value")
+        if (attribute != null && filterType != null && value != null) {
+          VisilabsTargetFilter(attribute, filterType, value)
+        } else {
+          null
+        }
+      }
+
+    NativeRD.getRecommendations(
+      reactApplicationContext,
+      zoneId,
+      productCode,
+      object : VisilabsCallback {
+        override fun success(response: VisilabsResponse?) {
+          response.toWritableMap().let {
+            promise.resolve(it)
+          }
+        }
+        override fun fail(response: VisilabsResponse?) {
+          response.toWritableMap().let {
+            promise.resolve(it)
+          }
+        }
+      },
+      stringStringMap(properties),
+      recommendationFilters,
+    )
   }
 
   @ReactMethod
@@ -326,8 +370,6 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
   //recommend
   //trackRecommendationClick
   //getFavoriteAttributeActions
-
-
 
 
   @ReactMethod

@@ -13,7 +13,35 @@ import org.json.JSONException
 import org.json.JSONObject
 import com.relateddigital.relateddigital_android.model.Message
 import com.relateddigital.relateddigital_android.util.GoogleUtils
+import com.relateddigital.relateddigital_android.inapp.VisilabsResponse
 
+fun VisilabsResponse?.toWritableMap(): WritableMap {
+  val map: WritableMap = WritableNativeMap()
+  val jsonObject = this?.json
+  if(jsonObject != null) {
+    val title = jsonObject.getString("title")
+    title.let {
+      map.putString("widgetTitle", it)
+    }
+    val recommendationsArray = jsonObject.getJSONArray("recommendations")
+    val productsArray = WritableNativeArray()
+    for(i in 0 until recommendationsArray.length()) {
+      val currentProductObject = recommendationsArray.getJSONObject(i)
+      val code = jsonObject.getString("code")
+      val title = jsonObject.getString("title")
+      val img = jsonObject.getString("img")
+
+      productsArray.pushMap(WritableNativeMap().apply {
+        putString("code", code)
+        putString("title", title)
+      })
+
+    }
+    map.putArray("products", productsArray)
+  }
+
+  return map
+}
 
 fun List<Message>.toWritableArray(): WritableArray {
   val messagesArray = Arguments.createArray()
