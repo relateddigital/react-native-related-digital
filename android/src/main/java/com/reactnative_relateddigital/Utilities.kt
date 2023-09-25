@@ -4,9 +4,9 @@ import java.util.*
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.content.Intent
 import com.facebook.react.bridge.*
 import com.facebook.react.modules.core.DeviceEventManagerModule.RCTDeviceEventEmitter
+import com.google.gson.Gson
 import com.relateddigital.relateddigital_android.RelatedDigital
 import org.json.JSONArray
 import org.json.JSONException
@@ -14,33 +14,128 @@ import org.json.JSONObject
 import com.relateddigital.relateddigital_android.model.Message
 import com.relateddigital.relateddigital_android.util.GoogleUtils
 import com.relateddigital.relateddigital_android.inapp.VisilabsResponse
+import com.relateddigital.relateddigital_android.model.FavsResponse
 
-fun VisilabsResponse?.toWritableMap(): WritableMap {
+
+const val KEY_WIDGET_TITLE = "widgetTitle"
+const val KEY_PRODUCTS = "products"
+const val KEY_FAVORITES = "favorites"
+const val KEY_AGE_GROUP = "ageGroup"
+const val KEY_ATTR1 = "attr1"
+const val KEY_ATTR2 = "attr2"
+const val KEY_ATTR3 = "attr3"
+const val KEY_ATTR4 = "attr4"
+const val KEY_ATTR5 = "attr5"
+const val KEY_ATTR6 = "attr6"
+const val KEY_ATTR7 = "attr7"
+const val KEY_ATTR8 = "attr8"
+const val KEY_ATTR9 = "attr9"
+const val KEY_ATTR10 = "attr10"
+const val KEY_BRAND = "brand"
+const val KEY_CATEGORY = "category"
+const val KEY_COLOR = "color"
+const val KEY_GENDER = "gender"
+const val KEY_MATERIAL = "material"
+const val KEY_TITLE = "title"
+
+
+fun VisilabsResponse?.toFavoritesWritableMap(): WritableMap {
   val map: WritableMap = WritableNativeMap()
-  val jsonObject = this?.json
-  if(jsonObject != null) {
-    val title = jsonObject.getString("title")
-    title.let {
-      map.putString("widgetTitle", it)
+  val favoritesMap = WritableNativeMap()
+  map.putMap(KEY_FAVORITES, favoritesMap)
+  this?.rawResponse?.let { rawResponse ->
+    try {
+      val favsResponse: FavsResponse = Gson().fromJson(rawResponse, FavsResponse::class.java)
+      favsResponse.favoriteAttributeAction?.get(0)?.actiondata?.favorites?.let { favorites ->
+        favoritesMap.putList(KEY_AGE_GROUP, favorites.ageGroup?.toList())
+        favoritesMap.putList(KEY_ATTR1, favorites.attr1?.toList())
+        favoritesMap.putList(KEY_ATTR2, favorites.attr2?.toList())
+        favoritesMap.putList(KEY_ATTR3, favorites.attr3?.toList())
+        favoritesMap.putList(KEY_ATTR4, favorites.attr4?.toList())
+        favoritesMap.putList(KEY_ATTR5, favorites.attr5?.toList())
+        favoritesMap.putList(KEY_ATTR6, favorites.attr6?.toList())
+        favoritesMap.putList(KEY_ATTR7, favorites.attr7?.toList())
+        favoritesMap.putList(KEY_ATTR8, favorites.attr8?.toList())
+        favoritesMap.putList(KEY_ATTR9, favorites.attr9?.toList())
+        favoritesMap.putList(KEY_ATTR10, favorites.attr10?.toList())
+        favoritesMap.putList(KEY_BRAND, favorites.brand?.toList())
+        favoritesMap.putList(KEY_CATEGORY, favorites.category?.toList())
+        favoritesMap.putList(KEY_COLOR, favorites.color?.toList())
+        favoritesMap.putList(KEY_GENDER, favorites.gender?.toList())
+        favoritesMap.putList(KEY_MATERIAL, favorites.material?.toList())
+        favoritesMap.putList(KEY_TITLE, favorites.title?.toList())
+      }
+    } catch (e: JSONException) {
+      Log.e("VisilabsResponse", "Error while parsing VisilabsResponse to WritableMap", e)
     }
-    val recommendationsArray = jsonObject.getJSONArray("recommendations")
-    val productsArray = WritableNativeArray()
-    for(i in 0 until recommendationsArray.length()) {
-      val currentProductObject = recommendationsArray.getJSONObject(i)
-      val code = jsonObject.getString("code")
-      val title = jsonObject.getString("title")
-      val img = jsonObject.getString("img")
-
-      productsArray.pushMap(WritableNativeMap().apply {
-        putString("code", code)
-        putString("title", title)
-      })
-
-    }
-    map.putArray("products", productsArray)
   }
-
+  map.putMap(KEY_FAVORITES, favoritesMap)
   return map
+}
+
+fun WritableNativeMap.putList(key: String, list: List<String?>?) {
+  list?.let {
+    val array = WritableNativeArray().apply {
+      it.forEach { item ->
+        if (item != null) {
+          pushString(item)
+        }
+      }
+    }
+    putArray(key, array)
+  } ?: putArray(key, WritableNativeArray())
+}
+
+
+fun VisilabsResponse?.toRecommendationsWritableMap(): WritableMap {
+  val map: WritableMap = WritableNativeMap()
+  map.putString(KEY_WIDGET_TITLE, "")
+  map.putArray(KEY_PRODUCTS, WritableNativeArray())
+  this?.json?.let { jsonObject ->
+    try {
+      map.putString(KEY_WIDGET_TITLE, jsonObject.optString("title", ""))
+      val recommendationsArray = jsonObject.optJSONArray("recommendations") ?: JSONArray()
+      val productsArray = WritableNativeArray()
+      for (i in 0 until recommendationsArray.length()) {
+        val currentProductObject = recommendationsArray.optJSONObject(i) ?: continue
+        productsArray.pushMap(currentProductObject.toWritableMap())
+      }
+      map.putArray(KEY_PRODUCTS, productsArray)
+    } catch (e: JSONException) {
+      Log.e("VisilabsResponse", "Error while parsing VisilabsResponse to WritableMap", e)
+    }
+  }
+  return map
+}
+
+fun JSONObject.toWritableMap(): WritableMap {
+  return WritableNativeMap().apply {
+    putString("code", optString("code", ""))
+    putString("title", optString("title", ""))
+    putString("img", optString("img", ""))
+    putString("destUrl", optString("dest_url", ""))
+    putString("brand", optString("brand", ""))
+    putDouble("price", optDouble("price", 0.0))
+    putDouble("dprice", optDouble("dprice", 0.0))
+    putString("cur", optString("cur", ""))
+    putString("dcur", optString("dcur", ""))
+    putBoolean("freeshipping", optBoolean("freeshipping"))
+    putBoolean("samedayshipping", optBoolean("samedayshipping"))
+    putInt("rating", optInt("rating", 0))
+    putInt("comment", optInt("comment", 0))
+    putDouble("discount", optDouble("discount", 0.0))
+    putString("attr1", optString("attr1", ""))
+    putString("attr2", optString("attr2", ""))
+    putString("attr3", optString("attr3", ""))
+    putString("attr4", optString("attr4", ""))
+    putString("attr5", optString("attr5", ""))
+    putString("attr6", optString("attr6", ""))
+    putString("attr7", optString("attr7", ""))
+    putString("attr8", optString("attr8", ""))
+    putString("attr9", optString("attr9", ""))
+    putString("attr10", optString("attr10", ""))
+    putString("qs", optString("qs", ""))
+  }
 }
 
 fun List<Message>.toWritableArray(): WritableArray {
@@ -78,16 +173,26 @@ fun List<Message>.toWritableArray(): WritableArray {
     messageMap.putArray("buttons", buttonsArray)
     //TODO: change utm params
     pushMessage.getParams().forEach { (key, value) ->
-      if(key == "utm_source") {
-        messageMap.putString("utm_source", value)
-      } else if(key == "utm_campaign") {
-        messageMap.putString("utm_campaign", value)
-      } else if(key == "utm_medium") {
-        messageMap.putString("utm_medium", value)
-      } else if(key == "utm_content") {
-        messageMap.putString("utm_content", value)
-      } else if(key == "utm_term") {
-        messageMap.putString("utm_term", value)
+      when (key) {
+        "utm_source" -> {
+          messageMap.putString("utm_source", value)
+        }
+
+        "utm_campaign" -> {
+          messageMap.putString("utm_campaign", value)
+        }
+
+        "utm_medium" -> {
+          messageMap.putString("utm_medium", value)
+        }
+
+        "utm_content" -> {
+          messageMap.putString("utm_content", value)
+        }
+
+        "utm_term" -> {
+          messageMap.putString("utm_term", value)
+        }
       }
     }
     //TODO: update status props
@@ -130,10 +235,12 @@ inline fun <reified T : java.io.Serializable> Bundle.serializable(key: String): 
   else -> @Suppress("DEPRECATION") getSerializable(key) as? T
 }
 
+/*
 inline fun <reified T : java.io.Serializable> Intent.serializable(key: String): T? = when {
   Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializableExtra(key, T::class.java)
   else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
 }
+*/
 
 object ArrayUtil {
   @Throws(JSONException::class)

@@ -12,8 +12,6 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
-import com.facebook.react.bridge.WritableMap
-import com.facebook.react.bridge.WritableNativeMap
 import com.google.gson.Gson
 import com.reactnative_relateddigital.MapUtil.stringStringMap
 import com.relateddigital.relateddigital_android.RelatedDigital as NativeRD
@@ -21,12 +19,12 @@ import com.relateddigital.relateddigital_android.constants.Constants
 import com.relateddigital.relateddigital_android.inapp.VisilabsCallback
 import com.relateddigital.relateddigital_android.inapp.VisilabsResponse
 import com.relateddigital.relateddigital_android.model.EmailPermit
+import com.relateddigital.relateddigital_android.model.FavsResponse
 import com.relateddigital.relateddigital_android.model.GsmPermit
 import com.relateddigital.relateddigital_android.model.Message
 import com.relateddigital.relateddigital_android.push.EuromessageCallback
 import com.relateddigital.relateddigital_android.push.PushMessageInterface
 import com.relateddigital.relateddigital_android.recommendation.VisilabsTargetFilter
-import com.relateddigital.relateddigital_android.util.GoogleUtils
 import org.json.JSONObject
 
 
@@ -316,12 +314,13 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
       productCode,
       object : VisilabsCallback {
         override fun success(response: VisilabsResponse?) {
-          response.toWritableMap().let {
+          response.toRecommendationsWritableMap().let {
             promise.resolve(it)
           }
         }
+
         override fun fail(response: VisilabsResponse?) {
-          response.toWritableMap().let {
+          response.toRecommendationsWritableMap().let {
             promise.resolve(it)
           }
         }
@@ -332,15 +331,31 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
   }
 
   @ReactMethod
-  fun trackRecommendationClick() {
-    //TODO: implement
-    NativeRD.trackRecommendationClick(reactApplicationContext, "TODO:")
+  fun trackRecommendationClick(qs: String) {
+    NativeRD.trackRecommendationClick(reactApplicationContext, qs)
   }
 
   @ReactMethod
-  fun getFavoriteAttributeActions() {
-    //TODO: implement
-    //NativeRD.getFavoriteAttributeActions(reactApplicationContext)
+  fun getFavoriteAttributeActions(actionId: String, promise: Promise) {
+    NativeRD.getFavorites(
+      reactApplicationContext,
+      actionId,
+      Constants.FavoriteAttributeAction,
+      object : VisilabsCallback {
+        override fun success(response: VisilabsResponse?) {
+          response.toFavoritesWritableMap().let {
+            promise.resolve(it)
+          }
+        }
+
+        override fun fail(response: VisilabsResponse?) {
+          response.toFavoritesWritableMap().let {
+            promise.resolve(it)
+          }
+        }
+      },
+      null
+    )
   }
 
 
@@ -364,13 +379,6 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
       // Remove upstream listeners, stop unnecessary background tasks
     }
   }
-
-  //requestLocationPermissions
-  //sendTheListOfAppsInstalled
-  //recommend
-  //trackRecommendationClick
-  //getFavoriteAttributeActions
-
 
   @ReactMethod
   fun registerNotificationListeners() {
