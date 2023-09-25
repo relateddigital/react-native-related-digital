@@ -482,7 +482,7 @@ To view recommendations, use `visilabsApi.getRecommendations(zoneId, productCode
             "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
             "rating": 0,
             "samedayshipping": false,
-            "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
+            "title": "Titiz TP-115 Yeşil Ayakkabı"
         }
     ],
     "title": "Display You Viewed"
