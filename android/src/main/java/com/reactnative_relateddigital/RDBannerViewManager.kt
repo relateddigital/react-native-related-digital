@@ -8,6 +8,12 @@ import com.facebook.react.uimanager.annotations.ReactProp
 
 import com.relateddigital.relateddigital_android.inapp.bannercarousel.BannerRecyclerView
 
+class RDBannerViewManager {
+  companion object {
+    const val REACT_CLASS = "RDRCTBannerView"
+  }
+}
+
 /*
 class RDBannerViewManager : SimpleViewManager<BannerRecyclerView>() {
 

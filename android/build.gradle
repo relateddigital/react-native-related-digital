@@ -59,7 +59,6 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
-
 }
 
 repositories {
@@ -76,8 +75,9 @@ repositories {
 def kotlin_version = getExtOrDefault("kotlinVersion")
 
 dependencies {
-  api "com.facebook.react:react-native:+"
+  implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation("androidx.recyclerview:recyclerview:1.2.1")
   api "com.github.relateddigital:relateddigital-android:1.1.9"
 }
 
