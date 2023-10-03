@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Button, SafeAreaView, ScrollView } from 'react-native';
 import styles from './../Styles';
 import { RelatedDigital } from '@relateddigital/react-native-huawei';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 interface ButtonProps {
   title: string;
@@ -27,6 +28,10 @@ export function GeofenceScreen() {
           onPress={() => console.log('asd')}
         />
         <CustomButton title={'Refresh'} onPress={() => console.log('asd')} />
+        <CustomButton
+          title={'Test Crash'}
+          onPress={() => crashlytics().crash()}
+        />
       </ScrollView>
     </SafeAreaView>
   );

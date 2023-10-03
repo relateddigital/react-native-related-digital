@@ -41,7 +41,7 @@ class RDReactModule internal constructor(reactContext: ReactApplicationContext) 
       val bundle = intent.extras
       if (bundle != null) {
         Log.d(LOG_TAG, "opened push notification.")
-        val message: Message? = bundle.serializable("message") as Message?
+        val message: Message? = bundle.getSerializable("message") as Message?
         if (message != null) {
           Log.d(LOG_TAG, "opened push notification ${message.pushId}.")
           PushUtils.sendEvent(

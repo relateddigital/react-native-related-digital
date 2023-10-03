@@ -15,7 +15,7 @@ class RDNotificationReceiver(reactAppContext: ReactApplicationContext) :
   BroadcastReceiver() {
 
   companion object {
-    private const val LOG_TAG: String = "RelatedDigitalNotificationReceiver"
+    private const val LOG_TAG: String = "RDNotificationReceiver"
   }
 
   private val reactApplicationContext: ReactApplicationContext = reactAppContext

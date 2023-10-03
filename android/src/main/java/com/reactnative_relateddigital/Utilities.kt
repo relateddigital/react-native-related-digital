@@ -1,8 +1,6 @@
 package com.reactnative_relateddigital
 
 import java.util.*
-import android.os.Build
-import android.os.Bundle
 import android.util.Log
 import com.facebook.react.bridge.*
 import com.facebook.react.modules.core.DeviceEventManagerModule.RCTDeviceEventEmitter
@@ -229,11 +227,12 @@ fun ReactApplicationContext.getUser(): WritableMap {
   return userMap
 }
 
-
+/*
 inline fun <reified T : java.io.Serializable> Bundle.serializable(key: String): T? = when {
   Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializable(key, T::class.java)
   else -> @Suppress("DEPRECATION") getSerializable(key) as? T
 }
+*/
 
 /*
 inline fun <reified T : java.io.Serializable> Intent.serializable(key: String): T? = when {
@@ -474,7 +473,7 @@ object PushUtils {
   private const val LOG_TAG = "PushUtils"
 
   fun sendEvent(eventName: String, data: WritableMap, context: ReactApplicationContext) {
-    if (context.hasActiveReactInstance()) {
+    if (context.hasCatalystInstance()) {
       Log.d(LOG_TAG, "sending event.")
       context
         .getJSModule(RCTDeviceEventEmitter::class.java)

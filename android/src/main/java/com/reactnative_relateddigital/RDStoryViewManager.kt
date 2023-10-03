@@ -19,7 +19,7 @@ class RDStoryViewManager(
 ) : SimpleViewManager<StoryRecyclerView>() {
 
   companion object {
-    const val VIEW_NAME = "StoryView"
+    const val VIEW_NAME = "RDRCTStoryView"
     const val COMMAND_GET_STORIES = 1
   }
 

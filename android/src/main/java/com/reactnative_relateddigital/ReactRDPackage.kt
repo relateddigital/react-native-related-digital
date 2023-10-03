@@ -12,7 +12,9 @@ class ReactRDPackage : ReactPackage {
   }
 
   override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> {
-    return emptyList()
+    //return listOf(RDStoryViewManager(reactContext), RDBannerViewManager(reactContext))
+    //return emptyList()
+    return listOf(RDStoryViewManager(reactContext))
   }
 }
 
