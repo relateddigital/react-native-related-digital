@@ -74,7 +74,6 @@ public class MainApplication extends Application implements ReactApplication {
       String targetUrl = "http://s.visilabs.net/json";
       String actionUrl = "http://s.visilabs.net/actjson";
       String geofenceUrl = "http://s.visilabs.net/geojson";
-
       Visilabs.CreateAPI(organizationId, siteId, segmentUrl,
               datasource, realtimeUrl, channel, this, targetUrl, actionUrl, 30000, geofenceUrl, true, "reactnative");
 

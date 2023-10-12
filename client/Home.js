@@ -289,8 +289,10 @@ export default class Home extends Component {
 
   getRecommendations = async () => {
     try {
-      const zoneId = '20'
-      const productCode = '50263236020'
+      visilabsApi.customEvent("qwe", {"OM.pv":"50239832021"});
+
+      const zoneId = '62'
+      const productCode = ''
 
       const properties = {
         // "OM.cat": "409",

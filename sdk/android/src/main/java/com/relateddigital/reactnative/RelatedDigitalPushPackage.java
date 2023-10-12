@@ -29,7 +29,7 @@ public class RelatedDigitalPushPackage implements ReactPackage {
         //         new RelatedDigitalStoryViewManager(reactContext),
         //         new RelatedDigitalBannerViewManager(reactContext)
         // );
-        List<ViewManager> viewManagers = Arrays.asList(
+        List<ViewManager> viewManagers = Arrays.<ViewManager>asList(
                 new RelatedDigitalStoryViewManager(reactContext),
                 new RelatedDigitalBannerViewManager(reactContext)
         );
