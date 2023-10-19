@@ -5,7 +5,8 @@
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTUtils.h>
 #import "Utilities.h"
-#import <react_native_related_digital-Swift.h>
+// #import <react_native_related_digital-Swift.h>
+#import <react_native_related_digital/react_native_related_digital-Swift.h>
 
 NSString *const RCTRemoteNotificationReceived = @"RemoteNotificationReceived";
 
