@@ -618,6 +618,28 @@ visilabsApi.customEvent('*scratchtowin*', {
 })
 ```
 
+### User Anonymization
+
+To anonymize a user, you should first call one of the following functions, `setUserProperty` or `setUserProperties`, as shown below:
+```javascript
+let userData = {
+  // ...other properties
+  "SetAnonymous": true 
+}
+euroMessageApi.setUserProperties(userData)
+
+// OR
+
+await euroMessageApi.setUserProperty('SetAnonymous', 'true')
+```
+After the set operation is completed, you must save the changes by calling the `subscribe` function:
+```javascript
+euroMessageApi.subscribe(this.state.token)
+```
+
+**IMPORTANT NOTE**: If you do not set the `SetAnonymous` parameter back to `false`, the user will remain anonymous indefinitely.
+
+
 ### Using Push Notification Messages
 You can access payload list of last 30 days if you have completed iOS `NotificationServiceExtension` and `App Groups` setup. Using `getPushMessages` method you can access these payloads. Android does not require special installation.
 ```javascript
