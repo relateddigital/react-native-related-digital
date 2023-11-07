@@ -255,7 +255,7 @@ If you don't want the location permission to be taken on startup, set the `askLo
   * `Pods/VisilabsIOS/Sources/TargetingAction/sideBar/sideBarView.xib`
   * `Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerView.xib`
   * `Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerCollectionViewCell.xib`
-* To enable rich notification capabilites like showing image or video;
+* #### To enable rich notification capabilites like showing image or video;
 1. Add `Notification Service Extension` target to your project and name it `RelatedDigitalNotificationService`. Change this service's target iOS version to 10.0. Then change newly added `NotificationService.m` file contents with the following:
 (Don't forget to enter your app name instead of `APP_ALIAS`)
 ```objective-c
@@ -316,7 +316,7 @@ end
 platform :ios, '10.0'
 ```
 6. Execute `pod install` then run.
-* To enable push notification carousel;
+* #### To enable push notification carousel;
 1. Add `Notification Content Extension` target to your project and name it `RelatedDigitalNotificationContent`. Change this service's target iOS version to 11.0. Remove newly added files under RelatedDigitalNotificationContent except Info.plist. Then add EMNotificationViewController.swift file with the following content.
 ```swift
 import UIKit
@@ -450,8 +450,8 @@ Enable `App Groups` Capability for your targets. App Groups allow your app to ex
   ![Service Target Defines Module](https://raw.githubusercontent.com/relateddigital/euromessage-ios/master/screenshots/servicetargetdefinesmodule.png)
   ![Content Target Defines Module](https://raw.githubusercontent.com/relateddigital/euromessage-ios/master/screenshots/contenttargetdefinesmodule.png)
 
-
 ### Recommendations
+
 To view recommendations, use `visilabsApi.getRecommendations(zoneId, productCode, properties, filters)` method.
 
 ```json
@@ -482,7 +482,7 @@ To view recommendations, use `visilabsApi.getRecommendations(zoneId, productCode
             "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
             "rating": 0,
             "samedayshipping": false,
-            "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
+            "title": "Titiz TP-115 Yeşil Ayakkabı"
         }
     ],
     "title": "Display You Viewed"
@@ -617,6 +617,28 @@ visilabsApi.customEvent('*scratchtowin*', {
   'OM.ppr': '39'
 })
 ```
+
+### User Anonymization
+
+To anonymize a user, you should first call one of the following functions, `setUserProperty` or `setUserProperties`, as shown below:
+```javascript
+let userData = {
+  // ...other properties
+  "SetAnonymous": true 
+}
+euroMessageApi.setUserProperties(userData)
+
+// OR
+
+await euroMessageApi.setUserProperty('SetAnonymous', 'true')
+```
+After the set operation is completed, you must save the changes by calling the `subscribe` function:
+```javascript
+euroMessageApi.subscribe(this.state.token)
+```
+
+**IMPORTANT NOTE**: If you do not set the `SetAnonymous` parameter back to `false`, the user will remain anonymous indefinitely.
+
 
 ### Using Push Notification Messages
 You can access payload list of last 30 days if you have completed iOS `NotificationServiceExtension` and `App Groups` setup. Using `getPushMessages` method you can access these payloads. Android does not require special installation.
