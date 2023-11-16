@@ -570,7 +570,28 @@ import { RDBannerView } from 'react-native-related-digital'
 { "bannerLink": "URL" }
 ```
 
-### Provisional Push (iOS Only)
+### Request Permission
+It is used to request notification permission from the user. On iOS devices, a prompt asking for permission to receive notifications will appear. On Android devices, if Android 13 (API 33) or a higher version is used, a similar prompt will be displayed. In lower versions, permission is assumed to be granted by default.
+It should be called every time the application is launched.
+
+**IMPORTANT NOTE**: The notification permission here indicates whether permission has been granted from the device. If your user turns off notification permission from your application's account settings, the permission status here will not change. Therefore, you should check the permission information managed by the user from their account settings on your side. Otherwise, notifications may be sent to users without permission.
+For example;
+```javascript
+pushPermitRequest = async (isProvisional) => {
+    const pushPermit = await requestPermissions(isProvisional)
+    console.log("Device Push Permit",pushPermit);
+    if (
+        user.pushPermit == true // If permission has been granted before
+        || // or
+        typeof user.pushPermit === 'undefined' // If no definition has been made regarding the permission status
+      ) {
+        euroMessageApi.setUserProperties({pushPermit: pushPermit ? 'Y' : 'N'}).then(() => {
+          euroMessageApi.subscribe(this.state.token)
+        })
+    }
+  }
+```
+#### Provisional Push (iOS Only)
 To use provisional push feature on iOS, call `requestPermissions` method with parameter `false`
 ```javascript
 const isProvisional = true
@@ -642,6 +663,9 @@ euroMessageApi.subscribe(this.state.token)
 
 ### Using Push Notification Messages
 You can access payload list of last 30 days if you have completed iOS `NotificationServiceExtension` and `App Groups` setup. Using `getPushMessages` method you can access these payloads. Android does not require special installation.
+
+When sending a notification, if you add the `pushCategory` parameter to the custom parameters field, you can retrieve the category parameter you sent for the respective push within the payload. This process will enable you to categorize your notifications. Example values include `transactional`, `order`, `bulk`, `campaign`, `reco`, etc.
+
 ```javascript
 const getPushMessages = async () => {
     const messages = await euroMessageApi.getPushMessages()
@@ -666,10 +690,12 @@ Messages are sorted by date. The most recent message is displayed at the top of 
             "message": "text message",
             "pushId": "6d827ae9-bcaa-47e1-b2c4-f8ace771f3f5",
             "pushType": "Image",
+            "pushCategory": "x campaign",
             "sound": "",
             "title": "text message",
             "url": ""
         },
+        "pushCategory": "x campaign",
         "pushId": "6d827ae9-bcaa-47e1-b2c4-f8ace771f3f5",
         "pushType": "Image",
         "sound": "",
@@ -693,6 +719,7 @@ Messages are sorted by date. The most recent message is displayed at the top of 
         "mediaUrl": "https:\/\/raw.githubusercontent.com\/relateddigital\/euromessage-ios\/master\/screenshots\/appgroups-name.png",
         "formattedDateString": "2021-12-08 01:34:59",
         "pushType": "Image",
+        "pushCategory": "x campaign",
         "url": "www.example.com"
     }
 ] 
@@ -966,6 +993,20 @@ const App = () => {
     console.log('USER DATA', user)
   }
 
+  const pushPermitRequest = async (isProvisional) => {
+    const pushPermit = await requestPermissions(isProvisional)
+    console.log("Device Push Permit",pushPermit);
+    if (
+        user.pushPermit == true // If permission has been granted before
+        || // or
+        typeof user.pushPermit === 'undefined' // If no definition has been made regarding the permission status
+      ) {
+      euroMessageApi.setUserProperties({pushPermit: pushPermit ? 'Y' : 'N'}).then(() => {
+        euroMessageApi.subscribe(this.state.token)
+      })
+    }
+  }
+
   const removeListeners = () => {
     removeEventListener('register')
     removeEventListener('registrationError')
@@ -994,7 +1035,7 @@ const App = () => {
               title='REQUEST PERMISSONS'
               onPress={() => {
                 const isProvisional = false
-                requestPermissions(isProvisional)
+                pushPermitRequest(isProvisional)
               }} 
             />
             <Button

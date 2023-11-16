@@ -2,7 +2,7 @@ PODS:
   - boost (1.76.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
-  - Euromsg (2.7.0)
+  - Euromsg (2.7.1)
   - FBLazyVector (0.69.5)
   - FBReactNativeSpec (0.69.5):
     - RCT-Folly (= 2021.06.28.00-v2)
@@ -285,8 +285,8 @@ PODS:
   - React-jsinspector (0.69.5)
   - React-logger (0.69.5):
     - glog
-  - react-native-related-digital (1.0.11):
-    - Euromsg (= 2.7.0)
+  - react-native-related-digital (1.0.13):
+    - Euromsg (= 2.7.1)
     - React
     - VisilabsIOS (= 4.0.9)
   - React-perflogger (0.69.5)
@@ -523,7 +523,7 @@ SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
-  Euromsg: 7b93c7786f269ff6b3849bc89cbdbdcbe50d53b1
+  Euromsg: b49ee1c01f54cb48f979164cda73a6799e546af1
   FBLazyVector: 0045cf98ca4a48af3bf7108d85b1c243740fa289
   FBReactNativeSpec: 82e74141263f8c962e288f5cd6b5d149cdc8afe1
   Flipper: 26fc4b7382499f1281eb8cb921e5c3ad6de91fe0
@@ -553,7 +553,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: e42f0b46de293a026c2fb20e524d4fe09f81f575
   React-jsinspector: e385fb7a1440ae3f3b2cd1a139ca5aadaab43c10
   React-logger: 15c734997c06fe9c9b88e528fb7757601e7a56df
-  react-native-related-digital: 464006ffa0a565004df0243c069bfb9c175508ab
+  react-native-related-digital: 07bbd2d2e0f79231139320fe528f6f0cedfe591e
   React-perflogger: 367418425c5e4a9f0f80385ee1eaacd2a7348f8e
   React-RCTActionSheet: e4885e7136f98ded1137cd3daccc05eaed97d5a6
   React-RCTAnimation: 7c5a74f301c9b763343ba98a3dd776ed2676993f

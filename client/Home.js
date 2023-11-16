@@ -169,11 +169,26 @@ export default class Home extends Component {
     this.getUser(false)
   }
 
+  pushPermitRequest = async () => {
+    const pushPermit = await requestPermissions(false)
+    console.log("Device Push Permit",pushPermit);
+    if (
+        user.pushPermit == true // daha önce izin vermişse
+        || // or
+        typeof user.pushPermit === 'undefined' // izin durumuyla ilgili hiçbir tanımlama yapılmamışsa
+      ) {
+      
+    }
+    euroMessageApi.setUserProperties({pushPermit: pushPermit ? 'Y' : 'N'}).then(() => {
+      euroMessageApi.subscribe(this.state.token)
+    })
+  }
+
   componentDidMount() {
     this.addListeners()
     logToConsole(true)
     setGeofencingIntervalInMinute(30)
-    requestPermissions(false)
+    this.pushPermitRequest()
   }
 
   componentWillUnmount() {
@@ -181,6 +196,7 @@ export default class Home extends Component {
     removeEventListener('registrationError')
     removeEventListener('carouselItemClicked')
   }
+
 
   // FX
   addListeners = () => {
@@ -743,7 +759,7 @@ export default class Home extends Component {
 
         <View style={this.styles.titleContainer}>
           {this.title("Get Push Messages", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('Push Messages', await euroMessageApi.getPushMessages()) }} />
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('Push Messages', JSON.stringify(await euroMessageApi.getPushMessages())) }} />
         </View>
 
         <View style={this.styles.titleContainer}>
