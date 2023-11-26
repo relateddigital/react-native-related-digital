@@ -48,7 +48,10 @@ import euromsg.com.euromobileandroid.EuroMobileManager;
 import euromsg.com.euromobileandroid.model.Element;
 import euromsg.com.euromobileandroid.model.Message;
 import euromsg.com.euromobileandroid.callback.PushMessageInterface;
+import euromsg.com.euromobileandroid.callback.PushNotificationPermissionInterface;
 import euromsg.com.euromobileandroid.utils.SharedPreference;
+
+import android.os.Build;
 
 public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     private static ReactApplicationContext reactContext;
@@ -99,9 +102,35 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
                         params.putString("deviceToken", task.getResult());
                         utilities.sendEvent("remoteNotificationsRegistered", params);
 
-                        promise.resolve(true);
+                         if (Build.VERSION.SDK_INT >= 33) {
+                            requestNotificationPermission(promise);
+                        }else{
+                            promise.resolve(true);
+                        }
                     }
                 });
+    }
+
+    @ReactMethod
+    public void requestNotificationPermission(final Promise promise){
+        try{
+            PushNotificationPermissionInterface notificationPermissionInterface = new PushNotificationPermissionInterface() {
+                @Override
+                public void success(boolean granted) {
+                    promise.resolve(granted);
+                }
+
+                @Override
+                public void fail(String errorMessage) {
+                    promise.resolve(false);
+                }
+            };
+            EuroMobileManager.getInstance().requestNotificationPermission(getCurrentActivity(), notificationPermissionInterface);
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
     }
 
     @ReactMethod
