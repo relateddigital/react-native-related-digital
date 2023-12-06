@@ -318,13 +318,15 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
         Visilabs.CallAPI().customEvent(pageName, params, getCurrentActivity());
     }
 
-     @ReactMethod
-    public void logout() {
-        try{
-            Visilabs.CallAPI().logout();
+    @ReactMethod
+    public void logout(boolean onlyEM) {
+        try {
+            Log.i("RDPushModuleJava logout onlyEM", Boolean.toString(onlyEM));
+            if (!onlyEM) {
+                Visilabs.CallAPI().logout();
+            }
             EuroMobileManager.getInstance().logout(reactContext);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.e("RDPushModuleJava", e.getMessage());
         }
     }

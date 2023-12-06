@@ -235,7 +235,7 @@ export default class Home extends Component {
   }
 
   logout = async () => {
-    logout();
+    logout(false);
     alert("Success logout");
     this.getUser(false);
   }

@@ -148,10 +148,12 @@ class EuroMessageApi {
         let subscriptionInfo = await AsyncStorage.getItem(this.subscriptionKey)
         subscriptionInfo = subscriptionInfo ? JSON.parse(subscriptionInfo) : null
 
+        const emPushSp = Platform.OS == 'android' ? notification.params?.emPushSp : notification.emPushSp;
+
         const parametersRetention = {
             key: this.appAlias,
             pushId:notification.pushId,
-            emPushSp:notification.emPushSp,
+            emPushSp:emPushSp,
             status: 'O',
             token: subscriptionInfo && subscriptionInfo.token
         }

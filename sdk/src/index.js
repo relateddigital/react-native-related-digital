@@ -164,8 +164,8 @@ const logToConsole = (value) => {
     _log = value
 }
 
-const logout = async () => {
-    await logoutNative()
+const logout = async (onlyEM) => {
+    await logoutNative(onlyEM)
     removeAllCookies()
 }
 

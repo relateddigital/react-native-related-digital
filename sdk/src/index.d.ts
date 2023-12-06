@@ -40,7 +40,7 @@ export function removeEventListener(type: ListenerTypes): void;
 export class EuroMessageApi {
     constructor(appAlias: string): void;
     subscribe(token: string): Promise<any>;
-    reportRead(pushId: string): Promise<any>;
+    reportRead(notification: object): Promise<any>;
     setUserProperty(key: string, value: object): Promise<void>;
     setUserProperties(properties: object): Promise<void>;
     getPushMessages(): Promise<any>;
@@ -72,7 +72,7 @@ export function requestLocationPermission(): Promise<boolean>;
 export function setGeofencingIntervalInMinute(interval: number): void;
 export function setApplicationIconBadgeNumber(badgeNumber: number): void;
 export function logToConsole(value: boolean): void;
-export function logout(): void;
+export function logout(onlyEM: Boolean = false): void;
 
 export interface RDStoryViewProps {
     onItemClicked?: Function;
