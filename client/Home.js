@@ -1099,6 +1099,7 @@ export default class Home extends Component {
           hidden={false}
         />
         <ScrollView>
+          <CustomButton style={{ width: "50%" }} data={{ name: "Go Details" }} action={() => this.props.navigation.navigate('Details')} />
           {this.push()}
           {this.hr()}
           {this.inapp()}
