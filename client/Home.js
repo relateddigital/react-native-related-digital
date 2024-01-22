@@ -26,8 +26,8 @@ import CustomButton from './components/CustomButton'
 import Widget from './components/Widget'
 
 
-  // test app alias = rniostestapptest
-  // test app alias = rniostestapp
+// test app alias = rniostestapptest
+// test app alias = rniostestapp
 
 const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapp'
 const siteId = "356467332F6533766975593D";
@@ -48,8 +48,8 @@ export default class Home extends Component {
       banner: false,
       widget: null,
       others: false,
-      subsStatus:null,
-      pushPermit:false,
+      subsStatus: null,
+      pushPermit: false,
       userData: {
         "keyID": "",
         "email": "",
@@ -171,15 +171,15 @@ export default class Home extends Component {
 
   pushPermitRequest = async () => {
     const pushPermit = await requestPermissions(false)
-    console.log("Device Push Permit",pushPermit);
+    console.log("Device Push Permit", pushPermit);
     if (
-        user.pushPermit == true // daha önce izin vermişse
-        || // or
-        typeof user.pushPermit === 'undefined' // izin durumuyla ilgili hiçbir tanımlama yapılmamışsa
-      ) {
-      
+      user.pushPermit == true // daha önce izin vermişse
+      || // or
+      typeof user.pushPermit === 'undefined' // izin durumuyla ilgili hiçbir tanımlama yapılmamışsa
+    ) {
+
     }
-    euroMessageApi.setUserProperties({pushPermit: pushPermit ? 'Y' : 'N'}).then(() => {
+    euroMessageApi.setUserProperties({ pushPermit: pushPermit ? 'Y' : 'N' }).then(() => {
       euroMessageApi.subscribe(this.state.token)
     })
   }
@@ -223,7 +223,7 @@ export default class Home extends Component {
       return false
     }
 
-    this.setState({subsStatus:true})
+    this.setState({ subsStatus: true })
 
     let userData = { ...this.state.userData, "pushPermit": "Y" }
 
@@ -253,7 +253,7 @@ export default class Home extends Component {
   changeEmail = (email) => {
     let userData = { ...this.state.userData, "email": email, "keyID": email }
 
-    this.setState({ userData,subsStatus:false })
+    this.setState({ userData, subsStatus: false })
   }
 
   sendCustomEvent = (type) => {
@@ -272,42 +272,42 @@ export default class Home extends Component {
       "",
       [
         {
-            text: "Copy",
-            onPress: () => { this.cpy(JSON.stringify(result)) },
+          text: "Copy",
+          onPress: () => { this.cpy(JSON.stringify(result)) },
         },
         {
-            text: "Close",
-            onPress: () => {  },
-            style: 'cancel',
+          text: "Close",
+          onPress: () => { },
+          style: 'cancel',
         },
       ], {
-        cancelable: true
-      }
-      )
+      cancelable: true
+    }
+    )
 
     console.log("Euromsg - keyID", result.euromsg.extra.keyID);
     console.log("Euromsg - email", result.euromsg.extra.email);
     console.log("Euromsg - pushPermit", result.euromsg.extra.pushPermit);
 
-    let userData = { 
-      ...this.state.userData, 
-      "email": result.euromsg.extra.email, 
+    let userData = {
+      ...this.state.userData,
+      "email": result.euromsg.extra.email,
       "keyID": result.euromsg.extra.keyID,
       "pushPermit": result.euromsg.extra.pushPermit
     }
 
-    this.setState({ 
+    this.setState({
       userData,
-      subsStatus: (result.euromsg.extra.email ? true : false) ,
-      pushPermit: (result.euromsg.extra.pushPermit ? (result.euromsg.extra.pushPermit == "Y" ? true : false ) : false)
+      subsStatus: (result.euromsg.extra.email ? true : false),
+      pushPermit: (result.euromsg.extra.pushPermit ? (result.euromsg.extra.pushPermit == "Y" ? true : false) : false)
     })
   }
 
   getRecommendations = async () => {
     try {
-      visilabsApi.customEvent("qwe", {"OM.pv":"50239832021"});
+      // visilabsApi.customEvent("qwe", { "OM.pv": "50239832021" });
 
-      const zoneId = '62'
+      const zoneId = '5'
       const productCode = ''
 
       const properties = {
@@ -315,13 +315,15 @@ export default class Home extends Component {
       }
 
       // optional
-      const filters = [{
-        attribute: RecommendationAttribute.PRODUCTCODE,
-        filterType: RecommendationFilterType.equals,
-        value: '78979,21312,45345'
-      }]
+      const filters = [
+        {
+          attribute: RecommendationAttribute.CATEGORY,
+          filterType: RecommendationFilterType.equals,
+          value: '778'
+        },
+      ]
 
-      const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties)
+      const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties, filters)
       // const recommendations = {
       //   "recommendations": [
       //     {
@@ -633,10 +635,10 @@ export default class Home extends Component {
 
   copyOperations = () => {
     const tmpUserData = {
-      email:this.state.userData.email,
-      keyid:this.state.userData.keyID,
-      pushPermit:this.state.userData.pushPermit,
-      token:this.state.token
+      email: this.state.userData.email,
+      keyid: this.state.userData.keyID,
+      pushPermit: this.state.userData.pushPermit,
+      token: this.state.token
     }
 
     this.cpy(JSON.stringify(tmpUserData))
@@ -647,7 +649,7 @@ export default class Home extends Component {
       Clipboard.setString(text)
       alert("Kopyalandı")
     } catch (error) {
-      console.log("Copy Error",error);
+      console.log("Copy Error", error);
       alert("Kopyalama sırasında hata oluştu")
     }
   }
@@ -681,7 +683,7 @@ export default class Home extends Component {
     }
     return statusData
   }
-  
+
 
   healthCheck = () => {
     let ts = this.tokenControl()
@@ -691,7 +693,7 @@ export default class Home extends Component {
 
     if (ts.status && ss.status && ps.status) {
       return true
-    }else{
+    } else {
       return false
     }
   }
@@ -741,7 +743,7 @@ export default class Home extends Component {
       <TextInput
         style={this.styles.textInput}
         placeholder={"Email"}
-        placeholderTextColor="gray" 
+        placeholderTextColor="gray"
         value={this.state.userData.email}
         onChangeText={(v) => { this.changeEmail(v) }}
         editable
@@ -819,7 +821,7 @@ export default class Home extends Component {
       height: "100%",
       width: "95%",
       alignSelf: 'center',
-      backgroundColor:'white'
+      backgroundColor: 'white'
     },
     section: {
       // borderWidth: 1,
@@ -867,7 +869,7 @@ export default class Home extends Component {
       paddingLeft: 15,
       // backgroundColor:'red',
       borderWidth: 1,
-      color:'black',
+      color: 'black',
       borderColor: 'gray',
 
     },
@@ -889,7 +891,7 @@ export default class Home extends Component {
     token: {
       // backgroundColor:'red',
       width: "95%",
-      marginVertical:3
+      marginVertical: 3
     },
     main: {
       width: "95%",
@@ -901,32 +903,32 @@ export default class Home extends Component {
       alignItems: 'center',
       justifyContent: 'space-between'
     },
-    hr:{
-      borderBottomWidth:1,
-      borderBottomColor:'gray',
-      width:"95%",
-      alignSelf:'center',
-      marginTop:15
+    hr: {
+      borderBottomWidth: 1,
+      borderBottomColor: 'gray',
+      width: "95%",
+      alignSelf: 'center',
+      marginTop: 15
     },
-    row:{
-      flexDirection:'row',
+    row: {
+      flexDirection: 'row',
       // borderWidth:1,
-      width:"70%",
-      marginVertical:10,
-      alignItems:'flex-start',
-      justifyContent:'flex-start',
+      width: "70%",
+      marginVertical: 10,
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
     },
-    permitRow:{
-      flexDirection:'row',
-      alignItems:'center',
-      justifyContent:'flex-start',
+    permitRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
       // backgroundColor:'red',
-      width:"95%"
+      width: "95%"
     }
   });
 
   hr = () => {
-    return(
+    return (
       <View style={this.styles.hr}></View>
     )
   }
@@ -948,7 +950,7 @@ export default class Home extends Component {
             <Text style={this.styles.token}>{'Email: ' + (this.state.userData.email ? this.state.userData.email : "Anonim")}</Text>
             <Text style={this.styles.token}>{'keyID(ExVisitorID): ' + (this.state.userData.keyID ? this.state.userData.keyID : "Anonim")}</Text>
             <Text style={this.styles.token}>{'Token: ' + this.state.token}</Text>
-            <CustomButton mini style={{ width: "90%" }} data={{ name: "Copy User Data" }} action={()=>{ this.copyOperations() }} />
+            <CustomButton mini style={{ width: "90%" }} data={{ name: "Copy User Data" }} action={() => { this.copyOperations() }} />
           </View>
         </View>
       </View>
@@ -956,43 +958,43 @@ export default class Home extends Component {
   }
 
   pushPermit = () => {
-    return(
+    return (
       <View style={this.styles.permitRow}>
-        <Text style={{fontWeight:'bold', color: 'gray'}}>Push İzni : </Text>
+        <Text style={{ fontWeight: 'bold', color: 'gray' }}>Push İzni : </Text>
         <Switch
-            style={{ transform: [{ scale: 1 }] }}
-            onValueChange={(value) => this.togglePushPermit(value)}
-            value={this.state.pushPermit}
-          />
-        
+          style={{ transform: [{ scale: 1 }] }}
+          onValueChange={(value) => this.togglePushPermit(value)}
+          value={this.state.pushPermit}
+        />
+
         {this.title(this.state.pushPermit ? "Aktif" : "Pasif", 15)}
       </View>
     )
   }
 
   userStatus = () => {
-    return(
+    return (
       <View style={this.styles.main}>
-        <View style={[this.styles.tokenContainer,{width:"100%"}]}>
-            {this.title("Durum Bilgisi", 18)}
-            {this.title((this.healthCheck() ? "Bu cihaza push atılabilir" : "Eksik işlemler var, pushlar ulaşmayabilir"), 15)}
-            <View>
-              {this.statusRow(this.tokenControl())}
-              {this.statusRow(this.subsControl())}
-              {this.statusRow(this.permitControl())}
-            </View>
+        <View style={[this.styles.tokenContainer, { width: "100%" }]}>
+          {this.title("Durum Bilgisi", 18)}
+          {this.title((this.healthCheck() ? "Bu cihaza push atılabilir" : "Eksik işlemler var, pushlar ulaşmayabilir"), 15)}
+          <View>
+            {this.statusRow(this.tokenControl())}
+            {this.statusRow(this.subsControl())}
+            {this.statusRow(this.permitControl())}
           </View>
+        </View>
       </View>
     )
   }
 
   statusRow = (statusData) => { //////
-    return(
+    return (
       <View style={this.styles.row}>
-        {statusData.status ? 
-        <FontAwesome name={"check"} size={18} color={"green"} style={{marginTop:-2}}/>
-        : 
-        <FontAwesome name={"times"} size={18} color={"red"} style={{marginTop:-2}}/>
+        {statusData.status ?
+          <FontAwesome name={"check"} size={18} color={"green"} style={{ marginTop: -2 }} />
+          :
+          <FontAwesome name={"times"} size={18} color={"red"} style={{ marginTop: -2 }} />
         }
         <Text>{statusData.title}:</Text>
         <Text>{statusData.desc}</Text>
@@ -1010,13 +1012,13 @@ export default class Home extends Component {
         </View>
         {this.state.banner && <View style={[this.styles.main]}>
           <RDBannerView
-            properties={{ 
-               'OM.inapptype': 'banner_carousel',
+            properties={{
+              'OM.inapptype': 'banner_carousel',
             }}
-            onRequestResult={isAvailable => 
-              console.log('Related Digital - Banners', isAvailable) 
+            onRequestResult={isAvailable =>
+              console.log('Related Digital - Banners', isAvailable)
             }
-            onItemClicked={data => 
+            onItemClicked={data =>
               console.log('Related Digital - Banner data', data)
             }
             style={{
