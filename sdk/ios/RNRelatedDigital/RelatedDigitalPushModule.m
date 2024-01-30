@@ -5,10 +5,11 @@
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTUtils.h>
 #import "Utilities.h"
-//  #import <react_native_related_digital-Swift.h>
-#import <react_native_related_digital/react_native_related_digital-Swift.h>
+  #import <react_native_related_digital-Swift.h>
+//#import <react_native_related_digital/react_native_related_digital-Swift.h>
 
 NSString *const RCTRemoteNotificationReceived = @"RemoteNotificationReceived";
+NSString *const RCTActionButtonClicked = @"ActionButtonClicked";
 
 static NSString *const kRemoteNotificationsRegistered = @"RemoteNotificationsRegistered";
 static NSString *const kRemoteNotificationRegistrationFailed = @"RemoteNotificationRegistrationFailed";
@@ -53,7 +54,8 @@ RCT_EXPORT_MODULE()
 {
   return @[@"remoteNotificationReceived",
            @"remoteNotificationsRegistered",
-           @"remoteNotificationRegistrationError"];
+           @"remoteNotificationRegistrationError",
+           @"ActionButtonClicked"];
 }
 
 + (void)didRegisterUserNotificationSettings:(__unused UIUserNotificationSettings *)notificationSettings
@@ -96,6 +98,43 @@ RCT_EXPORT_MODULE()
                                                       object:self
                                                     userInfo:userInfo];
 }
+
++ (void)didClickActionButton:(UNNotificationResponse *)response
+            fetchCompletionHandler:(RNCActionButtonClickedCallback)completionHandler {
+    NSDictionary *pushDictionary = response.notification.request.content.userInfo;
+    
+    NSError *jsonError;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:pushDictionary options:NSJSONWritingPrettyPrinted error:&jsonError];
+    
+    NSString *url;
+    NSString *identifier;
+    
+    if (!jsonError) {
+        NSError *decodeError;
+        NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&decodeError];
+
+        if (!decodeError) {
+            NSString *actionIdentifier = response.actionIdentifier;
+
+            if ([actionIdentifier isEqualToString:@"action_0"]) {
+                
+                url = messageDict[@"actions"][0][@"Url"];
+                identifier = @"action_0";
+            } else if ([actionIdentifier isEqualToString:@"action_1"]) {
+                url = messageDict[@"actions"][1][@"Url"];
+                identifier = @"action_1";
+            }
+        }
+    }
+    
+    NSDictionary *userInfo = @{@"url": url, @"identifier":identifier, @"completionHandler": completionHandler};
+    [[NSNotificationCenter defaultCenter] postNotificationName:RCTActionButtonClicked
+                                                        object:self
+                                                      userInfo:userInfo];
+
+    [self sendEventWithName:@"ActionButtonClicked" body:userInfo];
+}
+
 
 - (void)handleRemoteNotificationReceived:(NSNotification *)notification
 {
@@ -199,6 +238,7 @@ static inline NSDictionary *RCTPromiseResolveValueForUNNotificationSettings(UNNo
 static inline NSDictionary *RCTSettingsDictForUNNotificationSettings(BOOL alert, BOOL badge, BOOL sound) {
   return @{@"alert": @(alert), @"badge": @(badge), @"sound": @(sound)};
 }
+
 
 RCT_REMAP_METHOD(getDeviceParameters,
                   getDeviceParametersWithResolver:(RCTPromiseResolveBlock)resolve

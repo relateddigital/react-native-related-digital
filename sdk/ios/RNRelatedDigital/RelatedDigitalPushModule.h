@@ -3,6 +3,7 @@
 @interface RelatedDigitalPushModule : RCTEventEmitter
 
 typedef void (^RNCRemoteNotificationCallback)(UIBackgroundFetchResult result);
+typedef void (^RNCActionButtonClickedCallback)(); // (void (^)());
 
 + (void)didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
 + (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
@@ -11,5 +12,7 @@ typedef void (^RNCRemoteNotificationCallback)(UIBackgroundFetchResult result);
 + (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
 + (void)initRelatedDigital:(NSString *)organizationId profileId:(NSString *)profileId dataSource:(NSString *)dataSource appAlias:(NSString *)appAlias inAppNotificationsEnabled:(BOOL)inAppNotificationsEnabled requestTimeoutSeconds:(int)requestTimeoutSeconds geofenceEnabled:(BOOL)geofenceEnabled askLocationPermmissionAtStart:(BOOL)askLocationPermmissionAtStart maxGeofenceCount:(int)maxGeofenceCount isIDFAEnabled:(BOOL)isIDFAEnabled loggingEnabled:(BOOL)loggingEnabled;
 + (void)setUserProperty: (NSString *) key withValue: (NSString *) value;
+- (void)didClickActionButton:(UNNotificationResponse *)response fetchCompletionHandler:(RNCActionButtonClickedCallback)completionHandler;
+
 
 @end

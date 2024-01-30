@@ -9,7 +9,8 @@ import {
     checkNotificationNative,
     logoutNative,
     getUserNative,
-    getSubscriptionNative
+    getSubscriptionNative,
+    ACTION_BUTTON_CLICKED_EVENT
 } from './native'
 import { EuroMessageApi, VisilabsApi, RecommendationAttribute, RecommendationFilterType } from './api'
 import RDStoryView from './RDStoryView'
@@ -96,6 +97,17 @@ const addEventListener = (type, handler, readHandler, euroMessageApi, visilabsAp
                 console.log(`Related Digital - Listener not supported on iOS (carouselItemClicked)`)
             }
         }
+    }
+    else if(type === 'ActionButtonClicked'){
+        const listener = RelatedDigitalPushNotificationEmitter.addListener(
+            ACTION_BUTTON_CLICKED_EVENT,
+            (notifData) => {
+                handler(notifData);
+                console.log("ACTION_BUTTON_CLICKED_EVENT",notifData);
+            },
+        );
+
+        _notifHandlers.set(type, listener);
     }
 }
 
