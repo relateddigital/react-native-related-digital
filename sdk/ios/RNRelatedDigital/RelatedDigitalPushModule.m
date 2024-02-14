@@ -99,7 +99,7 @@ RCT_EXPORT_MODULE()
                                                     userInfo:userInfo];
 }
 
-+ (void)didClickActionButton:(UNNotificationResponse *)response
+- (void)didClickActionButton:(UNNotificationResponse *)response
             fetchCompletionHandler:(RNCActionButtonClickedCallback)completionHandler {
     NSDictionary *pushDictionary = response.notification.request.content.userInfo;
     

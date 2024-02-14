@@ -63,7 +63,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
-  [RelatedDigitalPushModule initRelatedDigital:@"676D325830564761676D453D" profileId:@"356467332F6533766975593D" dataSource:@"visistore" appAlias:@"rniostestapp" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true askLocationPermmissionAtStart:true maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
+  [RelatedDigitalPushModule initRelatedDigital:@"676D325830564761676D453D" profileId:@"356467332F6533766975593D" dataSource:@"visistore" appAlias:@"rniostestapptest" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true askLocationPermmissionAtStart:true maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
 
   
   return YES;
@@ -96,7 +96,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
   
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didClickActionButton:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
   [RelatedDigitalPushModule didClickActionButton:response fetchCompletionHandler:completionHandler];
   completionHandler();
 }
