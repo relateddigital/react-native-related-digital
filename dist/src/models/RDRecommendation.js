@@ -1,0 +1,32 @@
+export var RDProductFilterAttribute;
+(function (RDProductFilterAttribute) {
+    RDProductFilterAttribute["PRODUCTCODE"] = "PRODUCTCODE";
+    RDProductFilterAttribute["PRODUCTNAME"] = "PRODUCTNAME";
+    RDProductFilterAttribute["COLOR"] = "COLOR";
+    RDProductFilterAttribute["AGEGROUP"] = "AGEGROUP";
+    RDProductFilterAttribute["BRAND"] = "BRAND";
+    RDProductFilterAttribute["CATEGORY"] = "CATEGORY";
+    RDProductFilterAttribute["GENDER"] = "GENDER";
+    RDProductFilterAttribute["MATERIAL"] = "MATERIAL";
+    RDProductFilterAttribute["ATTRIBUTE1"] = "ATTRIBUTE1";
+    RDProductFilterAttribute["ATTRIBUTE2"] = "ATTRIBUTE2";
+    RDProductFilterAttribute["ATTRIBUTE3"] = "ATTRIBUTE3";
+    RDProductFilterAttribute["ATTRIBUTE4"] = "ATTRIBUTE4";
+    RDProductFilterAttribute["ATTRIBUTE5"] = "ATTRIBUTE5";
+    RDProductFilterAttribute["SHIPPINGONSAMEDAY"] = "SHIPPINGONSAMEDAY";
+    RDProductFilterAttribute["FREESHIPPING"] = "FREESHIPPING";
+    RDProductFilterAttribute["ISDISCOUNTED"] = "ISDISCOUNTED";
+})(RDProductFilterAttribute || (RDProductFilterAttribute = {}));
+export var RDRecommendationFilterType;
+(function (RDRecommendationFilterType) {
+    RDRecommendationFilterType[RDRecommendationFilterType["equals"] = 0] = "equals";
+    RDRecommendationFilterType[RDRecommendationFilterType["notEquals"] = 1] = "notEquals";
+    RDRecommendationFilterType[RDRecommendationFilterType["like"] = 2] = "like";
+    RDRecommendationFilterType[RDRecommendationFilterType["notLike"] = 3] = "notLike";
+    RDRecommendationFilterType[RDRecommendationFilterType["greaterThan"] = 4] = "greaterThan";
+    RDRecommendationFilterType[RDRecommendationFilterType["lessThan"] = 5] = "lessThan";
+    RDRecommendationFilterType[RDRecommendationFilterType["greaterOrEquals"] = 6] = "greaterOrEquals";
+    RDRecommendationFilterType[RDRecommendationFilterType["lessOrEquals"] = 7] = "lessOrEquals";
+    RDRecommendationFilterType[RDRecommendationFilterType["include"] = 2] = "include";
+    RDRecommendationFilterType[RDRecommendationFilterType["exclude"] = 3] = "exclude";
+})(RDRecommendationFilterType || (RDRecommendationFilterType = {}));
