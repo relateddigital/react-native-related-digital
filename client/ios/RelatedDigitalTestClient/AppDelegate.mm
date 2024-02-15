@@ -96,10 +96,10 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
   
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didClickActionButton:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
-  [RelatedDigitalPushModule didClickActionButton:response fetchCompletionHandler:completionHandler];
-  completionHandler();
-}
+// - (void)userNotificationCenter:(UNUserNotificationCenter *)center didClickActionButton:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+//   [RelatedDigitalPushModule didClickActionButton:response fetchCompletionHandler:completionHandler];
+//   completionHandler();
+// }
 
 /// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.
 ///
