@@ -59,7 +59,7 @@
       launchAutomaticallySubstyle = "2">
       <RemoteRunnable
          runnableDebuggingMode = "0"
-         BundleIdentifier = "com.relateddigital.pushsdk"
+         BundleIdentifier = "org.reactjs.native.example.RelatedDigitalTestClient"
          RemotePath = "/var/containers/Bundle/Application/B7DF1549-25F0-40ED-A811-9029C67D9B41/RelatedDigitalTestClient.app">
       </RemoteRunnable>
       <MacroExpansion>

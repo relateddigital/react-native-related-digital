@@ -29,7 +29,7 @@ import Widget from './components/Widget'
 // test app alias = rniostestapptest
 // test app alias = rniostestapp
 
-const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapp'
+const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapptest'
 const siteId = "356467332F6533766975593D";
 const organizationId = "676D325830564761676D453D";
 const dataSource = "visistore";
@@ -214,7 +214,7 @@ export default class Home extends Component {
     }, (notificationPayload) => { console.log('notification payload', notificationPayload) }, euroMessageApi, visilabsApi)
     addEventListener('registrationError', async (registrationError) => { console.log('registrationError is ', registrationError) }, euroMessageApi)
     addEventListener('carouselItemClicked', async (carouselItemInfo) => { console.log('carouselItemInfo is ', carouselItemInfo) }, euroMessageApi)
-    addEventListener('ActionButtonClicked', async (actionButtonData) => { console.log('actionButtonData ', actionButtonData) }, euroMessageApi)
+    // addEventListener('ActionButtonClicked', async (actionButtonData) => { console.log('actionButtonData ', actionButtonData) }, euroMessageApi)
   }
 
 
