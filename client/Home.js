@@ -50,6 +50,8 @@ export default class Home extends Component {
       others: false,
       subsStatus: null,
       pushPermit: false,
+      search: false,
+      searchResults: [],
       userData: {
         "keyID": "",
         "email": "",
@@ -57,6 +59,8 @@ export default class Home extends Component {
         "RecipientType": "BIREYSEL",
         "ConsentSource": "HS_MOBIL",
       },
+      searchKeyword: "",
+      searchType: "web",
     }
 
     this.inAppTypes = [
@@ -610,6 +614,12 @@ export default class Home extends Component {
     })
   }
 
+  toggleSearch = () => {
+    this.setState({
+      search: !this.state.search
+    })
+  }
+
   toggleBanner = () => {
     this.setState({
       banner: !this.state.banner
@@ -804,6 +814,13 @@ export default class Home extends Component {
       <CustomButton mini style={{ width: "50%" }} data={{ name: (!this.state.story ? "Show Story" : "Hide Story") }} action={this.toggleStory} />
     )
   }
+
+  searchToggleButton = () => {
+    return (
+      <CustomButton mini style={{ width: "50%" }} data={{ name: (!this.state.search ? "Show Search" : "Hide Search") }} action={this.toggleSearch} />
+    )
+  }
+  
 
   bannerToggleButton = () => {
     return (
@@ -1094,6 +1111,77 @@ export default class Home extends Component {
     )
   }
 
+  search = () => {
+    return (
+      <View>
+        <View style={this.styles.titleContainer}>
+          {this.title("Search", 25)}
+          {this.searchToggleButton()}
+        </View>
+
+        {this.state.search && <View style={[this.styles.main]}>
+          <TextInput
+            style={this.styles.textInput}
+            placeholder={"Keyword"}
+            placeholderTextColor="gray"
+            value={this.state.searchKeyword}
+            onChangeText={(v) => { this.setState({ searchKeyword: v }) }}
+            editable
+          />
+          <TextInput
+            style={this.styles.textInput}
+            placeholder={"Search Type"}
+            placeholderTextColor="gray"
+            value={this.state.searchType}
+            onChangeText={(v) => { this.setState({ searchType: v }) }}
+            editable
+          />
+          <CustomButton mini style={{ width: "90%" }} data={{ name: "Search" }} action={() => { this.searchRecommendation() }} />
+          <View>
+          <View style={this.styles.inAppContainer} >
+            {this.title("Search Results", 18)}
+            {this.renderSearchResults()}
+          </View>
+        </View>
+        </View>}
+      </View>
+    )
+  }
+
+  renderSearchResults = () => (
+    this.state.searchResults.map((item, i) => {
+      console.log( i, item);
+      return (
+        <CustomButton key={i} style={{ width: "90%" }} childStyle={{ fontSize: 10, padding: 5 }} data={{ key: item, name: item.name }} action={this.trackSearchRecommendationClick} />
+      );
+    })
+  );
+
+  trackSearchRecommendationClick = (item) => {
+    console.log(item, "searchResult");
+    visilabsApi.trackSearchRecommendationClick(item.report);
+  }
+
+
+  searchRecommendation = async () => {
+    console.log("searchRecommendation");
+    let searchKeyword = this.state.searchKeyword;
+    let searchType = this.state.searchType;
+    const searchRecommendationResponse = await visilabsApi.searcRecommendation(searchKeyword, searchType)
+    let report = searchRecommendationResponse.productAreaContainer.report;
+    let searchResults = searchRecommendationResponse.productAreaContainer.products.map((item) => { return {name: item.name, report: report } });
+    console.log(searchResults, "productNames");
+    console.log(report);
+    this.setState({ searchResults: searchResults }, () => {
+
+    });
+
+    this.renderSearchResults();
+
+  }
+
+
+
   render() {
     return (
       <SafeAreaView style={[this.styles.container]}>
@@ -1110,6 +1198,7 @@ export default class Home extends Component {
           {this.reco()}
           {this.banner()}
           {this.others()}
+          {this.search()}
         </ScrollView>
       </SafeAreaView>
     )

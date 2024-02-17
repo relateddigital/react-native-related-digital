@@ -62,6 +62,32 @@ import Euromsg
 	@objc public static func trackRecommendationClick(qs: String){
         Visilabs.callAPI().trackRecommendationClick(qs:qs)
 	}
+    
+    @objc public static func searcRecommendation(keyword: String, searchType: String, completion: @escaping ((_ response: String?) -> Void)) -> Void {
+        Visilabs.callAPI().searcRecommendation(keyword: keyword, searchType: searchType){ searchResponse in
+            
+            let jsonEncoder = JSONEncoder()
+            if let jsonData = try? jsonEncoder.encode(searchResponse) {
+                if let json = String(data: jsonData, encoding: String.Encoding.utf8) {
+                    completion(json)
+                }
+            }
+            
+            
+        }
+    }
+
+    @objc public static func trackSearchRecommendationClick(searchReport: [String : String]){
+        let jsonEncoder = JSONEncoder()
+        if let jsonData = try? jsonEncoder.encode(searchReport) {
+            let jsonDecoder = JSONDecoder()
+            let searchReport = try? jsonDecoder.decode(Report.self, from: jsonData)
+            if let searchReport = searchReport {
+                Visilabs.callAPI().trackSearchRecommendationClick(searchReport: searchReport)
+            }
+        }
+    }
+    
 
 	@objc public static func getPushMessages(completion: @escaping ((_ response: String?) -> Void)) -> Void {
 		let jsonEncoder = JSONEncoder()
@@ -187,7 +213,7 @@ import Euromsg
 			completion(nil)
 		}
 	}
-	
+    
 	@objc public static func getIdentifierForVendor() -> String {
 		return Euromsg.getIdentifierForVendorString()
 	}

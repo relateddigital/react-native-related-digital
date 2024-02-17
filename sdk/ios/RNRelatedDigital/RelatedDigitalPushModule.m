@@ -5,7 +5,7 @@
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTUtils.h>
 #import "Utilities.h"
-// #import <react_native_related_digital-Swift.h> // local
+//#import <react_native_related_digital-Swift.h> // local
 #import <react_native_related_digital/react_native_related_digital-Swift.h>
 
 NSString *const RCTRemoteNotificationReceived = @"RemoteNotificationReceived";
@@ -284,6 +284,22 @@ RCT_REMAP_METHOD(trackRecommendationClick,
 								 trackRecommendationClickWithQs:(NSString *)qs) {
 	[RelatedDigitalBridge trackRecommendationClickWithQs:qs];
 }
+
+RCT_REMAP_METHOD(searcRecommendation,
+                 searcRecommendationWithKeyword:(NSString *)keyword
+                                        searchType:(NSString *)searchType
+                                 resolver:(RCTPromiseResolveBlock)resolve
+                                 rejecter:(RCTPromiseRejectBlock)reject) {
+    [RelatedDigitalBridge searcRecommendationWithKeyword:keyword searchType:searchType completion:^(NSString *response) {
+        resolve(response);
+    }];
+}
+
+RCT_REMAP_METHOD(trackSearchRecommendationClick,
+                 trackSearchRecommendationClickWithSearchReport:(NSDictionary *)searchReport) {
+    [RelatedDigitalBridge trackSearchRecommendationClickWithSearchReport: searchReport];
+}
+
 
 // RCT_REMAP_METHOD(getPushMessages,
 // 								 resolver:(RCTPromiseResolveBlock)resolve
