@@ -254,8 +254,8 @@ class VisilabsApi {
         return Promise.resolve(JSON.parse(result))
     }
 
-    async trackSearchRecommendationClick(qs = '') {
-        await trackSearchRecommendationClickNative(qs)
+    async trackSearchRecommendationClick(searchReport = {}) {
+        await trackSearchRecommendationClickNative(searchReport)
     }
 
     async getFavoriteAttributeActions(actionId = null) {

@@ -9,3 +9,5 @@ keystorernclienthuawei.jks
 app-release.apk
 
 /client/android/app/agconnect-services.json
+
+/client/android/app/src/main/assets/profiles.json

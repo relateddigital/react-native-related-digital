@@ -62,7 +62,7 @@ export class VisilabsApi {
     sendLocationPermission(): Promise<void>;
     getUser(): Promise<void>;
     searchRecommendation(keyword: string, searchType: string): Promise<any>;
-    trackSearchRecommendationClick(qs: String): void;
+    trackSearchRecommendationClick(searchReport: object): void;
 };
 export function requestPermissions(isProvisional: Boolean = false): Promise<boolean>;
 export function requestIDFA(): void;
