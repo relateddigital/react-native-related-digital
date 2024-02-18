@@ -1168,7 +1168,7 @@ export default class Home extends Component {
     console.log(visilabsApi.searchRecommendation, "visilabsApi.searchRecommendation");
     let searchKeyword = this.state.searchKeyword;
     let searchType = this.state.searchType;
-    const searchRecommendationResponse = await visilabsApi.searchRecommendation(searchKeyword, searchType)
+    const searchRecommendationResponse = await visilabsApi.searchRecommendation(searchKeyword, searchType);
     let report = searchRecommendationResponse.productAreaContainer.report;
     let searchResults = searchRecommendationResponse.productAreaContainer.products.map((item) => { return {name: item.name, report: report } });
     console.log(searchResults, "productNames");

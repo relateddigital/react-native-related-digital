@@ -249,7 +249,7 @@ class VisilabsApi {
         await trackRecommendationClickNative(qs)
     }
 
-    async searchRecommendationNative(keyword: string, searchType: string) {
+    async searchRecommendation(keyword: string, searchType: string) {
         const result = await searchRecommendationNative(keyword, searchType)
         return Promise.resolve(JSON.parse(result))
     }

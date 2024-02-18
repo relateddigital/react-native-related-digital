@@ -9,6 +9,8 @@ const NOTIF_REGISTRATION_ERROR_EVENT = 'remoteNotificationRegistrationError';
 const CAROUSEL_ITEM_CLICKED_EVENT = 'carouselItemClicked'; // android only
 const ACTION_BUTTON_CLICKED_EVENT = 'ActionButtonClicked';
 
+console.log('RelatedDigitalPushModule', RelatedDigitalPushModule);
+
 
 const getDeviceParameters = RelatedDigitalPushModule.getDeviceParameters
 const customEventNative = RelatedDigitalPushModule.customEvent
@@ -27,6 +29,9 @@ const getUserNative = RelatedDigitalPushModule.getUser
 const getSubscriptionNative = RelatedDigitalPushModule.getSubscription
 const setUserPropertyNative = RelatedDigitalPushModule.setUserProperty
 const sendLogToGraylogNative = RelatedDigitalPushModule.sendLogToGraylog
+
+console.log('searchRecommendationNative', searchRecommendationNative);
+console.log('trackSearchRecommendationClickNative', trackSearchRecommendationClickNative);
 
 
 const RDStoryViewNative = requireNativeComponent('StoryView')
