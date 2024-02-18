@@ -61,7 +61,7 @@ export class VisilabsApi {
     sendTheListOfAppsInstalled(): Promise<void>;
     sendLocationPermission(): Promise<void>;
     getUser(): Promise<void>;
-    searcRecommendation(keyword: string, searchType: string): Promise<any>;
+    searchRecommendation(keyword: string, searchType: string): Promise<any>;
     trackSearchRecommendationClick(qs: String): void;
 };
 export function requestPermissions(isProvisional: Boolean = false): Promise<boolean>;

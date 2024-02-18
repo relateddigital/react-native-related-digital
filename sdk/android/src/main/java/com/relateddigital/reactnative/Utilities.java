@@ -1,19 +1,12 @@
 package com.relateddigital.reactnative;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-
-import androidx.core.content.PermissionChecker;
-import androidx.fragment.app.Fragment;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
@@ -25,7 +18,6 @@ import java.util.Set;
 
 import euromsg.com.euromobileandroid.EuroMobileManager;
 import euromsg.com.euromobileandroid.model.Message;
-import euromsg.com.euromobileandroid.utils.AppUtils;
 
 public class Utilities {
     private ReactApplicationContext mContext;
@@ -96,14 +88,12 @@ public class Utilities {
             if (intent.hasExtra("google.message_id")) {
                 Message message = new Message(intent.getExtras());
                 bundle.putSerializable("message", message);
-            }
-            else if (intent.hasExtra("message")) {
-                Message message = (Message)intent.getExtras().get("message");
+            } else if (intent.hasExtra("message")) {
+                Message message = (Message) intent.getExtras().get("message");
                 bundle.putSerializable("message", message);
             }
-        }
-        catch (Exception ex) {
-          ex.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         return bundle;
@@ -132,7 +122,7 @@ public class Utilities {
         for (String key : keys) {
             Object value = bundle.get(key);
             if (value instanceof Bundle) {
-                json.put(key, convertJSONObject((Bundle)value));
+                json.put(key, convertJSONObject((Bundle) value));
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 json.put(key, JSONObject.wrap(value));
             } else {
@@ -140,5 +130,23 @@ public class Utilities {
             }
         }
         return json;
+    }
+
+    String toCamelCase(String s) {
+        StringBuilder builder = new StringBuilder();
+        boolean nextUpperCase = false;
+        for (char c : s.toCharArray()) {
+            if (c == '_') {
+                nextUpperCase = true;
+            } else {
+                if (nextUpperCase) {
+                    builder.append(Character.toUpperCase(c));
+                    nextUpperCase = false;
+                } else {
+                    builder.append(Character.toLowerCase(c));
+                }
+            }
+        }
+        return builder.toString();
     }
 }

@@ -1,20 +1,16 @@
 package com.relateddigital.reactnative;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
-import androidx.annotation.NonNull;
-import android.content.Context;
-import android.text.TextUtils;
 
-import com.facebook.common.activitylistener.ActivityListener;
+import androidx.annotation.NonNull;
+
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.BaseActivityEventListener;
-import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -28,9 +24,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.visilabs.Visilabs;
 import com.visilabs.VisilabsResponse;
 import com.visilabs.api.VisilabsCallback;
+import com.visilabs.api.VisilabsSearchRequest;
 import com.visilabs.api.VisilabsTargetFilter;
 import com.visilabs.api.VisilabsTargetRequest;
 import com.visilabs.favs.Favorites;
@@ -42,6 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import euromsg.com.euromobileandroid.EuroMobileManager;
@@ -55,7 +54,7 @@ import android.os.Build;
 
 public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     private static ReactApplicationContext reactContext;
-    private Utilities utilities;
+    private final Utilities utilities;
 
     private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
         @Override
@@ -82,12 +81,10 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     public void requestPermissions(final Promise promise) {
         if (checkPlayService()) {
             firebaseTokenOperations(promise);
-        } else {
-            
         }
     }
 
-    private void firebaseTokenOperations(final Promise promise){
+    private void firebaseTokenOperations(final Promise promise) {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -104,7 +101,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
 
                         if (Build.VERSION.SDK_INT >= 33) {
                             requestNotificationPermission(promise);
-                        }else{
+                        } else {
                             promise.resolve(true);
                         }
                     }
@@ -112,8 +109,8 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void requestNotificationPermission(final Promise promise){
-        try{
+    public void requestNotificationPermission(final Promise promise) {
+        try {
             PushNotificationPermissionInterface notificationPermissionInterface = new PushNotificationPermissionInterface() {
                 @Override
                 public void success(boolean granted) {
@@ -126,8 +123,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
                 }
             };
             EuroMobileManager.getInstance().requestNotificationPermission(getCurrentActivity(), notificationPermissionInterface);
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             promise.resolve(false);
         }
@@ -198,12 +194,12 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     public void onNewIntentLocal(Intent intent) {
-        if(intent != null) {
+        if (intent != null) {
             Bundle bundle = intent.getExtras();
-            if(bundle != null) {
+            if (bundle != null) {
                 Message message = (Message) intent.getExtras().getSerializable("message");
 
-                if(message == null) {
+                if (message == null) {
                     // Carousel push notification : an item was clicked
 
                     String itemClickedUrl = bundle.getString("CarouselItemClickedUrl");
@@ -227,12 +223,11 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
             for (String key : keys) {
                 Object valueObj = bundle.get(key);
 
-                if(valueObj != null) {
-                    if(valueObj instanceof String) {
+                if (valueObj != null) {
+                    if (valueObj instanceof String) {
                         params.putString(key, (String) valueObj);
-                    }
-                    else if(valueObj instanceof Message) {
-                        Message messageObj = (Message)valueObj;
+                    } else if (valueObj instanceof Message) {
+                        Message messageObj = (Message) valueObj;
 
                         params.putString("mediaUrl", messageObj.getMediaUrl());
                         params.putString("altUrl", messageObj.getAltUrl());
@@ -247,18 +242,18 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
                         params.putString("collapseKey", messageObj.getCollapseKey());
 
                         Map<String, String> messageObjParams = messageObj.getParams();
-                        if(messageObjParams != null && messageObjParams.size() > 0) {
+                        if (messageObjParams != null && messageObjParams.size() > 0) {
                             WritableMap paramsMap = Arguments.createMap();
-                            for(String paramKey : messageObjParams.keySet()) {
+                            for (String paramKey : messageObjParams.keySet()) {
                                 paramsMap.putString(paramKey, messageObjParams.get(paramKey));
                             }
                             params.putMap("params", paramsMap);
                         }
 
                         ArrayList<Element> messageObjElements = messageObj.getElements();
-                        if(messageObjElements != null && messageObjElements.size() > 0) {
+                        if (messageObjElements != null && messageObjElements.size() > 0) {
                             WritableMap elementsMap = Arguments.createMap();
-                            for(Element element : messageObjElements) {
+                            for (Element element : messageObjElements) {
                                 elementsMap.putString("content", element.getContent());
                                 elementsMap.putString("id", element.getId());
                                 elementsMap.putString("picture", element.getPicture());
@@ -267,12 +262,10 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
                             }
                             params.putMap("elements", elementsMap);
                         }
-                    }
-                    else {
+                    } else {
                         params.putString(key, valueObj.toString());
                     }
-                }
-                else {
+                } else {
                     params.putNull(key);
                 }
             }
@@ -295,8 +288,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
             result.putString("udid", utilities.getDeviceUDID());
 
             promise.resolve(result);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             promise.reject("ERROR", ex);
         }
     }
@@ -307,10 +299,9 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
         HashMap<String, Object> paramsMap = properties.toHashMap();
 
         for (Map.Entry<String, Object> entry : paramsMap.entrySet()) {
-            if(entry.getValue() instanceof String){
+            if (entry.getValue() instanceof String) {
                 params.put(entry.getKey(), (String) entry.getValue());
-            }
-            else {
+            } else {
                 params.put(entry.getKey(), entry.getValue().toString());
             }
         }
@@ -318,6 +309,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
         Visilabs.CallAPI().customEvent(pageName, params, getCurrentActivity());
     }
 
+    @SuppressLint("LongLogTag")
     @ReactMethod
     public void logout(boolean onlyEM) {
         try {
@@ -327,7 +319,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
             }
             EuroMobileManager.getInstance().logout(reactContext);
         } catch (Exception e) {
-            Log.e("RDPushModuleJava", e.getMessage());
+            Log.e("RDPushModuleJava", Objects.requireNonNull(e.getMessage()));
         }
     }
 
@@ -340,16 +332,15 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
             HashMap<String, Object> paramsMap = properties.toHashMap();
 
             for (Map.Entry<String, Object> entry : paramsMap.entrySet()) {
-                if(entry.getValue() instanceof String){
+                if (entry.getValue() instanceof String) {
                     propertiesToSend.put(entry.getKey(), (String) entry.getValue());
-                }
-                else {
+                } else {
                     propertiesToSend.put(entry.getKey(), entry.getValue().toString());
                 }
             }
 
 
-            if(filters != null && filters.size() > 0) {
+            if (filters != null && filters.size() > 0) {
                 ArrayList array = filters.toArrayList();
 
                 for (int i = 0; i < filters.size(); i++) {
@@ -359,7 +350,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
                 }
             }
 
-            VisilabsTargetRequest visilabsTargetRequest =  Visilabs.CallAPI().buildTargetRequest(zoneId, productCode, propertiesToSend, filtersToSend);
+            VisilabsTargetRequest visilabsTargetRequest = Visilabs.CallAPI().buildTargetRequest(zoneId, productCode, propertiesToSend, filtersToSend);
             visilabsTargetRequest.executeAsync(new VisilabsCallback() {
 
                 @Override
@@ -374,15 +365,55 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
                     promise.resolve(rawResponse);
                 }
             });
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             promise.reject("ERROR", e.getMessage());
         }
     }
 
     @ReactMethod
-    public void trackRecommendationClick(String qs){
+    public void trackRecommendationClick(String qs) {
         Visilabs.CallAPI().trackRecommendationClick(qs);
+    }
+
+    @ReactMethod
+    public void searchRecommendation(String keyword, String searchType, final Promise promise) {
+        try {
+
+            VisilabsSearchRequest searchRequest = Visilabs.CallAPI().buildSearchRecommendationRequest(keyword, searchType);
+            searchRequest.executeAsync(new VisilabsCallback() {
+
+                @Override
+                public void success(VisilabsResponse response) {
+                    String rawResponse = response.getRawResponse();
+
+                    Gson gson = new GsonBuilder()
+                            .setFieldNamingStrategy(f -> utilities.toCamelCase(f.getName()))
+                            .create();
+
+                    Object obj = gson.fromJson(rawResponse, Object.class);
+                    String modifiedJson = gson.toJson(obj);
+
+
+                    promise.resolve(modifiedJson);
+                }
+
+                @Override
+                public void fail(VisilabsResponse response) {
+                    String rawResponse = response.getRawResponse();
+                    promise.resolve(rawResponse);
+                }
+            });
+        } catch (Exception e) {
+            promise.reject("ERROR", e.getMessage());
+        }
+    }
+
+    @ReactMethod
+    public void trackSearchRecommendationClick(ReadableMap searchReport) {
+        String click = searchReport.getString("click");
+        if (click != null && !click.isEmpty()) {
+            Visilabs.CallAPI().trackRecommendationClick(click);
+        }
     }
 
     @ReactMethod
@@ -396,10 +427,9 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
         try {
             VisilabsActionRequest visilabsActionRequest;
 
-            if(actionId != null && !actionId.isEmpty()) {
+            if (actionId != null && !actionId.isEmpty()) {
                 visilabsActionRequest = Visilabs.CallAPI().requestActionId(actionId);
-            }
-            else {
+            } else {
                 visilabsActionRequest = Visilabs.CallAPI().requestActionId(VisilabsConstant.FavoriteAttributeAction);
             }
 
@@ -421,8 +451,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
                     promise.resolve(rawResponse);
                 }
             });
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             promise.reject("ERROR", e.getMessage());
         }
     }
@@ -432,8 +461,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
         try {
             Visilabs.CallAPI().sendTheListOfAppsInstalled();
             promise.resolve(true);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             promise.resolve(false);
         }
@@ -444,8 +472,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
         try {
             Visilabs.CallAPI().requestLocationPermission(getCurrentActivity());
             promise.resolve(true);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             promise.resolve(false);
         }
@@ -456,8 +483,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
         try {
             Visilabs.CallAPI().sendLocationPermission();
             promise.resolve(true);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             promise.resolve(false);
         }
@@ -467,8 +493,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     public void setGeofencingIntervalInMinute(int interval) {
         try {
             Visilabs.CallAPI().setGeofencingIntervalInMinute(interval);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -476,18 +501,17 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setUserProperty(String key, String value) {
         try {
-            if(key != null){
-                EuroMobileManager.getInstance().setUserProperty(key,value,reactContext);
+            if (key != null) {
+                EuroMobileManager.getInstance().setUserProperty(key, value, reactContext);
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     @ReactMethod
-    public void getPushMessages(final Promise promise){
-        try{
+    public void getPushMessages(final Promise promise) {
+        try {
             PushMessageInterface pushMessageInterface = new PushMessageInterface() {
                 @Override
                 public void success(List<Message> pushMessages) {
@@ -501,16 +525,15 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
                 }
             };
             EuroMobileManager.getInstance().getPushMessages(getCurrentActivity(), pushMessageInterface);
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             promise.resolve(false);
         }
     }
 
     @ReactMethod
-    public void getUser(final Promise promise){
-        try{
+    public void getUser(final Promise promise) {
+        try {
             HashMap<String, String> parameters = new HashMap<String, String>();
 
             parameters.put("appId", Visilabs.CallAPI().getSysAppID());
@@ -527,20 +550,18 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
 
             Gson gson = new Gson();
             promise.resolve(gson.toJson(parameters));
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             promise.resolve(false);
         }
     }
 
     @ReactMethod
-    public void getSubscription(final Promise promise){
-        try{
+    public void getSubscription(final Promise promise) {
+        try {
             String subsStr = SharedPreference.getString(reactContext, "subscription");
             promise.resolve(subsStr);
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             promise.resolve(false);
         }
@@ -550,11 +571,10 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     public void sendLogToGraylog(String logLevel, String logMessage, String logPlace) {
         try {
             EuroMobileManager.getInstance().sendLogToGraylog(logLevel, logMessage, logPlace);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    
+
 }

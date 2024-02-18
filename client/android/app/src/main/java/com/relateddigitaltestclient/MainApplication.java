@@ -9,9 +9,20 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.relateddigitaltestclient.model.Profile;
 import com.relateddigitaltestclient.newarchitecture.MainApplicationReactNativeHost;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import com.visilabs.Visilabs;
 import euromsg.com.euromobileandroid.EuroMobileManager;
 import euromsg.com.euromobileandroid.enums.RDNotificationPriority;
@@ -68,6 +79,15 @@ public class MainApplication extends Application implements ReactApplication {
       String organizationId = "676D325830564761676D453D";
       String siteId = "356467332F6533766975593D";
       String datasource = "visistore";
+
+      //search-test
+      if(getProfile("search-test") != null){
+          organizationId = Objects.requireNonNull(getProfile("search-test")).getOrganizationId();
+          siteId = Objects.requireNonNull(getProfile("search-test")).getProfileId();
+          datasource = Objects.requireNonNull(getProfile("search-test")).getDataSource();
+      }
+
+
       String channel = "Android";
       String segmentUrl = "http://lgr.visilabs.net";
       String realtimeUrl = "http://rt.visilabs.net";
@@ -91,6 +111,38 @@ public class MainApplication extends Application implements ReactApplication {
       euroMobileManager.setNotificationPriority(RDNotificationPriority.HIGH, this); // Set to HIGH for push notifications to appear as temporary banners
 
   }
+
+    private String getProfiles() {
+        try {
+            InputStream inputStream = getApplicationContext().getAssets().open("profiles.json");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder builder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+            return builder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private Profile getProfile(String key) {
+        try {
+            String profilesString = getProfiles();
+            Gson gson = new Gson();
+            Type listUserType = new TypeToken<Map<String, Profile>>() {
+            }.getType();
+            Map<String, Profile> profiles = gson.fromJson(profilesString, listUserType);
+            return profiles != null ? profiles.get(key) : null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Profile();
+        }
+    }
+
+
 
   /**
    * Loads Flipper in React Native templates. Call this in the onCreate method with something like
