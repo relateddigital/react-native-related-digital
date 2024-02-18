@@ -14,9 +14,9 @@ const getDeviceParameters = RelatedDigitalPushModule.getDeviceParameters
 const customEventNative = RelatedDigitalPushModule.customEvent
 const logoutNative = RelatedDigitalPushModule.logout
 const getRecommendationsNative = RelatedDigitalPushModule.getRecommendations
-const trackSearchRecommendationClickNative = RelatedDigitalPushModule.trackSearchRecommendationClick
 const trackRecommendationClickNative = RelatedDigitalPushModule.trackRecommendationClick
-const searcRecommendationNative = RelatedDigitalPushModule.searcRecommendation
+const searchRecommendationNative = RelatedDigitalPushModule.searchRecommendation
+const trackSearchRecommendationClickNative = RelatedDigitalPushModule.trackSearchRecommendationClick
 const getStoriesNative = RelatedDigitalPushModule.getStories
 const checkNotificationNative = RelatedDigitalPushModule.checkNotification
 const getFavoriteAttributeActionsNative = RelatedDigitalPushModule.getFavoriteAttributeActions
@@ -47,7 +47,7 @@ export {
     logoutNative,
     getRecommendationsNative,
     trackRecommendationClickNative,
-    searcRecommendationNative,
+    searchRecommendationNative,
     trackSearchRecommendationClickNative,
     RDStoryViewNative,
     RDBannerViewNative,

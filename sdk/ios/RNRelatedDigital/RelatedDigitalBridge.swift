@@ -63,8 +63,8 @@ import Euromsg
         Visilabs.callAPI().trackRecommendationClick(qs:qs)
 	}
     
-    @objc public static func searcRecommendation(keyword: String, searchType: String, completion: @escaping ((_ response: String?) -> Void)) -> Void {
-        Visilabs.callAPI().searcRecommendation(keyword: keyword, searchType: searchType){ searchResponse in
+    @objc public static func searchRecommendation(keyword: String, searchType: String, completion: @escaping ((_ response: String?) -> Void)) -> Void {
+        Visilabs.callAPI().searchRecommendation(keyword: keyword, searchType: searchType){ searchResponse in
             
             let jsonEncoder = JSONEncoder()
             if let jsonData = try? jsonEncoder.encode(searchResponse) {

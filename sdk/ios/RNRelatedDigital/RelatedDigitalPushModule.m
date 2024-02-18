@@ -285,12 +285,12 @@ RCT_REMAP_METHOD(trackRecommendationClick,
 	[RelatedDigitalBridge trackRecommendationClickWithQs:qs];
 }
 
-RCT_REMAP_METHOD(searcRecommendation,
-                 searcRecommendationWithKeyword:(NSString *)keyword
+RCT_REMAP_METHOD(searchRecommendation,
+                 searchRecommendationWithKeyword:(NSString *)keyword
                                         searchType:(NSString *)searchType
                                  resolver:(RCTPromiseResolveBlock)resolve
                                  rejecter:(RCTPromiseRejectBlock)reject) {
-    [RelatedDigitalBridge searcRecommendationWithKeyword:keyword searchType:searchType completion:^(NSString *response) {
+    [RelatedDigitalBridge searchRecommendationWithKeyword:keyword searchType:searchType completion:^(NSString *response) {
         resolve(response);
     }];
 }

@@ -15,7 +15,7 @@ import {
     getSubscriptionNative,
     setUserPropertyNative,
     sendLogToGraylogNative,
-    searcRecommendationNative,
+    searchRecommendationNative,
     trackSearchRecommendationClickNative
 } from './native'
 
@@ -249,8 +249,8 @@ class VisilabsApi {
         await trackRecommendationClickNative(qs)
     }
 
-    async searcRecommendation(keyword: string, searchType: string) {
-        const result = await searcRecommendationNative(keyword, searchType)
+    async searchRecommendationNative(keyword: string, searchType: string) {
+        const result = await searchRecommendationNative(keyword, searchType)
         return Promise.resolve(JSON.parse(result))
     }
 
