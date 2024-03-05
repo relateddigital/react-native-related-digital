@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.visilabs.Visilabs;
 import com.visilabs.VisilabsResponse;
 import com.visilabs.api.VisilabsCallback;
@@ -385,22 +386,16 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
                 @Override
                 public void success(VisilabsResponse response) {
                     String rawResponse = response.getRawResponse();
-
-                    Gson gson = new GsonBuilder()
-                            .setFieldNamingStrategy(f -> utilities.toCamelCase(f.getName()))
-                            .create();
-
-                    Object obj = gson.fromJson(rawResponse, Object.class);
-                    String modifiedJson = gson.toJson(obj);
-
-
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    JsonElement jsonElement = gson.fromJson(rawResponse, JsonElement.class);
+                    String modifiedJson = gson.toJson(utilities.jsonKeysToCamelCase(jsonElement));
                     promise.resolve(modifiedJson);
                 }
 
                 @Override
                 public void fail(VisilabsResponse response) {
                     String rawResponse = response.getRawResponse();
-                    promise.resolve(rawResponse);
+                    promise.reject("ERROR", rawResponse);
                 }
             });
         } catch (Exception e) {
@@ -415,6 +410,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
             Visilabs.CallAPI().trackRecommendationClick(click);
         }
     }
+
 
     @ReactMethod
     public void checkNotification(Promise promise) {

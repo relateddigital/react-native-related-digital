@@ -26,6 +26,7 @@ import CustomButton from './components/CustomButton'
 import Widget from './components/Widget'
 
 
+
 // test app alias = rniostestapptest
 // test app alias = rniostestapp
 
@@ -51,7 +52,10 @@ export default class Home extends Component {
       subsStatus: null,
       pushPermit: false,
       search: false,
-      searchResults: [],
+      productSearchResults: [],
+      categorySearchResults: [],
+      brandSearchResults: [],
+      popularSearchSearchResults: [],
       userData: {
         "keyID": "",
         "email": "",
@@ -176,6 +180,7 @@ export default class Home extends Component {
   pushPermitRequest = async () => {
     const pushPermit = await requestPermissions(false)
     console.log("Device Push Permit", pushPermit);
+    /*
     if (
       user.pushPermit == true // daha önce izin vermişse
       || // or
@@ -183,6 +188,7 @@ export default class Home extends Component {
     ) {
 
     }
+    */
     euroMessageApi.setUserProperties({ pushPermit: pushPermit ? 'Y' : 'N' }).then(() => {
       euroMessageApi.subscribe(this.state.token)
     })
@@ -820,7 +826,7 @@ export default class Home extends Component {
       <CustomButton mini style={{ width: "50%" }} data={{ name: (!this.state.search ? "Show Search" : "Hide Search") }} action={this.toggleSearch} />
     )
   }
-  
+
 
   bannerToggleButton = () => {
     return (
@@ -1138,43 +1144,145 @@ export default class Home extends Component {
           />
           <CustomButton mini style={{ width: "90%" }} data={{ name: "Search" }} action={() => { this.searchRecommendation() }} />
           <View>
-          <View style={this.styles.inAppContainer} >
-            {this.title("Search Results", 18)}
-            {this.renderSearchResults()}
+            <View style={this.styles.inAppContainer} >
+              {this.renderSearchResults()}
+            </View>
           </View>
-        </View>
         </View>}
       </View>
     )
   }
 
-  renderSearchResults = () => (
-    this.state.searchResults.map((item, i) => {
-      console.log( i, item);
-      return (
-        <CustomButton key={i} style={{ width: "90%" }} childStyle={{ fontSize: 10, padding: 5 }} data={{ key: item, name: item.name }} action={this.trackSearchRecommendationClick} />
-      );
-    })
-  );
+  renderSearchResults = () => {
+    return (
+      <View style={this.styles.inAppContainer}>
+        {this.title("Product Container Search Results", 14)}
+        {this.state.productSearchResults.map((item, i) => (
+          <CustomButton
+            key={i}
+            style={{ width: "90%" }}
+            childStyle={{ fontSize: 10, padding: 1 }}
+            data={{ key: item, name: item.name }}
+            action={this.trackSearchRecommendationClick}
+          />
+        ))}
+        {this.title("Category Container Search Results", 14)}
+        {this.state.categorySearchResults.map((item, i) => (
+          <CustomButton
+            key={i}
+            style={{ width: "90%" }}
+            childStyle={{ fontSize: 10, padding: 1 }}
+            data={{ key: item, name: item.name }}
+            action={this.trackSearchRecommendationClick}
+          />
+        ))}
+        {this.title("Brand Container Search Results", 14)}
+        {this.state.brandSearchResults.map((item, i) => (
+          <CustomButton
+            key={i}
+            style={{ width: "90%" }}
+            childStyle={{ fontSize: 10, padding: 1 }}
+            data={{ key: item, name: item.name }}
+            action={this.trackSearchRecommendationClick}
+          />
+        ))}
+        {this.title("Popular Search Container Search Results", 14)}
+        {this.state.popularSearchSearchResults.map((item, i) => (
+          <CustomButton
+            key={i}
+            style={{ width: "90%" }}
+            childStyle={{ fontSize: 10, padding: 1 }}
+            data={{ key: item, name: item.name }}
+            action={this.trackSearchRecommendationClick}
+          />
+        ))}
+      </View>
+
+    );
+  };
+
 
   trackSearchRecommendationClick = (item) => {
-    console.log(item, "searchResult");
+    console.log(item, "trackSearchRecommendationClick");
     visilabsApi.trackSearchRecommendationClick(item.report);
   }
 
 
   searchRecommendation = async () => {
-    console.log("searchRecommendation");
-    console.log(visilabsApi.searchRecommendation, "visilabsApi.searchRecommendation");
     let searchKeyword = this.state.searchKeyword;
     let searchType = this.state.searchType;
-    const searchRecommendationResponse = await visilabsApi.searchRecommendation(searchKeyword, searchType);
-    let report = searchRecommendationResponse.productAreaContainer.report;
-    let searchResults = searchRecommendationResponse.productAreaContainer.products.map((item) => { return {name: item.name, report: report } });
-    console.log(searchResults, "productNames");
-    console.log(report);
-    this.setState({ searchResults: searchResults }, () => {
 
+    let productSearchResults = [];
+    let categorySearchResults = [];
+    let brandSearchResults = [];
+    let popularSearchSearchResults = [];
+
+
+    let products = [];
+    let categories = [];
+    let brands = [];
+    let popularSearches = [];
+
+    const searchRecommendationResponse = await visilabsApi.searchRecommendation(searchKeyword, searchType);
+    console.log("searchRecommendationResponse: ", searchRecommendationResponse);
+
+
+    console.log(JSON.stringify(searchRecommendationResponse));
+
+
+
+
+    // productAreaContainer
+    const productAreaContainer = searchRecommendationResponse.productAreaContainer;
+    const productAreaContainerProducts = productAreaContainer.products;
+    const productAreaContainerReport = productAreaContainer.report;
+
+    productAreaContainerProducts.forEach(productObject => {
+      const productName = productObject.name;
+      products.push(productObject);
+      productSearchResults.push({ name: productName, report: productAreaContainerReport });
+    });
+
+    // categoryContainer
+    const categoryContainer = searchRecommendationResponse.categoryContainer;
+    const categoryContainerPopularCategories = categoryContainer.popularCategories;
+    const categoryContainerReport = categoryContainer.report;
+
+    categoryContainerPopularCategories.forEach(categoryObject => {
+      const categoryName = categoryObject.name;
+      categories.push(categoryObject);
+      categorySearchResults.push({ name: categoryName, report: categoryContainerReport });
+    });
+
+
+    // brandContainer
+    const brandContainer = searchRecommendationResponse.brandContainer;
+    const brandContainerPopularBrands = brandContainer.popularBrands;
+    const brandContainerReport = brandContainer.report;
+
+    brandContainerPopularBrands.forEach(brandObject => {
+      const brandName = brandObject.name;
+      brands.push(brandObject);
+      brandSearchResults.push({ name: brandName, report: brandContainerReport });
+    });
+
+    // searchContainer
+    const searchContainer = searchRecommendationResponse.searchContainer;
+    const searchContainerPopularSearches = searchContainer.popularSearches;
+    const searchContainerReport = searchContainer.report;
+
+    searchContainerPopularSearches.forEach(popularSearchObject => {
+      const popularSearchName = popularSearchObject.name;
+      popularSearches.push(popularSearchObject);
+      popularSearchSearchResults.push({ name: popularSearchName, report: searchContainerReport });
+    });
+
+
+
+
+    this.setState({
+      productSearchResults: productSearchResults, categorySearchResults: categorySearchResults, brandSearchResults: brandSearchResults,
+      popularSearchSearchResults: popularSearchSearchResults
     });
 
     this.renderSearchResults();

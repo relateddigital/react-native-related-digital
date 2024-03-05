@@ -10,10 +10,14 @@ import android.util.Log;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Map;
 import java.util.Set;
 
 import euromsg.com.euromobileandroid.EuroMobileManager;
@@ -132,21 +136,32 @@ public class Utilities {
         return json;
     }
 
-    String toCamelCase(String s) {
-        StringBuilder builder = new StringBuilder();
-        boolean nextUpperCase = false;
-        for (char c : s.toCharArray()) {
-            if (c == '_') {
-                nextUpperCase = true;
-            } else {
-                if (nextUpperCase) {
-                    builder.append(Character.toUpperCase(c));
-                    nextUpperCase = false;
-                } else {
-                    builder.append(Character.toLowerCase(c));
-                }
+    protected JsonElement jsonKeysToCamelCase(JsonElement jsonElement) {
+        if (jsonElement.isJsonObject()) {
+            JsonObject result = new JsonObject();
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+            for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+                String key = entry.getKey();
+                JsonElement value = entry.getValue();
+                String modifiedKey = key.substring(0, 1).toLowerCase() + key.substring(1);
+                result.add(modifiedKey, jsonKeysToCamelCase(value));
             }
+            return result;
+
+        } else if (jsonElement.isJsonArray()) {
+            JsonArray jsonArray = jsonElement.getAsJsonArray();
+            JsonArray result = new JsonArray();
+
+            for (JsonElement element : jsonArray) {
+                result.add(jsonKeysToCamelCase(element));
+            }
+
+            return result;
+
+        } else {
+            return jsonElement;
         }
-        return builder.toString();
     }
+
 }
