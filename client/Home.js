@@ -107,6 +107,10 @@ export default class Home extends Component {
             'key': 'drawer',
             'name': 'Drawer'
           },
+          {
+            'key': 'youtube_video',
+            'name': 'Youtube Video'
+          },
         ],
       },
       {
@@ -169,6 +173,10 @@ export default class Home extends Component {
           {
             'key': 'alert_native',
             'name': 'Native Alert'
+          },
+          {
+            'key': 'MobileAppRating',
+            'name': 'In App Rating'
           },
         ],
       },

@@ -12,7 +12,8 @@
     "clean-android": "cd android && .\\gradlew clean",
     "refresh": "yarn link react-native-related-digital",
     "reinstall": "rm -rf node_modules && yarn",
-    "link": "wml add ../sdk node_modules/react-native-related-digital && wml start"
+    "link": "wml add ../sdk node_modules/react-native-related-digital && wml start",
+    "npm-clean-start": "npm start -- --reset-cache"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.10",
