@@ -16,7 +16,9 @@ import {
     setUserPropertyNative,
     sendLogToGraylogNative,
     searchRecommendationNative,
-    trackSearchRecommendationClickNative
+    trackSearchRecommendationClickNative,
+    readAllPushMessagesNative,
+    readPushMessagesNative
 } from './native'
 
 import {
@@ -200,6 +202,17 @@ class EuroMessageApi {
     async getPushMessages() {
         const result = await getPushMessagesNative()
         return Promise.resolve(result.substr(0, 5) != "There" ? JSON.parse(result) : result)
+    }
+
+    async readPushMessages(pushId) {
+        console.log("pushId",pushId);
+        let result = null;
+        if (pushId) {
+            result = await readPushMessagesNative(pushId)
+        }else{
+            result = await readAllPushMessagesNative()
+        }
+        return Promise.resolve(result)
     }
 
     async getUser() {

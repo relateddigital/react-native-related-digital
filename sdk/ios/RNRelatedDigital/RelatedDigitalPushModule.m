@@ -5,8 +5,8 @@
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTUtils.h>
 #import "Utilities.h"
-//#import <react_native_related_digital-Swift.h> // local
-#import <react_native_related_digital/react_native_related_digital-Swift.h>
+#import <react_native_related_digital-Swift.h> // local
+//#import <react_native_related_digital/react_native_related_digital-Swift.h>
 
 NSString *const RCTRemoteNotificationReceived = @"RemoteNotificationReceived";
 NSString *const RCTActionButtonClicked = @"ActionButtonClicked";
@@ -312,6 +312,23 @@ RCT_EXPORT_METHOD(getPushMessages:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     [RelatedDigitalBridge getPushMessagesWithCompletion:^(NSString *response) {
         resolve(response);
+    }];
+}
+
+RCT_REMAP_METHOD(readAllPushMessages,
+                 readAllPushMessagesResolver:(RCTPromiseResolveBlock)resolve
+                 readAllPushMessagesRejecter:(RCTPromiseRejectBlock)reject) {
+    [RelatedDigitalBridge readAllPushMessagesWithCompletion:^(NSString *response) {
+            resolve(response);
+    }];
+}
+
+RCT_REMAP_METHOD(readPushMessages,
+                                 readPushMessagesWithPushId:(NSString *)pushId
+                 readPushMessagesResolver:(RCTPromiseResolveBlock)resolve
+                 readPushMessagesRejecter:(RCTPromiseRejectBlock)reject) {
+    [RelatedDigitalBridge readPushMessagesWithPushId:pushId completion:^(NSString *response) {
+            resolve(response);
     }];
 }
 

@@ -102,6 +102,28 @@ import Euromsg
 			}
 		}
 	}
+
+	@objc public static func readPushMessages(pushId: String? = nil,completion: @escaping ((_ response: String?) -> Void)) -> Void {
+		Euromsg.readAllPushMessages(pushId: pushId) { success in
+			do {
+				completion(String(success))
+			}
+			catch {
+				completion(nil)
+			}
+        }
+	}
+
+	@objc public static func readAllPushMessages(completion: @escaping ((_ response: String?) -> Void)) -> Void {
+		Euromsg.readAllPushMessages { success in
+			do {
+				completion(String(success))
+			}
+			catch {
+				completion(nil)
+			}
+        }
+	}
     
     @objc public static func didReceive(alias: String, bestAttemptContent: UNMutableNotificationContent?,
                          withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {

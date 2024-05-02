@@ -235,6 +235,9 @@ export default class Home extends Component {
     // addEventListener('ActionButtonClicked', async (actionButtonData) => { console.log('actionButtonData ', actionButtonData) }, euroMessageApi)
   }
 
+  readPushMsg = async (pushId) => {
+    console.log('READ Push Messages', JSON.stringify(await euroMessageApi.readPushMessages(pushId)))
+  }
 
   login = async () => {
     if (!this.state.userData.email) {
@@ -787,6 +790,11 @@ export default class Home extends Component {
         <View style={this.styles.titleContainer}>
           {this.title("Get Push Messages", 15)}
           <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('Push Messages', JSON.stringify(await euroMessageApi.getPushMessages())) }} />
+        </View>
+
+        <View style={this.styles.titleContainer}>
+          {this.title("Read Push Messages", 15)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Read" }} action={() => { this.readPushMsg("ca26b357-9851-47c0-a0b1-974a694e5776") }} />
         </View>
 
         <View style={this.styles.titleContainer}>

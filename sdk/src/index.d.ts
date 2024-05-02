@@ -44,6 +44,7 @@ export class EuroMessageApi {
     setUserProperty(key: string, value: object): Promise<void>;
     setUserProperties(properties: object): Promise<void>;
     getPushMessages(): Promise<any>;
+    readPushMessages(pushId: string): Promise<any>;
     getSubscription(): Promise<void>;
     sendLogToGraylog(logLevel: string, logMessage: string, logPlace: string): Promise<void>;
 };
