@@ -528,6 +528,58 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void readPushMessages(String pushId, final Promise promise) {
+        try {
+            if(pushId != null){
+                Boolean result = EuroMobileManager.getInstance().readPushMessagesWithPushId(reactContext, pushId);
+                promise.resolve(result);
+            }else{
+                promise.resolve(false);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
+    public void readAllPushMessages(final Promise promise) {
+        try {
+            Boolean result = EuroMobileManager.getInstance().readAllPushMessages(reactContext);
+            promise.resolve(result);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
+    public void deletePushNotification(Integer notificationId, final Promise promise) {
+        try {
+            if(notificationId != null){
+                Boolean result = EuroMobileManager.getInstance().deletePushNotificationWithId(reactContext, notificationId);
+                promise.resolve(result);
+            }else{
+                promise.resolve(false);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
+    public void deleteAllPushNotifications(final Promise promise) {
+        try {
+            Boolean result = EuroMobileManager.getInstance().deleteAllPushNotifications(reactContext);
+            promise.resolve(result);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
     public void getUser(final Promise promise) {
         try {
             HashMap<String, String> parameters = new HashMap<String, String>();

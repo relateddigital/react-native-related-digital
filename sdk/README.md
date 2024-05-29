@@ -4,6 +4,32 @@
 
 [![npm package](https://img.shields.io/npm/v/react-native-related-digital?color=gree&label=npm%20package)](https://www.npmjs.com/package/react-native-related-digital)
 
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+
+- [Supported versions](#supported-versions)
+- [Installation](#installation)
+- [Platform Integrations](#platform-integrations)
+  - [Android](#android)
+  - [IOS](#ios)
+  - [App Groups](#app-groups)
+    - [Errors and Solutions](#errors-and-solutions)
+  - [Recommendations](#recommendations)
+  - [Search Recommendations](#search-recommendations)
+  - [Story](#story)
+  - [App Banner](#app-banner)
+  - [Request Permission](#request-permission)
+    - [Provisional Push (iOS Only)](#provisional-push-ios-only)
+  - [Request and Send IDFA (iOS Only)](#request-and-send-idfa-ios-only)
+  - [Request Location Permission](#request-location-permission)
+  - [Geofencing Interval (Android Only)](#geofencing-interval-android-only)
+  - [Sending Location Status Information](#sending-location-status-information)
+  - [Spin to win \& Scratch to win](#spin-to-win--scratch-to-win)
+  - [User Anonymization](#user-anonymization)
+  - [Using Push Notification Messages](#using-push-notification-messages)
+  - [Get User Data](#get-user-data)
+- [Usage](#usage)
+
+<!-- TOC end -->
 
 ## Supported versions
 
@@ -496,6 +522,188 @@ visilabsApi.trackRecommendationClick(qs)
 
 More information [Rmc Docs](https://relateddigital.atlassian.net/wiki/spaces/RMCKBT/pages/1746403404/React+Native+-+Recommendations)
 
+
+### Search Recommendations
+
+Search recommendations are handled by the `visilabsApi.searchRecommendation(keyword: string, searchType: string): Promise<any>;` method of SDK. You have to pass 2 mandatory arguments which are `keyword` and `searchType` to `searchRecommendation` method. Value of `searchType` parameter can be acquired from the RMC panel. The value of `searchType` is defined in the search widget page's **Search Type** combo box.
+
+The return type of the `searchRecommendation` method is a JSON object. The JSON object contains 4 containers which are `brandContainer`, `categoryContainer`, `productAreaContainer`, and `searchContainer`. An example of the return type is shown below.
+
+```json
+{
+  "brandContainer": {
+    "isActive": false,
+    "popularBrands": [
+      {
+        "name": "Brand Name"
+      }
+    ],
+    "title": "",
+    "report": {
+      "click": "OM.zn=search-1&OM.zpc=search-brand",
+      "impression": "OM.zdn=search-1&OM.zcp=search-web"
+    }
+  },
+  "categoryContainer": {
+    "isActive": true,
+    "popularCategories": [
+      {
+        "name": "Book"
+      },
+      {
+        "name": "Laptop"
+      },
+      {
+        "name": "SSD"
+      }
+    ],
+    "report": {
+      "click": "OM.zn=search-1&OM.zpc=search-category",
+      "impression": "OM.zdn=search-1&OM.zcp=search-web"
+    }
+  },
+  "productAreaContainer": {
+    "changeTitle": false,
+    "products": [
+      {
+        "brandName": "Visilabs",
+        "code": "123",
+        "currency": "TRY",
+        "discountCurrency": "TRY",
+        "discountPrice": 1499.99,
+        "imageUrl": "https://www.visilabs.com/123.jpg",
+        "name": "Product Name 123",
+        "price": 2999.99,
+        "url": "https://www.visilabs.com/123"
+      },
+      {
+        "brandName": "Euromessage",
+        "code": "124",
+        "currency": "TRY",
+        "discountCurrency": "TRY",
+        "discountPrice": 1499.99,
+        "imageUrl": "https://www.visilabs.com/124.jpg",
+        "name": "Product Name 124",
+        "price": 2999.99,
+        "url": "https://www.visilabs.com/124"
+      }
+    ],
+    "searchResultMessage": "",
+    "report": {
+      "click": "OM.zn=search-1&OM.zpc=search-productarea",
+      "impression": "OM.zdn=search-1&OM.zcp=search-web"
+    }
+  },
+  "searchContainer": {
+    "isActive": true,
+    "popularSearches": [
+      {
+        "name": "Product Name 123"
+      },
+      {
+        "name": "Scifi Books"
+      },
+      {
+        "name": "Visilabs"
+      }
+    ],
+    "report": {
+      "click": "OM.zn=search-1&OM.zpc=search-word",
+      "impression": "OM.zdn=search-1&OM.zcp=search-web"
+    }
+  }
+}
+```
+
+An example of how to use the `searchRecommendation` method is shown below.
+
+```js
+let searchKeyword = "shoe";
+let searchType = "web";
+
+let productSearchResults = [];
+let categorySearchResults = [];
+let brandSearchResults = [];
+let popularSearchSearchResults = [];
+
+
+let products = [];
+let categories = [];
+let brands = [];
+let popularSearches = [];
+
+const searchRecommendationResponse = await visilabsApi.searchRecommendation(searchKeyword, searchType);
+
+
+// productAreaContainer
+const productAreaContainer = searchRecommendationResponse.productAreaContainer;
+const productAreaContainerProducts = productAreaContainer.products;
+const productAreaContainerReport = productAreaContainer.report;
+
+productAreaContainerProducts.forEach(productObject => {
+  const productName = productObject.name;
+  products.push(productObject);
+  productSearchResults.push({ name: productName, report: productAreaContainerReport });
+});
+
+// categoryContainer
+const categoryContainer = searchRecommendationResponse.categoryContainer;
+const categoryContainerPopularCategories = categoryContainer.popularCategories;
+const categoryContainerReport = categoryContainer.report;
+
+categoryContainerPopularCategories.forEach(categoryObject => {
+  const categoryName = categoryObject.name;
+  categories.push(categoryObject);
+  categorySearchResults.push({ name: categoryName, report: categoryContainerReport });
+});
+
+// brandContainer
+const brandContainer = searchRecommendationResponse.brandContainer;
+const brandContainerPopularBrands = brandContainer.popularBrands;
+const brandContainerReport = brandContainer.report;
+
+brandContainerPopularBrands.forEach(brandObject => {
+  const brandName = brandObject.name;
+  brands.push(brandObject);
+  brandSearchResults.push({ name: brandName, report: brandContainerReport });
+});
+
+// searchContainer
+const searchContainer = searchRecommendationResponse.searchContainer;
+const searchContainerPopularSearches = searchContainer.popularSearches;
+const searchContainerReport = searchContainer.report;
+
+searchContainerPopularSearches.forEach(popularSearchObject => {
+  const popularSearchName = popularSearchObject.name;
+  popularSearches.push(popularSearchObject);
+  popularSearchSearchResults.push({ name: popularSearchName, report: searchContainerReport });
+});
+```
+
+To report the clicks of search recommendations you need to call the `trackSearchRecommendationClick` method with the `report` property of container objects. For example, if you want to report the click of a product, you need to call the `trackSearchRecommendationClick` method with the `report` property of the container.
+
+```js
+let products = [];
+let searchKeyword = "shoe";
+let searchType = "web";
+const searchRecommendationResponse = await visilabsApi.searchRecommendation(searchKeyword, searchType);
+
+
+// productAreaContainer
+const productAreaContainer = searchRecommendationResponse.productAreaContainer;
+const productAreaContainerProducts = productAreaContainer.products;
+const productAreaContainerReport = productAreaContainer.report;
+
+productAreaContainerProducts.forEach(productObject => {
+  const productName = productObject.name;
+  products.push(productObject);
+});
+
+visilabsApi.trackSearchRecommendationClick(productAreaContainer.report);
+```
+
+
+
 ### Story
 Follow the step below to add a countdown to your stories.
 
@@ -671,6 +879,19 @@ const getPushMessages = async () => {
     const messages = await euroMessageApi.getPushMessages()
     console.log('messages', messages)
 }
+
+// pushId optional. If a pushId is sent, it will mark only the relevant push as read. If no parameters are sent, it will mark all notifications as read.
+const readPushMessages = async (pushId) => { 
+  const result = await euroMessageApi.readPushMessages(pushId)
+    console.log('READ Push Messages', JSON.stringify(result))
+}
+
+// pushId is optional. If a PushId is provided, only the corresponding notification will be removed from the notification center. If no parameters are sent, all notifications will be cleared from the notification center.
+// Note: pushId should be sent in the payload for iOS, and notificationId for Android.
+const deletePushMessages = async (pushId) => {
+  const result = await euroMessageApi.deletePushNotificationsFromNotificationCenter(pushId)
+  console.log('DELETE Push Messages', JSON.stringify(result))
+  }
 ```
 Messages are sorted by date. The most recent message is displayed at the top of the list.
 ```json
@@ -678,30 +899,37 @@ Messages are sorted by date. The most recent message is displayed at the top of 
 [
     {
         "altUrl": "",
-        "date": "2021-12-01 17:17:15",
-        "emPushSp": "CF203B70D23C40DF84167C339648CC94|2CCE03D672E4492EB6C85CDBD8AB9D5E|D61E3546732A454C9F304F92942B6BEB|485350|1|0|true|false|0|0|05b89538-3840-4726-a950-e2045a74bc2e",
-        "mediaUrl": "https://live.relateddigital.com/a02/img/ios-logo.png",
-        "message": "text message",
+        "date": "2024-05-27 13:36:09",
+        "emPushSp": "08C810C56AFF458193587A6B1CC14F2D|865862C658774D72B09439EBCC9261AB|F1316EEB73F94654A4D3A8AB94051D9B|1823184|1|0|true|false|0|0|0b7f13a3-ae86-4dbd-9f60-1c3e8cd868e6",
+        "email": "baris.arslan@euromsg.com",
+        "keyID": "baris.arslan@euromsg.com",
+        "mediaUrl": "",
+        "message": "example text",
+        "notificationId": 1690425060,
+        "openDate": "",
         "params": {
-            "altUrl": "",
-            "badgeCount": "0",
-            "emPushSp": "CF203B70D23C40DF84167C339648CC94|2CCE03D672E4492EB6C85CDBD8AB9D5E|D61E3546732A454C9F304F92942B6BEB|485350|1|0|true|false|0|0|05b89538-3840-4726-a950-e2045a74bc2e",
-            "mediaUrl": "https://live.relateddigital.com/a02/img/ios-logo.png",
-            "message": "text message",
-            "pushId": "6d827ae9-bcaa-47e1-b2c4-f8ace771f3f5",
-            "pushType": "Image",
-            "pushCategory": "x campaign",
+            "pushId": "6448ca60-8f74-40ae-b029-303502aeb011",
+            "silent": "false",
+            "mediaUrl": "",
             "sound": "",
-            "title": "text message",
-            "url": ""
+            "emPushSp": "08C810C56AFF458193587A6B1CC14F2D|865862C658774D72B09439EBCC9261AB|F1316EEB73F94654A4D3A8AB94051D9B|1823184|1|0|true|false|0|0|0b7f13a3-ae86-4dbd-9f60-1c3e8cd868e6",
+            "altUrl": "",
+            "title": "example text",
+            "message": "example text",
+            "badgeCount": "0",
+            "url": "",
+            "pushType": "Text",
+            "pushCategory": "x campaign"
         },
         "pushCategory": "x campaign",
-        "pushId": "6d827ae9-bcaa-47e1-b2c4-f8ace771f3f5",
-        "pushType": "Image",
+        "pushId": "6448ca60-8f74-40ae-b029-303502aeb011",
+        "pushType": "Text",
+        "silent": "false",
         "sound": "",
-        "title": "text message",
+        "status": "D",
+        "title": "example text",
         "url": ""
-    }
+    },
 ]
 
 // iOS response

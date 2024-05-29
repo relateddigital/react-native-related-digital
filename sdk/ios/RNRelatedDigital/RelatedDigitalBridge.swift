@@ -124,6 +124,29 @@ import Euromsg
 			}
         }
 	}
+
+
+	@objc public static func deletePushNotification(pushId: String,completion: @escaping ((_ response: String?) -> Void)) -> Void {
+        Euromsg.removeNotification(withPushID: pushId) { success in
+			do {
+				completion(String(success))
+			}
+			catch {
+				completion(nil)
+			}
+        }
+	}
+
+	@objc public static func deleteAllPushNotifications(completion: @escaping ((_ response: String?) -> Void)) -> Void {
+		Euromsg.deleteNotifications { success in
+			do {
+				completion(String(success))
+			}
+			catch {
+				completion(nil)
+			}
+        }
+	}
     
     @objc public static func didReceive(alias: String, bestAttemptContent: UNMutableNotificationContent?,
                          withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {

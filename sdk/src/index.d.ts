@@ -45,6 +45,7 @@ export class EuroMessageApi {
     setUserProperties(properties: object): Promise<void>;
     getPushMessages(): Promise<any>;
     readPushMessages(pushId: string): Promise<any>;
+    deletePushMessagesFromNotificationCenter(pushId: string | number): Promise<any>;
     getSubscription(): Promise<void>;
     sendLogToGraylog(logLevel: string, logMessage: string, logPlace: string): Promise<void>;
 };

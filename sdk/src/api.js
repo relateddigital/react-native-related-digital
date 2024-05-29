@@ -18,7 +18,9 @@ import {
     searchRecommendationNative,
     trackSearchRecommendationClickNative,
     readAllPushMessagesNative,
-    readPushMessagesNative
+    readPushMessagesNative,
+    deletePushNotificationNative,
+    deleteAllPushNotificationsNative
 } from './native'
 
 import {
@@ -205,12 +207,21 @@ class EuroMessageApi {
     }
 
     async readPushMessages(pushId) {
-        console.log("pushId",pushId);
         let result = null;
         if (pushId) {
             result = await readPushMessagesNative(pushId)
         }else{
             result = await readAllPushMessagesNative()
+        }
+        return Promise.resolve(result)
+    }
+
+    async deletePushNotificationsFromNotificationCenter(pushId) {
+        let result = null;
+        if (pushId) {
+            result = await deletePushNotificationNative(pushId)
+        }else{
+            result = await deleteAllPushNotificationsNative()
         }
         return Promise.resolve(result)
     }

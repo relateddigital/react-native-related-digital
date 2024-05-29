@@ -5,8 +5,8 @@
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTUtils.h>
 #import "Utilities.h"
-#import <react_native_related_digital-Swift.h> // local
-//#import <react_native_related_digital/react_native_related_digital-Swift.h>
+// #import <react_native_related_digital-Swift.h> // local
+#import <react_native_related_digital/react_native_related_digital-Swift.h>
 
 NSString *const RCTRemoteNotificationReceived = @"RemoteNotificationReceived";
 NSString *const RCTActionButtonClicked = @"ActionButtonClicked";
@@ -324,10 +324,27 @@ RCT_REMAP_METHOD(readAllPushMessages,
 }
 
 RCT_REMAP_METHOD(readPushMessages,
-                                 readPushMessagesWithPushId:(NSString *)pushId
+                 readPushMessagesWithPushId:(NSString *)pushId
                  readPushMessagesResolver:(RCTPromiseResolveBlock)resolve
                  readPushMessagesRejecter:(RCTPromiseRejectBlock)reject) {
     [RelatedDigitalBridge readPushMessagesWithPushId:pushId completion:^(NSString *response) {
+            resolve(response);
+    }];
+}
+
+RCT_REMAP_METHOD(deleteAllPushNotifications,
+                 deleteAllPushNotificationsResolver:(RCTPromiseResolveBlock)resolve
+                 deleteAllPushNotificationsRejecter:(RCTPromiseRejectBlock)reject) {
+    [RelatedDigitalBridge deleteAllPushNotificationsWithCompletion:^(NSString *response) {
+            resolve(response);
+    }];
+}
+
+RCT_REMAP_METHOD(deletePushNotification,
+                 deletePushNotificationWithPushId:(NSString *)pushId
+                 deletePushNotificationResolver:(RCTPromiseResolveBlock)resolve
+                 deletePushNotificationRejecter:(RCTPromiseRejectBlock)reject) {
+    [RelatedDigitalBridge deletePushNotificationWithPushId:pushId completion:^(NSString *response) {
             resolve(response);
     }];
 }

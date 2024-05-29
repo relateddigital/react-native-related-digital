@@ -24,6 +24,8 @@ const sendLocationPermissionNative = RelatedDigitalPushModule.sendLocationPermis
 const getPushMessagesNative = RelatedDigitalPushModule.getPushMessages
 const readPushMessagesNative = RelatedDigitalPushModule.readPushMessages
 const readAllPushMessagesNative = RelatedDigitalPushModule.readAllPushMessages
+const deletePushNotificationNative = RelatedDigitalPushModule.deletePushNotification
+const deleteAllPushNotificationsNative = RelatedDigitalPushModule.deleteAllPushNotifications
 const getUserNative = RelatedDigitalPushModule.getUser
 const getSubscriptionNative = RelatedDigitalPushModule.getSubscription
 const setUserPropertyNative = RelatedDigitalPushModule.setUserProperty
@@ -59,6 +61,8 @@ export {
     getPushMessagesNative,
     readPushMessagesNative,
     readAllPushMessagesNative,
+    deletePushNotificationNative,
+    deleteAllPushNotificationsNative,
     getUserNative,
     getSubscriptionNative,
     setUserPropertyNative,
