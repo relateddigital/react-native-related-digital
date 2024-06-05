@@ -8,6 +8,7 @@
 
 #import "RelatedDigitalPushModule.h"
 #import <UserNotifications/UserNotifications.h>
+#import <Firebase.h>
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
@@ -64,8 +65,9 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
   [RelatedDigitalPushModule initRelatedDigital:@"676D325830564761676D453D" profileId:@"356467332F6533766975593D" dataSource:@"visistore" appAlias:@"rniostestapptest" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true askLocationPermmissionAtStart:true maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
+  // [FIRApp configure];
 
-  
+
   return YES;
 }
 
@@ -96,10 +98,10 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
   
 }
 
-// - (void)userNotificationCenter:(UNUserNotificationCenter *)center didClickActionButton:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
-//   [RelatedDigitalPushModule didClickActionButton:response fetchCompletionHandler:completionHandler];
-//   completionHandler();
-// }
+ - (void)userNotificationCenter:(UNUserNotificationCenter *)center didClickActionButton:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+   [RelatedDigitalPushModule didClickActionButton:response fetchCompletionHandler:completionHandler];
+   completionHandler();
+ }
 
 /// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.
 ///

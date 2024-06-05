@@ -25,18 +25,27 @@ import {
 import CustomButton from './components/CustomButton'
 import Widget from './components/Widget'
 
+import messaging from '@react-native-firebase/messaging';
+
+
+const _RNRD = true;
+const _FIREBASE = false;
+
 
 
 // test app alias = rniostestapptest
 // test app alias = rniostestapp
 
+
 const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapptest'
 const siteId = "356467332F6533766975593D";
 const organizationId = "676D325830564761676D453D";
 const dataSource = "visistore";
-
-const euroMessageApi = new EuroMessageApi(appAlias)
-const visilabsApi = new VisilabsApi(appAlias, siteId, organizationId, dataSource)
+let euroMessageApi, visilabsApi;
+if (_RNRD) {
+  euroMessageApi = new EuroMessageApi(appAlias)
+  visilabsApi = new VisilabsApi(appAlias, siteId, organizationId, dataSource)
+}
 
 export default class Home extends Component {
   constructor(props) {
@@ -67,146 +76,32 @@ export default class Home extends Component {
       searchType: "web",
     }
 
-    this.inAppTypes = [
-      {
-        'type': 'Pop-up',
-        'values': [
-          {
-            'key': 'full_image',
-            'name': 'Full Image'
-          },
-          {
-            'key': 'banner_carousel',
-            'name': 'Banner Carousel'
-          },
-          {
-            'key': 'full',
-            'name': 'Full Screen'
-          },
-          {
-            'key': 'mini',
-            'name': 'Mini'
-          },
-          {
-            'key': 'image_text_button',
-            'name': 'Image Text Button'
-          },
-          {
-            'key': 'image_button',
-            'name': 'Image Button'
-          },
-          {
-            'key': 'half_screen_image',
-            'name': 'Half Screen Image'
-          },
-          {
-            'key': 'inappcarousel',
-            'name': 'In App Carousel'
-          },
-          {
-            'key': 'drawer',
-            'name': 'Drawer'
-          },
-          {
-            'key': 'youtube_video',
-            'name': 'Youtube Video'
-          },
-        ],
-      },
-      {
-        'type': 'NPS',
-        'values': [
-          {
-            'key': 'nps-feedback',
-            'name': 'NPS (Feedback)'
-          },
-          {
-            'key': 'nps',
-            'name': 'NPS'
-          },
-          {
-            'key': 'nps_with_numbers',
-            'name': 'NPS (NUMBERS)'
-          },
-          {
-            'key': 'nps-image-text-button-image',
-            'name': 'NPS (IMG-TXT-BTN-IMG)'
-          },
-          {
-            'key': 'nps-image-text-button',
-            'name': 'NPS (IMG-TXT-BTN)'
-          },
-          {
-            'key': 'smile_rating',
-            'name': 'Smile Rating'
-          },
-        ],
-      },
-      {
-        'type': 'Gamifications',
-        'values': [
-          {
-            'key': 'spintowin',
-            'name': 'Spin to Win'
-          },
-          {
-            'key': 'scratch_to_win',
-            'name': 'Scratch To Win'
-          },
-        ],
-      },
-      {
-        'type': 'Others',
-        'values': [
-          {
-            'key': 'subscription_email',
-            'name': 'Subscription Email Form'
-          },
-          {
-            'key': 'product_stat_notifier',
-            'name': 'Product Stat Notifier'
-          },
-          {
-            'key': 'alert_actionsheet',
-            'name': 'Action Sheet Alert'
-          },
-          {
-            'key': 'alert_native',
-            'name': 'Native Alert'
-          },
-          {
-            'key': 'MobileAppRating',
-            'name': 'In App Rating'
-          },
-        ],
-      },
-    ]
 
-    this.getUser(false)
+    // this.getUser(false)
+
   }
 
   pushPermitRequest = async () => {
-    const pushPermit = await requestPermissions(false)
-    console.log("Device Push Permit", pushPermit);
-    /*
-    if (
-      user.pushPermit == true // daha önce izin vermişse
-      || // or
-      typeof user.pushPermit === 'undefined' // izin durumuyla ilgili hiçbir tanımlama yapılmamışsa
-    ) {
-
+    if (_RNRD) {
+      const pushPermit = await requestPermissions(false)
+      console.log("Device Push Permit", pushPermit);
+      euroMessageApi.setUserProperties({ pushPermit: pushPermit ? 'Y' : 'N' }).then(() => {
+        euroMessageApi.subscribe(this.state.token)
+      })
     }
-    */
-    euroMessageApi.setUserProperties({ pushPermit: pushPermit ? 'Y' : 'N' }).then(() => {
-      euroMessageApi.subscribe(this.state.token)
-    })
   }
 
   componentDidMount() {
-    this.addListeners()
-    logToConsole(true)
-    setGeofencingIntervalInMinute(30)
-    this.pushPermitRequest()
+    _RNRD && this.addListeners()
+    _RNRD && this.pushPermitRequest()
+    _FIREBASE && messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log("onNotificationOpenedApp remoteMessage", remoteMessage);
+    });
+    _FIREBASE && messaging().getInitialNotification().then(initialMessage => {
+      console.log("_FIREBASE Initial Message: ", initialMessage); 
+   })
+    _FIREBASE && this.firebaseTokenListener()
+    _FIREBASE && this.firebaseRequestUserPermission()
   }
 
   componentWillUnmount() {
@@ -235,12 +130,32 @@ export default class Home extends Component {
     // addEventListener('ActionButtonClicked', async (actionButtonData) => { console.log('actionButtonData ', actionButtonData) }, euroMessageApi)
   }
 
-  readPushMsg = async (pushId) => {
-    console.log('READ Push Messages', JSON.stringify(await euroMessageApi.readPushMessages(pushId)))
+  firebaseTokenListener = () => {
+    messaging()
+      .getToken()
+      .then(token => {
+        console.log("FIREBASE TOKEN",token);
+      });
+
+    // If using other push notification providers (ie Amazon SNS, etc)
+    // you may need to get the APNs token instead for iOS:
+    // if(Platform.OS == 'ios') { messaging().getAPNSToken().then(token => { return saveTokenToDatabase(token); }); }
+
+    // Listen to whether the token changes
+    return messaging().onTokenRefresh(token => {
+      console.log("FIREBASE TOKEN onTokenRefresh",token);
+    });
   }
 
-  deletePushMsg = async (pushId) => {
-    console.log('DELETE Push Message', JSON.stringify(await euroMessageApi.deletePushNotificationsFromNotificationCenter(pushId)))
+  firebaseRequestUserPermission = async () => {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
   }
 
   login = async () => {
@@ -329,363 +244,6 @@ export default class Home extends Component {
     })
   }
 
-  getRecommendations = async () => {
-    try {
-      // visilabsApi.customEvent("qwe", { "OM.pv": "50239832021" });
-
-      const zoneId = '5'
-      const productCode = ''
-
-      const properties = {
-        // "OM.cat": "409",
-      }
-
-      // optional
-      const filters = [
-        {
-          attribute: RecommendationAttribute.CATEGORY,
-          filterType: RecommendationFilterType.equals,
-          value: '778'
-        },
-      ]
-
-      const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties, filters)
-      // const recommendations = {
-      //   "recommendations": [
-      //     {
-      //       "attr1": "420494",
-      //       "attr10": "",
-      //       "attr2": "",
-      //       "attr3": "",
-      //       "attr4": "",
-      //       "attr5": "",
-      //       "attr6": "",
-      //       "attr7": "",
-      //       "attr8": "",
-      //       "attr9": "",
-      //       "brand": "Related Digital",
-      //       "code": "1159092",
-      //       "comment": 0,
-      //       "cur": "TRY",
-      //       "dcur": "TRY",
-      //       "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
-      //       "discount": 0,
-      //       "dprice": 5.25,
-      //       "freeshipping": false,
-      //       "img": "https://picsum.photos/200/300",
-      //       "price": 5.25,
-      //       "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
-      //       "rating": 0,
-      //       "samedayshipping": false,
-      //       "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
-      //     }, {
-      //       "attr1": "420494",
-      //       "attr10": "",
-      //       "attr2": "",
-      //       "attr3": "",
-      //       "attr4": "",
-      //       "attr5": "",
-      //       "attr6": "",
-      //       "attr7": "",
-      //       "attr8": "",
-      //       "attr9": "",
-      //       "brand": "Related Digital",
-      //       "code": "1159092",
-      //       "comment": 0,
-      //       "cur": "TRY",
-      //       "dcur": "TRY",
-      //       "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
-      //       "discount": 0,
-      //       "dprice": 5.25,
-      //       "freeshipping": false,
-      //       "img": "https://picsum.photos/200/300",
-      //       "price": 5.25,
-      //       "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
-      //       "rating": 0,
-      //       "samedayshipping": false,
-      //       "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
-      //     }, {
-      //       "attr1": "420494",
-      //       "attr10": "",
-      //       "attr2": "",
-      //       "attr3": "",
-      //       "attr4": "",
-      //       "attr5": "",
-      //       "attr6": "",
-      //       "attr7": "",
-      //       "attr8": "",
-      //       "attr9": "",
-      //       "brand": "Related Digital",
-      //       "code": "1159092",
-      //       "comment": 0,
-      //       "cur": "TRY",
-      //       "dcur": "TRY",
-      //       "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
-      //       "discount": 0,
-      //       "dprice": 5.25,
-      //       "freeshipping": false,
-      //       "img": "https://picsum.photos/200/300",
-      //       "price": 5.25,
-      //       "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
-      //       "rating": 0,
-      //       "samedayshipping": false,
-      //       "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
-      //     }, {
-      //       "attr1": "420494",
-      //       "attr10": "",
-      //       "attr2": "",
-      //       "attr3": "",
-      //       "attr4": "",
-      //       "attr5": "",
-      //       "attr6": "",
-      //       "attr7": "",
-      //       "attr8": "",
-      //       "attr9": "",
-      //       "brand": "Related Digital",
-      //       "code": "1159092",
-      //       "comment": 0,
-      //       "cur": "TRY",
-      //       "dcur": "TRY",
-      //       "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
-      //       "discount": 0,
-      //       "dprice": 5.25,
-      //       "freeshipping": false,
-      //       "img": "https://picsum.photos/200/300",
-      //       "price": 5.25,
-      //       "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
-      //       "rating": 0,
-      //       "samedayshipping": false,
-      //       "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
-      //     }, {
-      //       "attr1": "420494",
-      //       "attr10": "",
-      //       "attr2": "",
-      //       "attr3": "",
-      //       "attr4": "",
-      //       "attr5": "",
-      //       "attr6": "",
-      //       "attr7": "",
-      //       "attr8": "",
-      //       "attr9": "",
-      //       "brand": "Related Digital",
-      //       "code": "1159092",
-      //       "comment": 0,
-      //       "cur": "TRY",
-      //       "dcur": "TRY",
-      //       "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
-      //       "discount": 0,
-      //       "dprice": 5.25,
-      //       "freeshipping": false,
-      //       "img": "https://picsum.photos/200/300",
-      //       "price": 5.25,
-      //       "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
-      //       "rating": 0,
-      //       "samedayshipping": false,
-      //       "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
-      //     }, {
-      //       "attr1": "420494",
-      //       "attr10": "",
-      //       "attr2": "",
-      //       "attr3": "",
-      //       "attr4": "",
-      //       "attr5": "",
-      //       "attr6": "",
-      //       "attr7": "",
-      //       "attr8": "",
-      //       "attr9": "",
-      //       "brand": "Related Digital",
-      //       "code": "1159092",
-      //       "comment": 0,
-      //       "cur": "TRY",
-      //       "dcur": "TRY",
-      //       "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
-      //       "discount": 0,
-      //       "dprice": 5.25,
-      //       "freeshipping": false,
-      //       "img": "https://picsum.photos/200/300",
-      //       "price": 5.25,
-      //       "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
-      //       "rating": 0,
-      //       "samedayshipping": false,
-      //       "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
-      //     }, {
-      //       "attr1": "420494",
-      //       "attr10": "",
-      //       "attr2": "",
-      //       "attr3": "",
-      //       "attr4": "",
-      //       "attr5": "",
-      //       "attr6": "",
-      //       "attr7": "",
-      //       "attr8": "",
-      //       "attr9": "",
-      //       "brand": "Related Digital",
-      //       "code": "1159092",
-      //       "comment": 0,
-      //       "cur": "TRY",
-      //       "dcur": "TRY",
-      //       "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
-      //       "discount": 0,
-      //       "dprice": 5.25,
-      //       "freeshipping": false,
-      //       "img": "https://picsum.photos/200/300",
-      //       "price": 5.25,
-      //       "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
-      //       "rating": 0,
-      //       "samedayshipping": false,
-      //       "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
-      //     }, {
-      //       "attr1": "420494",
-      //       "attr10": "",
-      //       "attr2": "",
-      //       "attr3": "",
-      //       "attr4": "",
-      //       "attr5": "",
-      //       "attr6": "",
-      //       "attr7": "",
-      //       "attr8": "",
-      //       "attr9": "",
-      //       "brand": "Related Digital",
-      //       "code": "1159092",
-      //       "comment": 0,
-      //       "cur": "TRY",
-      //       "dcur": "TRY",
-      //       "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
-      //       "discount": 0,
-      //       "dprice": 5.25,
-      //       "freeshipping": false,
-      //       "img": "https://picsum.photos/200/300",
-      //       "price": 5.25,
-      //       "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
-      //       "rating": 0,
-      //       "samedayshipping": false,
-      //       "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
-      //     }, {
-      //       "attr1": "420494",
-      //       "attr10": "",
-      //       "attr2": "",
-      //       "attr3": "",
-      //       "attr4": "",
-      //       "attr5": "",
-      //       "attr6": "",
-      //       "attr7": "",
-      //       "attr8": "",
-      //       "attr9": "",
-      //       "brand": "Related Digital",
-      //       "code": "1159092",
-      //       "comment": 0,
-      //       "cur": "TRY",
-      //       "dcur": "TRY",
-      //       "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
-      //       "discount": 0,
-      //       "dprice": 5.25,
-      //       "freeshipping": false,
-      //       "img": "https://picsum.photos/200/300",
-      //       "price": 5.25,
-      //       "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
-      //       "rating": 0,
-      //       "samedayshipping": false,
-      //       "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
-      //     }, {
-      //       "attr1": "420494",
-      //       "attr10": "",
-      //       "attr2": "",
-      //       "attr3": "",
-      //       "attr4": "",
-      //       "attr5": "",
-      //       "attr6": "",
-      //       "attr7": "",
-      //       "attr8": "",
-      //       "attr9": "",
-      //       "brand": "Related Digital",
-      //       "code": "1159092",
-      //       "comment": 0,
-      //       "cur": "TRY",
-      //       "dcur": "TRY",
-      //       "dest_url": "https://relateddigital.com/example-product?OM.zn=You%20Viewed-w60&OM.zpc=1159092",
-      //       "discount": 0,
-      //       "dprice": 5.25,
-      //       "freeshipping": false,
-      //       "img": "https://picsum.photos/200/300",
-      //       "price": 5.25,
-      //       "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
-      //       "rating": 0,
-      //       "samedayshipping": false,
-      //       "title": "Titiz TP-115 Soba Boru Fırçası Yeşil"
-      //     },
-      //   ],
-      //   "title": "Display You Viewed"
-      // };
-      this.setState({ widget: recommendations })
-
-    }
-    catch (e) {
-      console.log('recommendations error', e)
-    }
-  }
-
-  trackRecommendationClick = (qs) => {
-    visilabsApi.trackRecommendationClick(qs)
-  }
-
-
-  toggleStory = () => {
-    this.setState({
-      story: !this.state.story
-    })
-  }
-
-  toggleSearch = () => {
-    this.setState({
-      search: !this.state.search
-    })
-  }
-
-  toggleBanner = () => {
-    this.setState({
-      banner: !this.state.banner
-    })
-  }
-
-  toggleInapps = () => {
-    this.setState({
-      inapps: !this.state.inapps
-    })
-  }
-
-  toggleOthers = () => {
-    this.setState({
-      others: !this.state.others
-    })
-  }
-
-  requestIDFA = async () => {
-    requestIDFA().then((idfa) => {
-      console.log("IDFA", idfa);
-    })
-  }
-
-  copyOperations = () => {
-    const tmpUserData = {
-      email: this.state.userData.email,
-      keyid: this.state.userData.keyID,
-      pushPermit: this.state.userData.pushPermit,
-      token: this.state.token
-    }
-
-    this.cpy(JSON.stringify(tmpUserData))
-  }
-
-  cpy = async (text) => {
-    try {
-      Clipboard.setString(text)
-      alert("Kopyalandı")
-    } catch (error) {
-      console.log("Copy Error", error);
-      alert("Kopyalama sırasında hata oluştu")
-    }
-  }
-
   tokenControl = () => { ////////
     let status = this.state.token ? true : false;
     let statusData = {
@@ -730,34 +288,6 @@ export default class Home extends Component {
     }
   }
 
-  // UI
-  renderInApptitles = () => (
-    this.inAppTypes.map((item, i) => {
-      return (
-        <View>
-          {this.title(item.type, 18)}
-          <View style={this.styles.inAppContainer}>
-            {this.renderInApps(item.values)}
-          </View>
-        </View>
-      );
-    })
-  );
-
-  renderInApps = (data) => (
-    data.map((item, i) => {
-      return (
-        <CustomButton key={i} style={{ width: width * .4 }} childStyle={{ fontSize: 15, padding: 5 }} data={item} action={this.sendCustomEvent} />
-      );
-    })
-  );
-
-  inappToggleButton = () => {
-    return (
-      <CustomButton mini style={{ width: "50%" }} data={{ name: (!this.state.inapps ? "Show In Apps" : "Hide In Apps") }} action={this.toggleInapps} />
-    )
-  }
-
   loginLogoutButton = (type) => {
     return (
       <CustomButton style={{ width: "45%" }} data={type == "login" ? { name: "Login" } : { name: "Logout" }} action={type == "login" ? this.login : this.logout} />
@@ -780,88 +310,6 @@ export default class Home extends Component {
         onChangeText={(v) => { this.changeEmail(v) }}
         editable
       />
-    )
-  }
-
-  renderOthers = () => {
-    return (
-      <View>
-        <View style={this.styles.titleContainer}>
-          {this.title("Get User", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={() => { this.getUser(true) }} />
-        </View>
-
-        <View style={this.styles.titleContainer}>
-          {this.title("Get Push Messages", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('Push Messages', JSON.stringify(await euroMessageApi.getPushMessages())) }} />
-        </View>
-
-        <View style={this.styles.titleContainer}>
-          {this.title("Read Push Message", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Read" }} action={() => { this.readPushMsg() }} />
-        </View>
-
-        <View style={this.styles.titleContainer}>
-          {this.title("Delete Push Message", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Read" }} action={() => { this.deletePushMsg() }} />
-        </View>
-
-        <View style={this.styles.titleContainer}>
-          {this.title("Request IDFA (iOS)", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('IDFA', this.requestIDFA()) }} />
-        </View>
-
-        <View style={this.styles.titleContainer}>
-          {this.title("Get Fav. Attr. Actions", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('Favorite Attribute Actions', await visilabsApi.getFavoriteAttributeActions('474')) }} />
-        </View>
-
-        <View style={this.styles.titleContainer}>
-          {this.title("List Of Installed Apps", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Send" }} action={async () => { await visilabsApi.sendTheListOfAppsInstalled() }} />
-        </View>
-
-        <View style={this.styles.titleContainer}>
-          {this.title("Set Badge Number (3)", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Set" }} action={async () => { setApplicationIconBadgeNumber(3) }} />
-        </View>
-
-        <View style={this.styles.titleContainer}>
-          {this.title("Send Location Permission Event", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Send" }} action={async () => { await visilabsApi.sendLocationPermission() }} />
-        </View>
-      </View>
-    )
-  }
-
-  getRecoButton = () => {
-    return (
-      <CustomButton mini style={{ width: "50%" }} data={{ name: "Get Recommendation" }} action={this.getRecommendations} />
-    )
-  }
-
-  storyToggleButton = () => {
-    return (
-      <CustomButton mini style={{ width: "50%" }} data={{ name: (!this.state.story ? "Show Story" : "Hide Story") }} action={this.toggleStory} />
-    )
-  }
-
-  searchToggleButton = () => {
-    return (
-      <CustomButton mini style={{ width: "50%" }} data={{ name: (!this.state.search ? "Show Search" : "Hide Search") }} action={this.toggleSearch} />
-    )
-  }
-
-
-  bannerToggleButton = () => {
-    return (
-      <CustomButton mini style={{ width: "50%" }} data={{ name: (!this.state.banner ? "Show Banner" : "Hide Banner") }} action={this.toggleBanner} />
-    )
-  }
-
-  othersToggleButton = () => {
-    return (
-      <CustomButton mini style={{ width: "50%" }} data={{ name: (!this.state.others ? "Show Others" : "Hide Others") }} action={this.toggleOthers} />
     )
   }
 
@@ -1052,269 +500,6 @@ export default class Home extends Component {
   }
 
 
-  banner = () => {
-    return (
-      <View>
-        <View style={this.styles.titleContainer}>
-          {this.title("Banner", 25)}
-          {this.bannerToggleButton()}
-        </View>
-        {this.state.banner && <View style={[this.styles.main]}>
-          <RDBannerView
-            properties={{
-              'OM.inapptype': 'banner_carousel',
-            }}
-            onRequestResult={isAvailable =>
-              console.log('Related Digital - Banners', isAvailable)
-            }
-            onItemClicked={data =>
-              console.log('Related Digital - Banner data', data)
-            }
-            style={{
-              flex: 1,
-            }}
-          />
-        </View>}
-      </View>
-    )
-  }
-
-
-  reco = () => {
-    return (
-      <View>
-        <View style={this.styles.titleContainer}>
-          {this.title("Widget", 25)}
-          {this.getRecoButton()}
-        </View>
-        <View style={[this.styles.main]}>
-          {this.state.widget && <Widget widgetData={this.state.widget} trackRecommendationClick={this.trackRecommendationClick} />}
-        </View>
-      </View>
-    )
-  }
-
-
-  inapp = () => {
-    return (
-      <View>
-        <View style={this.styles.titleContainer}>
-          {this.title("In App", 25)}
-          {this.inappToggleButton()}
-        </View>
-        {this.state.inapps && <View style={[this.styles.section, this.styles.inAppContainer]}>
-          {this.renderInApptitles()}
-        </View>}
-      </View>
-    )
-  }
-
-  others = () => {
-    return (
-      <View>
-        <View style={this.styles.titleContainer}>
-          {this.title("Others", 25)}
-          {this.othersToggleButton()}
-        </View>
-        {this.state.others && <View style={[this.styles.inAppContainer]}>
-          {this.renderOthers()}
-        </View>}
-      </View>
-    )
-  }
-
-  story = () => {
-    return (
-      <View>
-        <View style={this.styles.titleContainer}>
-          {this.title("Story", 25)}
-          {this.storyToggleButton()}
-        </View>
-        {this.state.story && <View style={[this.styles.main]}>
-          <RDStoryView
-            // actionId={'44'} // 459 banner, 497 normal optional
-            onItemClicked={(data) => {
-              console.log('Story data', data)
-            }}
-          />
-        </View>}
-      </View>
-    )
-  }
-
-  search = () => {
-    return (
-      <View>
-        <View style={this.styles.titleContainer}>
-          {this.title("Search", 25)}
-          {this.searchToggleButton()}
-        </View>
-
-        {this.state.search && <View style={[this.styles.main]}>
-          <TextInput
-            style={this.styles.textInput}
-            placeholder={"Keyword"}
-            placeholderTextColor="gray"
-            value={this.state.searchKeyword}
-            onChangeText={(v) => { this.setState({ searchKeyword: v }) }}
-            editable
-          />
-          <TextInput
-            style={this.styles.textInput}
-            placeholder={"Search Type"}
-            placeholderTextColor="gray"
-            value={this.state.searchType}
-            onChangeText={(v) => { this.setState({ searchType: v }) }}
-            editable
-          />
-          <CustomButton mini style={{ width: "90%" }} data={{ name: "Search" }} action={() => { this.searchRecommendation() }} />
-          <View>
-            <View style={this.styles.inAppContainer} >
-              {this.renderSearchResults()}
-            </View>
-          </View>
-        </View>}
-      </View>
-    )
-  }
-
-  renderSearchResults = () => {
-    return (
-      <View style={this.styles.inAppContainer}>
-        {this.title("Product Container Search Results", 14)}
-        {this.state.productSearchResults.map((item, i) => (
-          <CustomButton
-            key={i}
-            style={{ width: "90%" }}
-            childStyle={{ fontSize: 10, padding: 1 }}
-            data={{ key: item, name: item.name }}
-            action={this.trackSearchRecommendationClick}
-          />
-        ))}
-        {this.title("Category Container Search Results", 14)}
-        {this.state.categorySearchResults.map((item, i) => (
-          <CustomButton
-            key={i}
-            style={{ width: "90%" }}
-            childStyle={{ fontSize: 10, padding: 1 }}
-            data={{ key: item, name: item.name }}
-            action={this.trackSearchRecommendationClick}
-          />
-        ))}
-        {this.title("Brand Container Search Results", 14)}
-        {this.state.brandSearchResults.map((item, i) => (
-          <CustomButton
-            key={i}
-            style={{ width: "90%" }}
-            childStyle={{ fontSize: 10, padding: 1 }}
-            data={{ key: item, name: item.name }}
-            action={this.trackSearchRecommendationClick}
-          />
-        ))}
-        {this.title("Popular Search Container Search Results", 14)}
-        {this.state.popularSearchSearchResults.map((item, i) => (
-          <CustomButton
-            key={i}
-            style={{ width: "90%" }}
-            childStyle={{ fontSize: 10, padding: 1 }}
-            data={{ key: item, name: item.name }}
-            action={this.trackSearchRecommendationClick}
-          />
-        ))}
-      </View>
-
-    );
-  };
-
-
-  trackSearchRecommendationClick = (item) => {
-    console.log(item, "trackSearchRecommendationClick");
-    visilabsApi.trackSearchRecommendationClick(item.report);
-  }
-
-
-  searchRecommendation = async () => {
-    let searchKeyword = this.state.searchKeyword;
-    let searchType = this.state.searchType;
-
-    let productSearchResults = [];
-    let categorySearchResults = [];
-    let brandSearchResults = [];
-    let popularSearchSearchResults = [];
-
-
-    let products = [];
-    let categories = [];
-    let brands = [];
-    let popularSearches = [];
-
-    const searchRecommendationResponse = await visilabsApi.searchRecommendation(searchKeyword, searchType);
-    console.log("searchRecommendationResponse: ", searchRecommendationResponse);
-
-
-    console.log(JSON.stringify(searchRecommendationResponse));
-
-
-
-
-    // productAreaContainer
-    const productAreaContainer = searchRecommendationResponse.productAreaContainer;
-    const productAreaContainerProducts = productAreaContainer.products;
-    const productAreaContainerReport = productAreaContainer.report;
-
-    productAreaContainerProducts.forEach(productObject => {
-      const productName = productObject.name;
-      products.push(productObject);
-      productSearchResults.push({ name: productName, report: productAreaContainerReport });
-    });
-
-    // categoryContainer
-    const categoryContainer = searchRecommendationResponse.categoryContainer;
-    const categoryContainerPopularCategories = categoryContainer.popularCategories;
-    const categoryContainerReport = categoryContainer.report;
-
-    categoryContainerPopularCategories.forEach(categoryObject => {
-      const categoryName = categoryObject.name;
-      categories.push(categoryObject);
-      categorySearchResults.push({ name: categoryName, report: categoryContainerReport });
-    });
-
-
-    // brandContainer
-    const brandContainer = searchRecommendationResponse.brandContainer;
-    const brandContainerPopularBrands = brandContainer.popularBrands;
-    const brandContainerReport = brandContainer.report;
-
-    brandContainerPopularBrands.forEach(brandObject => {
-      const brandName = brandObject.name;
-      brands.push(brandObject);
-      brandSearchResults.push({ name: brandName, report: brandContainerReport });
-    });
-
-    // searchContainer
-    const searchContainer = searchRecommendationResponse.searchContainer;
-    const searchContainerPopularSearches = searchContainer.popularSearches;
-    const searchContainerReport = searchContainer.report;
-
-    searchContainerPopularSearches.forEach(popularSearchObject => {
-      const popularSearchName = popularSearchObject.name;
-      popularSearches.push(popularSearchObject);
-      popularSearchSearchResults.push({ name: popularSearchName, report: searchContainerReport });
-    });
-
-
-
-
-    this.setState({
-      productSearchResults: productSearchResults, categorySearchResults: categorySearchResults, brandSearchResults: brandSearchResults,
-      popularSearchSearchResults: popularSearchSearchResults
-    });
-
-    this.renderSearchResults();
-
-  }
-
-
 
   render() {
     return (
@@ -1324,15 +509,7 @@ export default class Home extends Component {
           hidden={false}
         />
         <ScrollView>
-          <CustomButton style={{ width: "50%" }} data={{ name: "Go Details" }} action={() => this.props.navigation.navigate('Details')} />
           {this.push()}
-          {this.hr()}
-          {this.inapp()}
-          {this.story()}
-          {this.reco()}
-          {this.banner()}
-          {this.others()}
-          {this.search()}
         </ScrollView>
       </SafeAreaView>
     )

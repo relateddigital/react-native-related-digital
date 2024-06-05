@@ -4,6 +4,21 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '12.4'
 install! 'cocoapods', :deterministic_uuids => false
 
+pod 'Firebase', :modular_headers => true
+pod 'FirebaseCoreInternal', :modular_headers => true
+pod 'GoogleUtilities', :modular_headers => true
+pod 'FirebaseCore', :modular_headers => true
+pod 'FirebaseSessions', :modular_headers => true
+pod 'FirebaseCoreExtension', :modular_headers => true
+pod 'FirebaseInstallations', :modular_headers => true
+pod 'GoogleDataTransport', :modular_headers => true
+pod 'nanopb', :modular_headers => true
+
+pod 'React-RCTSettings', :path => '../node_modules/react-native/Libraries/Settings'
+
+pod 'React-CoreModules', :path => '../node_modules/react-native/React/CoreModules'
+
+
 production = ENV["PRODUCTION"] == "1"
 
 target 'RelatedDigitalNotificationContent' do
