@@ -520,6 +520,7 @@ DEPENDENCIES:
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - Firebase
+  - Firebase/Messaging (~> 10.7.0)
   - FirebaseCore
   - FirebaseCoreExtension
   - FirebaseCoreInternal
@@ -774,6 +775,6 @@ SPEC CHECKSUMS:
   Yoga: c2b1f2494060865ac1f27e49639e72371b1205fa
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 7fd9a5ef9aa85a2d975fe07629b6a779fab5c0af
+PODFILE CHECKSUM: 0dfc69f1f2cad7a8abc7ac465642c1123b0baa1c
 
 COCOAPODS: 1.15.2

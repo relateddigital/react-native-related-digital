@@ -29,6 +29,7 @@ end
 
 target 'RelatedDigitalNotificationService' do
   use_react_native!
+  pod 'Firebase/Messaging', '~> 10.7.0'
   pod 'react-native-related-digital', :path => '../node_modules/react-native-related-digital'
   
 end

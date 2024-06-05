@@ -65,7 +65,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
   [RelatedDigitalPushModule initRelatedDigital:@"676D325830564761676D453D" profileId:@"356467332F6533766975593D" dataSource:@"visistore" appAlias:@"rniostestapptest" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true askLocationPermmissionAtStart:true maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
-  // [FIRApp configure];
+  [FIRApp configure];
 
 
   return YES;
@@ -95,7 +95,6 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
 {
   completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
-  
 }
 
  - (void)userNotificationCenter:(UNUserNotificationCenter *)center didClickActionButton:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
@@ -123,6 +122,29 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 #endif
 
   return initProps;
+}
+
+-(void) userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
+{
+  void (^exampleCompletionHandler)(UIBackgroundFetchResult) = ^(UIBackgroundFetchResult result) {
+      switch (result) {
+          case UIBackgroundFetchResultNewData:
+              NSLog(@"Yeni veri.");
+              break;
+          case UIBackgroundFetchResultNoData:
+              NSLog(@"Veri yok veya veri değişmemiş.");
+              break;
+          case UIBackgroundFetchResultFailed:
+              NSLog(@"Veri çekme başarısız.");
+              break;
+          default:
+              NSLog(@"UIBackgroundFetchResult hata.");
+              break;
+      }
+  };
+  
+  
+  [RelatedDigitalPushModule didReceiveRemoteNotification:response.notification.request.content.userInfo fetchCompletionHandler: exampleCompletionHandler];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

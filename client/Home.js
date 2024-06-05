@@ -29,7 +29,7 @@ import messaging from '@react-native-firebase/messaging';
 
 
 const _RNRD = true;
-const _FIREBASE = false;
+const _FIREBASE = true;
 
 
 

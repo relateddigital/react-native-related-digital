@@ -19,14 +19,14 @@ import messaging from '@react-native-firebase/messaging';
 //     return; // Bildirimi Firebase tarafından işlenmesini engeller
 //   });
 
-// async function onMessageReceived(message) {
-//     console.log('Bildirim alındı:', message);
-// }
+async function onMessageReceived(message) {
+    console.log('Bildirim alındı:', message);
+}
 
-// messaging().onMessage(onMessageReceived);
-// messaging().setBackgroundMessageHandler(onMessageReceived);
+messaging().onMessage(onMessageReceived);
+messaging().setBackgroundMessageHandler(onMessageReceived);
 
 
-// console.log("listenerler okey");
+console.log("listenerler okey");
 
 AppRegistry.registerComponent(appName, () => Root);
