@@ -2,7 +2,7 @@ PODS:
   - boost (1.76.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
-  - Euromsg (2.7.9)
+  - Euromsg (2.8.0)
   - FBLazyVector (0.69.5)
   - FBReactNativeSpec (0.69.5):
     - RCT-Folly (= 2021.06.28.00-v2)
@@ -285,10 +285,10 @@ PODS:
   - React-jsinspector (0.69.5)
   - React-logger (0.69.5):
     - glog
-  - react-native-related-digital (1.0.24):
-    - Euromsg (= 2.7.9)
+  - react-native-related-digital (1.0.28):
+    - Euromsg (= 2.8.0)
     - React
-    - VisilabsIOS (= 4.2.4)
+    - VisilabsIOS (= 4.3.3)
   - react-native-safe-area-context (4.8.1):
     - React-Core
   - React-perflogger (0.69.5)
@@ -365,7 +365,7 @@ PODS:
     - React-Core
     - React-RCTImage
   - SocketRocket (0.6.1)
-  - VisilabsIOS (4.2.4)
+  - VisilabsIOS (4.3.3)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -534,7 +534,7 @@ SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
-  Euromsg: 39fc1f8ecb4e83a8ac3db3707c94514f89c2e268
+  Euromsg: d2204e6dc6dde9a5e797f450b4383a9cec88cf11
   FBLazyVector: 0045cf98ca4a48af3bf7108d85b1c243740fa289
   FBReactNativeSpec: 82e74141263f8c962e288f5cd6b5d149cdc8afe1
   Flipper: 26fc4b7382499f1281eb8cb921e5c3ad6de91fe0
@@ -564,7 +564,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: e42f0b46de293a026c2fb20e524d4fe09f81f575
   React-jsinspector: e385fb7a1440ae3f3b2cd1a139ca5aadaab43c10
   React-logger: 15c734997c06fe9c9b88e528fb7757601e7a56df
-  react-native-related-digital: bb4252ac9bee3702e141c68c9e0fca72bf098ada
+  react-native-related-digital: 9a87aa1642bf34aca6d09faf36f96e8186a2fc4b
   react-native-safe-area-context: cd1169d797a2ef722a00bfc5af10748d5b6c94f9
   React-perflogger: 367418425c5e4a9f0f80385ee1eaacd2a7348f8e
   React-RCTActionSheet: e4885e7136f98ded1137cd3daccc05eaed97d5a6
@@ -582,7 +582,7 @@ SPEC CHECKSUMS:
   RNCClipboard: 33ec5830d149587a7d9de7bee1f80889f101dda6
   RNScreens: fa9b582d85ae5d62c91c66003b5278458fed7aaa
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  VisilabsIOS: 096217ee9385350300c5554badd539d08d492b98
+  VisilabsIOS: 8e5d69fff28ed746a5e37c602f1a2dbdaff11640
   Yoga: c2b1f2494060865ac1f27e49639e72371b1205fa
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

@@ -243,6 +243,10 @@ export default class Home extends Component {
     console.log('DELETE Push Message', JSON.stringify(await euroMessageApi.deletePushNotificationsFromNotificationCenter(pushId)))
   }
 
+  deletLocalPushMsg = async (pushId) => {
+    console.log('DELETE Push Message', JSON.stringify(await euroMessageApi.deletePushNotificationsFromLocalNotificationCenter(pushId)))
+  }
+
   login = async () => {
     if (!this.state.userData.email) {
       Alert.alert("Hata", "Email adresinizi girin");
@@ -802,8 +806,13 @@ export default class Home extends Component {
         </View>
 
         <View style={this.styles.titleContainer}>
-          {this.title("Delete Push Message", 15)}
+          {this.title("Delete Push Message(Native)", 15)}
           <CustomButton mini style={{ width: "20%" }} data={{ name: "Read" }} action={() => { this.deletePushMsg() }} />
+        </View>
+
+        <View style={this.styles.titleContainer}>
+          {this.title("Delete Push Message(Local)", 15)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Read" }} action={() => { this.deletLocalPushMsg() }} />
         </View>
 
         <View style={this.styles.titleContainer}>

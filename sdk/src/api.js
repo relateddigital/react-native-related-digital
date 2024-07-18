@@ -20,7 +20,9 @@ import {
     readAllPushMessagesNative,
     readPushMessagesNative,
     deletePushNotificationNative,
-    deleteAllPushNotificationsNative
+    deleteAllPushNotificationsNative,
+    deleteLocalPushNotificationNative,
+    deleteAllLocalPushNotificationsNative
 } from './native'
 
 import {
@@ -222,6 +224,19 @@ class EuroMessageApi {
             result = await deletePushNotificationNative(pushId)
         }else{
             result = await deleteAllPushNotificationsNative()
+        }
+        return Promise.resolve(result)
+    }
+
+    async deletePushNotificationsFromLocalNotificationCenter(pushId) {
+        let result = null;
+        if (pushId) {
+            if (typeof pushId !== 'string') {
+                pushId = String(pushId);
+            }
+            result = await deleteLocalPushNotificationNative(pushId)
+        }else{
+            result = await deleteAllLocalPushNotificationsNative()
         }
         return Promise.resolve(result)
     }

@@ -580,6 +580,32 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void deleteLocalPushNotification(String messageId, final Promise promise) {
+        try {
+            if(messageId != null){
+                Boolean result = EuroMobileManager.getInstance().deletePushMessageByIdFromLSPM(messageId);
+                promise.resolve(result);
+            }else{
+                promise.resolve(false);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
+    public void deleteAllLocalPushNotifications(final Promise promise) {
+        try {
+            Boolean result = EuroMobileManager.getInstance().deleteAllPushMessagesFromLSPM();
+            promise.resolve(result);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
     public void getUser(final Promise promise) {
         try {
             HashMap<String, String> parameters = new HashMap<String, String>();

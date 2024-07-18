@@ -26,6 +26,8 @@ const readPushMessagesNative = RelatedDigitalPushModule.readPushMessages
 const readAllPushMessagesNative = RelatedDigitalPushModule.readAllPushMessages
 const deletePushNotificationNative = RelatedDigitalPushModule.deletePushNotification
 const deleteAllPushNotificationsNative = RelatedDigitalPushModule.deleteAllPushNotifications
+const deleteLocalPushNotificationNative = RelatedDigitalPushModule.deleteLocalPushNotification
+const deleteAllLocalPushNotificationsNative = RelatedDigitalPushModule.deleteAllLocalPushNotifications
 const getUserNative = RelatedDigitalPushModule.getUser
 const getSubscriptionNative = RelatedDigitalPushModule.getSubscription
 const setUserPropertyNative = RelatedDigitalPushModule.setUserProperty
@@ -63,6 +65,8 @@ export {
     readAllPushMessagesNative,
     deletePushNotificationNative,
     deleteAllPushNotificationsNative,
+    deleteLocalPushNotificationNative,
+    deleteAllLocalPushNotificationsNative,
     getUserNative,
     getSubscriptionNative,
     setUserPropertyNative,

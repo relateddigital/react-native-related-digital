@@ -886,10 +886,17 @@ const readPushMessages = async (pushId) => {
     console.log('READ Push Messages', JSON.stringify(result))
 }
 
-// pushId is optional. If a PushId is provided, only the corresponding notification will be removed from the notification center. If no parameters are sent, all notifications will be cleared from the notification center.
+// pushId is optional. If a PushId is provided, only the corresponding notification will be removed from the notification center. If no parameters are sent, all notifications will be cleared from the OS notification center.
 // Note: pushId should be sent in the payload for iOS, and notificationId for Android.
 const deletePushMessages = async (pushId) => {
   const result = await euroMessageApi.deletePushNotificationsFromNotificationCenter(pushId)
+  console.log('DELETE Push Messages', JSON.stringify(result))
+}
+
+// pushId is optional. If a PushId is provided, only the corresponding notification will be removed from the LOCAL notification center. If no parameters are sent, all notifications will be cleared from the LOCAL notification center.
+// Note: The pushId included in the payload should be sent as a parameter value for all operating systems.
+const deletLocalPushMsg = async (pushId) => {
+  const result = await euroMessageApi.deletePushNotificationsFromLocalNotificationCenter(pushId)
   console.log('DELETE Push Messages', JSON.stringify(result))
   }
 ```
@@ -948,6 +955,7 @@ Messages are sorted by date. The most recent message is displayed at the top of 
         "formattedDateString": "2021-12-08 01:34:59",
         "pushType": "Image",
         "pushCategory": "x campaign",
+        "status": "D",
         "url": "www.example.com"
     }
 ] 
