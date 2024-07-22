@@ -814,6 +814,9 @@ requestIDFA()
 If you have set the (iOS only)`askLocationPermmissionAtStart` parameter in `initRelatedDigital` to false in the `AppDelegate.m` file, you can request location permission wherever you want with this function.
 ```javascript
 requestLocationPermission()
+requestLocationPermissionWithPopup(title,message,positiveButton,negativeButton) // only android
+requestBackgroundLocationPermission() // only android
+requestBackgroundLocationPermissionWithPopup(foregroundTitle, foregroundMessage, backgroundTitle, backgroundMessage, positiveButton, negativeButton) // only android
 ```
 ### Geofencing Interval (Android Only)
 (Android only) You can change the geofence location update interval with the `setGeofencingIntervalInMinute` function.
