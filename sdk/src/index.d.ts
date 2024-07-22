@@ -70,6 +70,10 @@ export class VisilabsApi {
 export function requestPermissions(isProvisional: Boolean = false): Promise<boolean>;
 export function requestIDFA(): void;
 export function requestLocationPermission(): Promise<boolean>;
+export function requestLocationPermissionWithPopup(locationTitle: string ,locationMessage: string, positiveButton: string, negativeButton: string): Promise<boolean>;
+export function requestBackgroundLocationPermission(): Promise<boolean>;
+export function requestBackgroundLocationPermissionWithPopup(locationTitle:string, locationMessage:string, backgroundTitle:string, backgroundMessage:string, positiveButton:string, negativeButton:string): Promise<boolean>;
+
 
 /**
  * @param interval Only Android

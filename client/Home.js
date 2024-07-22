@@ -9,6 +9,9 @@ import {
   removeEventListener,
   requestPermissions,
   requestLocationPermission,
+  requestLocationPermissionWithPopup,
+  requestBackgroundLocationPermission,
+  requestBackgroundLocationPermissionWithPopup,
   requestIDFA,
   EuroMessageApi,
   VisilabsApi,
@@ -200,6 +203,26 @@ export default class Home extends Component {
     euroMessageApi.setUserProperties({ pushPermit: pushPermit ? 'Y' : 'N' }).then(() => {
       euroMessageApi.subscribe(this.state.token)
     })
+  }
+
+  foregroundLocationPermitRequest = async () => {
+    const permit = await requestLocationPermission()
+    console.log("Device Foreground Location Permit", permit);
+  }
+
+  foregroundLocationPermitRequestWithPopup = async (title,message,positiveButton,negativeButton) => {
+    const permit = await requestLocationPermissionWithPopup(title,message,positiveButton,negativeButton)
+    console.log("Device Foreground Location Permit(with popup)", permit);
+  }
+
+  backgroundLocationPermitRequest = async (backgroundTitle, backgroundMessage, positiveButton, negativeButton) => {
+    const permit = await requestBackgroundLocationPermission(backgroundTitle, backgroundMessage, positiveButton, negativeButton)
+    console.log("Device Background Location Permit", permit);
+  }
+
+  backgroundLocationPermitRequestWithPopup = async (foregroundTitle, foregroundMessage, backgroundTitle, backgroundMessage, positiveButton, negativeButton) => {
+    const permit = await requestBackgroundLocationPermissionWithPopup(foregroundTitle, foregroundMessage, backgroundTitle, backgroundMessage, positiveButton, negativeButton)
+    console.log("Device Background Location Permit(with popup)", permit);
   }
 
   componentDidMount() {
@@ -833,6 +856,27 @@ export default class Home extends Component {
         <View style={this.styles.titleContainer}>
           {this.title("Set Badge Number (3)", 15)}
           <CustomButton mini style={{ width: "20%" }} data={{ name: "Set" }} action={async () => { setApplicationIconBadgeNumber(3) }} />
+        </View>
+
+        <View style={this.styles.titleContainer}>
+          {this.title("Foreground Location Permission", 12)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Request" }} action={async () => { this.foregroundLocationPermitRequest() }} />
+        </View>
+
+        <View style={this.styles.titleContainer}>
+          {this.title("Foreground Location Permission With Popup", 12)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Request" }} action={async () => { this.foregroundLocationPermitRequestWithPopup("title",'message','okey','cancello') }} />
+        </View>
+
+        <View style={this.styles.titleContainer}>
+          {this.title("Background Location Permission", 12)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Request" }} action={async () => { this.backgroundLocationPermitRequest() }} />
+        </View>
+
+
+        <View style={this.styles.titleContainer}>
+          {this.title("Background Location Permission With Popup", 12)}
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Request" }} action={async () => { this.backgroundLocationPermitRequestWithPopup("loc title",'loc message','back title','back message','okey','cancell') }} />
         </View>
 
         <View style={this.styles.titleContainer}>

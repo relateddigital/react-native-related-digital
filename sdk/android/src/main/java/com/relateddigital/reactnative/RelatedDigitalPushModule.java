@@ -475,6 +475,39 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void requestLocationPermissionWithPopup(String locationTitle ,String locationMessage, String positiveButton, String negativeButton, Promise promise) {
+        try {
+            Visilabs.CallAPI().requestLocationPermission(getCurrentActivity(), locationTitle, locationMessage, positiveButton, negativeButton);
+            promise.resolve(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
+    public void requestBackgroundLocationPermission(Promise promise) {
+        try {
+            Visilabs.CallAPI().requestBackgroundLocationPermission(getCurrentActivity());
+            promise.resolve(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
+    public void requestBackgroundLocationPermissionWithPopup(String locationTitle, String locationMessage, String backgroundTitle, String backgroundMessage, String positiveButton, String negativeButton, Promise promise) {
+        try {
+            Visilabs.CallAPI().requestBackgroundLocationPermission(getCurrentActivity(), locationTitle, locationMessage, backgroundTitle, backgroundMessage, positiveButton, negativeButton);
+            promise.resolve(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
     public void sendLocationPermission(Promise promise) {
         try {
             Visilabs.CallAPI().sendLocationPermission();

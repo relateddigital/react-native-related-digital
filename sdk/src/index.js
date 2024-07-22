@@ -141,7 +141,7 @@ const requestIDFA = async () => {
     }
     else {
         if(_log) {
-            console.log('Related Digital - Unsupported method for Android platform: requesIDFA')
+            console.log('Related Digital:requesIDFA - Unsupported method for Android platform')
         }
     }
 }
@@ -150,13 +150,54 @@ const requestLocationPermission = async () => {
     return await RelatedDigitalPushModule.requestLocationPermission()
 }
 
+const requestLocationPermissionWithPopup = async (title, message, positiveButton, negativeButton) => {
+    if(Platform.OS === 'android') {
+        if (![title, message, positiveButton, negativeButton].every(param => typeof param === 'string')) {
+            console.error('Related Digital:requestLocationPermissionWithPopup - All parameters must be strings');
+            return
+        }
+        return await RelatedDigitalPushModule.requestLocationPermissionWithPopup(title, message, positiveButton, negativeButton)
+    }
+    else {
+        if(_log) {
+            console.log('Related Digital:requestLocationPermissionWithPopup - Unsupported method for iOS platform')
+        }
+    }
+}
+
+const requestBackgroundLocationPermission = async () => {
+    if(Platform.OS === 'android') {
+        return await RelatedDigitalPushModule.requestBackgroundLocationPermission()
+    }
+    else {
+        if(_log) {
+            console.log('Related Digital:requestBackgroundLocationPermission - Unsupported method for iOS platform')
+        }
+    }
+}
+
+const requestBackgroundLocationPermissionWithPopup = async (locationTitle, locationMessage, backgroundTitle, backgroundMessage, positiveButton, negativeButton) => {
+    if(Platform.OS === 'android') {
+        if (![locationTitle, locationMessage, backgroundTitle, backgroundMessage, positiveButton, negativeButton].every(param => typeof param === 'string')) {
+            console.error('Related Digital:requestBackgroundLocationPermissionWithPopup - All parameters must be strings');
+            return
+        }
+        return await RelatedDigitalPushModule.requestBackgroundLocationPermissionWithPopup(locationTitle, locationMessage, backgroundTitle, backgroundMessage, positiveButton, negativeButton)
+    }
+    else {
+        if(_log) {
+            console.log('Related Digital:requestBackgroundLocationPermissionWithPopup - Unsupported method for iOS platform')
+        }
+    }
+}
+
 const setGeofencingIntervalInMinute = (interval) => {
     if(Platform.OS === 'android') {
         RelatedDigitalPushModule.setGeofencingIntervalInMinute(interval)
     }
     else {
         if(_log) {
-            console.log('Related Digital - Unsupported method for iOS platform: setGeofencingIntervalInMinute')
+            console.log('Related Digital:setGeofencingIntervalInMinute - Unsupported method for iOS platform')
         }
     }
 }
@@ -167,7 +208,7 @@ const setApplicationIconBadgeNumber = (badgeNumber) => {
     }
     else {
         if(_log) {
-            console.log('Related Digital - Unsupported method for Android platform: setApplicationIconBadgeNumber')
+            console.log('Related Digital:setApplicationIconBadgeNumber - Unsupported method for Android platform')
         }
     }
 }
@@ -212,6 +253,9 @@ export {
     requestPermissions,
     requestIDFA,
     requestLocationPermission,
+    requestLocationPermissionWithPopup,
+    requestBackgroundLocationPermission,
+    requestBackgroundLocationPermissionWithPopup,
     setGeofencingIntervalInMinute,
     setApplicationIconBadgeNumber,
     logout,
