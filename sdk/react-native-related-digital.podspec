@@ -17,6 +17,6 @@ Pod::Spec.new do |s|
 
   s.dependency 'React'
   s.dependency 'VisilabsIOS', '4.3.3'
-  s.dependency 'Euromsg', '2.8.0'
+  s.dependency 'Euromsg', '2.8.1'
 	
 end

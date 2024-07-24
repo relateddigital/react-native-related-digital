@@ -127,28 +127,6 @@ import Euromsg
 
 
 	@objc public static func deletePushNotification(pushId: String,completion: @escaping ((_ response: String?) -> Void)) -> Void {
-        Euromsg.deletePayloadWithId(pushId: pushId) { success in
-			do {
-				completion(String(success))
-			}
-			catch {
-				completion(nil)
-			}
-        }
-	}
-
-	@objc public static func deleteAllPushNotifications(completion: @escaping ((_ response: String?) -> Void)) -> Void {
-		Euromsg.deleteAllPayloads { success in
-			do {
-				completion(String(success))
-			}
-			catch {
-				completion(nil)
-			}
-        }
-	}
-
-	@objc public static func deleteLocalPushNotification(pushId: String,completion: @escaping ((_ response: String?) -> Void)) -> Void {
         Euromsg.removeNotification(withPushID: pushId) { success in
 			do {
 				completion(String(success))
@@ -159,8 +137,30 @@ import Euromsg
         }
 	}
 
-	@objc public static func deleteAllLocalPushNotifications(completion: @escaping ((_ response: String?) -> Void)) -> Void {
+	@objc public static func deleteAllPushNotifications(completion: @escaping ((_ response: String?) -> Void)) -> Void {
 		Euromsg.deleteNotifications { success in
+			do {
+				completion(String(success))
+			}
+			catch {
+				completion(nil)
+			}
+        }
+	}
+
+	@objc public static func deleteLocalPushNotification(pushId: String,completion: @escaping ((_ response: String?) -> Void)) -> Void {
+        Euromsg.deletePayloadWithId(pushId: pushId) { success in
+			do {
+				completion(String(success))
+			}
+			catch {
+				completion(nil)
+			}
+        }
+	}
+
+	@objc public static func deleteAllLocalPushNotifications(completion: @escaping ((_ response: String?) -> Void)) -> Void {
+		Euromsg.deleteAllPayloads { success in
 			do {
 				completion(String(success))
 			}

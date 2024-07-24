@@ -835,7 +835,7 @@ export default class Home extends Component {
 
         <View style={this.styles.titleContainer}>
           {this.title("Delete Push Message(Local)", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Read" }} action={() => { this.deletLocalPushMsg() }} />
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Read" }} action={() => { this.deletLocalPushMsg("4fec29d1-77ec-4c62-8b3d-6426e019ad89") }} />
         </View>
 
         <View style={this.styles.titleContainer}>
