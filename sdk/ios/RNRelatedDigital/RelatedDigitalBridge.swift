@@ -11,6 +11,10 @@ import Euromsg
         Euromsg.configure(appAlias:appAlias)
 	}
     
+    @objc public static func handlePush(userInfo: [AnyHashable: Any]) -> Void {
+        Euromsg.handlePush(pushDictionary: userInfo)
+    }
+    
     @objc public static func setUserProperty(key: String, value: String) -> Void {
         Euromsg.setUserProperty(key: key, value: value)
         Euromsg.sync()
@@ -87,7 +91,6 @@ import Euromsg
             }
         }
     }
-    
 
 	@objc public static func getPushMessages(completion: @escaping ((_ response: String?) -> Void)) -> Void {
 		let jsonEncoder = JSONEncoder()

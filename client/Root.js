@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Home from './Home';
 import Detail from './Detail';
+import Notifications from './Notifications';
 
 function HomeScreen({ navigation }) {
   return (
@@ -16,6 +17,12 @@ function HomeScreen({ navigation }) {
 function DetailsScreen({ navigation }) {
   return (
     <Detail navigation={navigation} />
+  );
+}
+
+function NotificationsScreen({ route, navigation }) {
+  return (
+    <Notifications navigation={navigation} route={route}/>
   );
 }
 
@@ -46,6 +53,7 @@ function Root() {
       })}>
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Details" component={DetailsScreen} />
+        <Tab.Screen name="Notifications" component={NotificationsScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

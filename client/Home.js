@@ -33,7 +33,14 @@ import Widget from './components/Widget'
 // test app alias = rniostestapptest
 // test app alias = rniostestapp
 
-const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapptest'
+// test app test alias = rnandroidtestapptest
+// test app prod alias = RnPushSdk
+
+
+
+
+// const appAlias = Platform.OS === 'android' ? 'rnandroidtestapptest' : 'rniostestapptest'
+const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapp'
 const siteId = "356467332F6533766975593D";
 const organizationId = "676D325830564761676D453D";
 const dataSource = "visistore";
@@ -820,7 +827,11 @@ export default class Home extends Component {
 
         <View style={this.styles.titleContainer}>
           {this.title("Get Push Messages", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Get" }} action={async () => { console.log('Push Messages', JSON.stringify(await euroMessageApi.getPushMessages())) }} />
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "View" }} action={async () => { 
+            const notifs = await euroMessageApi.getPushMessages();
+            console.log('Push Messages', JSON.stringify(notifs)) 
+            this.props.navigation.navigate('Notifications',notifs)
+            }} />
         </View>
 
         <View style={this.styles.titleContainer}>
@@ -1026,6 +1037,11 @@ export default class Home extends Component {
       justifyContent: 'flex-start',
       // backgroundColor:'red',
       width: "95%"
+    },
+    row:{
+      flexDirection:'row',
+      alignItems: 'center',
+      justifyContent: 'center',
     }
   });
 
@@ -1377,7 +1393,14 @@ export default class Home extends Component {
           hidden={false}
         />
         <ScrollView>
-          <CustomButton style={{ width: "50%" }} data={{ name: "Go Details" }} action={() => this.props.navigation.navigate('Details')} />
+          <View style={this.styles.row}>
+            <CustomButton style={{ width: "45%" }} data={{ name: "Go Details" }} action={() => this.props.navigation.navigate('Details')} />
+            <CustomButton style={{ width: "45%" }} data={{ name: "Go Notifications" }} action={async () => {
+              const notifs = await euroMessageApi.getPushMessages();
+              // console.log('Push Messages', JSON.stringify(notifs));
+              this.props.navigation.navigate('Notifications',{ notifs:notifs,euroMessageApi:euroMessageApi })
+            }} />
+          </View>
           {this.push()}
           {this.hr()}
           {this.inapp()}

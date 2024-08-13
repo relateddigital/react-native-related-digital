@@ -199,7 +199,7 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
                 Message message = (Message) intent.getExtras().getSerializable("message");
-
+                EuroMobileManager.getInstance().sendOpenRequest(message);
                 if (message == null) {
                     // Carousel push notification : an item was clicked
 
@@ -274,6 +274,16 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
             utilities.sendEvent("remoteNotificationReceived", params);
         }
     }
+
+    // @ReactMethod
+    // public void sendOpenRequest(Message message) {
+    //     try {
+    //         EuroMobileManager.getInstance().sendOpenRequest(message);
+    //     } catch (Exception ex) {
+    //         promise.reject("ERROR", ex);
+    //     }
+    // }
+    
 
     @ReactMethod
     public void getDeviceParameters(Promise promise) {

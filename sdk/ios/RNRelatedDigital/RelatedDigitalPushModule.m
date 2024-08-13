@@ -82,6 +82,7 @@ RCT_EXPORT_MODULE()
                                                     userInfo:@{@"error": error}];
 }
 
+// Triggered after clicking push
 + (void)didReceiveRemoteNotification:(NSDictionary *)notification
 {
   NSDictionary *userInfo = @{@"notification": notification};
@@ -90,6 +91,7 @@ RCT_EXPORT_MODULE()
                                                     userInfo:userInfo];
 }
 
+// Triggered after clicking push
 + (void)didReceiveRemoteNotification:(NSDictionary *)notification
               fetchCompletionHandler:(RNCRemoteNotificationCallback)completionHandler
 {
@@ -135,7 +137,7 @@ RCT_EXPORT_MODULE()
     [self sendEventWithName:@"ActionButtonClicked" body:userInfo];
 }
 
-
+// Triggered after clicking push
 - (void)handleRemoteNotificationReceived:(NSNotification *)notification
 {
   NSMutableDictionary *remoteNotification = [NSMutableDictionary dictionaryWithDictionary:notification.userInfo[@"notification"]];
@@ -152,6 +154,7 @@ RCT_EXPORT_MODULE()
   }
   
   [self sendEventWithName:@"remoteNotificationReceived" body:remoteNotification];
+  [RelatedDigitalBridge handlePushWithUserInfo:remoteNotification];
 }
 
 - (void)handleRemoteNotificationsRegistered:(NSNotification *)notification
@@ -308,6 +311,7 @@ RCT_REMAP_METHOD(trackSearchRecommendationClick,
 // 		resolve(response);
 // 	}];
 // }
+
 RCT_EXPORT_METHOD(getPushMessages:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     [RelatedDigitalBridge getPushMessagesWithCompletion:^(NSString *response) {
