@@ -285,10 +285,10 @@ PODS:
   - React-jsinspector (0.69.5)
   - React-logger (0.69.5):
     - glog
-  - react-native-related-digital (1.0.30):
+  - react-native-related-digital (1.0.32):
     - Euromsg (= 2.8.1)
     - React
-    - VisilabsIOS (= 4.3.3)
+    - VisilabsIOS (= 4.3.5)
   - react-native-safe-area-context (4.8.1):
     - React-Core
   - React-perflogger (0.69.5)
@@ -365,7 +365,7 @@ PODS:
     - React-Core
     - React-RCTImage
   - SocketRocket (0.6.1)
-  - VisilabsIOS (4.3.3)
+  - VisilabsIOS (4.3.5)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -564,7 +564,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: e42f0b46de293a026c2fb20e524d4fe09f81f575
   React-jsinspector: e385fb7a1440ae3f3b2cd1a139ca5aadaab43c10
   React-logger: 15c734997c06fe9c9b88e528fb7757601e7a56df
-  react-native-related-digital: 680ec1d999843b8668d5c0bbf1259db965741fb0
+  react-native-related-digital: 28a9b6895c82800759649088388f98f70f464c7b
   react-native-safe-area-context: cd1169d797a2ef722a00bfc5af10748d5b6c94f9
   React-perflogger: 367418425c5e4a9f0f80385ee1eaacd2a7348f8e
   React-RCTActionSheet: e4885e7136f98ded1137cd3daccc05eaed97d5a6
@@ -582,7 +582,7 @@ SPEC CHECKSUMS:
   RNCClipboard: 33ec5830d149587a7d9de7bee1f80889f101dda6
   RNScreens: fa9b582d85ae5d62c91c66003b5278458fed7aaa
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  VisilabsIOS: 8e5d69fff28ed746a5e37c602f1a2dbdaff11640
+  VisilabsIOS: fb769d50480aac5fb325c27800e179c0cb29c44d
   Yoga: c2b1f2494060865ac1f27e49639e72371b1205fa
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

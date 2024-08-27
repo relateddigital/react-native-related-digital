@@ -40,7 +40,8 @@ import Widget from './components/Widget'
 
 
 // const appAlias = Platform.OS === 'android' ? 'rnandroidtestapptest' : 'rniostestapptest'
-const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapp'
+const appAlias = Platform.OS === 'android' ? 'rnandroidtestappprod' : 'rniostestapp'
+// const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapp'
 const siteId = "356467332F6533766975593D";
 const organizationId = "676D325830564761676D453D";
 const dataSource = "visistore";
@@ -217,8 +218,8 @@ export default class Home extends Component {
     console.log("Device Foreground Location Permit", permit);
   }
 
-  foregroundLocationPermitRequestWithPopup = async (title,message,positiveButton,negativeButton) => {
-    const permit = await requestLocationPermissionWithPopup(title,message,positiveButton,negativeButton)
+  foregroundLocationPermitRequestWithPopup = async (title, message, positiveButton, negativeButton) => {
+    const permit = await requestLocationPermissionWithPopup(title, message, positiveButton, negativeButton)
     console.log("Device Foreground Location Permit(with popup)", permit);
   }
 
@@ -383,7 +384,8 @@ export default class Home extends Component {
         },
       ]
 
-      const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties, filters)
+      const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties)
+      console.log("recommendations", recommendations);
       // const recommendations = {
       //   "recommendations": [
       //     {
@@ -827,11 +829,11 @@ export default class Home extends Component {
 
         <View style={this.styles.titleContainer}>
           {this.title("Get Push Messages", 15)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "View" }} action={async () => { 
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "View" }} action={async () => {
             const notifs = await euroMessageApi.getPushMessages();
-            console.log('Push Messages', JSON.stringify(notifs)) 
-            this.props.navigation.navigate('Notifications',notifs)
-            }} />
+            console.log('Push Messages', JSON.stringify(notifs))
+            // this.props.navigation.navigate('Notifications', notifs)
+          }} />
         </View>
 
         <View style={this.styles.titleContainer}>
@@ -876,7 +878,7 @@ export default class Home extends Component {
 
         <View style={this.styles.titleContainer}>
           {this.title("Foreground Location Permission With Popup", 12)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Request" }} action={async () => { this.foregroundLocationPermitRequestWithPopup("title",'message','okey','cancello') }} />
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Request" }} action={async () => { this.foregroundLocationPermitRequestWithPopup("title", 'message', 'okey', 'cancel') }} />
         </View>
 
         <View style={this.styles.titleContainer}>
@@ -887,7 +889,7 @@ export default class Home extends Component {
 
         <View style={this.styles.titleContainer}>
           {this.title("Background Location Permission With Popup", 12)}
-          <CustomButton mini style={{ width: "20%" }} data={{ name: "Request" }} action={async () => { this.backgroundLocationPermitRequestWithPopup("loc title",'loc message','back title','back message','okey','cancell') }} />
+          <CustomButton mini style={{ width: "20%" }} data={{ name: "Request" }} action={async () => { this.backgroundLocationPermitRequestWithPopup("loc title", 'loc message', 'back title', 'back message', 'okey', 'cancell') }} />
         </View>
 
         <View style={this.styles.titleContainer}>
@@ -1038,8 +1040,8 @@ export default class Home extends Component {
       // backgroundColor:'red',
       width: "95%"
     },
-    row:{
-      flexDirection:'row',
+    row: {
+      flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
     }
@@ -1398,9 +1400,25 @@ export default class Home extends Component {
             <CustomButton style={{ width: "45%" }} data={{ name: "Go Notifications" }} action={async () => {
               const notifs = await euroMessageApi.getPushMessages();
               // console.log('Push Messages', JSON.stringify(notifs));
-              this.props.navigation.navigate('Notifications',{ notifs:notifs,euroMessageApi:euroMessageApi })
+              this.props.navigation.navigate('Notifications', { notifs: notifs, euroMessageApi: euroMessageApi })
             }} />
           </View>
+          <CustomButton
+            style={{ width: "80%", alignSelf: 'center' }}
+            data={{ name: "Send Custom Event", key: 'baris' }}
+            action={async () => {
+              visilabsApi.customEvent("addToCart", {
+                // "OM.pb": "50204279004",
+                // "OM.pu": "1",
+                // "OM.ppr": "198",
+                // "OM.pbid": "123123baris123123",
+                "OM.pb": "",
+                "OM.pu": "",
+                "OM.ppr": "",
+                "OM.pbid": "123123baris123123"
+              })
+            }
+            } />
           {this.push()}
           {this.hr()}
           {this.inapp()}
