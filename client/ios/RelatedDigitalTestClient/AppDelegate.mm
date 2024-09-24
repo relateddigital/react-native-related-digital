@@ -92,6 +92,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
  [RelatedDigitalPushModule didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
+// Foreground Handle
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
 {
   completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);

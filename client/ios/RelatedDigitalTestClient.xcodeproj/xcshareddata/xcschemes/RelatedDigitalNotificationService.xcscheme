@@ -60,7 +60,7 @@
       <RemoteRunnable
          runnableDebuggingMode = "0"
          BundleIdentifier = "org.reactjs.native.example.RelatedDigitalTestClient"
-         RemotePath = "/var/containers/Bundle/Application/B7DF1549-25F0-40ED-A811-9029C67D9B41/RelatedDigitalTestClient.app">
+         RemotePath = "/var/containers/Bundle/Application/824A9FF5-CA78-49C1-ABED-6E164BCA9DFC/RelatedDigitalTestClient.app">
       </RemoteRunnable>
       <MacroExpansion>
          <BuildableReference
@@ -78,6 +78,7 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES"
+      askForAppToLaunch = "Yes"
       launchAutomaticallySubstyle = "2">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">

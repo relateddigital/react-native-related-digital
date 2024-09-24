@@ -5,6 +5,7 @@
 
 @implementation RelatedDigitalNotificationService
 
+// Background Notification Handle
 + (void)didReceiveNotificationRequest:(NSString *)appAlias withBestAttemptContent:(UNMutableNotificationContent *)bestAttemptContent withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
   
   NSDictionary *userInfo = bestAttemptContent.userInfo;
