@@ -281,6 +281,8 @@ dependencies {
         exclude group:'com.facebook.flipper'
     }
 
+    implementation 'org.jetbrains:annotations:16.0.2'
+
     if (enableHermes) {
         //noinspection GradleDynamicVersion
         implementation("com.facebook.react:hermes-engine:+") { // From node_modules

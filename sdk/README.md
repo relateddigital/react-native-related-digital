@@ -75,8 +75,8 @@ maven {
 classpath 'com.google.gms:google-services:4.3.10'
 classpath 'com.huawei.agconnect:agcp:1.6.5.300'
 ```
-* Change your `minSdkVersion` to 21.
-* Change your `compileSdkVersion` and `targetSdkVersion` to 32.
+* Change your `minSdkVersion` to 23.
+* Change your `compileSdkVersion` and `targetSdkVersion` to 34.
 * Add below lines to your `android/app/build.gradle` file's bottom.
 ```gradle
 apply plugin: 'com.google.gms.google-services'
@@ -85,6 +85,10 @@ apply plugin: 'com.huawei.agconnect'
 * Add below line to your `android/app/build.gradle` file's defaultConfig section.
 ```gradle
 multiDexEnabled true
+```
+* Add below line to your `android/build.gradle` file's dependencies section.
+```gradle
+implementation 'org.jetbrains:annotations:16.0.2'
 ```
 * Add below code to your `AndroidManifest.xml` file's `application` section to receive notifications when the app is foreground.
 ```xml
@@ -145,8 +149,24 @@ https://developer.huawei.com/consumer/en/doc/HMS-Plugin-Guides-V1/config-agc-000
 ```java
 import com.visilabs.Visilabs;
 import euromsg.com.euromobileandroid.EuroMobileManager;
+import euromsg.com.euromobileandroid.enums.RDNotificationPriority;
+
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
+import org.jetbrains.annotations.Nullable;
 ```
 ```java
+@Override
+public Intent registerReceiver(@Nullable BroadcastReceiver receiver, IntentFilter filter) {
+    if (Build.VERSION.SDK_INT >= 34 && getApplicationInfo().targetSdkVersion >= 34) {
+        return super.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED);
+    } else {
+        return super.registerReceiver(receiver, filter);
+    }
+}
+
 @Override
 public void onCreate() {
   // ...

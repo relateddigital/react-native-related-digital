@@ -7,10 +7,11 @@ export default class Notifications extends Component {
     super(props)
 
     this.state = {
-      notifs: this.props.route.params.notifs
+      notifs: this.props.route.params.notifs,
+      status: typeof this.props.route.params.notifs !== 'string'
     }
 
-    console.log("notifs", this.props.route.params);
+    console.log("route params", this.props.route.params);
     this.setNotif()
   }
 
@@ -37,6 +38,7 @@ export default class Notifications extends Component {
   }
 
   renderItem = () => (
+    
     this.state.notifs.map((item, i) => {
       return (
         <View style={[styles.item, item.status === 'O' && { backgroundColor: 'red' }]}>
@@ -64,32 +66,26 @@ export default class Notifications extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity
-          style={[styles.button]}
-          onPress={async () => {
-            const result = await this.props.route.params.euroMessageApi.deletePushNotificationsFromLocalNotificationCenter();
+        {this.state.status && <TouchableOpacity style={[styles.button]} onPress={async () => { const result = await this.props.route.params.euroMessageApi.deletePushNotificationsFromLocalNotificationCenter();
             alert(result);
             this.refreshNotifs();
           }}>
           <Text>Tümünü sil</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button]}
-          onPress={async () => {
-            const result = await this.props.route.params.euroMessageApi.readPushMessages();
+        </TouchableOpacity>}
+        {this.state.status && <TouchableOpacity style={[styles.button]} onPress={async () => { const result = await this.props.route.params.euroMessageApi.readPushMessages();
             alert(result);
             this.refreshNotifs();
           }}>
           <Text>Tümünü Oku</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button]}
-          onPress={async () => {
-            this.refreshNotifs();
-          }}>
+        </TouchableOpacity>}
+        {this.state.status && 
+        <TouchableOpacity style={[styles.button]} onPress={async () => { this.refreshNotifs(); }}>
           <Text>Yenile</Text>
-        </TouchableOpacity>
-        <ScrollView> {this.renderItem()} </ScrollView>
+        </TouchableOpacity>}
+        {this.state.status ? 
+            <ScrollView> {this.renderItem()} </ScrollView> : 
+            <Text style={[styles.message]}>{this.state.notifs}</Text>
+        }
       </View>
     )
   }
@@ -125,6 +121,13 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: '#ededed',
     borderRadius: 5
+  },
+  message:{
+    fontSize:20,
+    flex:1,
+    color:'#999',
+    textAlignVertical:'center',
+    textAlign:'center'
   }
 });
 
