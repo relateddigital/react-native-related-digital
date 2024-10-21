@@ -86,7 +86,7 @@ apply plugin: 'com.huawei.agconnect'
 ```gradle
 multiDexEnabled true
 ```
-* Add below line to your `android/build.gradle` file's dependencies section.
+* Add below line to your `android/app/build.gradle` file's dependencies section.
 ```gradle
 implementation 'org.jetbrains:annotations:16.0.2'
 ```
