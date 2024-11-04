@@ -83,6 +83,10 @@ export default class Home extends Component {
         'type': 'Pop-up',
         'values': [
           {
+            'key': 'mobilecustomactions',
+            'name': 'Mobile Custom Actions'
+          },
+          {
             'key': 'full_image',
             'name': 'Full Image'
           },
