@@ -32,15 +32,18 @@ const _RNRD = true;
 const _FIREBASE = true;
 
 
-
 // test app alias = rniostestapptest
 // test app alias = rniostestapp
 
+// test app test alias = rnandroidtestapptest
+// test app prod alias = RnPushSdk
 
-const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapptest'
+const appAlias = Platform.OS === 'android' ? 'rnandroidtestapptest' : 'rniostestapptest'
+// const appAlias = Platform.OS === 'android' ? 'rnandroidtestappprod' : 'rniostestapp'
 const siteId = "356467332F6533766975593D";
 const organizationId = "676D325830564761676D453D";
 const dataSource = "visistore";
+
 let euroMessageApi, visilabsApi;
 if (_RNRD) {
   euroMessageApi = new EuroMessageApi(appAlias)
