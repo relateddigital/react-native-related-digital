@@ -3,7 +3,7 @@
   <uses-permission android:name="android.permission.INTERNET" />
   
   <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:allowBackup="false" android:theme="@style/AppTheme">
-    <service android:name="euromsg.com.euromobileandroid.service.EuroFirebaseMessagingService" android:exported="false">
+    <service android:name="com.relateddigitaltestclient.RouterFCMService" android:exported="false">
       <intent-filter>
         <action android:name="com.google.firebase.MESSAGING_EVENT" />
       </intent-filter>
