@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -345,7 +345,7 @@
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "RelatedDigitalTestClient" */;
-			compatibilityVersion = "Xcode 12.0";
+			compatibilityVersion = "Xcode 15.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -677,7 +677,7 @@
 				);
 				INFOPLIST_FILE = RelatedDigitalTestClient/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Related Digital";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -754,7 +754,7 @@
 				);
 				INFOPLIST_FILE = RelatedDigitalTestClient/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Related Digital";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1012,7 +1012,7 @@
 				INFOPLIST_FILE = RelatedDigitalNotificationContent/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = RelatedDigitalNotificationContent;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1054,7 +1054,7 @@
 				INFOPLIST_FILE = RelatedDigitalNotificationContent/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = RelatedDigitalNotificationContent;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
