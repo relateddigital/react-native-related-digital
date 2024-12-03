@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.source_files  = "ios/RNRelatedDigital/**/*.{swift,h,m,xib}"
 
   s.dependency 'React'
-  s.dependency 'VisilabsIOS', '4.3.11'
+  s.dependency 'VisilabsIOS', '4.3.12'
   s.dependency 'Euromsg', '2.8.2'
 	
 end
