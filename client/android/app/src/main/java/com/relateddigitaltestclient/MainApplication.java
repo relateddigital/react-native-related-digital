@@ -97,20 +97,21 @@ public class MainApplication extends Application implements ReactApplication {
       String siteId = "356467332F6533766975593D";
       String datasource = "visistore";
 
-      //search-test
-      if(getProfile("search-test") != null){
-          organizationId = Objects.requireNonNull(getProfile("search-test")).getOrganizationId();
-          siteId = Objects.requireNonNull(getProfile("search-test")).getProfileId();
-          datasource = Objects.requireNonNull(getProfile("search-test")).getDataSource();
-      }
-
-
       String channel = "Android";
       String segmentUrl = "http://lgr.visilabs.net";
       String realtimeUrl = "http://rt.visilabs.net";
       String targetUrl = "http://s.visilabs.net/json";
       String actionUrl = "http://s.visilabs.net/actjson";
       String geofenceUrl = "http://s.visilabs.net/geojson";
+
+      if(false){
+        organizationId = "394A48556A2F76466136733D";
+        siteId = "75763259366A3345686E303D";
+        datasource = "mrhp";
+        actionUrl = "http://tests.visilabs.net/";
+        targetUrl = "http://tests.visilabs.net/";
+      }
+
       Visilabs.CreateAPI(organizationId, siteId, segmentUrl,
               datasource, realtimeUrl, channel, this, targetUrl, actionUrl, 30000, geofenceUrl, true, "reactnative");
 

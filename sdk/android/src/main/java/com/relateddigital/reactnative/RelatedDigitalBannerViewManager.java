@@ -2,6 +2,7 @@ package com.relateddigital.reactnative;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.Choreographer;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -65,9 +67,11 @@ public class RelatedDigitalBannerViewManager extends SimpleViewManager<BannerRec
 
     BannerRequestListener bannerRequestListener = new BannerRequestListener() {
         @Override
-        public void onRequestResult(boolean isAvailable) {
+        public void onRequestResult(boolean isAvailable, int height, int width) {
             WritableMap data = Arguments.createMap();
             data.putBoolean("isAvailable", isAvailable);
+            data.putInt("height", height);
+            data.putInt("width", width);
 
             sendRequestData(data,viewId);
         }
@@ -120,6 +124,13 @@ public class RelatedDigitalBannerViewManager extends SimpleViewManager<BannerRec
             };
 
             bannerRecyclerView.requestBannerCarouselAction(mContext,this.properties,bannerRequestListener,_bannerItemClickListener);
+
+            if (bannerRecyclerView.getAdapter() != null){
+                bannerRecyclerView.post(() -> {
+                    bannerRecyclerView.postDelayed(() -> bannerRecyclerView.smoothScrollToPosition(0), 0);
+                });
+            }
+            
         }
         catch(Exception ex){
             ex.printStackTrace();

@@ -37,14 +37,15 @@ import Widget from './components/Widget'
 // test app prod alias = RnPushSdk
 
 
-
+const testEnv = false;
 
 // const appAlias = Platform.OS === 'android' ? 'rnandroidtestapptest' : 'rniostestapptest'
 const appAlias = Platform.OS === 'android' ? 'rnandroidtestappprod' : 'rniostestapp'
 // const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapp'
-const siteId = "356467332F6533766975593D";
-const organizationId = "676D325830564761676D453D";
-const dataSource = "visistore";
+
+const siteId = testEnv ? "75763259366A3345686E303D" : "356467332F6533766975593D";
+const organizationId =  testEnv ? "394A48556A2F76466136733D" : "676D325830564761676D453D";
+const dataSource =  testEnv ? "mrhp" : "visistore";
 
 const euroMessageApi = new EuroMessageApi(appAlias)
 const visilabsApi = new VisilabsApi(appAlias, siteId, organizationId, dataSource)
@@ -940,7 +941,8 @@ export default class Home extends Component {
       height: "100%",
       width: "95%",
       alignSelf: 'center',
-      backgroundColor: 'white'
+      backgroundColor: 'white',
+      overflow:'hidden'
     },
     section: {
       // borderWidth: 1,
@@ -1146,7 +1148,8 @@ export default class Home extends Component {
               console.log('Related Digital - Banner data', data)
             }
             style={{
-              flex: 1,
+              // flex: 1,
+              // backgroundColor:'red'
             }}
           />
         </View>}

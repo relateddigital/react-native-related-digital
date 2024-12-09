@@ -48,15 +48,18 @@ class RDBannerView: UIView, BannerDelegate {
                 banner.delegate = self
                 banner.translatesAutoresizingMaskIntoConstraints = false
                 bannerView.addSubview(banner as UIView)
+
+                let height = banner.heightRD
+                let width = banner.widthRD
                 
                 NSLayoutConstraint.activate([banner.topAnchor.constraint(equalTo: bannerView.topAnchor),
                                              banner.bottomAnchor.constraint(equalTo: bannerView.bottomAnchor),
                                              banner.leadingAnchor.constraint(equalTo: bannerView.leadingAnchor),
                                              banner.trailingAnchor.constraint(equalTo: bannerView.trailingAnchor)])
                 
-                self.bannerRequestListener(isAvailable:true)
+                self.bannerRequestListener(isAvailable:true, height: height, width: width)
             }else{
-                self.bannerRequestListener(isAvailable:false)
+                self.bannerRequestListener(isAvailable:false, height: 0, width: 0)
             }
 
         }
@@ -74,9 +77,9 @@ class RDBannerView: UIView, BannerDelegate {
         }
     }
 
-    func bannerRequestListener(isAvailable: Bool) {
+    func bannerRequestListener(isAvailable: Bool, height: Int?, width: Int?) {
         if(self.onRequestResult != nil) {
-            let data: [String : Any] = ["isAvailable": isAvailable]
+            let data: [String : Any] = ["isAvailable": isAvailable, "height": height, "width": width]
             self.onRequestResult!(data)
         }
     }

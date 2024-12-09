@@ -2,8 +2,6 @@ import React from 'react'
 import { View, StyleSheet, Dimensions, UIManager, findNodeHandle, Platform } from 'react-native'
 import { RDBannerViewNative } from './native'
 
-const { width } = Dimensions.get('window')
-const height = 110
 const isIos = Platform.OS === 'ios'
 
 export default class RDBannerView extends React.Component {
@@ -13,6 +11,8 @@ export default class RDBannerView extends React.Component {
     this._onItemClicked = this._onItemClicked.bind(this)
     this._onRequestResult = this._onRequestResult.bind(this)
     this._requestBannerCarousel = this._requestBannerCarousel.bind(this)
+
+    this.state = {height:null, width:null}
   }
 
   componentDidMount() {
@@ -27,7 +27,7 @@ export default class RDBannerView extends React.Component {
     return (
         <RDBannerViewNative 
             ref={(ref) => this.bannerView = ref}
-            style={[styles.container, style]}
+            style={[style, this.state.height && {height:this.state.height}, this.state.width && {width:this.state.width}]}
             onItemClicked={this._onItemClicked}
             onRequestResult={this._onRequestResult}
             properties={properties}
@@ -48,12 +48,21 @@ export default class RDBannerView extends React.Component {
 
   _onRequestResult(event) {
     const { onRequestResult } = this.props
+    const { isAvailable, height, width } = event.nativeEvent
 
     if (!onRequestResult) {
       return
     }
-    const isAvailable = {"isAvailable":event.nativeEvent.isAvailable}
-    onRequestResult(isAvailable)
+
+    if (height) {
+      this.setState({height:height})
+    }
+
+    if (width && width != 600) {
+      this.setState({width:width})
+    }
+    
+    onRequestResult({"isAvailable":isAvailable})
   }
 
   _requestBannerCarousel() {
@@ -61,12 +70,3 @@ export default class RDBannerView extends React.Component {
     UIManager.dispatchViewManagerCommand(viewId, UIManager.BannerView.Commands.requestBannerCarousel.toString(), [viewId,this.props.properties])
   }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        // minWidth: width,
-        minHeight: height,
-        // backgroundColor:'orange'
-        // alignSelf: 'stretch'
-    }
-})
