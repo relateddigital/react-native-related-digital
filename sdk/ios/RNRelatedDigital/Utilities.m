@@ -2,9 +2,14 @@
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <UIKit/UIKit.h>
-//  #import <react_native_related_digital-Swift.h> // local
-#import <react_native_related_digital/react_native_related_digital-Swift.h>
 #import <sys/utsname.h>
+#if __has_include(<react_native_related_digital-Swift.h>)
+#import <react_native_related_digital-Swift.h>
+#elif __has_include(<react_native_related_digital/react_native_related_digital-Swift.h>)
+#import <react_native_related_digital/react_native_related_digital-Swift.h>
+#else
+#error "Header file for react_native_related_digital module not found."
+#endif
 
 @implementation Utilities
 

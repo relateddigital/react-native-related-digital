@@ -39,8 +39,8 @@ import Widget from './components/Widget'
 
 const testEnv = false;
 
-// const appAlias = Platform.OS === 'android' ? 'rnandroidtestapptest' : 'rniostestapptest'
-const appAlias = Platform.OS === 'android' ? 'rnandroidtestappprod' : 'rniostestapp'
+const appAlias = Platform.OS === 'android' ? 'rnandroidtestapptest' : 'rniostestapptest'
+// const appAlias = Platform.OS === 'android' ? 'rnandroidtestappprod' : 'rniostestapp'
 // const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapp'
 
 const siteId = testEnv ? "75763259366A3345686E303D" : "356467332F6533766975593D";
@@ -58,7 +58,8 @@ export default class Home extends Component {
       token: null,
       inapps: false,
       story: false,
-      banner: false,
+      banner: true,
+      bannerType: 'kadin',
       widget: null,
       others: false,
       subsStatus: null,
@@ -295,7 +296,7 @@ export default class Home extends Component {
 
     euroMessageApi.setUserProperties(userData).then(() => {
       euroMessageApi.subscribe(this.state.token)
-      visilabsApi.customEvent("Login", { 'OM.exVisitorID': this.state.userData.keyID, 'OM.b_login': '1' })
+      visilabsApi.customEvent("Login", { 'OM.exVisitorID': 'd8047926c53f0b76318b81b7af9b9387', 'OM.b_login': '1' })
       Alert.alert("Başarılı", "Başarılı şekilde giriş yaptınız.");
     })
   }
@@ -1136,10 +1137,11 @@ export default class Home extends Component {
           {this.title("Banner", 25)}
           {this.bannerToggleButton()}
         </View>
-        {this.state.banner && <View style={[this.styles.main]}>
+        {this.state.banner && this.state.bannerType && <View style={[this.styles.main]}>
           <RDBannerView
             properties={{
               'OM.inapptype': 'banner_carousel',
+              'OM.bannerUri': this.state.bannerType
             }}
             onRequestResult={isAvailable =>
               console.log('Related Digital - Banners', isAvailable)
@@ -1148,11 +1150,19 @@ export default class Home extends Component {
               console.log('Related Digital - Banner data', data)
             }
             style={{
+              // height:100,
+              // maxHeight:400,
               // flex: 1,
-              // backgroundColor:'red'
+              // backgroundCoslor:'red'
             }}
           />
+          <View style={{flex:1,flexDirection:'row', justifyContent:'center',alignItems:'center'}}>
+            <CustomButton mini style={{ width: "20%" }} data={{ name: "ERKEK" }} action={ () => {this.setState({bannerType:'erkek'})}} />
+            <CustomButton mini style={{ width: "20%" }} data={{ name: "KADIN" }} action={ () => {this.setState({bannerType:'kadin'})}} />
+            <CustomButton mini style={{ width: "20%" }} data={{ name: "COCUK" }} action={ () => {this.setState({bannerType:'cocuk'})}} />
+          </View>
         </View>}
+        
       </View>
     )
   }
@@ -1431,7 +1441,7 @@ export default class Home extends Component {
           {this.inapp()}
           {this.story()}
           {this.reco()}
-          {this.banner()}
+          {this.state.bannerType && this.banner()}
           {this.others()}
           {this.search()}
         </ScrollView>
