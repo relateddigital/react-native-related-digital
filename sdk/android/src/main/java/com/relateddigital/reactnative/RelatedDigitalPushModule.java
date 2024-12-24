@@ -199,7 +199,10 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
                 Message message = (Message) intent.getExtras().getSerializable("message");
-                EuroMobileManager.getInstance().sendOpenRequest(message);
+                if(message != null){
+                    EuroMobileManager.getInstance().sendOpenRequest(message);
+                }
+                
                 if (message == null) {
                     // Carousel push notification : an item was clicked
 
