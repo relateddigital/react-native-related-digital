@@ -122,20 +122,6 @@ https://developer.huawei.com/consumer/en/doc/HMS-Plugin-Guides-V1/config-agc-000
     android:enabled="true"
     android:permission="android.permission.BIND_JOB_SERVICE" />
 
-<service
-    android:name="com.visilabs.gps.geofence.GeofenceMonitor"
-    android:enabled="true"
-    android:exported="true" />
-
-<receiver
-    android:name="com.visilabs.gps.geofence.GeofenceTransitionsReceiver"
-    android:enabled="true"
-    android:exported="true">
-    <intent-filter>
-        <action android:name="com.visilabs.android.gps.geofence.ACTION_RECEIVE_GEOFENCE" />
-    </intent-filter>
-</receiver>
-
 <receiver
     android:name="com.visilabs.gps.geofence.VisilabsAlarm"
     android:exported="false" />
