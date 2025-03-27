@@ -43,10 +43,14 @@ export class EuroMessageApi {
     reportRead(notification: object): Promise<any>;
     setUserProperty(key: string, value: object): Promise<void>;
     setUserProperties(properties: object): Promise<void>;
+    setNotificationLoginId(exvisitorid: string): void;
     getPushMessages(): Promise<any>;
+    getPushMessagesUserBased(): Promise<any>;
     readPushMessages(pushId: string): Promise<any>;
+    readPushMessagesUserBased(pushId: string): Promise<any>;
     deletePushNotificationsFromNotificationCenter(pushId: string | number): Promise<any>;
-    deletePushNotificationsFromLocalNotificationCenter(pushId: string | number): Promise<any>;
+    deletePushMessages(pushId: string | number): Promise<any>;
+    deletePushMessagesUserBased(pushId: string | number): Promise<any>;
     getSubscription(): Promise<void>;
     sendLogToGraylog(logLevel: string, logMessage: string, logPlace: string): Promise<void>;
 };

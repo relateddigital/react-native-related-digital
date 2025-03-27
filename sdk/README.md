@@ -905,7 +905,7 @@ const deletePushMessages = async (pushId) => {
 // pushId is optional. If a PushId is provided, only the corresponding notification will be removed from the LOCAL notification center. If no parameters are sent, all notifications will be cleared from the LOCAL notification center.
 // Note: The pushId included in the payload should be sent as a parameter value for all operating systems.
 const deletLocalPushMsg = async (pushId) => {
-  const result = await euroMessageApi.deletePushNotificationsFromLocalNotificationCenter(pushId)
+  const result = await euroMessageApi.deletePushMessages(pushId)
   console.log('DELETE Push Messages', JSON.stringify(result))
   }
 ```
@@ -913,59 +913,77 @@ Messages are sorted by date. The most recent message is displayed at the top of 
 ```json
 // Android response
 [
-    {
+  {
+    "altUrl": "",
+    "date": "2025-03-27 17:02:19",
+    "emPushSp": "D9DED6935B934325972EF0A4EC814AB3|2CCE03D672E4492EB6C85CDBD8AB9D5E|05F46A9218A04757AD2AA802D4B0FD49|2164102|1|0|true|false|0|0|3215470e-067b-49cc-b48c-3c2637a16bd6",
+    "email": "Baris.arslan@euromsg.com",
+    "extraData": {
+      "map": {
         "altUrl": "",
-        "date": "2024-05-27 13:36:09",
-        "emPushSp": "08C810C56AFF458193587A6B1CC14F2D|865862C658774D72B09439EBCC9261AB|F1316EEB73F94654A4D3A8AB94051D9B|1823184|1|0|true|false|0|0|0b7f13a3-ae86-4dbd-9f60-1c3e8cd868e6",
-        "email": "baris.arslan@euromsg.com",
-        "keyID": "baris.arslan@euromsg.com",
-        "mediaUrl": "",
-        "message": "example text",
-        "notificationId": 1690425060,
-        "openDate": "",
-        "params": {
-            "pushId": "6448ca60-8f74-40ae-b029-303502aeb011",
-            "silent": "false",
-            "mediaUrl": "",
-            "sound": "",
-            "emPushSp": "08C810C56AFF458193587A6B1CC14F2D|865862C658774D72B09439EBCC9261AB|F1316EEB73F94654A4D3A8AB94051D9B|1823184|1|0|true|false|0|0|0b7f13a3-ae86-4dbd-9f60-1c3e8cd868e6",
-            "altUrl": "",
-            "title": "example text",
-            "message": "example text",
-            "badgeCount": "0",
-            "url": "",
-            "pushType": "Text",
-            "pushCategory": "x campaign"
-        },
-        "pushCategory": "x campaign",
-        "pushId": "6448ca60-8f74-40ae-b029-303502aeb011",
+        "badgeCount": "0",
+        "expiredate": "912345678",
         "pushType": "Text",
-        "silent": "false",
-        "sound": "",
-        "status": "D",
-        "title": "example text",
-        "url": ""
+        "test": "true",
+        "utm_campaign": "campaign",
+        "utm_medium": "medium",
+        "utm_source": "source"
+      }
     },
+    "keyID": "Baris.arslan@euromsg.com",
+    "mediaUrl": "",
+    "message": "baris test",
+    "notificationId": 1889709228,
+    "openDate": "",
+    "params": {
+      "emPushSp": "CF203B70D23C40DF84167C339648CC94",
+      "mediaUrl": "",
+      "message": "baris test",
+      "pushId": "f6e9e487-126e-4805-a3ef-bcf0e5df3ca0",
+      "silent": "false",
+      "sound": "",
+      "title": "baris test",
+      "url": ""
+    },
+    "pushId": "f6e9e487-126e-4805-a3ef-bcf0e5df3ca0",
+    "pushType": "Text",
+    "pushCategory": "x campaign",
+    "silent": "false",
+    "sound": "",
+    "status": "D",
+    "title": "baris test",
+    "url": ""
+  }
 ]
 
 // iOS response
 [
     {
-        "altUrl": "",
-        "pushId": "00763ff4-3ec4-426c-953e-a27a8eee9fed",
-        "aps": {
-            "alert": {
-                "title": "Message Title",
-                "body": "Message body"
-            }
-        },
-        "emPushSp": "CF203B70D23C40DF84167C339648CC94|2CCE03D672E4492EB6C85CDBD8AB9D5E|EFBFBB2E69FD4531B758C7A248446068|486816|2|0|true|false|0|0|73b4512a-2d35-48af-9ede-fe3f0ad9797b",
-        "mediaUrl": "https:\/\/raw.githubusercontent.com\/relateddigital\/euromessage-ios\/master\/screenshots\/appgroups-name.png",
-        "formattedDateString": "2021-12-08 01:34:59",
-        "pushType": "Image",
-        "pushCategory": "x campaign",
-        "status": "D",
-        "url": "www.example.com"
+      "aps": {
+        "category": "rmc",
+        "alert": {
+          "title": "Message Title",
+          "body": "Message body"
+        }
+      },
+      "altUrl": "",
+      "url": "",
+      "utm_medium": "medium",
+      "openedDate": "",
+      "emPushSp": "CF203B70D23C40DF84167C339648CC94",
+      "mediaUrl": "https:\/\/raw.githubusercontent.com\/relateddigital\/euromessage-ios\/master\/screenshots\/appgroups-name.png",
+      "utm_source": "source",
+      "email": "Baris.arslan@euromsg.com",
+      "status": "D",
+      "utm_campaign": "campaign",
+      "pushType": "Image",
+      "keyID": "Baris.arslan@euromsg.com",
+      "deepLink": "",
+      "pushId": "75dff035-295d-4a3d-969a-2a9f4d89d9df",
+      "formattedDateString": "2025-03-27 16:05:22",
+      "customExpireDate": "912345678", // custom
+      "customParameter": "test",  // custom
+      "pushCategory": "x campaign", // custom
     }
 ] 
 ```

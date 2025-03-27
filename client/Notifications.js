@@ -1,109 +1,123 @@
-import { Text, View, ScrollView, StyleSheet, TouchableOpacity, Platform } from 'react-native'
-import React, { Component } from 'react'
-import { height, width } from './constants/Constants';
+import React, { useState } from 'react';
+import { View, FlatList, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
-export default class Notifications extends Component {
-  constructor(props) {
-    super(props)
+import { EuroMessageApi } from 'react-native-related-digital'
 
-    this.state = {
-      notifs: this.props.route.params.notifs,
-      status: typeof this.props.route.params.notifs !== 'string'
-    }
+const appAlias = Platform.OS === 'android' ? 'rnandroidtestapptest' : 'rniostestapptest'
+// const appAlias = Platform.OS === 'android' ? 'rnandroidtestappprod' : 'rniostestapp'
+const euroMessageApi = new EuroMessageApi(appAlias)
 
-    console.log("route params", this.props.route.params);
-    this.setNotif()
-  }
+const Notifications = () => {
+  const [notifList, setNotifList] = useState([]);
 
-  setNotif = () => {
-    console.log("euroMessageApi", this.props.route.params.euroMessageApi)
-  }
-
-  deleteMessage = async (pushId) => {
-    const result = await this.props.route.params.euroMessageApi.deletePushNotificationsFromLocalNotificationCenter(pushId);
-    alert(result);
-    this.refreshNotifs();
-  }
-
-  refreshNotifs = async () => {
-    this.setState({
-      notifs: await this.props.route.params.euroMessageApi.getPushMessages()
-    })
-  }
-
-  readMessage = async (pushId) => {
-    const result = await this.props.route.params.euroMessageApi.readPushMessages(pushId);
-    alert(result);
-    this.refreshNotifs();
-  }
-
-  renderItem = () => (
+  const markAllAsRead = async () => {
+    const result = await euroMessageApi.readPushMessages(null);
+    console.log("result", result);
     
-    this.state.notifs.map((item, i) => {
-      return (
-        <View style={[styles.item, item.status === 'O' && { backgroundColor: 'red' }]}>
-          <Text style={styles.title}>{Platform.OS === 'ios' ? item.formattedDateString : item.date}</Text>
-          <Text style={styles.title}>{Platform.OS === 'ios' ? item.aps.alert.title : item.title}</Text>
-          <Text style={styles.title}>{Platform.OS === 'ios' ? item.aps.alert.body : item.message}</Text>
-          <View style={[styles.row]}>
-            <TouchableOpacity
-              style={[styles.button]}
-              onPress={() => { this.deleteMessage(Platform.OS === 'ios' ? item.pushId : item.notificationId) }}>
-              <Text>Sil</Text>
-            </TouchableOpacity>
+    result && refreshNotifs();
+  };
 
-            <TouchableOpacity
-              style={[styles.button]}
-              onPress={() => { this.readMessage(item.pushId) }}>
-              <Text>Okundu İşaretle</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
-    })
+  const refreshNotifs = async () => {
+    const msgs = await euroMessageApi.getPushMessages();
+    setNotifList(msgs);
+    console.log("msgs", msgs[0].extraData.map);
+  }
+
+  const deleteAllNotifications = async () => {
+    const result = await euroMessageApi.deletePushMessages();
+    console.log("result", result);
+    
+    result && refreshNotifs();
+  };
+
+  const renderNotification = ({ item }) => (
+    <View style={[styles.item, item.status === 'O' && { backgroundColor: '#ddd' }]}>
+      <View style={[styles.col]}>
+        <Text style={styles.title}>{Platform.OS === 'ios' ? item.aps.alert.title : item.title}</Text>
+        <Text style={styles.message}>{Platform.OS === 'ios' ? item.aps.alert.body : item.message}</Text>
+        <Text style={styles.date}>{Platform.OS === 'ios' ? item.formattedDateString : item.date}</Text>
+      </View>
+      <View style={[styles.row]}>
+        <TouchableOpacity
+          style={[styles.button]}
+          onPress={() => { euroMessageApi.deletePushMessages(Platform.OS === 'ios' ? item.pushId : item.notificationId.toString()) }}>
+          <Text style={styles.buttonText}>Sil</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button]}
+          onPress={() => { euroMessageApi.readPushMessages(item.pushId) }}>
+          <Text style={styles.buttonText}>Okundu İşaretle</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 
-  render() {
-    return (
-      <View style={styles.container}>
-        {this.state.status && <TouchableOpacity style={[styles.button]} onPress={async () => { const result = await this.props.route.params.euroMessageApi.deletePushNotificationsFromLocalNotificationCenter();
-            alert(result);
-            this.refreshNotifs();
-          }}>
-          <Text>Tümünü sil</Text>
-        </TouchableOpacity>}
-        {this.state.status && <TouchableOpacity style={[styles.button]} onPress={async () => { const result = await this.props.route.params.euroMessageApi.readPushMessages();
-            alert(result);
-            this.refreshNotifs();
-          }}>
-          <Text>Tümünü Oku</Text>
-        </TouchableOpacity>}
-        {this.state.status && 
-        <TouchableOpacity style={[styles.button]} onPress={async () => { this.refreshNotifs(); }}>
-          <Text>Yenile</Text>
-        </TouchableOpacity>}
-        {this.state.status ? 
-            <ScrollView> {this.renderItem()} </ScrollView> : 
-            <Text style={[styles.message]}>{this.state.notifs}</Text>
-        }
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.button} onPress={() => refreshNotifs()}><Text style={styles.buttonText}>Yenile</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => markAllAsRead()}><Text style={styles.buttonText}>Tümünü Oku</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => deleteAllNotifications()}><Text style={styles.buttonText}>Tümünü Sil</Text></TouchableOpacity>
       </View>
-    )
-  }
-}
 
+      <FlatList
+        data={notifList}
+        renderItem={renderNotification}
+        keyExtractor={item => Platform.OS === 'ios' ? item.pushId : item.notificationId.toString()}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 50,
+    padding: 16,
   },
-  scrollview: {
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  notificationContainer: {
+    flexDirection: 'row',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  notificationContent: {
     flex: 1,
-    padding: 10,
-    backgroundColor: "purple"
   },
+  // title: {
+  //   fontSize: 18,
+  //   fontWeight: 'bold',
+  // },
+  message: {
+    fontSize: 14,
+    color: '#555',
+  },
+  date: {
+    fontSize: 12,
+    color: '#888',
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  button: {
+    padding: 8,
+    backgroundColor: '#2196F3',
+    margin: 4,
+    borderRadius: 4,
+  },
+  buttonText: {
+    color: '#fff',
+  },
+
   item: {
-    backgroundColor: '#ccc',
+    backgroundColor: '#fff',
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
@@ -116,18 +130,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end'
   },
-  button: {
-    margin: 5,
-    padding: 5,
-    backgroundColor: '#ededed',
-    borderRadius: 5
-  },
-  message:{
-    fontSize:20,
-    flex:1,
-    color:'#999',
-    textAlignVertical:'center',
-    textAlign:'center'
-  }
 });
 
+export default Notifications;

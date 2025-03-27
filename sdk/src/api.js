@@ -17,12 +17,14 @@ import {
     sendLogToGraylogNative,
     searchRecommendationNative,
     trackSearchRecommendationClickNative,
-    readAllPushMessagesNative,
     readPushMessagesNative,
     deletePushNotificationNative,
     deleteAllPushNotificationsNative,
-    deleteLocalPushNotificationNative,
-    deleteAllLocalPushNotificationsNative
+    readPushMessagesWithIdNative,
+    setNotificationLoginIdNative,
+    getPushMessagesWithIDNative,
+    deletePushMessagesNative,
+    deletePushMessagesWithIdNative
 } from './native'
 
 import {
@@ -203,18 +205,27 @@ class EuroMessageApi {
         return Promise.resolve(null)
     }
 
+    async setNotificationLoginId(exvisitorid) {
+        setNotificationLoginIdNative(exvisitorid)
+    }
+
     async getPushMessages() {
         const result = await getPushMessagesNative()
         return Promise.resolve(result.substr(0, 5) != "There" ? JSON.parse(result) : result)
     }
 
+    async getPushMessagesUserBased() {
+        const result = await getPushMessagesWithIDNative()
+        return Promise.resolve(result.startsWith("There") ? result : JSON.parse(result))
+    }
+
     async readPushMessages(pushId) {
-        let result = null;
-        if (pushId) {
-            result = await readPushMessagesNative(pushId)
-        }else{
-            result = await readAllPushMessagesNative()
-        }
+        let result = await readPushMessagesNative(pushId)
+        return Promise.resolve(result)
+    }
+
+    async readPushMessagesUserBased(pushId) {
+        let result = await readPushMessagesWithIdNative(pushId)
         return Promise.resolve(result)
     }
 
@@ -228,16 +239,15 @@ class EuroMessageApi {
         return Promise.resolve(result)
     }
 
-    async deletePushNotificationsFromLocalNotificationCenter(pushId) {
-        let result = null;
-        if (pushId) {
-            if (typeof pushId !== 'string') {
-                pushId = String(pushId);
-            }
-            result = await deleteLocalPushNotificationNative(pushId)
-        }else{
-            result = await deleteAllLocalPushNotificationsNative()
-        }
+    async deletePushMessages(pushId) {
+        console.log("deletePushMessages", typeof pushId, pushId);
+        
+        let result = await deletePushMessagesNative(pushId)
+        return Promise.resolve(result)
+    }
+
+    async deletePushMessagesUserBased(pushId) {
+        let result = await deletePushMessagesWithIdNative(pushId)
         return Promise.resolve(result)
     }
 
@@ -355,7 +365,8 @@ class VisilabsApi {
                             exVisitorID != parameters["OM.exVisitorID"])) {
                         parameters["OM.cookieID"] = setCookieID()
                     }
-
+                    // const qs = Object.keys(parameters).map(key => `${key}=${parameters[key]}`).join('&');
+                    
                     const lgrUrl = this.segmentUrl + "/" + this.dataSource + "/om.gif?" + querystring.stringify(parameters)
                     const rtUrl = this.realTimeUrl + "/" + this.dataSource + "/om.gif?" + querystring.stringify(parameters)
 

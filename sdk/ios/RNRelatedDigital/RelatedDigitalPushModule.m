@@ -195,6 +195,11 @@ RCT_REMAP_METHOD(setUserProperty,
     [RelatedDigitalBridge setUserPropertyWithKey:key value:(NSString *)value];
 }
 
+RCT_REMAP_METHOD(setNotificationLoginId,
+                 setNotificationLoginIdWithNotificationLoginID:(NSString *)notificationLoginID) {
+    [RelatedDigitalBridge setNotificationLoginIdWithNotificationLoginID:notificationLoginID];
+}
+
 RCT_REMAP_METHOD(setApplicationIconBadgeNumber, withNumber:(NSInteger)number)
 {
   RCTSharedApplication().applicationIconBadgeNumber = number;
@@ -324,11 +329,10 @@ RCT_EXPORT_METHOD(getPushMessages:(RCTPromiseResolveBlock)resolve
     }];
 }
 
-RCT_REMAP_METHOD(readAllPushMessages,
-                 readAllPushMessagesResolver:(RCTPromiseResolveBlock)resolve
-                 readAllPushMessagesRejecter:(RCTPromiseRejectBlock)reject) {
-    [RelatedDigitalBridge readAllPushMessagesWithCompletion:^(NSString *response) {
-            resolve(response);
+RCT_EXPORT_METHOD(getPushMessagesUserBased:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    [RelatedDigitalBridge getPushMessagesUserBasedWithCompletion:^(NSString *response) {
+        resolve(response);
     }];
 }
 
@@ -337,6 +341,15 @@ RCT_REMAP_METHOD(readPushMessages,
                  readPushMessagesResolver:(RCTPromiseResolveBlock)resolve
                  readPushMessagesRejecter:(RCTPromiseRejectBlock)reject) {
     [RelatedDigitalBridge readPushMessagesWithPushId:pushId completion:^(NSString *response) {
+            resolve(response);
+    }];
+}
+
+RCT_REMAP_METHOD(readPushMessagesUserBased,
+                 readPushMessagesUserBasedWithPushId:(NSString *)pushId
+                 readPushMessagesUserBasedResolver:(RCTPromiseResolveBlock)resolve
+                 readPushMessagesUserBasedRejecter:(RCTPromiseRejectBlock)reject) {
+    [RelatedDigitalBridge readPushMessagesUserBasedWithPushId:pushId completion:^(NSString *response) {
             resolve(response);
     }];
 }
@@ -358,19 +371,20 @@ RCT_REMAP_METHOD(deletePushNotification,
     }];
 }
 
-RCT_REMAP_METHOD(deleteAllLocalPushNotifications,
-                 deleteAllLocalPushNotificationsResolver:(RCTPromiseResolveBlock)resolve
-                 deleteAllLocalPushNotificationsRejecter:(RCTPromiseRejectBlock)reject) {
-    [RelatedDigitalBridge deleteAllLocalPushNotificationsWithCompletion:^(NSString *response) {
+RCT_REMAP_METHOD(deletePushMessages,
+                 deletePushMessagesWithPushId:(NSString *)pushId
+                 deletePushMessagesResolver:(RCTPromiseResolveBlock)resolve
+                 deletePushMessagesRejecter:(RCTPromiseRejectBlock)reject) {
+    [RelatedDigitalBridge deletePushMessagesWithPushId:pushId completion:^(NSString *response) {
             resolve(response);
     }];
 }
 
-RCT_REMAP_METHOD(deleteLocalPushNotification,
-                 deleteLocalPushNotificationWithPushId:(NSString *)pushId
-                 deleteLocalPushNotificationResolver:(RCTPromiseResolveBlock)resolve
-                 deleteLocalPushNotificationRejecter:(RCTPromiseRejectBlock)reject) {
-    [RelatedDigitalBridge deleteLocalPushNotificationWithPushId:pushId completion:^(NSString *response) {
+RCT_REMAP_METHOD(deletePushMessagesUserBased,
+                 deletePushMessagesUserBasedWithPushId:(NSString *)pushId
+                 deletePushMessagesUserBasedResolver:(RCTPromiseResolveBlock)resolve
+                 deletePushMessagesUserBasedRejecter:(RCTPromiseRejectBlock)reject) {
+    [RelatedDigitalBridge deletePushMessagesUserBasedWithPushId:pushId completion:^(NSString *response) {
             resolve(response);
     }];
 }

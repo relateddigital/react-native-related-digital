@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
@@ -552,6 +553,17 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void setNotificationLoginId(String exvisitorid) {
+        try {
+            if (exvisitorid != null) {
+                EuroMobileManager.getInstance().setNotificationLoginID(exvisitorid, reactContext);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @ReactMethod
     public void getPushMessages(final Promise promise) {
         try {
             PushMessageInterface pushMessageInterface = new PushMessageInterface() {
@@ -574,14 +586,21 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void readPushMessages(String pushId, final Promise promise) {
+    public void getPushMessagesWithID(final Promise promise) {
         try {
-            if(pushId != null){
-                Boolean result = EuroMobileManager.getInstance().readPushMessagesWithPushId(reactContext, pushId);
-                promise.resolve(result);
-            }else{
-                promise.resolve(false);
-            }
+            PushMessageInterface pushMessageInterface = new PushMessageInterface() {
+                @Override
+                public void success(List<Message> pushMessages) {
+                    Gson gson = new Gson();
+                    promise.resolve(gson.toJson(pushMessages));
+                }
+
+                @Override
+                public void fail(String errorMessage) {
+                    promise.resolve(errorMessage);
+                }
+            };
+            EuroMobileManager.getInstance().getPushMessagesWithID(getCurrentActivity(), pushMessageInterface);
         } catch (Exception ex) {
             ex.printStackTrace();
             promise.resolve(false);
@@ -589,9 +608,22 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void readAllPushMessages(final Promise promise) {
+    public void readPushMessages(@Nullable String pushId, final Promise promise) {
         try {
-            Boolean result = EuroMobileManager.getInstance().readAllPushMessages(reactContext);
+            Boolean result = EuroMobileManager.getInstance().readPushMessages(pushId);
+            promise.resolve(result);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+
+    // user based
+    @ReactMethod
+    public void readPushMessagesWithId(@Nullable String pushId, final Promise promise) {
+        try {
+            Boolean result = EuroMobileManager.getInstance().readPushMessagesWithId(pushId);
             promise.resolve(result);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -626,14 +658,10 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void deleteLocalPushNotification(String messageId, final Promise promise) {
+    public void deletePushMessages(@Nullable String messageId, final Promise promise) {
         try {
-            if(messageId != null){
-                Boolean result = EuroMobileManager.getInstance().deletePushMessageByIdFromLSPM(messageId);
-                promise.resolve(result);
-            }else{
-                promise.resolve(false);
-            }
+            Boolean result = EuroMobileManager.getInstance().deletePushMessages(messageId);
+            promise.resolve(result);
         } catch (Exception ex) {
             ex.printStackTrace();
             promise.resolve(false);
@@ -641,9 +669,9 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void deleteAllLocalPushNotifications(final Promise promise) {
+    public void deletePushMessagesWithId(@Nullable String messageId, final Promise promise) {
         try {
-            Boolean result = EuroMobileManager.getInstance().deleteAllPushMessagesFromLSPM();
+            Boolean result = EuroMobileManager.getInstance().deletePushMessagesWithId(messageId);
             promise.resolve(result);
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -21,15 +21,15 @@
     self.contentHandler = contentHandler;
     self.bestAttemptContent = [request.content mutableCopy];
     
-  // [RelatedDigitalNotificationService didReceiveNotificationRequest:@"rniostestapptest" withBestAttemptContent:self.bestAttemptContent withContentHandler:self.contentHandler];
-  [RelatedDigitalNotificationService didReceiveNotificationRequest:@"rniostestapp" withBestAttemptContent:self.bestAttemptContent withContentHandler:self.contentHandler];
+  [RelatedDigitalNotificationService didReceiveNotificationRequest:@"rniostestapptest" withBestAttemptContent:self.bestAttemptContent withContentHandler:self.contentHandler];
+  // [RelatedDigitalNotificationService didReceiveNotificationRequest:@"rniostestapp" withBestAttemptContent:self.bestAttemptContent withContentHandler:self.contentHandler];
 }
 
 - (void)serviceExtensionTimeWillExpire {
     // Called just before the extension will be terminated by the system.
     // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
-  // [RelatedDigitalNotificationService didReceiveNotificationRequest:@"rniostestapptest" withBestAttemptContent:self.bestAttemptContent withContentHandler:self.contentHandler];
-  [RelatedDigitalNotificationService didReceiveNotificationRequest:@"rniostestapp" withBestAttemptContent:self.bestAttemptContent withContentHandler:self.contentHandler];
+  [RelatedDigitalNotificationService didReceiveNotificationRequest:@"rniostestapptest" withBestAttemptContent:self.bestAttemptContent withContentHandler:self.contentHandler];
+  // [RelatedDigitalNotificationService didReceiveNotificationRequest:@"rniostestapp" withBestAttemptContent:self.bestAttemptContent withContentHandler:self.contentHandler];
 }
 
 @end

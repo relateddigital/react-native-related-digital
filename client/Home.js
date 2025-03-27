@@ -23,7 +23,7 @@ import {
   RDStoryView,
   RDBannerView,
   RecommendationAttribute,
-  RecommendationFilterType
+  RecommendationFilterType,
 } from 'react-native-related-digital'
 import CustomButton from './components/CustomButton'
 import Widget from './components/Widget'
@@ -39,8 +39,8 @@ import Widget from './components/Widget'
 
 const testEnv = false;
 
-// const appAlias = Platform.OS === 'android' ? 'rnandroidtestapptest' : 'rniostestapptest'
-const appAlias = Platform.OS === 'android' ? 'rnandroidtestappprod' : 'rniostestapp'
+const appAlias = Platform.OS === 'android' ? 'rnandroidtestapptest' : 'rniostestapptest'
+// const appAlias = Platform.OS === 'android' ? 'rnandroidtestappprod' : 'rniostestapp'
 // const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapp'
 
 const siteId = testEnv ? "75763259366A3345686E303D" : "356467332F6533766975593D";
@@ -244,7 +244,8 @@ export default class Home extends Component {
     logToConsole(true)
     setGeofencingIntervalInMinute(30)
     this.pushPermitRequest()
-    this.sendCustomEvent('spintowin')
+    
+    // this.sendCustomEvent('spintowin')
   }
 
   componentWillUnmount() {
@@ -1418,7 +1419,7 @@ export default class Home extends Component {
             <CustomButton style={{ width: "45%" }} data={{ name: "Go Notifications" }} action={async () => {
               const notifs = await euroMessageApi.getPushMessages();
               // console.log('Push Messages', JSON.stringify(notifs));
-              this.props.navigation.navigate('Notifications', { notifs: notifs, euroMessageApi: euroMessageApi })
+              this.props.navigation.navigate('Notifications')
             }} />
           </View>
           <CustomButton

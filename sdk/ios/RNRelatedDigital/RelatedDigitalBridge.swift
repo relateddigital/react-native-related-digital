@@ -19,6 +19,11 @@ import Euromsg
         Euromsg.setUserProperty(key: key, value: value)
         Euromsg.sync()
     }
+
+	@objc public static func setNotificationLoginId(notificationLoginID: String) -> Void {
+        Euromsg.setNotificationLoginID(notificationLoginID: notificationLoginID)
+        Euromsg.sync()
+    }
 	
 	@objc public static func customEvent(pageName: String, properties: [String : String]) -> Void {
 		Visilabs.callAPI().customEvent(pageName, properties: properties)
@@ -106,8 +111,22 @@ import Euromsg
 		}
 	}
 
+	@objc public static func getPushMessagesUserBased(completion: @escaping ((_ response: String?) -> Void)) -> Void {
+		let jsonEncoder = JSONEncoder()
+		Euromsg.getPushMessagesWithId(){ response in
+			do {
+				let jsonData = try jsonEncoder.encode(response)
+				let json = String(data: jsonData, encoding: String.Encoding.utf8)
+				completion(json)
+			}
+			catch {
+				completion(nil)
+			}
+		}
+	}
+
 	@objc public static func readPushMessages(pushId: String? = nil,completion: @escaping ((_ response: String?) -> Void)) -> Void {
-		Euromsg.readAllPushMessages(pushId: pushId) { success in
+		Euromsg.readPushMessages(pushId: pushId) { success in
 			do {
 				completion(String(success))
 			}
@@ -117,8 +136,8 @@ import Euromsg
         }
 	}
 
-	@objc public static func readAllPushMessages(completion: @escaping ((_ response: String?) -> Void)) -> Void {
-		Euromsg.readAllPushMessages { success in
+	@objc public static func readPushMessagesUserBased(pushId: String? = nil,completion: @escaping ((_ response: String?) -> Void)) -> Void {
+		Euromsg.readPushMessagesWithId(pushId: pushId) { success in
 			do {
 				completion(String(success))
 			}
@@ -127,7 +146,6 @@ import Euromsg
 			}
         }
 	}
-
 
 	@objc public static func deletePushNotification(pushId: String,completion: @escaping ((_ response: String?) -> Void)) -> Void {
         Euromsg.removeNotification(withPushID: pushId) { success in
@@ -151,7 +169,18 @@ import Euromsg
         }
 	}
 
-	@objc public static func deleteLocalPushNotification(pushId: String,completion: @escaping ((_ response: String?) -> Void)) -> Void {
+	@objc public static func deletePushMessages(pushId: String,completion: @escaping ((_ response: String?) -> Void)) -> Void {
+        Euromsg.deletePayload(pushId: pushId) { success in
+			do {
+				completion(String(success))
+			}
+			catch {
+				completion(nil)
+			}
+        }
+	}
+
+	@objc public static func deletePushMessagesUserBased(pushId: String,completion: @escaping ((_ response: String?) -> Void)) -> Void {
         Euromsg.deletePayloadWithId(pushId: pushId) { success in
 			do {
 				completion(String(success))
@@ -162,17 +191,8 @@ import Euromsg
         }
 	}
 
-	@objc public static func deleteAllLocalPushNotifications(completion: @escaping ((_ response: String?) -> Void)) -> Void {
-		Euromsg.deleteAllPayloads { success in
-			do {
-				completion(String(success))
-			}
-			catch {
-				completion(nil)
-			}
-        }
-	}
-    
+	
+
     @objc public static func didReceive(alias: String, bestAttemptContent: UNMutableNotificationContent?,
                          withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
             Euromsg.configure(appAlias:alias)

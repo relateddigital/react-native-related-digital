@@ -22,15 +22,17 @@ const getFavoriteAttributeActionsNative = RelatedDigitalPushModule.getFavoriteAt
 const sendTheListOfAppsInstalledNative = RelatedDigitalPushModule.sendTheListOfAppsInstalled
 const sendLocationPermissionNative = RelatedDigitalPushModule.sendLocationPermission
 const getPushMessagesNative = RelatedDigitalPushModule.getPushMessages
+const getPushMessagesWithIDNative = RelatedDigitalPushModule.getPushMessagesWithID
 const readPushMessagesNative = RelatedDigitalPushModule.readPushMessages
-const readAllPushMessagesNative = RelatedDigitalPushModule.readAllPushMessages
+const readPushMessagesWithIdNative = RelatedDigitalPushModule.readPushMessagesWithId
 const deletePushNotificationNative = RelatedDigitalPushModule.deletePushNotification
 const deleteAllPushNotificationsNative = RelatedDigitalPushModule.deleteAllPushNotifications
-const deleteLocalPushNotificationNative = RelatedDigitalPushModule.deleteLocalPushNotification
-const deleteAllLocalPushNotificationsNative = RelatedDigitalPushModule.deleteAllLocalPushNotifications
+const deletePushMessagesNative = RelatedDigitalPushModule.deletePushMessages
+const deletePushMessagesWithIdNative = RelatedDigitalPushModule.deletePushMessagesWithId
 const getUserNative = RelatedDigitalPushModule.getUser
 const getSubscriptionNative = RelatedDigitalPushModule.getSubscription
 const setUserPropertyNative = RelatedDigitalPushModule.setUserProperty
+const setNotificationLoginIdNative = RelatedDigitalPushModule.setNotificationLoginId
 const sendLogToGraylogNative = RelatedDigitalPushModule.sendLogToGraylog
 
 const RDStoryViewNative = requireNativeComponent('StoryView')
@@ -61,14 +63,16 @@ export {
     sendTheListOfAppsInstalledNative,
     sendLocationPermissionNative,
     getPushMessagesNative,
+    getPushMessagesWithIDNative,
     readPushMessagesNative,
-    readAllPushMessagesNative,
+    readPushMessagesWithIdNative,
     deletePushNotificationNative,
     deleteAllPushNotificationsNative,
-    deleteLocalPushNotificationNative,
-    deleteAllLocalPushNotificationsNative,
+    deletePushMessagesNative,
+    deletePushMessagesWithIdNative,
     getUserNative,
     getSubscriptionNative,
     setUserPropertyNative,
+    setNotificationLoginIdNative,
     sendLogToGraylogNative
 }
