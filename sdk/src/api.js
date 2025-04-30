@@ -366,6 +366,9 @@ class VisilabsApi {
                         parameters["OM.cookieID"] = setCookieID()
                     }
                     // const qs = Object.keys(parameters).map(key => `${key}=${parameters[key]}`).join('&');
+ 
+                    // const lgrUrl = this.segmentUrl + "/" + this.dataSource + "/om.gif?" + qs
+                    // const rtUrl = this.realTimeUrl + "/" + this.dataSource + "/om.gif?" + qs
                     
                     const lgrUrl = this.segmentUrl + "/" + this.dataSource + "/om.gif?" + querystring.stringify(parameters)
                     const rtUrl = this.realTimeUrl + "/" + this.dataSource + "/om.gif?" + querystring.stringify(parameters)
