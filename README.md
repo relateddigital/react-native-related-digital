@@ -275,7 +275,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 * Modify `AppDelegate.m` file's `didFinishLaunchingWithOptions` method and add the following just before return statement. Modify inAppNotificationsEnabled and geofenceEnabled parameters as you want.
 If you don't want the location permission to be taken on startup, set the `askLocationPermmissionAtStart` parameter to false. Then you can request permission at any time with the `requestLocationPermission()` function.
 ```objective-c
-[RelatedDigitalPushModule initRelatedDigital:@"organization_id" profileId:@"profile_id" dataSource:@"datasource" appAlias:@"app_alias" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true askLocationPermmissionAtStart:true maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
+[RelatedDigitalPushModule initRelatedDigital:@"organization_id" profileId:@"profile_id" dataSource:@"datasource" appAlias:@"app_alias" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true askLocationPermmissionAtStart:true maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true deliveredBadge:true];
 
 ```
 * Add `Empty.swift` file to your project as the sdk contains Swift code and xcode requires at least one empty swift file in each target.
@@ -366,7 +366,7 @@ class EMNotificationViewController: UIViewController, UNNotificationContentExten
     
     func didReceive(_ notification: UNNotification) {
         notificationRequestIdentifier = notification.request.identifier
-        Euromsg.configure(appAlias: "APP_ALIAS", launchOptions: nil, enableLog: true)
+        Euromsg.configure(appAlias: "APP_ALIAS", launchOptions: nil, enableLog: true, deliveredBadge: true)
         carouselView.didReceive(notification)
     }
     func didReceive(_ response: UNNotificationResponse, completionHandler completion: @escaping (UNNotificationContentExtensionResponseOption) -> Void) {

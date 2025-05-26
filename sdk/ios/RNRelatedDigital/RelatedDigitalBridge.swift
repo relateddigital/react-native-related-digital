@@ -3,12 +3,12 @@ import UIKit
 import Euromsg
 
 @objc public class RelatedDigitalBridge: NSObject {
-    @objc public static func initRelatedDigital(organizationId: String, profileId: String, dataSource: String, appAlias: String, inAppNotificationsEnabled: Bool, requestTimeoutInSeconds: Int, geofenceEnabled: Bool, askLocationPermmissionAtStart: Bool,maxGeofenceCount: Int, isIDFAEnabled: Bool, loggingEnabled: Bool) -> Void {
+    @objc public static func initRelatedDigital(organizationId: String, profileId: String, dataSource: String, appAlias: String, inAppNotificationsEnabled: Bool, requestTimeoutInSeconds: Int, geofenceEnabled: Bool, askLocationPermmissionAtStart: Bool,maxGeofenceCount: Int, isIDFAEnabled: Bool, loggingEnabled: Bool, deliveredBadge: Bool) -> Void {
 		var sdkType: String = "reactnative"
 		Visilabs.createAPI(organizationId: organizationId, profileId: profileId
 		, dataSource: dataSource, inAppNotificationsEnabled: inAppNotificationsEnabled, channel: "IOS"
 		, requestTimeoutInSeconds: requestTimeoutInSeconds, geofenceEnabled: geofenceEnabled, askLocationPermmissionAtStart: askLocationPermmissionAtStart, maxGeofenceCount: maxGeofenceCount, isIDFAEnabled: isIDFAEnabled, loggingEnabled: loggingEnabled, sdkType: sdkType)
-        Euromsg.configure(appAlias:appAlias)
+        Euromsg.configure(appAlias:appAlias, deliveredBadge: deliveredBadge)
 	}
     
     @objc public static func handlePush(userInfo: [AnyHashable: Any]) -> Void {

@@ -298,7 +298,7 @@ export default class Home extends Component {
 
     euroMessageApi.setUserProperties(userData).then(() => {
       euroMessageApi.subscribe(this.state.token)
-      visilabsApi.customEvent("Login", { 'OM.exVisitorID': 'd8047926c53f0b76318b81b7af9b9387', 'OM.b_login': '1' })
+      visilabsApi.customEvent("Login", { 'OM.exVisitorID': 'bihter.sulun@euromsg.com', 'OM.b_login': '1' })
       Alert.alert("Başarılı", "Başarılı şekilde giriş yaptınız.");
     })
   }
