@@ -37,7 +37,7 @@ export const fetchAsync = async (url, method = 'GET', data) => {
         console.log(`Related Digital - Calling url: ${url} with options: ${JSON.stringify(options)}`)
     }
 
-    return await fetch(url, options)
+    return await fetch(url, options).catch(err => {console.log(err)})
 }
 
 export const fetchWithCallback = (url, method = 'GET', data, callback) => {

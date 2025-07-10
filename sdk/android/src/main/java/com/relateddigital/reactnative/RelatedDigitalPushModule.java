@@ -50,6 +50,7 @@ import euromsg.com.euromobileandroid.model.Element;
 import euromsg.com.euromobileandroid.model.Message;
 import euromsg.com.euromobileandroid.callback.PushMessageInterface;
 import euromsg.com.euromobileandroid.callback.PushNotificationPermissionInterface;
+import euromsg.com.euromobileandroid.utils.LogUtils;
 import euromsg.com.euromobileandroid.utils.SharedPreference;
 
 import android.os.Build;
@@ -196,86 +197,97 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     }
 
     public void onNewIntentLocal(Intent intent) {
-        if (intent != null) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null) {
-                Message message = (Message) intent.getExtras().getSerializable("message");
-                if(message != null){
-                    EuroMobileManager.getInstance().sendOpenRequest(message);
-                }
-                
-                if (message == null) {
-                    // Carousel push notification : an item was clicked
+        try {
+            if (intent != null) {
+                Bundle bundle = intent.getExtras();
+                if (bundle != null) {
+                    Message message = (Message) intent.getExtras().getSerializable("message");
+                    if(message != null){
+                        EuroMobileManager.getInstance().sendOpenRequest(message);
+                    }
+                    
+                    if (message == null) {
+                        // Carousel push notification : an item was clicked
 
-                    String itemClickedUrl = bundle.getString("CarouselItemClickedUrl");
-                    WritableMap params = Arguments.createMap();
-                    params.putString("carouselItemClickedUrl", itemClickedUrl);
+                        String itemClickedUrl = bundle.getString("CarouselItemClickedUrl");
+                        WritableMap params = Arguments.createMap();
+                        params.putString("carouselItemClickedUrl", itemClickedUrl);
 
-                    utilities.sendEvent("carouselItemClicked", params);
-                    return;
+                        utilities.sendEvent("carouselItemClicked", params);
+                        return;
+                    }
                 }
             }
-        }
 
-        Bundle bundle = utilities.getBundleFromIntent(intent);
-        if (bundle != null) {
-            bundle.putBoolean("foreground", false);
-            intent.putExtra("notification", bundle);
+            Bundle bundle = utilities.getBundleFromIntent(intent);
+            if (bundle != null) {
+                bundle.putBoolean("foreground", false);
+                intent.putExtra("notification", bundle);
 
-            WritableMap params = Arguments.createMap();
+                WritableMap params = Arguments.createMap();
 
-            Set<String> keys = bundle.keySet();
-            for (String key : keys) {
-                Object valueObj = bundle.get(key);
+                Set<String> keys = bundle.keySet();
+                for (String key : keys) {
+                    Object valueObj = bundle.get(key);
 
-                if (valueObj != null) {
-                    if (valueObj instanceof String) {
-                        params.putString(key, (String) valueObj);
-                    } else if (valueObj instanceof Message) {
-                        Message messageObj = (Message) valueObj;
+                    if (valueObj != null) {
+                        if (valueObj instanceof String) {
+                            params.putString(key, (String) valueObj);
+                        } else if (valueObj instanceof Message) {
+                            Message messageObj = (Message) valueObj;
 
-                        params.putString("mediaUrl", messageObj.getMediaUrl());
-                        params.putString("altUrl", messageObj.getAltUrl());
-                        params.putString("pushId", messageObj.getPushId());
-                        params.putString("campaignId", messageObj.getCampaignId());
-                        params.putString("url", messageObj.getUrl());
-                        params.putString("from", messageObj.getFrom());
-                        params.putString("message", messageObj.getMessage());
-                        params.putString("title", messageObj.getTitle());
-                        params.putString("sound", messageObj.getSound());
-                        params.putString("pushType", messageObj.getPushType().toString());
-                        params.putString("collapseKey", messageObj.getCollapseKey());
+                            params.putString("mediaUrl", messageObj.getMediaUrl());
+                            params.putString("altUrl", messageObj.getAltUrl());
+                            params.putString("pushId", messageObj.getPushId());
+                            params.putString("campaignId", messageObj.getCampaignId());
+                            params.putString("url", messageObj.getUrl());
+                            params.putString("from", messageObj.getFrom());
+                            params.putString("message", messageObj.getMessage());
+                            params.putString("title", messageObj.getTitle());
+                            params.putString("sound", messageObj.getSound());
+                            params.putString("pushType", messageObj.getPushType().toString());
+                            params.putString("collapseKey", messageObj.getCollapseKey());
 
-                        Map<String, String> messageObjParams = messageObj.getParams();
-                        if (messageObjParams != null && messageObjParams.size() > 0) {
-                            WritableMap paramsMap = Arguments.createMap();
-                            for (String paramKey : messageObjParams.keySet()) {
-                                paramsMap.putString(paramKey, messageObjParams.get(paramKey));
+                            Map<String, String> messageObjParams = messageObj.getParams();
+                            if (messageObjParams != null && messageObjParams.size() > 0) {
+                                WritableMap paramsMap = Arguments.createMap();
+                                for (String paramKey : messageObjParams.keySet()) {
+                                    paramsMap.putString(paramKey, messageObjParams.get(paramKey));
+                                }
+                                params.putMap("params", paramsMap);
                             }
-                            params.putMap("params", paramsMap);
-                        }
 
-                        ArrayList<Element> messageObjElements = messageObj.getElements();
-                        if (messageObjElements != null && messageObjElements.size() > 0) {
-                            WritableMap elementsMap = Arguments.createMap();
-                            for (Element element : messageObjElements) {
-                                elementsMap.putString("content", element.getContent());
-                                elementsMap.putString("id", element.getId());
-                                elementsMap.putString("picture", element.getPicture());
-                                elementsMap.putString("title", element.getTitle());
-                                elementsMap.putString("url", element.getUrl());
+                            ArrayList<Element> messageObjElements = messageObj.getElements();
+                            if (messageObjElements != null && messageObjElements.size() > 0) {
+                                WritableMap elementsMap = Arguments.createMap();
+                                for (Element element : messageObjElements) {
+                                    elementsMap.putString("content", element.getContent());
+                                    elementsMap.putString("id", element.getId());
+                                    elementsMap.putString("picture", element.getPicture());
+                                    elementsMap.putString("title", element.getTitle());
+                                    elementsMap.putString("url", element.getUrl());
+                                }
+                                params.putMap("elements", elementsMap);
                             }
-                            params.putMap("elements", elementsMap);
+                        } else {
+                            params.putString(key, valueObj.toString());
                         }
                     } else {
-                        params.putString(key, valueObj.toString());
+                        params.putNull(key);
                     }
-                } else {
-                    params.putNull(key);
                 }
-            }
 
-            utilities.sendEvent("remoteNotificationReceived", params);
+                utilities.sendEvent("remoteNotificationReceived", params);
+            }
+        } catch (Exception e) {
+            Log.e("RelatedDigitalPushModule", "onNewIntentLocal: " + e.getMessage());
+            LogUtils.formGraylogModel(
+                    reactContext,
+                    "e",
+                    e.getMessage(),
+                    "RelatedDigitalPushModule.onNewIntentLocal"
+            );
+            return;
         }
     }
 

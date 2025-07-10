@@ -268,7 +268,7 @@ export default class Home extends Component {
       visilabsApi.register(token, (result) => {
         console.log('visilabsApi result', result)
       })
-    }, (notificationPayload) => { console.log('notification payload', notificationPayload) }, euroMessageApi, visilabsApi)
+    }, (notificationPayload) => { console.log('notification payload', notificationPayload); alert(JSON.stringify(notificationPayload)); }, euroMessageApi, visilabsApi)
     addEventListener('registrationError', async (registrationError) => { console.log('registrationError is ', registrationError) }, euroMessageApi)
     addEventListener('carouselItemClicked', async (carouselItemInfo) => { console.log('carouselItemInfo is ', carouselItemInfo) }, euroMessageApi)
     // addEventListener('ActionButtonClicked', async (actionButtonData) => { console.log('actionButtonData ', actionButtonData) }, euroMessageApi)
@@ -298,7 +298,7 @@ export default class Home extends Component {
 
     euroMessageApi.setUserProperties(userData).then(() => {
       euroMessageApi.subscribe(this.state.token)
-      visilabsApi.customEvent("Login", { 'OM.exVisitorID': 'bihter.sulun@euromsg.com', 'OM.b_login': '1' })
+      visilabsApi.customEvent("Login", { 'OM.exVisitorID': 'baris.arslan@euromsg.com', 'OM.b_login': '1' })
       Alert.alert("Başarılı", "Başarılı şekilde giriş yaptınız.");
     })
   }
