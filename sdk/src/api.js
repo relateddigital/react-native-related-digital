@@ -1,6 +1,7 @@
 import { Platform } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import querystring from 'querystring'
+import { version as rnSdkVersion } from '../package.json'
 
 import {
     getDeviceParameters,
@@ -272,6 +273,7 @@ class VisilabsApi {
         this.segmentUrl = visilabsSegmentUrl
         this.realTimeUrl = visilabsRealTimeUrl
         this.dataSource = dataSource
+        this.rnSdkVersion = rnSdkVersion
         this.keysToBeStored = ["OM.cookieID", "OM.exVisitorID", "OM.sys.AppID", "OM.sys.TokenID", "OM.channel", "OM.vchannel"]
     }
 
@@ -285,6 +287,7 @@ class VisilabsApi {
     }
 
     customEvent(name = '', properties = {}) {
+        properties["rn_sdk_version"] = this.rnSdkVersion
         customEventNative(name, properties)
     }
 
