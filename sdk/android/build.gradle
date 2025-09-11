@@ -11,7 +11,7 @@ buildscript {
     }
 
     dependencies {
-      classpath("com.android.tools.build:gradle:3.5.4")
+      classpath("com.android.tools.build:gradle:7.4.2")
     }
   }
 }
@@ -19,11 +19,16 @@ buildscript {
 apply plugin: 'com.android.library'
 
 android {
+  namespace "com.relateddigital.reactnative"
   compileSdkVersion safeExtGet('compileSdkVersion', 34)
 
   defaultConfig {
     minSdkVersion safeExtGet('minSdkVersion', 23)
     targetSdkVersion safeExtGet('targetSdkVersion', 34)
+  }
+
+  buildFeatures {
+    buildConfig true
   }
 
   flavorDimensions "react-native-related-digital"

@@ -1,6 +1,6 @@
 {
   "name": "react-native-related-digital",
-  "version": "1.0.56",
+  "version": "1.1.0",
   "private": false,
   "author": "Related Digital",
   "license": "MIT",
@@ -13,10 +13,9 @@
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "dependencies": {
-    "querystring": "^0.2.0"
   },
   "peerDependencies": {
-    "@react-native-async-storage/async-storage": "^1.13.1",
+    "@react-native-async-storage/async-storage": "^2.1.2",
     "react": ">=16.8.6",
     "react-native": ">=0.60.0"
   }

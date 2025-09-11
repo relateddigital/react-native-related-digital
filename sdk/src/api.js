@@ -1,6 +1,5 @@
 import { Platform } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import querystring from 'querystring'
 import { version as rnSdkVersion } from '../package.json'
 
 import {
@@ -301,7 +300,7 @@ class VisilabsApi {
         await trackRecommendationClickNative(qs)
     }
 
-    async searchRecommendation(keyword: string, searchType: string) {
+    async searchRecommendation(keyword, searchType) {
         const result = await searchRecommendationNative(keyword, searchType)
         return Promise.resolve(JSON.parse(result))
     }
@@ -335,7 +334,6 @@ class VisilabsApi {
         await sendLocationPermissionNative()
     }
 
-    //// remove
     _submit(parameters, callback) {
         parameters = parameters || {}
         parameters["OM.vchannel"] = Platform.OS
@@ -368,13 +366,10 @@ class VisilabsApi {
                             exVisitorID != parameters["OM.exVisitorID"])) {
                         parameters["OM.cookieID"] = setCookieID()
                     }
-                    // const qs = Object.keys(parameters).map(key => `${key}=${parameters[key]}`).join('&');
+                    const qs = Object.keys(parameters).map(key => `${key}=${parameters[key]}`).join('&');
  
-                    // const lgrUrl = this.segmentUrl + "/" + this.dataSource + "/om.gif?" + qs
-                    // const rtUrl = this.realTimeUrl + "/" + this.dataSource + "/om.gif?" + qs
-                    
-                    const lgrUrl = this.segmentUrl + "/" + this.dataSource + "/om.gif?" + querystring.stringify(parameters)
-                    const rtUrl = this.realTimeUrl + "/" + this.dataSource + "/om.gif?" + querystring.stringify(parameters)
+                    const lgrUrl = this.segmentUrl + "/" + this.dataSource + "/om.gif?" + qs
+                    const rtUrl = this.realTimeUrl + "/" + this.dataSource + "/om.gif?" + qs
 
                     fetchWithCallback(lgrUrl, 'GET', null, callback)
                     fetchWithCallback(rtUrl, 'GET', null, callback)

@@ -131,7 +131,9 @@ https://developer.huawei.com/consumer/en/doc/HMS-Plugin-Guides-V1/config-agc-000
     android:enabled="true"
     android:exported="true" />
 ```
-* Modify your `MainApplication.java` as below to init library. Change geofenceEnabled parameter as you want.
+* Modify your `MainApplication.java` or `MainApplicaiton.kt` as below to init library. Change geofenceEnabled parameter as you want.
+
+#### Java
 ```java
 import com.visilabs.Visilabs;
 import euromsg.com.euromobileandroid.EuroMobileManager;
@@ -190,6 +192,77 @@ private void initEuroMessage() {
     euroMobileManager.setNotificationPriority(RDNotificationPriority.NORMAL, this); // Set to HIGH for push notifications to appear as temporary banners
 }
 ```
+
+#### Kotlin
+
+```kotlin
+import com.visilabs.Visilabs;
+import euromsg.com.euromobileandroid.EuroMobileManager;
+import euromsg.com.euromobileandroid.enums.RDNotificationPriority;
+
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
+import org.jetbrains.annotations.Nullable;
+```
+```kotlin
+override fun registerReceiver(receiver: BroadcastReceiver?, filter: IntentFilter?): Intent? {
+  return if (Build.VERSION.SDK_INT >= 34 && applicationInfo.targetSdkVersion >= 34) {
+      super.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED)
+  } else {
+      super.registerReceiver(receiver, filter)
+  }
+}
+
+override fun onCreate() {
+  // ...
+  
+  initEuroMessage()
+}
+
+private fun initEuroMessage() {
+    val appAlias = "demo-alias"
+    val huaweiAppAlias = "demo-alias-huawei"
+    val organizationId = "OID"
+    val siteId = "SID"
+    val datasource = "datasource"
+    val channel = "Android"
+    val segmentUrl = "http://lgr.visilabs.net"
+    val realtimeUrl = "http://rt.visilabs.net"
+    val targetUrl = "http://s.visilabs.net/json"
+    val actionUrl = "http://s.visilabs.net/actjson"
+    val geofenceUrl = "http://s.visilabs.net/geojson"
+
+    Visilabs.CreateAPI(
+        organizationId,
+        siteId,
+        segmentUrl,
+        datasource,
+        realtimeUrl,
+        channel,
+        this,
+        targetUrl,
+        actionUrl,
+        30000,
+        geofenceUrl,
+        true,
+        "reactnative")
+
+    val euroMobileManager = EuroMobileManager.init(appAlias, huaweiAppAlias, this)
+    // Optional settings
+    euroMobileManager.setPushIntent("com.pushsdk.MainActivity", this)
+    euroMobileManager.setNotificationTransparentSmallIcon(R.mipmap.ic_launcher, this)
+    euroMobileManager.setNotificationTransparentSmallIconDarkMode(R.mipmap.ic_launcher, this)
+    euroMobileManager.useNotificationLargeIcon(true)
+    euroMobileManager.setNotificationLargeIcon(R.mipmap.ic_launcher, this)
+    euroMobileManager.setNotificationLargeIconDarkMode(R.mipmap.ic_launcher, this)
+    euroMobileManager.setNotificationColor("#d1dbbd")
+    euroMobileManager.setChannelName("Channel", this)
+    euroMobileManager.setNotificationPriority(RDNotificationPriority.NORMAL, this)
+}
+```
+
 * If you want to track installed apps, call below method.
 ```javascript
   await visilabsApi.sendTheListOfAppsInstalled()
@@ -220,32 +293,30 @@ tools:ignore="QueryAllPackagesPermission" />
 
 ### IOS
 * Enable **Push Notifications** and **Background Modes->Remote Notifications** capabilities.
-* Import library in `AppDelegate.h`
-```objective-c
-#import <UserNotifications/UNUserNotificationCenter.h>
-```
-* Modify `AppDelegate.h` and add UNUserNotificationCenterDelegate. (Classical React Native Project)
-```objective-c
-@interface AppDelegate : UIResponder <UIApplicationDelegate, RCTBridgeDelegate, UNUserNotificationCenterDelegate>
-```
-* Modify `AppDelegate.h` and add UNUserNotificationCenterDelegate. (Expo Project)
-```objective-c
-@interface AppDelegate : UMAppDelegateWrapper <RCTBridgeDelegate, EXUpdatesAppControllerDelegate, UNUserNotificationCenterDelegate>
-```
-* Import libraries in `AppDelegate.m`
 
+#### Objective-C
+* Add `Empty.swift` file to your project as the sdk contains Swift code and xcode requires at least one empty swift file in each target.
+
+**AppDelegate.mm**
 ```objective-c
+// other codes...
 #import "RelatedDigitalPushModule.h"
 #import <UserNotifications/UserNotifications.h>
-```
 
-* Modify `AppDelegate.m` file's `didFinishLaunchingWithOptions` method and add the following just before return statement.
-```objective-c
-UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-center.delegate = self;
-```
-* Modify `AppDelegate.m` and add following methods.
-```objective-c
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+  // other codes...
+  
+  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+  center.delegate = self;
+  
+  [RelatedDigitalPushModule initRelatedDigital:@"organization_id" profileId:@"profile_id" dataSource:@"datasource" appAlias:@"rdgencallariostest" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:false askLocationPermmissionAtStart:false maxGeofenceCount:20 isIDFAEnabled:false loggingEnabled:true];
+
+  return // other codes...
+}
+
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
  [RelatedDigitalPushModule didRegisterUserNotificationSettings:notificationSettings];
@@ -271,14 +342,68 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
   completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
 }
-```
-* Modify `AppDelegate.m` file's `didFinishLaunchingWithOptions` method and add the following just before return statement. Modify inAppNotificationsEnabled and geofenceEnabled parameters as you want.
-If you don't want the location permission to be taken on startup, set the `askLocationPermmissionAtStart` parameter to false. Then you can request permission at any time with the `requestLocationPermission()` function.
-```objective-c
-[RelatedDigitalPushModule initRelatedDigital:@"organization_id" profileId:@"profile_id" dataSource:@"datasource" appAlias:@"app_alias" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true askLocationPermmissionAtStart:true maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true deliveredBadge:true];
 
+// other codes...
 ```
-* Add `Empty.swift` file to your project as the sdk contains Swift code and xcode requires at least one empty swift file in each target.
+
+#### Swift
+
+**AppDelegate.swift**
+```swift
+// other codes...
+import UserNotifications
+import react_native_related_digital
+
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+  // other codes...
+
+  // 🔔 Push Notification delegate settings
+  let center = UNUserNotificationCenter.current()
+  center.delegate = self
+
+  // 🔔 Related Digital init
+  RelatedDigitalPushModule.initRelatedDigital(
+    "organization_id", // OID
+    profileId: "profile_id", // SID
+    dataSource: "datasource",
+    appAlias: "app_alias",
+    inAppNotificationsEnabled: true,
+    requestTimeoutSeconds: 30,
+    geofenceEnabled: false,
+    askLocationPermmissionAtStart: false,
+    maxGeofenceCount: 20,
+    isIDFAEnabled: true,
+    loggingEnabled: true,
+    deliveredBadge: true
+  )
+
+  return true
+}
+
+// MARK: - Push Notification Delegate Methods
+func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
+  RelatedDigitalPushModule.didRegister(notificationSettings)
+}
+func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+  RelatedDigitalPushModule.didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
+}
+func application(_ application: UIApplication,
+                 didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+                 fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+  RelatedDigitalPushModule.didReceiveRemoteNotification(userInfo, fetchCompletionHandler: completionHandler)
+}
+func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+  RelatedDigitalPushModule.didFailToRegisterForRemoteNotificationsWithError(error)
+}
+func userNotificationCenter(_ center: UNUserNotificationCenter,
+                            willPresent notification: UNNotification,
+                            withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+  completionHandler([.sound, .alert, .badge])
+}
+// other codes...
+```
+
 * Add `NSUserTrackingUsageDescription` to your `Info.plist` file to be able to use AdvertisingTrackingID on iOS 14 and later. If you don't want to use it, set `isIDFAEnabled` to `false` among the `initRelatedDigital` parameters.
 * If you have any issues while building the app due to `_swift_getFunctionReplacement` or any swift related errors, try editing your project's (not target) `Library Search Paths` and remove `$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)` line.
 * If you are going to use in app notifications feature, add below lines to your project target's `Build Phases`->`Copy Bundle Resources` section. Select `Create folder references` when prompted.
