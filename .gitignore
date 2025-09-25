@@ -12,3 +12,5 @@ app-release.apk
 
 /client/android/app/src/main/assets/profiles.json
 client/.ruby-version
+
+sdk/example/android/app/google-services.json
