@@ -409,7 +409,7 @@ func userNotificationCenter(_ center: UNUserNotificationCenter,
 * If you are going to use in app notifications feature, add below lines to your project target's `Build Phases`->`Copy Bundle Resources` section. Select `Create folder references` when prompted.
   * `Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/Views/VisilabsMiniNotificationViewController.xib`
   * `Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/Views/VisilabsFullNotificationViewController.xib`
-  * `Pods/VisilabsIOS/Sources/TargetingAction/sideBar/sideBarView.xib`
+  * `Pods/VisilabsIOS/Sources/TargetingAction/drawer/drawerView.xib`
   * `Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerView.xib`
   * `Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerCollectionViewCell.xib`
 * #### To enable rich notification capabilites like showing image or video;

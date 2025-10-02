@@ -62,7 +62,6 @@
 		8B923B062E687ECA0088B2F4 /* RelatedDigitalNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RelatedDigitalNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BFF3D9C2E69CA4B00381084 /* VisilabsFullNotificationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = VisilabsFullNotificationViewController.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/Views/VisilabsFullNotificationViewController.xib; sourceTree = "<group>"; };
 		8BFF3D9D2E69CA4B00381084 /* VisilabsMiniNotificationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = VisilabsMiniNotificationViewController.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/Views/VisilabsMiniNotificationViewController.xib; sourceTree = "<group>"; };
-		/* Removed stale reference: sideBarView.xib (no longer exists in VisilabsIOS) */
 		8BFF3DA22E69CA7700381084 /* BannerCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BannerCollectionViewCell.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerCollectionViewCell.xib; sourceTree = "<group>"; };
 		8BFF3DA32E69CA7700381084 /* BannerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BannerView.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerView.xib; sourceTree = "<group>"; };
 		E5C4B8CFE512774A4BF1567E /* libPods-RelatedDigitalNotificationService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RelatedDigitalNotificationService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,7 +145,6 @@
 				6ECBB5AC2E7AF72300D5F20F /* drawerView.xib */,
 				8BFF3DA22E69CA7700381084 /* BannerCollectionViewCell.xib */,
 				8BFF3DA32E69CA7700381084 /* BannerView.xib */,
-				/* Removed: sideBarView.xib */
 				8BFF3D9C2E69CA4B00381084 /* VisilabsFullNotificationViewController.xib */,
 				8BFF3D9D2E69CA4B00381084 /* VisilabsMiniNotificationViewController.xib */,
 				13B07FAE1A68108700A75B9A /* reactSDKTest */,
@@ -315,13 +313,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-reactSDKTest/Pods-reactSDKTest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-reactSDKTest/Pods-reactSDKTest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -380,13 +374,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-RelatedDigitalNotificationService/Pods-RelatedDigitalNotificationService-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-RelatedDigitalNotificationService/Pods-RelatedDigitalNotificationService-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -401,13 +391,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-reactSDKTest/Pods-reactSDKTest-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-reactSDKTest/Pods-reactSDKTest-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -572,7 +558,10 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -641,7 +630,10 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
