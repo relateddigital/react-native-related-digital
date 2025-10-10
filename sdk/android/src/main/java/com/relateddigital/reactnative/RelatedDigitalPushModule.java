@@ -132,7 +132,6 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
         }
     }
 
-    @ReactMethod
     private boolean checkPlayService() {
         boolean result = true;
 
