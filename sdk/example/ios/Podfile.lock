@@ -1333,10 +1333,10 @@ PODS:
     - React-jsiexecutor
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
-  - react-native-related-digital (1.1.1):
+  - react-native-related-digital (1.1.3):
     - Euromsg (= 2.8.5)
     - React
-    - VisilabsIOS (= 4.3.39)
+    - VisilabsIOS (= 4.3.41)
   - React-NativeModulesApple (0.79.0):
     - glog
     - hermes-engine
@@ -1684,7 +1684,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - Yoga
   - SocketRocket (0.7.1)
-  - VisilabsIOS (4.3.39)
+  - VisilabsIOS (4.3.41)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -1956,7 +1956,7 @@ SPEC CHECKSUMS:
   React-logger: a5edba66e28edd1ef973971a2ec5d531eb8621ea
   React-Mapbuffer: 2ef4d104cd7426fdbe4dbb283fcab8235ea92cc8
   React-microtasksnativemodule: a2d19a42269e02a7a86ab1c51fa3a4fa63be00ba
-  react-native-related-digital: 83209d6ba81f3eb1bc5b38a081acb4b7cf27ae54
+  react-native-related-digital: 4a28287f686ecaa2b5b926c4744d13d165084ccd
   React-NativeModulesApple: f8c91c74d5d223944c7b7fdeb0695d8ee73f899c
   React-oscompat: faff1df234d57a7368b56e9642222dde9eb9f422
   React-perflogger: 59c434b6ab0741baa4cdc589ba4278889e3fae18
@@ -1990,7 +1990,7 @@ SPEC CHECKSUMS:
   ReactCommon: 1257efa9d0b07517d8b79bb4055eaefac1204807
   RNCAsyncStorage: a1c8cc8a99c32de1244a9cf707bf9d83d0de0f71
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
-  VisilabsIOS: 6031b8c271178cbc0ee07020aea58bdb5235ca8c
+  VisilabsIOS: 4eac53b2625945241e1c9b5b9f6871d265143896
   Yoga: 9773f1327b258fa449988c2e42fbb7cbdf655d96
 
 PODFILE CHECKSUM: 2f2fa7299cbf6154d8406f21db3f2d9fa8de5b16
