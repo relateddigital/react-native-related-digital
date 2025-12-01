@@ -126,6 +126,10 @@ export default class Home extends Component {
             'key': 'youtube_video',
             'name': 'Youtube Video'
           },
+          {
+            'key': 'notification_bell',
+            'name': 'Notification Bell'
+          },
         ],
       },
       {
@@ -193,6 +197,10 @@ export default class Home extends Component {
             'key': 'MobileAppRating',
             'name': 'In App Rating'
           },
+          {
+            'key': 'multiple-choice-survey',
+            'name': 'Multi-Choice Survey'
+          },
         ],
       },
     ]
@@ -242,6 +250,18 @@ export default class Home extends Component {
     logToConsole(true)
     setGeofencingIntervalInMinute(30)
     this.pushPermitRequest()
+    ;(async () => {
+      try {
+        const result = await getUserAllData()
+        console.log('ALL Storage Data', result)
+        const cookieId =
+          (result && result.visilabs && (result.visilabs.cookieid || result.visilabs.cookieId)) ||
+          (result && result.js && (result.js.cookieid || result.js.cookieId)) ||
+          (result && result.euromsg && result.euromsg.extra && (result.euromsg.extra.cookieid || result.euromsg.extra.cookieId))
+      } catch (e) {
+        console.log('getUserAllData error', e)
+      }
+    })()
     
     // this.sendCustomEvent('spintowin')
   }
@@ -612,7 +632,10 @@ export default class Home extends Component {
 
   getRecoButton = () => {
     return (
-      <CustomButton mini style={{ width: "50%" }} data={{ name: "Get Recommendation" }} action={this.getRecommendations} />
+      <View style={this.styles.titleContainer}>
+        {this.title("Recommend", 25)}
+        <CustomButton mini style={{ width: "50%" }} data={{ name: "Get Recommendation" }} action={this.getRecommendations} />
+      </View>
     )
   }
 
@@ -1087,6 +1110,32 @@ export default class Home extends Component {
 
   }
 
+  getRecommendations = async () => {
+    try {
+      const zoneId = '142'
+      const productCode = ''
+
+      const properties = {
+        // Kategori filtresini properties ile de gönderebilirsiniz
+        // 'OM.cat': '1442'
+      }
+
+      const filters = [{
+        attribute: RecommendationAttribute.CATEGORY,
+        filterType: RecommendationFilterType.equals,
+        value: '1442'
+      }]
+
+      const recommendations = await visilabsApi.getRecommendations(zoneId, productCode, properties, filters)
+
+      console.log('recommendations', recommendations)
+    }
+    catch (e) {
+      console.log('recommendations error', e)
+      Alert.alert('Error', e.message || JSON.stringify(e))
+    }
+  }
+
 
 
   render() {
@@ -1127,6 +1176,7 @@ export default class Home extends Component {
           {this.story()}
           {this.state.bannerType && this.banner()}
           {this.others()}
+          {this.getRecoButton()}
           {this.search()}
         </ScrollView>
       </SafeAreaView>

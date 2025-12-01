@@ -20,6 +20,12 @@ target 'RelatedDigitalNotificationService' do
   use_native_modules!
 end
 
+target 'RelatedDigitalNotificationContent' do
+  use_native_modules!
+  
+  pod 'Euromsg', '>= 2.0.0'
+end
+
 # Post Install processing for RelatedDigitalNotificationService causing errors
 def notification_service_post_install(installer)
   installer.pods_project.targets.each do |target|
