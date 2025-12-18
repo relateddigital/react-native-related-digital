@@ -53,5 +53,26 @@ target 'reactSDKTest' do
       # :ccache_enabled => true
     )
     notification_service_post_install(installer)
+    
+    # Fix for iOS Simulator - ensure all pods support simulator architectures
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
+        # Remove any arm64 exclusions for simulator to support Apple Silicon Macs
+        if config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]']
+          excluded_archs = config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'].split(' ')
+          excluded_archs.delete('arm64')
+          if excluded_archs.empty?
+            config.build_settings.delete('EXCLUDED_ARCHS[sdk=iphonesimulator*]')
+          else
+            config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = excluded_archs.join(' ')
+          end
+        end
+        # Enable building for active architecture only in debug
+        if config.name == 'Debug'
+          config.build_settings['ONLY_ACTIVE_ARCH'] = 'YES'
+        end
+      end
+    end
   end
 end
