@@ -42,8 +42,8 @@ const appAlias = Platform.OS === 'android' ? 'rnandroidtestapptest2' : 'rniostes
 // const appAlias = Platform.OS === 'android' ? 'RnPushSdk' : 'rniostestapp'
 
 const siteId = testEnv ? "75763259366A3345686E303D" : "356467332F6533766975593D";
-const organizationId =  testEnv ? "394A48556A2F76466136733D" : "676D325830564761676D453D";
-const dataSource =  testEnv ? "mrhp" : "visistore";
+const organizationId = testEnv ? "394A48556A2F76466136733D" : "676D325830564761676D453D";
+const dataSource = testEnv ? "mrhp" : "visistore";
 
 const euroMessageApi = new EuroMessageApi(appAlias)
 const visilabsApi = new VisilabsApi(appAlias, siteId, organizationId, dataSource)
@@ -56,7 +56,7 @@ export default class Home extends Component {
       token: null,
       inapps: false,
       story: false,
-      banner: true,
+      banner: false,
       bannerType: 'kadin',
       widget: null,
       others: false,
@@ -250,19 +250,19 @@ export default class Home extends Component {
     logToConsole(true)
     setGeofencingIntervalInMinute(30)
     this.pushPermitRequest()
-    ;(async () => {
-      try {
-        const result = await getUserAllData()
-        console.log('ALL Storage Data', result)
-        const cookieId =
-          (result && result.visilabs && (result.visilabs.cookieid || result.visilabs.cookieId)) ||
-          (result && result.js && (result.js.cookieid || result.js.cookieId)) ||
-          (result && result.euromsg && result.euromsg.extra && (result.euromsg.extra.cookieid || result.euromsg.extra.cookieId))
-      } catch (e) {
-        console.log('getUserAllData error', e)
-      }
-    })()
-    
+      ; (async () => {
+        try {
+          const result = await getUserAllData()
+          console.log('ALL Storage Data', result)
+          const cookieId =
+            (result && result.visilabs && (result.visilabs.cookieid || result.visilabs.cookieId)) ||
+            (result && result.js && (result.js.cookieid || result.js.cookieId)) ||
+            (result && result.euromsg && result.euromsg.extra && (result.euromsg.extra.cookieid || result.euromsg.extra.cookieId))
+        } catch (e) {
+          console.log('getUserAllData error', e)
+        }
+      })()
+
     // this.sendCustomEvent('spintowin')
   }
 
@@ -670,7 +670,7 @@ export default class Home extends Component {
       width: "95%",
       alignSelf: 'center',
       backgroundColor: 'white',
-      overflow:'hidden'
+      overflow: 'hidden'
     },
     section: {
       // borderWidth: 1,
@@ -862,8 +862,10 @@ export default class Home extends Component {
         {this.state.banner && this.state.bannerType && <View style={[this.styles.main]}>
           <RDBannerView
             properties={{
-              'OM.inapptype': 'banner_carousel',
-              'OM.bannerUri': this.state.bannerType
+              // 'OM.inapptype': 'banner_carousel',
+              // 'OM.bannerUri': this.state.bannerType
+              'OM.baris': 'baris',
+              'OM.exVisitorId': 'baris.arslan@euromsg.com'
             }}
             onRequestResult={isAvailable =>
               console.log('Related Digital - Banners', isAvailable)
@@ -872,19 +874,19 @@ export default class Home extends Component {
               console.log('Related Digital - Banner data', data)
             }
             style={{
-              // height:100,
-              // maxHeight:400,
+              height: 100,
+              maxHeight: 400,
               // flex: 1,
-              // backgroundCoslor:'red'
+              backgroundCoslor: 'red'
             }}
           />
-          <View style={{flex:1,flexDirection:'row', justifyContent:'center',alignItems:'center'}}>
-            <CustomButton mini style={{ width: "20%" }} data={{ name: "ERKEK" }} action={ () => {this.setState({bannerType:'erkek'})}} />
-            <CustomButton mini style={{ width: "20%" }} data={{ name: "KADIN" }} action={ () => {this.setState({bannerType:'kadin'})}} />
-            <CustomButton mini style={{ width: "20%" }} data={{ name: "COCUK" }} action={ () => {this.setState({bannerType:'cocuk'})}} />
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+            <CustomButton mini style={{ width: "20%" }} data={{ name: "ERKEK" }} action={() => { this.setState({ bannerType: 'erkek' }) }} />
+            <CustomButton mini style={{ width: "20%" }} data={{ name: "KADIN" }} action={() => { this.setState({ bannerType: 'kadin' }) }} />
+            <CustomButton mini style={{ width: "20%" }} data={{ name: "COCUK" }} action={() => { this.setState({ bannerType: 'cocuk' }) }} />
           </View>
         </View>}
-        
+
       </View>
     )
   }
@@ -928,9 +930,17 @@ export default class Home extends Component {
         </View>
         {this.state.story && <View style={[this.styles.main]}>
           <RDStoryView
-            // actionId={'44'} // 459 banner, 497 normal optional
+            actionId={'310'} // 459 banner, 497 normal optional
+            style={{
+              height: 110,
+              backgroundColor: 'blue'
+            }}
             onItemClicked={(data) => {
               console.log('Story data', data)
+            }}
+            onRequestResult={(data) => {
+              console.log('Story request result', data);
+              Alert.alert('Story request result', JSON.stringify(data));
             }}
           />
         </View>}
@@ -1154,6 +1164,7 @@ export default class Home extends Component {
               this.props.navigation.navigate('Notifications')
             }} />
           </View>
+
           <CustomButton
             style={{ width: "80%", alignSelf: 'center' }}
             data={{ name: "Send Custom Event", key: 'baris' }}
@@ -1170,6 +1181,43 @@ export default class Home extends Component {
               })
             }
             } />
+
+          <RDStoryView
+            actionId={'310'} // 459 banner, 497 normal optional
+            style={{
+              height: 110,
+              // backgroundColor: 'red'
+            }}
+            onItemClicked={(data) => {
+              console.log('Story data', data)
+            }}
+            onRequestResult={(data) => {
+              console.log('Story request result', data);
+              Alert.alert('Story request result', JSON.stringify(data));
+            }}
+          />
+          <Text>Banner</Text>
+          <RDBannerView
+            properties={{
+              // 'OM.inapptype': 'banner_carousel',
+              // 'OM.bannerUri': this.state.bannerType
+              'OM.baris': 'baris',
+              'OM.exVisitorId': 'baris.arslan@euromsg.com'
+            }}
+            onRequestResult={isAvailable =>
+              console.log('Related Digital - Banners', isAvailable)
+            }
+            onItemClicked={data =>
+              console.log('Related Digital - Banner data', data)
+            }
+            style={{
+              height: 110,
+              // flex: 1,
+              // backgroundColor: 'green'
+            }}
+          />
+          <Text>banner</Text>
+
           {this.push()}
           {this.hr()}
           {this.inapp()}

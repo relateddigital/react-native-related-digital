@@ -47,9 +47,43 @@ public class RelatedDigitalBannerViewManager extends SimpleViewManager<BannerRec
     public final int COMMAND_GET_BANNERS = 1;
     HashMap<String, String> properties = new HashMap<>();
     public int viewId = 0;
+    private static final int FRAME_DELAY_COUNT = 3;
 
     public RelatedDigitalBannerViewManager(ReactApplicationContext context) {
         mContext = context;
+    }
+
+    private void setupLayoutHack(final BannerRecyclerView view) {
+        Choreographer.getInstance().postFrameCallback(new Choreographer.FrameCallback() {
+            private int frameCount = 0;
+
+            @Override
+            public void doFrame(long frameTimeNanos) {
+                manuallyLayoutChildren(view);
+                view.getViewTreeObserver().dispatchOnGlobalLayout();
+                
+                frameCount++;
+                if (frameCount < FRAME_DELAY_COUNT) {
+                    Choreographer.getInstance().postFrameCallback(this);
+                }
+            }
+        });
+    }
+
+    private void manuallyLayoutChildren(View view) {
+        view.measure(
+                View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(view.getHeight(), View.MeasureSpec.EXACTLY)
+        );
+        view.layout(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
+                manuallyLayoutChildren(child);
+            }
+        }
     }
 
     @NonNull
@@ -86,15 +120,25 @@ public class RelatedDigitalBannerViewManager extends SimpleViewManager<BannerRec
     @Override
     public void receiveCommand(@NonNull final BannerRecyclerView root, String commandId, @Nullable ReadableArray args) {
         super.receiveCommand(root, commandId, args);
-        int commandIdInt = Integer.parseInt(commandId);
+        
+        if (args == null || args.size() == 0) {
+            return;
+        }
+        
         this.viewId = args.getInt(0);
-        if(commandIdInt == COMMAND_GET_BANNERS) {
+        
+        if ("requestBannerCarousel".equals(commandId) || String.valueOf(COMMAND_GET_BANNERS).equals(commandId)) {
             requestBannerCarousel(root);
         }
     }
 
     @ReactProp(name = "properties")
     public void setProperties(BannerRecyclerView view, @Nullable ReadableMap properties) {
+        if (properties == null) {
+            this.properties = new HashMap<>();
+            return;
+        }
+        
         this.properties = new HashMap<>();
         ReadableMapKeySetIterator iter = properties.keySetIterator();
         while (iter.hasNextKey()) {
@@ -107,6 +151,11 @@ public class RelatedDigitalBannerViewManager extends SimpleViewManager<BannerRec
 
     public void requestBannerCarousel(final BannerRecyclerView bannerRecyclerView){
         try{
+            if (mContext.getCurrentActivity() == null) {
+                android.util.Log.e("RelatedDigitalBannerView", "Current activity is null, cannot request banner carousel");
+                return;
+            }
+
             BannerItemClickListener _bannerItemClickListener = new BannerItemClickListener() {
                 @Override
                 public void bannerItemClicked(String bannerLink) {
@@ -119,20 +168,24 @@ public class RelatedDigitalBannerViewManager extends SimpleViewManager<BannerRec
 
                         sendData(data, viewId);
                     } catch (Exception e) {
+                        android.util.Log.e("RelatedDigitalBannerView", "Error sending banner click data", e);
                     }
                 }
             };
 
-            bannerRecyclerView.requestBannerCarouselAction(mContext,this.properties,bannerRequestListener,_bannerItemClickListener);
+            bannerRecyclerView.requestBannerCarouselAction(mContext, this.properties, bannerRequestListener, _bannerItemClickListener);
 
-            if (bannerRecyclerView.getAdapter() != null){
-                bannerRecyclerView.post(() -> {
-                    bannerRecyclerView.postDelayed(() -> bannerRecyclerView.smoothScrollToPosition(0), 0);
-                });
-            }
+            bannerRecyclerView.post(() -> {
+                setupLayoutHack(bannerRecyclerView);
+                
+                if (bannerRecyclerView.getAdapter() != null) {
+                    bannerRecyclerView.getAdapter().notifyDataSetChanged();
+                }
+            });
             
         }
         catch(Exception ex){
+            android.util.Log.e("RelatedDigitalBannerView", "Error requesting banner carousel", ex);
             ex.printStackTrace();
         }
     }

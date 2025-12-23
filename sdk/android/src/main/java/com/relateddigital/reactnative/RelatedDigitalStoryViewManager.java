@@ -30,9 +30,43 @@ public class RelatedDigitalStoryViewManager extends SimpleViewManager<VisilabsRe
     public final ReactApplicationContext mContext;
     public final int COMMAND_GET_STORIES = 1;
     String actionId;
+    private static final int FRAME_DELAY_COUNT = 3;
 
     public RelatedDigitalStoryViewManager(ReactApplicationContext context) {
         mContext = context;
+    }
+
+    private void setupLayoutHack(final VisilabsRecyclerView view) {
+        Choreographer.getInstance().postFrameCallback(new Choreographer.FrameCallback() {
+            private int frameCount = 0;
+
+            @Override
+            public void doFrame(long frameTimeNanos) {
+                manuallyLayoutChildren(view);
+                view.getViewTreeObserver().dispatchOnGlobalLayout();
+                
+                frameCount++;
+                if (frameCount < FRAME_DELAY_COUNT) {
+                    Choreographer.getInstance().postFrameCallback(this);
+                }
+            }
+        });
+    }
+
+    private void manuallyLayoutChildren(View view) {
+        view.measure(
+                View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(view.getHeight(), View.MeasureSpec.EXACTLY)
+        );
+        view.layout(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
+                manuallyLayoutChildren(child);
+            }
+        }
     }
 
     @NonNull
@@ -57,41 +91,63 @@ public class RelatedDigitalStoryViewManager extends SimpleViewManager<VisilabsRe
     @Override
     public void receiveCommand(@NonNull final VisilabsRecyclerView root, String commandId, @Nullable ReadableArray args) {
         super.receiveCommand(root, commandId, args);
+        
+        if (args == null || args.size() == 0) {
+            return;
+        }
+        
         final int viewId = args.getInt(0);
-        int commandIdInt = Integer.parseInt(commandId);
 
-        if(commandIdInt == COMMAND_GET_STORIES) {
+        if ("getStories".equals(commandId) || String.valueOf(COMMAND_GET_STORIES).equals(commandId)) {
             getStories(root, viewId);
         }
     }
 
     @ReactProp(name = "actionId")
     public void setActionId(VisilabsRecyclerView view, @Nullable String actionId) {
-        this.actionId = actionId;
+        this.actionId = actionId != null ? actionId : null;
     }
 
     public void getStories(final VisilabsRecyclerView visilabsRecyclerView, final int viewId) {
-        final StrictMode.ThreadPolicy currentPolicy = StrictMode.getThreadPolicy();
-        AppUtils.setThreadPool();
-
-        final StoryItemClickListener storyItemClickListener = new StoryItemClickListener() {
-            @Override
-            public void storyItemClicked(String storyLink) {
-                WritableMap data = Arguments.createMap();
-                data.putString("storyLink", storyLink);
-
-                sendData(data, viewId);
+        try {
+            if (mContext.getCurrentActivity() == null) {
+                android.util.Log.e("RelatedDigitalStoryView", "Current activity is null, cannot get stories");
+                return;
             }
-        };
 
-        if(actionId != null) {
-            visilabsRecyclerView.setStoryActionIdSync(mContext, mContext.getCurrentActivity(), actionId, storyItemClickListener);
-        }
-        else {
-            visilabsRecyclerView.setStoryActionSync(mContext, mContext.getCurrentActivity(), storyItemClickListener);
-        }
+            final StrictMode.ThreadPolicy currentPolicy = StrictMode.getThreadPolicy();
+            AppUtils.setThreadPool();
 
-        StrictMode.setThreadPolicy(currentPolicy);
+            final StoryItemClickListener storyItemClickListener = new StoryItemClickListener() {
+                @Override
+                public void storyItemClicked(String storyLink) {
+                    WritableMap data = Arguments.createMap();
+                    data.putString("storyLink", storyLink);
+
+                    sendData(data, viewId);
+                }
+            };
+
+            if(actionId != null && !actionId.isEmpty()) {
+                visilabsRecyclerView.setStoryActionIdSync(mContext, mContext.getCurrentActivity(), actionId, storyItemClickListener);
+            }
+            else {
+                visilabsRecyclerView.setStoryActionSync(mContext, mContext.getCurrentActivity(), storyItemClickListener);
+            }
+
+            StrictMode.setThreadPolicy(currentPolicy);
+
+            visilabsRecyclerView.post(() -> {
+                setupLayoutHack(visilabsRecyclerView);
+                
+                if (visilabsRecyclerView.getAdapter() != null) {
+                    visilabsRecyclerView.getAdapter().notifyDataSetChanged();
+                }
+            });
+        } catch (Exception e) {
+            android.util.Log.e("RelatedDigitalStoryView", "Error getting stories", e);
+            e.printStackTrace();
+        }
     }
 
     @Override

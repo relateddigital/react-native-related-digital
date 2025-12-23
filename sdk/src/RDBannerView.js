@@ -16,9 +16,21 @@ export default class RDBannerView extends React.Component {
   }
 
   componentDidMount() {
-      if(!isIos) {
+    if(!isIos) {
+      setTimeout(() => {
         this._requestBannerCarousel()
+      }, 100)
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if(!isIos) {
+      if (prevProps.properties !== this.props.properties) {
+        setTimeout(() => {
+          this._requestBannerCarousel()
+        }, 100)
       }
+    }
   }
 
   render() {
@@ -66,7 +78,13 @@ export default class RDBannerView extends React.Component {
   }
 
   _requestBannerCarousel() {
+    if (!this.bannerView) {
+      return
+    }
+    
     const viewId = findNodeHandle(this.bannerView)
-    UIManager.dispatchViewManagerCommand(viewId, UIManager.BannerView.Commands.requestBannerCarousel.toString(), [viewId,this.props.properties])
+    if (viewId) {
+      UIManager.dispatchViewManagerCommand(viewId, 'requestBannerCarousel', [viewId])
+    }
   }
 }

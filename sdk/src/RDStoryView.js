@@ -15,9 +15,21 @@ export default class RDStoryView extends React.Component {
   }
 
   componentDidMount() {
-      if(!isIos) {
+    if(!isIos) {
+      setTimeout(() => {
         this._getStories()
+      }, 100)
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if(!isIos) {
+      if (prevProps.actionId !== this.props.actionId) {
+        setTimeout(() => {
+          this._getStories()
+        }, 100)
       }
+    }
   }
 
   render() {
@@ -44,8 +56,14 @@ export default class RDStoryView extends React.Component {
   }
 
   _getStories() {
+    if (!this.storyView) {
+      return
+    }
+    
     const viewId = findNodeHandle(this.storyView)
-    UIManager.dispatchViewManagerCommand(viewId, UIManager.StoryView.Commands.getStories.toString(), [viewId])
+    if (viewId) {
+      UIManager.dispatchViewManagerCommand(viewId, 'getStories', [viewId])
+    }
   }
 }
 
