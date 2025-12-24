@@ -875,7 +875,7 @@ export default class Home extends Component {
             }
             style={{
               height: 100,
-              maxHeight: 400,
+              maxHeight: 150,
               // flex: 1,
               backgroundCoslor: 'red'
             }}
@@ -932,8 +932,7 @@ export default class Home extends Component {
           <RDStoryView
             actionId={'310'} // 459 banner, 497 normal optional
             style={{
-              height: 110,
-              backgroundColor: 'blue'
+              height: 120,
             }}
             onItemClicked={(data) => {
               console.log('Story data', data)
@@ -1181,42 +1180,6 @@ export default class Home extends Component {
               })
             }
             } />
-
-          <RDStoryView
-            actionId={'310'} // 459 banner, 497 normal optional
-            style={{
-              height: 110,
-              // backgroundColor: 'red'
-            }}
-            onItemClicked={(data) => {
-              console.log('Story data', data)
-            }}
-            onRequestResult={(data) => {
-              console.log('Story request result', data);
-              Alert.alert('Story request result', JSON.stringify(data));
-            }}
-          />
-          <Text>Banner</Text>
-          <RDBannerView
-            properties={{
-              // 'OM.inapptype': 'banner_carousel',
-              // 'OM.bannerUri': this.state.bannerType
-              'OM.baris': 'baris',
-              'OM.exVisitorId': 'baris.arslan@euromsg.com'
-            }}
-            onRequestResult={isAvailable =>
-              console.log('Related Digital - Banners', isAvailable)
-            }
-            onItemClicked={data =>
-              console.log('Related Digital - Banner data', data)
-            }
-            style={{
-              height: 110,
-              // flex: 1,
-              // backgroundColor: 'green'
-            }}
-          />
-          <Text>banner</Text>
 
           {this.push()}
           {this.hr()}
