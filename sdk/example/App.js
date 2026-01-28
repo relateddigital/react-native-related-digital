@@ -930,9 +930,9 @@ export default class Home extends Component {
         </View>
         {this.state.story && <View style={[this.styles.main]}>
           <RDStoryView
-            actionId={'310'} // 459 banner, 497 normal optional
+            actionId={'2139'} // 459 banner, 497 normal optional
             style={{
-              height: 120,
+              height: 270,
             }}
             onItemClicked={(data) => {
               console.log('Story data', data)

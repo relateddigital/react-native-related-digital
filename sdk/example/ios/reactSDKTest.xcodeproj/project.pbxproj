@@ -16,7 +16,9 @@
 		6E9EA1E42EC4BA9B00284FCB /* RelatedDigitalNotificationContent.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6E9EA1D52EC4BA9A00284FCB /* RelatedDigitalNotificationContent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6E9EA1EF2EC4BC2000284FCB /* CarouselCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E9EA1ED2EC4BC2000284FCB /* CarouselCell.xib */; };
 		6E9EA1F02EC4BC2000284FCB /* EMNotificationCarousel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E9EA1EE2EC4BC2000284FCB /* EMNotificationCarousel.xib */; };
+		6EAC15BE2F2249FB00FE9319 /* custom_sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6EAC15BD2F2249FB00FE9319 /* custom_sound.mp3 */; };
 		6ECBB5AD2E7AF72300D5F20F /* drawerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6ECBB5AC2E7AF72300D5F20F /* drawerView.xib */; };
+		6ED1379A2F0BA99100585782 /* timerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6ED137992F0BA99100585782 /* timerView.xib */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8B923B0E2E687ECA0088B2F4 /* RelatedDigitalNotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8B923B062E687ECA0088B2F4 /* RelatedDigitalNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -76,7 +78,9 @@
 		6E9EA1D82EC4BA9A00284FCB /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		6E9EA1ED2EC4BC2000284FCB /* CarouselCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CarouselCell.xib; path = Pods/Euromsg/Sources/Euromsg/Classes/EMNotificationCarousel/CarouselCell.xib; sourceTree = "<group>"; };
 		6E9EA1EE2EC4BC2000284FCB /* EMNotificationCarousel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = EMNotificationCarousel.xib; path = Pods/Euromsg/Sources/Euromsg/Classes/EMNotificationCarousel/EMNotificationCarousel.xib; sourceTree = "<group>"; };
+		6EAC15BD2F2249FB00FE9319 /* custom_sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = custom_sound.mp3; sourceTree = "<group>"; };
 		6ECBB5AC2E7AF72300D5F20F /* drawerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = drawerView.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/drawer/drawerView.xib; sourceTree = "<group>"; };
+		6ED137992F0BA99100585782 /* timerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = timerView.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/Story/Views/timerView/timerView.xib; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = reactSDKTest/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = reactSDKTest/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B923B062E687ECA0088B2F4 /* RelatedDigitalNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RelatedDigitalNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,6 +169,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				6EAC15BD2F2249FB00FE9319 /* custom_sound.mp3 */,
 			);
 			name = reactSDKTest;
 			sourceTree = "<group>";
@@ -192,6 +197,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				6ED137992F0BA99100585782 /* timerView.xib */,
 				6E9EA1ED2EC4BC2000284FCB /* CarouselCell.xib */,
 				6E9EA1EE2EC4BC2000284FCB /* EMNotificationCarousel.xib */,
 				6ECBB5AC2E7AF72300D5F20F /* drawerView.xib */,
@@ -352,12 +358,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6ED1379A2F0BA99100585782 /* timerView.xib in Resources */,
 				6ECBB5AD2E7AF72300D5F20F /* drawerView.xib in Resources */,
 				8BFF3DA42E69CA7700381084 /* BannerCollectionViewCell.xib in Resources */,
 				8BFF3DA52E69CA7700381084 /* BannerView.xib in Resources */,
 				8BFF3D9E2E69CA4B00381084 /* VisilabsFullNotificationViewController.xib in Resources */,
 				8BFF3D9F2E69CA4B00381084 /* VisilabsMiniNotificationViewController.xib in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				6EAC15BE2F2249FB00FE9319 /* custom_sound.mp3 in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				05101CD2F8580DC11277573D /* PrivacyInfo.xcprivacy in Resources */,
 			);
@@ -595,8 +603,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.relateddigital.reactSDKTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.relateddigital.reactSDKTest;
 				PRODUCT_NAME = reactSDKTest;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -625,8 +632,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.relateddigital.reactSDKTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.relateddigital.reactSDKTest;
 				PRODUCT_NAME = reactSDKTest;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
