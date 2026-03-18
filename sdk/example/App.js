@@ -156,6 +156,10 @@ export default class Home extends Component {
             'name': 'NPS (IMG-TXT-BTN)'
           },
           {
+            'key': 'nps_with_secondpopup',
+            'name': 'NPS With Second Popup'
+          },
+          {
             'key': 'smile_rating',
             'name': 'Smile Rating'
           },
@@ -667,10 +671,22 @@ export default class Home extends Component {
   styles = StyleSheet.create({
     container: {
       height: "100%",
-      width: "95%",
+      width: "100%",
       alignSelf: 'center',
       backgroundColor: 'white',
       overflow: 'hidden'
+    },
+    header: {
+      paddingVertical: 16,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderBottomWidth: 1,
+      borderBottomColor: '#e0e0e0',
+    },
+    headerText: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: '#000',
     },
     section: {
       // borderWidth: 1,
@@ -834,7 +850,9 @@ export default class Home extends Component {
           {this.title((this.healthCheck() ? "Bu cihaza push atılabilir" : "Eksik işlemler var, pushlar ulaşmayabilir"), 15)}
           <View>
             {this.statusRow(this.tokenControl())}
+            <View style={{width: "60%"}}>
             {this.statusRow(this.subsControl())}
+            </View>
             {this.statusRow(this.permitControl())}
           </View>
         </View>
@@ -1154,6 +1172,9 @@ export default class Home extends Component {
           barStyle={'dark-content'}
           hidden={false}
         />
+        <View style={this.styles.header}>
+            <Text style={this.styles.headerText}>React Native</Text>
+          </View>
         <ScrollView>
           <View style={this.styles.row}>
             <CustomButton style={{ width: "45%" }} data={{ name: "Go Details" }} action={() => this.props.navigation.navigate('Details')} />
