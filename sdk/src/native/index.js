@@ -8,6 +8,7 @@ const NOTIF_REGISTER_EVENT = 'remoteNotificationsRegistered';
 const NOTIF_REGISTRATION_ERROR_EVENT = 'remoteNotificationRegistrationError';
 const CAROUSEL_ITEM_CLICKED_EVENT = 'carouselItemClicked'; // android only
 const ACTION_BUTTON_CLICKED_EVENT = 'ActionButtonClicked';
+const IN_APP_URL_CLICKED_EVENT = 'inAppUrlClicked';
 
 const getDeviceParameters = RelatedDigitalPushModule.getDeviceParameters
 const customEventNative = RelatedDigitalPushModule.customEvent
@@ -34,6 +35,7 @@ const getSubscriptionNative = RelatedDigitalPushModule.getSubscription
 const setUserPropertyNative = RelatedDigitalPushModule.setUserProperty
 const setNotificationLoginIdNative = RelatedDigitalPushModule.setNotificationLoginId
 const sendLogToGraylogNative = RelatedDigitalPushModule.sendLogToGraylog
+const setInAppUrlCallbackEnabledNative = RelatedDigitalPushModule.setInAppUrlCallbackEnabled
 
 const RDStoryViewNative = requireNativeComponent('StoryView')
 const RDBannerViewNative = requireNativeComponent('BannerView')
@@ -47,6 +49,7 @@ export {
     NOTIF_REGISTRATION_ERROR_EVENT,
     CAROUSEL_ITEM_CLICKED_EVENT,
     ACTION_BUTTON_CLICKED_EVENT,
+    IN_APP_URL_CLICKED_EVENT,
 
     getDeviceParameters,
     customEventNative,
@@ -74,5 +77,6 @@ export {
     getSubscriptionNative,
     setUserPropertyNative,
     setNotificationLoginIdNative,
-    sendLogToGraylogNative
+    sendLogToGraylogNative,
+    setInAppUrlCallbackEnabledNative
 }

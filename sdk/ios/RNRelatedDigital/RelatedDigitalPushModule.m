@@ -18,6 +18,7 @@ NSString *const RCTActionButtonClicked = @"ActionButtonClicked";
 
 static NSString *const kRemoteNotificationsRegistered = @"RemoteNotificationsRegistered";
 static NSString *const kRemoteNotificationRegistrationFailed = @"RemoteNotificationRegistrationFailed";
+static NSString *const kInAppUrlClicked = @"RNRelatedDigitalInAppUrlClicked";
 
 static NSString *const kErrorUnableToRequestPermissions = @"E_UNABLE_TO_REQUEST_PERMISSIONS";
 
@@ -48,6 +49,10 @@ RCT_EXPORT_MODULE()
                                            selector:@selector(handleRemoteNotificationRegistrationError:)
                                                name:kRemoteNotificationRegistrationFailed
                                              object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(handleInAppUrlClicked:)
+                                               name:kInAppUrlClicked
+                                             object:nil];
 }
 
 - (void)stopObserving
@@ -60,6 +65,7 @@ RCT_EXPORT_MODULE()
   return @[@"remoteNotificationReceived",
            @"remoteNotificationsRegistered",
            @"remoteNotificationRegistrationError",
+           @"inAppUrlClicked",
            @"ActionButtonClicked"];
 }
 
@@ -178,9 +184,19 @@ RCT_EXPORT_MODULE()
   [self sendEventWithName:@"remoteNotificationRegistrationError" body:errorDetails];
 }
 
+- (void)handleInAppUrlClicked:(NSNotification *)notification
+{
+  [self sendEventWithName:@"inAppUrlClicked" body:notification.userInfo];
+}
+
 + (void)initRelatedDigital:(NSString *)organizationId profileId:(NSString *)profileId dataSource:(NSString *)dataSource appAlias:(NSString *)appAlias inAppNotificationsEnabled:(BOOL)inAppNotificationsEnabled requestTimeoutSeconds:(int)requestTimeoutSeconds geofenceEnabled:(BOOL)geofenceEnabled askLocationPermmissionAtStart:(BOOL)askLocationPermmissionAtStart maxGeofenceCount:(int)maxGeofenceCount isIDFAEnabled:(BOOL)isIDFAEnabled loggingEnabled:(BOOL)loggingEnabled deliveredBadge:(BOOL)deliveredBadge
 {
     [RelatedDigitalBridge initRelatedDigitalWithOrganizationId:organizationId profileId:profileId dataSource:dataSource appAlias:appAlias inAppNotificationsEnabled:inAppNotificationsEnabled requestTimeoutInSeconds:requestTimeoutSeconds geofenceEnabled:geofenceEnabled askLocationPermmissionAtStart:askLocationPermmissionAtStart maxGeofenceCount:maxGeofenceCount isIDFAEnabled:isIDFAEnabled loggingEnabled:loggingEnabled deliveredBadge:deliveredBadge];
+}
+
+RCT_REMAP_METHOD(setInAppUrlCallbackEnabled,
+                 setInAppUrlCallbackEnabledWithEnabled:(BOOL)enabled) {
+    [RelatedDigitalBridge setInAppUrlCallbackEnabledWithEnabled:enabled];
 }
 
 + (void)setUserProperty:(NSString *)key value:(NSString *)value{

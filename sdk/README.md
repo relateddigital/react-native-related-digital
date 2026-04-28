@@ -909,6 +909,31 @@ import { RDBannerView } from 'react-native-related-digital'
 { "bannerLink": "URL" }
 ```
 
+### In-App URL Clicks
+
+Use `inAppUrlClicked` to handle in-app notification CTA URLs inside your React Native navigation instead of opening them with the platform default browser. The SDK keeps the existing browser behavior unless this listener is added.
+
+```javascript
+import { addEventListener, removeEventListener } from 'react-native-related-digital'
+
+addEventListener('inAppUrlClicked', ({ url, platform, source }) => {
+  console.log('Related Digital - In-app URL', url, platform, source)
+  // navigation.navigate(...)
+})
+
+// When the listener is no longer needed:
+removeEventListener('inAppUrlClicked')
+```
+
+`inAppUrlClicked` response
+```js
+{
+  "url": "https://www.example.com/product/123",
+  "platform": "ios", // or "android"
+  "source": "inAppNotification"
+}
+```
+
 ### Request Permission
 It is used to request notification permission from the user. On iOS devices, a prompt asking for permission to receive notifications will appear. On Android devices, if Android 13 (API 33) or a higher version is used, a similar prompt will be displayed. In lower versions, permission is assumed to be granted by default.
 It should be called every time the application is launched.

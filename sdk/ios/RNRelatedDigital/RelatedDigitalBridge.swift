@@ -3,6 +3,8 @@ import UIKit
 import Euromsg
 
 @objc public class RelatedDigitalBridge: NSObject {
+    static let inAppUrlClickedNotificationName = Notification.Name("RNRelatedDigitalInAppUrlClicked")
+    
     @objc public static func initRelatedDigital(organizationId: String, profileId: String, dataSource: String, appAlias: String, inAppNotificationsEnabled: Bool, requestTimeoutInSeconds: Int, geofenceEnabled: Bool, askLocationPermmissionAtStart: Bool,maxGeofenceCount: Int, isIDFAEnabled: Bool, loggingEnabled: Bool, deliveredBadge: Bool) -> Void {
 		var sdkType: String = "reactnative"
 		Visilabs.createAPI(organizationId: organizationId, profileId: profileId
@@ -13,6 +15,23 @@ import Euromsg
     
     @objc public static func handlePush(userInfo: [AnyHashable: Any]) -> Void {
         Euromsg.handlePush(pushDictionary: userInfo)
+    }
+    
+    @objc public static func setInAppUrlCallbackEnabled(enabled: Bool) -> Void {
+        if enabled {
+            Visilabs.callAPI().inAppURLHandler = { url, notification in
+                var userInfo: [String: Any] = [
+                    "url": url.absoluteString,
+                    "platform": "ios",
+                    "source": "inAppNotification"
+                ]
+                
+                NotificationCenter.default.post(name: inAppUrlClickedNotificationName, object: nil, userInfo: userInfo)
+                return true
+            }
+        } else {
+            Visilabs.callAPI().inAppURLHandler = nil
+        }
     }
     
     @objc public static func setUserProperty(key: String, value: String) -> Void {

@@ -35,6 +35,7 @@ import com.visilabs.api.VisilabsTargetFilter;
 import com.visilabs.api.VisilabsTargetRequest;
 import com.visilabs.favs.Favorites;
 import com.visilabs.favs.FavsResponse;
+import com.visilabs.inApp.InAppButtonInterface;
 import com.visilabs.inApp.VisilabsActionRequest;
 import com.visilabs.util.VisilabsConstant;
 
@@ -58,6 +59,8 @@ import android.os.Build;
 public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
     private static ReactApplicationContext reactContext;
     private final Utilities utilities;
+    private boolean inAppUrlCallbackEnabled = false;
+    private InAppButtonInterface inAppUrlButtonInterface;
 
     private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
         @Override
@@ -732,6 +735,53 @@ public class RelatedDigitalPushModule extends ReactContextBaseJavaModule {
             EuroMobileManager.getInstance().sendLogToGraylog(logLevel, logMessage, logPlace);
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    @ReactMethod
+    public void setInAppUrlCallbackEnabled(boolean enabled) {
+        inAppUrlCallbackEnabled = enabled;
+
+        if (enabled) {
+            installInAppUrlCallback();
+        } else {
+            clearInAppUrlCallback();
+        }
+    }
+
+    private void installInAppUrlCallback() {
+        if (inAppUrlButtonInterface == null) {
+            inAppUrlButtonInterface = new InAppButtonInterface() {
+                @Override
+                public void onPress(String link) {
+                    if (link != null && !link.isEmpty()) {
+                        WritableMap params = Arguments.createMap();
+                        params.putString("url", link);
+                        params.putString("platform", "android");
+                        params.putString("source", "inAppNotification");
+
+                        utilities.sendEvent("inAppUrlClicked", params);
+                    }
+
+                    if (inAppUrlCallbackEnabled) {
+                        installInAppUrlCallback();
+                    }
+                }
+            };
+        }
+
+        Visilabs.CallAPI().setInAppButtonInterface(inAppUrlButtonInterface);
+    }
+
+    private void clearInAppUrlCallback() {
+        try {
+            if (Visilabs.CallAPI().getInAppButtonInterface() == inAppUrlButtonInterface) {
+                Visilabs.CallAPI().setInAppButtonInterface(null);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            inAppUrlButtonInterface = null;
         }
     }
 

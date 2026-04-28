@@ -10,7 +10,9 @@ import {
     logoutNative,
     getUserNative,
     getSubscriptionNative,
-    ACTION_BUTTON_CLICKED_EVENT
+    ACTION_BUTTON_CLICKED_EVENT,
+    IN_APP_URL_CLICKED_EVENT,
+    setInAppUrlCallbackEnabledNative
 } from './native'
 import { EuroMessageApi, VisilabsApi, RecommendationAttribute, RecommendationFilterType } from './api'
 import RDStoryView from './RDStoryView'
@@ -109,6 +111,20 @@ const addEventListener = (type, handler, readHandler, euroMessageApi, visilabsAp
 
         _notifHandlers.set(type, listener);
     }
+    else if(type === 'inAppUrlClicked'){
+        const listener = RelatedDigitalPushNotificationEmitter.addListener(
+            IN_APP_URL_CLICKED_EVENT,
+            (eventData) => {
+                handler(eventData);
+            },
+        );
+
+        _notifHandlers.set(type, listener);
+
+        if (setInAppUrlCallbackEnabledNative) {
+            setInAppUrlCallbackEnabledNative(true)
+        }
+    }
 }
 
 const removeEventListener = (type) => {
@@ -123,6 +139,10 @@ const removeEventListener = (type) => {
 
   if(type === 'register') {
     removeEventListener('notification')
+  }
+
+  if(type === 'inAppUrlClicked' && setInAppUrlCallbackEnabledNative) {
+    setInAppUrlCallbackEnabledNative(false)
   }
 }
 

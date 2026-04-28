@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native'
 
-type ListenerTypes = 'notification' | 'register' | 'registrationError' | 'carouselItemClicked' | 'ActionButtonClicked';
+type ListenerTypes = 'notification' | 'register' | 'registrationError' | 'carouselItemClicked' | 'ActionButtonClicked' | 'inAppUrlClicked';
 
 enum RecommendationAttribute {
     PRODUCTCODE = 'PRODUCTCODE',
@@ -33,6 +33,12 @@ enum RecommendationFilterType {
     lessOrEquals = 7,
     include = 2,
     exclude = 3
+}
+
+export interface InAppUrlClickedEvent {
+    url: string;
+    platform: 'ios' | 'android';
+    source: 'inAppNotification';
 }
 
 export function addEventListener(type: ListenerTypes, handler: Function, readHandler: Function, euroMessageApi: EuroMessageApi, visilabsApi: VisilabsApi): void;
