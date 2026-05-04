@@ -17,6 +17,7 @@
   - [Search Recommendations](#search-recommendations)
   - [Story](#story)
   - [App Banner](#app-banner)
+  - [In-App URL Clicks](#in-app-url-clicks)
   - [Request Permission](#request-permission)
     - [Provisional Push (iOS Only)](#provisional-push-ios-only)
   - [Request and Send IDFA (iOS Only)](#request-and-send-idfa-ios-only)
@@ -916,10 +917,10 @@ Use `inAppUrlClicked` to handle in-app notification CTA URLs inside your React N
 ```javascript
 import { addEventListener, removeEventListener } from 'react-native-related-digital'
 
-addEventListener('inAppUrlClicked', ({ url, platform, source }) => {
-  console.log('Related Digital - In-app URL', url, platform, source)
-  // navigation.navigate(...)
-})
+addEventListener('inAppUrlClicked', async (inAppUrlInfo) => {
+  console.log('Related Digital - In-app URL', inAppUrlInfo)
+  // navigation.navigate(inAppUrlInfo.url)
+}, euroMessageApi, visilabsApi)
 
 // When the listener is no longer needed:
 removeEventListener('inAppUrlClicked')
@@ -1424,6 +1425,7 @@ const App = () => {
     removeEventListener('register')
     removeEventListener('registrationError')
     removeEventListener('carouselItemClicked')
+    removeEventListener('inAppUrlClicked')
   }
 
   return (

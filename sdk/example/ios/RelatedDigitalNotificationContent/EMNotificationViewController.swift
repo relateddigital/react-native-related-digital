@@ -11,7 +11,7 @@ import UserNotificationsUI
 import Euromsg
 
 @objc(EMNotificationViewController)
-class EMNotificationViewController: UIViewController, @MainActor UNNotificationContentExtension {
+class EMNotificationViewController: UIViewController, @preconcurrency UNNotificationContentExtension {
     
     let carouselView = EMNotificationCarousel.initView()
     var completion: ((_ url: URL?, _ bestAttemptContent: UNMutableNotificationContent?) -> Void)?
@@ -55,7 +55,7 @@ class EMNotificationViewController: UIViewController, @MainActor UNNotificationC
 /**
  Add if you want to track which carousel element has been selected
  */
-extension EMNotificationViewController: @MainActor CarouselDelegate {
+extension EMNotificationViewController: @preconcurrency CarouselDelegate {
     
     func selectedItem(_ element: EMMessage.Element) {
         // Add your work...

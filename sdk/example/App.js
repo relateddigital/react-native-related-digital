@@ -297,6 +297,7 @@ export default class Home extends Component {
     }, (notificationPayload) => { console.log('notification payload', notificationPayload); alert(JSON.stringify(notificationPayload)); }, euroMessageApi, visilabsApi)
     addEventListener('registrationError', async (registrationError) => { console.log('registrationError is ', registrationError) }, euroMessageApi)
     addEventListener('carouselItemClicked', async (carouselItemInfo) => { console.log('carouselItemInfo is ', carouselItemInfo) }, euroMessageApi)
+    addEventListener('inAppUrlClicked', async (inAppUrlInfo) => { console.log('inAppUrlInfo is ', inAppUrlInfo) }, euroMessageApi, visilabsApi)
     // addEventListener('ActionButtonClicked', async (actionButtonData) => { console.log('actionButtonData ', actionButtonData) }, euroMessageApi)
   }
 
