@@ -119,6 +119,10 @@ export default class Home extends Component {
             'name': 'In App Carousel'
           },
           {
+            'key': 'full_screen_carousel',
+            'name': 'Full Screen Carousel'
+          },
+          {
             'key': 'drawer',
             'name': 'Drawer'
           },
