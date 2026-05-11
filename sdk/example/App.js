@@ -123,6 +123,10 @@ export default class Home extends Component {
             'name': 'Full Screen Carousel'
           },
           {
+            'key': 'fullscreen_popup',
+            'name': 'Full Image Popup'
+          },
+          {
             'key': 'drawer',
             'name': 'Drawer'
           },
@@ -162,6 +166,10 @@ export default class Home extends Component {
           {
             'key': 'nps_with_secondpopup',
             'name': 'NPS With Second Popup'
+          },
+          {
+            'key': 'nps_with_multiple_popup',
+            'name': 'NPS With Multiple Popup'
           },
           {
             'key': 'smile_rating',
@@ -522,7 +530,7 @@ export default class Home extends Component {
   renderInApps = (data) => (
     data.map((item, i) => {
       return (
-        <CustomButton key={i} style={{ width: width * .4 }} childStyle={{ fontSize: 15, padding: 5 }} data={item} action={this.sendCustomEvent} />
+        <CustomButton key={i} style={{ width: width * .4 }} containerStyle={{ height: 70 }} childStyle={{ fontSize: 15, padding: 5 }} data={item} action={this.sendCustomEvent} />
       );
     })
   );

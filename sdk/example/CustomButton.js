@@ -39,7 +39,7 @@ export default class CustomButton extends Component {
                 onPress={()=>{ this.props.action(this.props.data.key)}}
                 underlayColor={'rgba(0,0,0,0)'}
                 style={[{margin:10},this.props.style]}>
-                <View style={[this.styles.buyButtonContainer]}>
+                <View style={[this.styles.buyButtonContainer, this.props.containerStyle]}>
                     <View 
                         style={[
                             { backgroundColor:'#d9aea2',borderColor:'#BF9A8F',borderWidth:3,width: "100%", height: '80%', zIndex: 9, borderRadius: 10, position: 'absolute', right: 0, alignItems: 'center', justifyContent: 'center' },
