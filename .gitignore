@@ -16,3 +16,5 @@ client/.ruby-version
 sdk/example/android/app/google-services.json
 
 /client
+sdk/example/ios/reactSDKTest/GoogleService-Info.plist
+sdk/example/ios/GoogleService-Info.plist

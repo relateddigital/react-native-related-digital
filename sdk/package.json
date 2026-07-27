@@ -1,6 +1,6 @@
 {
   "name": "react-native-related-digital",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "private": false,
   "author": "Related Digital",
   "license": "MIT",
@@ -16,6 +16,8 @@
   },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "^2.1.2",
+    "@react-native-firebase/app": ">=25.1.0",
+    "@react-native-firebase/messaging": ">=25.1.0",
     "react": ">=16.8.6",
     "react-native": ">=0.60.0"
   }

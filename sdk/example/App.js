@@ -138,6 +138,11 @@ export default class Home extends Component {
             'key': 'notification_bell',
             'name': 'Notification Bell'
           },
+          {
+            'key': 'CountdownTimerBanner',
+            'name': 'Countdown Timer Banner'
+          },
+
         ],
       },
       {

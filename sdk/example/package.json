@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.1.2",
+    "@react-native-firebase/app": "^25.1.0",
+    "@react-native-firebase/messaging": "^25.1.0",
     "react": "19.0.0",
     "react-native": "0.79.0",
     "react-native-codegen": "^0.70.7",

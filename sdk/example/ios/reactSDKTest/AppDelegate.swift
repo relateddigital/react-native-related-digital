@@ -4,6 +4,7 @@ import React_RCTAppDelegate
 import ReactAppDependencyProvider
 import UserNotifications
 import react_native_related_digital
+import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -31,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       launchOptions: launchOptions
     )
 
+     FirebaseApp.configure()
     // 🔔 Push Notification delegate ayarları
     let center = UNUserNotificationCenter.current()
     center.delegate = self
@@ -78,6 +80,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                               willPresent notification: UNNotification,
                               withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     completionHandler([.sound, .alert, .badge])
+  }
+
+  func userNotificationCenter(_ center: UNUserNotificationCenter,
+                              didReceive response: UNNotificationResponse,
+                              withCompletionHandler completionHandler: @escaping () -> Void) {
+    let exampleCompletionHandler: (UIBackgroundFetchResult) -> Void = { result in
+      switch result {
+      case .newData:
+        print("Yeni veri.")
+      case .noData:
+        print("Veri yok veya veri değişmemiş.")
+      case .failed:
+        print("Veri çekme başarısız.")
+      @unknown default:
+        print("UIBackgroundFetchResult hata.")
+      }
+    }
+    RelatedDigitalPushModule.didReceiveRemoteNotification(
+      response.notification.request.content.userInfo,
+      fetchCompletionHandler: exampleCompletionHandler
+    )
+    completionHandler()
   }
 }
 

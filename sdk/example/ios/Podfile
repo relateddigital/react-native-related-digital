@@ -14,7 +14,17 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
+pod 'Firebase', :modular_headers => true
+pod 'FirebaseCoreInternal', :modular_headers => true
+pod 'GoogleUtilities', :modular_headers => true
+pod 'FirebaseCore', :modular_headers => true
+pod 'FirebaseCoreExtension', :modular_headers => true
+pod 'FirebaseInstallations', :modular_headers => true
+pod 'GoogleDataTransport', :modular_headers => true
+pod 'nanopb', :modular_headers => true
+
 target 'RelatedDigitalNotificationService' do
+  pod 'Firebase/Messaging'
   pod 'react-native-related-digital', :path => '../node_modules/react-native-related-digital'
   
   use_native_modules!
