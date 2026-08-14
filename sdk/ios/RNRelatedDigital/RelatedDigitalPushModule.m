@@ -293,7 +293,7 @@ RCT_REMAP_METHOD(customEvent,
 }
 
 RCT_REMAP_METHOD(logout,
-                  logoutNativeWithOnlyEM: (BOOL *)onlyEM){
+                  logoutNativeWithOnlyEM: (BOOL)onlyEM){
     [RelatedDigitalBridge logoutNativeWithOnlyEM:onlyEM];
 }
 

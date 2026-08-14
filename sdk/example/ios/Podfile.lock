@@ -83,7 +83,7 @@ PODS:
     - GoogleUtilities/Network (~> 8.1)
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
     - nanopb (~> 3.30910.0)
-  - GoogleDataTransport (10.1.0):
+  - GoogleDataTransport (10.1.1):
     - nanopb (~> 3.30910.0)
     - PromisesObjC (~> 2.4)
   - GoogleUtilities (8.1.2):
@@ -1462,7 +1462,7 @@ PODS:
   - react-native-related-digital (1.1.13):
     - Euromsg (= 2.8.5)
     - React
-    - VisilabsIOS (= 4.3.60)
+    - VisilabsIOS (= 4.3.61)
   - React-NativeModulesApple (0.79.0):
     - glog
     - hermes-engine
@@ -1862,7 +1862,7 @@ PODS:
     - RNFBApp
     - Yoga
   - SocketRocket (0.7.1)
-  - VisilabsIOS (4.3.60)
+  - VisilabsIOS (4.3.61)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -2140,7 +2140,7 @@ SPEC CHECKSUMS:
   glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
   GoogleAdsOnDeviceConversion: e3b71da24ff4cf01cf520756ac1c2b93c07b86ff
   GoogleAppMeasurement: a6d37949071d456e9147dac6789c4342e0e7a8c5
-  GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
+  GoogleDataTransport: a24e58982ab3ba2f64d79613e027fe7f57e88539
   GoogleUtilities: 766ace00c6b10d8148408f329d10c4f051931850
   hermes-engine: cd4bd90f051e3658c83cc00e87c603dfe1b75947
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
@@ -2176,7 +2176,7 @@ SPEC CHECKSUMS:
   React-logger: a5edba66e28edd1ef973971a2ec5d531eb8621ea
   React-Mapbuffer: 2ef4d104cd7426fdbe4dbb283fcab8235ea92cc8
   React-microtasksnativemodule: a2d19a42269e02a7a86ab1c51fa3a4fa63be00ba
-  react-native-related-digital: 2895e0caeca6f6c3ef9e5e0129d6d82a2111413b
+  react-native-related-digital: afff006b2736867f457872c9c34b282449de6ff5
   React-NativeModulesApple: f8c91c74d5d223944c7b7fdeb0695d8ee73f899c
   React-oscompat: faff1df234d57a7368b56e9642222dde9eb9f422
   React-perflogger: 59c434b6ab0741baa4cdc589ba4278889e3fae18
@@ -2212,7 +2212,7 @@ SPEC CHECKSUMS:
   RNFBApp: 05165baed6725386f7f003be6747bb214b244a9b
   RNFBMessaging: 578b30fb2752b80d8ec929c6026f00928a702a0a
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
-  VisilabsIOS: c59f3318f56ea53d6df679472ba33af471574c8d
+  VisilabsIOS: b124bb2ab2b4bd2d3b5199c38df4d970e2298289
   Yoga: 9773f1327b258fa449988c2e42fbb7cbdf655d96
 
 PODFILE CHECKSUM: b967b79cd2b4f5f34771155eaf7a1b7cf45de14f
