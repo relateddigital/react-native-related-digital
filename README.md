@@ -640,7 +640,20 @@ To view recommendations, use `visilabsApi.getRecommendations(zoneId, productCode
             "qs": "OM.zn=You Viewed-w60&OM.zpc=1159092",
             "rating": 0,
             "samedayshipping": false,
-            "title": "Titiz TP-115 Yeşil Ayakkabı"
+            "title": "Yeşil Ayakkabı",
+            "variants2": [
+                {
+                    "color": "Gümüş Rengi",
+                    "colors": [
+                        {
+                            "size": "STANDART",
+                            "product_id": 12345,
+                            "cart_id": "56789",
+                            "stock": 123
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "title": "Display You Viewed"

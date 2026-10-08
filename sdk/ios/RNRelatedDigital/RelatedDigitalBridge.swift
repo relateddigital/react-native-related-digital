@@ -72,7 +72,7 @@ import Euromsg
 			var recommendations: [RelatedDigitalRecommendationProduct] = []
 			for product in response.products {
 				recommendations.append(RelatedDigitalRecommendationProduct(code: product.code, title: product.title, img: product.img
-                                                                           , brand: product.brand, price: product.price, dprice: product.dprice, cur: product.cur, dcur: product.dcur, freeshipping: product.freeshipping, samedayshipping: product.samedayshipping, rating: product.rating, comment: product.comment, discount: product.discount, attr1: product.attr1, attr2: product.attr2, attr3: product.attr3, attr4: product.attr4, attr5: product.attr5, attr6: product.attr6, attr7: product.attr7, attr8: product.attr8, attr9: product.attr9, attr10: product.attr10, dest_url: product.destUrl, qs:product.qs))
+                                                                           , brand: product.brand, price: product.price, dprice: product.dprice, cur: product.cur, dcur: product.dcur, freeshipping: product.freeshipping, samedayshipping: product.samedayshipping, rating: product.rating, comment: product.comment, discount: product.discount, attr1: product.attr1, attr2: product.attr2, attr3: product.attr3, attr4: product.attr4, attr5: product.attr5, attr6: product.attr6, attr7: product.attr7, attr8: product.attr8, attr9: product.attr9, attr10: product.attr10, dest_url: product.destUrl, qs:product.qs, variants2: product.variants2))
 			}
 			
 			do {
@@ -454,6 +454,7 @@ public class RelatedDigitalRecommendationProduct: Encodable {
                 public static let attr10 = "attr10"
                 public static let dest_url = "dest_url"
                 public static let qs = "qs"
+                public static let variants2 = "variants2"
 		}
 		
 		public var code: String
@@ -481,8 +482,9 @@ public class RelatedDigitalRecommendationProduct: Encodable {
         public var attr10: String
         public var dest_url: String
         public var qs: String
+        public var variants2: [VisilabsProductVariant2]?
 		
-    internal init(code: String, title: String, img: String, brand: String, price: Double, dprice: Double, cur: String, dcur: String, freeshipping: Bool, samedayshipping: Bool, rating: Int, comment: Int, discount: Double, attr1: String, attr2: String, attr3: String, attr4: String, attr5: String,attr6: String,attr7: String,attr8: String,attr9: String,attr10: String, dest_url: String, qs: String) {
+    internal init(code: String, title: String, img: String, brand: String, price: Double, dprice: Double, cur: String, dcur: String, freeshipping: Bool, samedayshipping: Bool, rating: Int, comment: Int, discount: Double, attr1: String, attr2: String, attr3: String, attr4: String, attr5: String,attr6: String,attr7: String,attr8: String,attr9: String,attr10: String, dest_url: String, qs: String, variants2: [VisilabsProductVariant2]? = nil) {
 				self.code = code
 				self.title = title
 				self.img = img
@@ -508,6 +510,7 @@ public class RelatedDigitalRecommendationProduct: Encodable {
                 self.attr10 = attr10
                 self.dest_url = dest_url
                 self.qs = qs
+                self.variants2 = variants2
 		}
 		
 		internal init?(JSONObject: [String: Any?]?) {
@@ -545,5 +548,11 @@ public class RelatedDigitalRecommendationProduct: Encodable {
                 self.attr10 = object[PayloadKey.attr10] as? String ?? ""
                 self.dest_url = object[PayloadKey.dest_url] as? String ?? ""
                 self.qs = object[PayloadKey.qs] as? String ?? ""
+                self.variants2 = nil
+                if let variants2Raw = object[PayloadKey.variants2] as? [[String: Any]] {
+                    self.variants2 = variants2Raw.compactMap { VisilabsProductVariant2(JSONObject: $0) }
+                } else if let variants2RawAny = object[PayloadKey.variants2] as? [[String: Any?]] {
+                    self.variants2 = variants2RawAny.compactMap { VisilabsProductVariant2(JSONObject: $0) }
+                }
 		}
 }
