@@ -86,6 +86,7 @@
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = reactSDKTest/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = reactSDKTest/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B923B062E687ECA0088B2F4 /* RelatedDigitalNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RelatedDigitalNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BF452C43080CBB300A3D3AC /* drawerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = drawerView.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/drawer/drawerView.xib; sourceTree = "<group>"; };
 		8BFF3D9C2E69CA4B00381084 /* VisilabsFullNotificationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = VisilabsFullNotificationViewController.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/Views/VisilabsFullNotificationViewController.xib; sourceTree = "<group>"; };
 		8BFF3D9D2E69CA4B00381084 /* VisilabsMiniNotificationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = VisilabsMiniNotificationViewController.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/Views/VisilabsMiniNotificationViewController.xib; sourceTree = "<group>"; };
 		8BFF3DA22E69CA7700381084 /* BannerCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BannerCollectionViewCell.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/BannerView/BannerCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -199,6 +200,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				8BF452C43080CBB300A3D3AC /* drawerView.xib */,
 				6E2E19AF30178F3900DABD9A /* GoogleService-Info.plist */,
 				6ED137992F0BA99100585782 /* timerView.xib */,
 				6E9EA1ED2EC4BC2000284FCB /* CarouselCell.xib */,
@@ -364,8 +366,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6ED1379A2F0BA99100585782 /* timerView.xib in Resources */,
 				6ECBB5AD2E7AF72300D5F20F /* drawerView.xib in Resources */,
+				6ED1379A2F0BA99100585782 /* timerView.xib in Resources */,
 				8BFF3DA42E69CA7700381084 /* BannerCollectionViewCell.xib in Resources */,
 				8BFF3DA52E69CA7700381084 /* BannerView.xib in Resources */,
 				8BFF3D9E2E69CA4B00381084 /* VisilabsFullNotificationViewController.xib in Resources */,
@@ -843,10 +845,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -915,10 +914,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
